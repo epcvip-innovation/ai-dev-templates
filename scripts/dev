@@ -1,0 +1,122 @@
+#!/bin/bash
+# Integrated Development Environment Launcher
+# Usage: dev <project> [mode]
+
+PROJECT=$1
+
+if [ -z "$PROJECT" ]; then
+    echo "Usage: dev <project> [mode] [options]"
+    echo "Modes: claude, codex, cursor"
+    echo "Options: +kb | +knowledge-base"
+    echo ""
+    echo "Your projects:"
+    ls ~/repos
+    exit 1
+fi
+
+MODE="claude"  # Default mode
+WITH_KB=false
+
+shift
+for arg in "$@"; do
+    case "$arg" in
+        claude|codex|cursor)
+            MODE="$arg"
+            ;;
+        +kb|+knowledge-base)
+            WITH_KB=true
+            ;;
+        "")
+            ;;
+        *)
+            echo "Unknown option: $arg"
+            exit 1
+            ;;
+    esac
+done
+
+PROJECT_DIR="$HOME/repos/$PROJECT"
+if [ ! -d "$PROJECT_DIR" ]; then
+    echo "Project $PROJECT not found in ~/repos"
+    exit 1
+fi
+
+cd "$PROJECT_DIR"
+
+if $WITH_KB; then
+    KB_SOURCE="$HOME/knowledge-base"
+
+    if [ ! -d "$KB_SOURCE" ]; then
+        echo "Knowledge base not found at $KB_SOURCE"
+        exit 1
+    fi
+
+    # Create individual symlinks for each knowledge base subdirectory
+    for kb_dir in company-docs internal-docs query-docs; do
+        KB_LINK_PATH="$PROJECT_DIR/$kb_dir"
+        KB_SOURCE_DIR="$KB_SOURCE/$kb_dir"
+
+        if [ -L "$KB_LINK_PATH" ]; then
+            echo "Knowledge base link $kb_dir already present in project"
+        elif [ -d "$KB_LINK_PATH" ]; then
+            echo "Warning: $kb_dir exists as a regular directory, skipping"
+        else
+            ln -s "$KB_SOURCE_DIR" "$KB_LINK_PATH"
+            echo "Linked $kb_dir into project"
+        fi
+    done
+
+    # Also create a main knowledge-base symlink for the parent directory
+    MAIN_KB_LINK="$PROJECT_DIR/knowledge-base"
+    if [ -L "$MAIN_KB_LINK" ]; then
+        echo "Main knowledge-base link already present"
+    elif [ -d "$MAIN_KB_LINK" ]; then
+        echo "Warning: knowledge-base exists as a regular directory, skipping"
+    else
+        ln -s "$KB_SOURCE" "$MAIN_KB_LINK"
+        echo "Linked main knowledge-base into project"
+    fi
+
+    if [ -d "$PROJECT_DIR/.git" ]; then
+        EXCLUDE_FILE="$PROJECT_DIR/.git/info/exclude"
+        mkdir -p "$(dirname "$EXCLUDE_FILE")"
+        touch "$EXCLUDE_FILE"
+
+        # Add all knowledge base directories to git exclude
+        for exclude_item in knowledge-base/ company-docs internal-docs query-docs; do
+            if ! grep -qx "$exclude_item" "$EXCLUDE_FILE"; then
+                echo "$exclude_item" >> "$EXCLUDE_FILE"
+                echo "Added $exclude_item to .git/info/exclude"
+            fi
+        done
+    else
+        echo "Warning: .git directory not found; skipping exclude configuration"
+    fi
+fi
+
+case $MODE in
+    claude)
+        cd "$PROJECT_DIR"
+        if $WITH_KB; then
+            claude --add-dir "$HOME/knowledge-base"
+        else
+            claude
+        fi
+        ;;
+    
+    codex)
+        cd "$PROJECT_DIR"
+        codex
+        ;;
+    
+    cursor)
+        cd "$PROJECT_DIR"
+        cursor .
+        echo "Opening in Cursor via Remote-WSL..."
+        ;;
+    
+    *)
+        echo "Unknown mode: $MODE"
+        exit 1
+        ;;
+esac

@@ -1,0 +1,26 @@
+# Railway Configuration - Python FastAPI (NIXPACKS)
+# Based on: tiller-bridge working configuration
+#
+# Usage:
+# 1. Copy to your project root as railway.toml
+# 2. Update startCommand if needed
+# 3. Adjust healthcheckTimeout based on your app's startup time
+# 4. Commit and push to deploy
+
+[build]
+builder = "nixpacks"
+
+[deploy]
+# Update main:app to match your app structure
+startCommand = "uvicorn main:app --host 0.0.0.0 --port $PORT --log-level info"
+
+# Health check endpoint (must return 200 OK)
+healthcheckPath = "/health"
+healthcheckTimeout = 60  # Seconds to wait for health check
+
+# Restart on failure only
+restartPolicyType = "on_failure"
+
+[environment]
+# Python 3.11 (or change to your required version)
+NIXPACKS_PYTHON_VERSION = "3.11"

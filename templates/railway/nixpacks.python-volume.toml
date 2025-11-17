@@ -1,0 +1,33 @@
+# Railway Configuration - Python FastAPI with SQLite (NIXPACKS)
+# Based on: ping-tree-compare working configuration
+#
+# Usage:
+# 1. Copy to your project root as railway.toml
+# 2. Set DATABASE_PATH env var: railway variables set DATABASE_PATH=/app/data/your_db.sqlite
+# 3. Use --workers 1 for SQLite (required to prevent database locking)
+# 4. Commit and push to deploy
+
+[build]
+builder = "nixpacks"
+
+[deploy]
+# IMPORTANT: --workers 1 required for SQLite to prevent locking
+startCommand = "uvicorn main:app --host 0.0.0.0 --port $PORT --log-level info --workers 1"
+
+# Health check endpoint (must return 200 OK)
+healthcheckPath = "/health"
+healthcheckTimeout = 120  # Longer timeout for database initialization
+
+# Restart on failure only
+restartPolicyType = "on_failure"
+
+# Persistent volume for database (data persists across deployments)
+[[deploy.volumeMounts]]
+mountPath = "/app/data"
+
+[environment]
+# Python 3.11 (or change to your required version)
+NIXPACKS_PYTHON_VERSION = "3.11"
+
+# Required environment variables (set via Railway CLI or dashboard):
+# DATABASE_PATH=/app/data/your_db.sqlite
