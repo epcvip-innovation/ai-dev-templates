@@ -2,7 +2,7 @@
 
 [← Back to Main README](../../README.md) | [Configuration Reference →](./CLAUDE-CODE-CONFIG.md)
 
-**Last Updated**: December 2025 | **Claude Code Version**: 2.0.x
+**Last Updated**: December 7, 2025 | **Claude Code Version**: 2.0.x
 
 Practical guide to Claude Code's local data storage, session history, and how to find old conversations.
 
@@ -82,7 +82,12 @@ Project paths are encoded by replacing `/` with `-`:
 | Pattern | Purpose |
 |---------|---------|
 | `{uuid}.jsonl` | Main session transcript |
-| `agent-{hash}.jsonl` | Subagent (Task tool) transcripts |
+| `agent-{hash}.jsonl` | Subagent (Task tool) transcripts - filter these out when searching for main conversations |
+
+**Tip:** When searching, filter out agent files first to focus on main sessions:
+```bash
+ls *.jsonl | grep -v agent-
+```
 
 ### JSONL Format (Simplified)
 
@@ -180,11 +185,64 @@ grep -r "API key" ~/.claude/projects/-home-adams-repos-myproject/
 find ~/.claude/projects/ -name "*.jsonl" -mtime -7 -exec grep -l "search" {} \;
 ```
 
+**Narrowing Strategy:** If your search returns too many results:
+1. Add file paths or unique identifiers: `grep -l "myfile.py\|specific-error"`
+2. Combine with time filter: `find ... -mtime -7 -exec grep -l "term" {} \;`
+3. Exclude agent files: `grep -l "term" *.jsonl | grep -v agent-`
+4. Search user messages only: `grep '"role":"user"' file.jsonl | grep "term"`
+
 ### Extract Conversation Summary
 
 ```bash
 # Quick look at a session's topics (user messages only)
 grep '"role":"user"' ~/.claude/projects/-path-to-project/session-id.jsonl | head -10
+```
+
+### Session Discovery Patterns
+
+When searching for a specific past conversation, use this workflow:
+
+**Step 1: List recent main sessions (exclude subagents)**
+```bash
+# Get project folder, list main sessions by date
+PROJECT=~/.claude/projects/-home-adams-repos-myproject
+ls -lt "$PROJECT"/*.jsonl | grep -v agent- | head -10
+```
+
+**Step 2: Get timestamps for candidate sessions**
+```bash
+stat -c '%y %n' "$PROJECT"/*.jsonl | grep -v agent | sort -r | head -10
+```
+
+**Step 3: Identify session topic from first user message**
+```bash
+# Extract first real user message (skip tool results and meta messages)
+grep '"role":"user"' session.jsonl | grep -v 'tool_result\|isMeta\|command-message' | head -1
+```
+
+**Step 4: Search with specific terms first**
+```bash
+# Start narrow - unique identifiers work better than generic terms
+grep -l "HANDOFF.md\|specific-filename" "$PROJECT"/*.jsonl
+
+# If too many results, add more specific terms
+grep -l "8-line.*frontmatter\|query-vetting/HANDOFF" "$PROJECT"/*.jsonl
+```
+
+**Common Pitfalls:**
+- ❌ Generic terms (`frontmatter`, `error`) return too many sessions
+- ❌ Forgetting to filter `agent-*.jsonl` files (subagent noise)
+- ❌ Not checking timestamps (similar sessions from different dates)
+- ✅ Start with unique file names, project names, or specific phrases
+- ✅ Use `grep -l` first (file list), then `grep -C 2` for context
+
+**Quick Reference - One-liner to find and identify sessions:**
+```bash
+# Find sessions matching term, show date and first user message
+for f in $(grep -l "search-term" ~/.claude/projects/-your-project/*.jsonl | grep -v agent); do
+  echo "=== $(stat -c %y "$f" | cut -d. -f1) ==="
+  grep '"role":"user"' "$f" | grep -v tool_result | head -1 | cut -c1-200
+done
 ```
 
 ---
