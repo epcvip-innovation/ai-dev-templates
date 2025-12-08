@@ -139,7 +139,7 @@ Add to `~/.claude/settings.json`:
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "statusLine": {
     "type": "command",
-    "command": "npx -y ccstatusline@latest"
+    "command": "ccstatusline"  // Install globally: npm install -g ccstatusline
   },
   "hooks": {  // ← Add this section
     "PreToolUse": [

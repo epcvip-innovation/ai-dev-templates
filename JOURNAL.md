@@ -3,14 +3,20 @@
 **Purpose**: Personal learning log documenting the evolution of AI-driven development practices.
 
 **Started**: January 2025
-**Current**: Session 5 (Standards & Guides)
+**Current**: Session 8 (Multi-Device Workspace)
 **Goal**: Extract reusable patterns from real projects → shareable template library
 
 ---
 
 ## Current Focus
 
-**Session 7 (November 3, 2025)**: Global hooks system - COMPLETE ✅
+**Session 8 (December 6, 2025)**: Multi-Device AI Workspace - IN PROGRESS
+- 🔄 Extracting workflow from Japan trip to ai-dev-templates
+- ✅ Fixed ccstatusline startup performance (npx → global install)
+- ✅ Created `maint` script for periodic tool updates
+- 🔄 Creating MULTI-DEVICE-WORKSPACE.md setup guide
+
+**Previous** (Session 7 - November 3, 2025): Global hooks system - COMPLETE ✅
 - ✅ Implemented global query validation hook across all repositories
 - ✅ Resolved hook scoping issue (project-specific → user global)
 - ✅ Created comprehensive hooks template category (2,500+ lines documentation)
@@ -116,6 +122,67 @@
 - docs.claude.com/en/docs/claude-code/slash-commands (official documentation)
 - Community consensus (2024-2025): Multiple blogs, GitHub discussions
 - User's repos: dois-test-capacity-planner (3 handoff examples), ping-tree-compare (align-project-docs usage)
+
+---
+
+### December 6, 2025 - Multi-Device AI Workspace: From Japan Trip to Production
+
+**What**: Built a complete multi-device workflow during 3-week Japan trip, enabling Claude Code usage from iPad/iPhone via Tailscale + tmux + SSH. Used daily for travel planning, expense tracking, research, and language help. Now extracting to ai-dev-templates for broader use.
+
+**The Insight**: Web AI (ChatGPT, Claude.ai) can *chat* but can't *do* things - edit files, update spreadsheets, manage documents. Claude Code can, but is traditionally desktop-bound. This workflow breaks that constraint. Claude Code becomes a universal AI assistant accessible from any device.
+
+**The Problem**:
+- Wanted Claude Code's file-editing capabilities while traveling
+- Desktop at home in Seattle, only iPad/iPhone available in Japan
+- Hotel WiFi unreliable, switching between 5 cities over 3 weeks
+- Needed to update trip docs, track expenses, research activities
+
+**What I Built**:
+- Tailscale mesh VPN connecting home PC ↔ iPad ↔ iPhone
+- tmux persistent sessions (survive disconnects, device switches)
+- Image upload server + iOS Shortcut for sending photos to Claude Code
+- Daily workflow: receipts → expense tracking, menus → translation, schedules → planning
+
+**Key Learning**: Claude Code isn't just for coding. It's a universal AI assistant that can actually *do* things - update files, manage documents, research and synthesize information. The limiting factor was always "I need to be at my desktop." Now I don't.
+
+**What Worked Well**:
+- tmux saved me constantly - WiFi drops just meant reconnect and continue
+- Image upload workflow was used daily (receipts, signs, menus, schedules)
+- Session continuity across devices felt magical
+- Claude as travel agent/expense tracker/researcher was incredibly useful
+
+**What Didn't Work**:
+- Connection drops were frequent (default SSH timeouts - not keepalive configured)
+- tmux reconnection commands are clunky on iPad keyboard
+- No Mosh configured - would have helped with unstable connections
+- ccstatusline using `npx -y` caused 60+ second startup delays (fixed: global install)
+
+**Why It Matters**:
+1. **For me**: Can now work on personal projects and manage docs from anywhere
+2. **For work**: Same workflow for accessing EPCVIP repos remotely
+3. **For team**: PMs can use this for document management, not just developers
+4. **Broader vision**: Non-technical users who need AI to edit files, not just chat
+
+**Evidence**:
+- Japan Travel vault: `/mnt/c/Users/adam.s/Documents/JapanTravel-ObsidianSync/Workflow/` (original docs)
+- Image upload server: `JapanTravel-ObsidianSync/Tools/image-upload-server.py`
+- Template extraction: `docs/setup-guides/MULTI-DEVICE-WORKSPACE.md` (this session)
+- Debugging session: Fixed ccstatusline startup (npx → global), discovered SSH keepalive gap
+- Maintenance script: `~/bin/maint` for periodic tool updates
+
+**What Changed**:
+- Added `maint` script for periodic tool updates (`~/bin/maint`)
+- Fixed ccstatusline startup performance (60+ seconds → 0.1 seconds)
+- Identified SSH keepalive as fix for stable-connection drops
+- Reframed workflow from "remote development" to "multi-device AI workspace"
+- Broader audience: developers + PMs + document managers
+
+**Future Improvements Identified**:
+- SSH keepalive config (ServerAliveInterval 60)
+- Consider Mosh for very unstable networks
+- Wake-on-LAN for remote PC wake
+- Project isolation via separate tmux sessions
+- Codespaces as fallback when home PC unavailable
 
 ---
 

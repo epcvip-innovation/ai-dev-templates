@@ -1,6 +1,6 @@
 # Claude Code Quick Reference
 
-[← Back to Main README](../../README.md) | [Basic Setup Guide →](../setup-guides/CLAUDE-CODE-SETUP.md)
+[← Back to Main README](../../README.md) | [Storage Reference →](./CLAUDE-CODE-STORAGE.md) | [Basic Setup Guide →](../setup-guides/CLAUDE-CODE-SETUP.md)
 
 Practical guide for managing Claude Code configuration, MCPs, and plugins.
 
@@ -16,6 +16,54 @@ Practical guide for managing Claude Code configuration, MCPs, and plugins.
 ```
 
 **Key Point**: Claude Code uses `~/.claude/`, NOT `~/.config/claude/`
+
+## Status Line
+
+### What Is The Status Line?
+
+The status line displays at the bottom of Claude Code showing real-time info (model, git branch, tokens, etc.). You can customize it with external tools.
+
+### Configuration
+
+```json
+// ~/.claude/settings.json
+{
+  "statusLine": {
+    "type": "command",
+    "command": "ccstatusline",
+    "padding": 0
+  }
+}
+```
+
+### Performance Note
+
+**Avoid `npx -y package@latest`** for status line commands. NPX checks the npm registry on every startup, causing 30-60 second delays.
+
+```json
+// BAD - checks npm registry every startup (slow)
+"command": "npx -y ccstatusline@latest"
+
+// GOOD - uses pre-installed binary (fast)
+"command": "ccstatusline"
+```
+
+**Setup:**
+```bash
+# Install globally (one time)
+npm install -g ccstatusline
+
+# Update periodically
+npm update -g ccstatusline
+```
+
+### Popular Status Line Tools
+
+- **ccstatusline** - Feature-rich status with model, git, tokens
+  - Install: `npm install -g ccstatusline`
+  - GitHub: https://github.com/sirmalloc/ccstatusline
+
+---
 
 ## MCP Servers (Model Context Protocol)
 
@@ -403,4 +451,4 @@ claude mcp add <name> <url>              # Add HTTP MCP
 
 ---
 
-Last Updated: October 2025
+Last Updated: December 2025

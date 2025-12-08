@@ -33,6 +33,7 @@
 
 ### 🎯 Daily Workflow
 - **[Daily Workflow Guide](./docs/setup-guides/DAILY-WORKFLOW.md)** - ⭐ Start here for everyday usage
+- [Multi-Device Workspace](./docs/setup-guides/MULTI-DEVICE-WORKSPACE.md) - 🆕 Access Claude Code from iPad/phone/laptop
 - [Claude Code Setup](./docs/setup-guides/CLAUDE-CODE-SETUP.md) - Installing and using Claude Code CLI
 - [Codex Setup](./docs/setup-guides/CODEX-SETUP.md) - Alternative AI assistant setup
 - [Cursor + WSL Setup](./docs/setup-guides/CURSOR-WSL-SETUP.md) - IDE with WSL integration
@@ -43,6 +44,7 @@
 - [Global CLI Commands](./docs/reference/GLOBAL-CLI-SETUP.md) - Make repo scripts globally available
 - [WSL Paths Reference](./docs/reference/WSL-PATHS.md) - Understanding Windows ↔ WSL paths
 - [Claude Code Config](./docs/reference/CLAUDE-CODE-CONFIG.md) - MCPs, plugins, and configuration
+- [Claude Code Storage](./docs/reference/CLAUDE-CODE-STORAGE.md) - Session history, finding conversations
 - [Obsidian WSL Setup](./docs/setup-guides/OBSIDIAN-WSL-SETUP.md) - Running Obsidian in WSL
 
 ### 📚 Browse Templates
@@ -61,6 +63,7 @@
 - [Journal](./JOURNAL.md) - Personal AI-driven development journey
 
 ### 🎯 Common Tasks
+- **Work from iPad/phone** → [Multi-Device Workspace](./docs/setup-guides/MULTI-DEVICE-WORKSPACE.md)
 - **Replace `/compact`** → [Context Management Commands](./templates/slash-commands/context-management/)
 - **Enforce query validation** → [Query Validation Hook](./templates/hooks/query-validation/)
 - **Copy a slash command** → [templates/slash-commands/](./templates/slash-commands/)
