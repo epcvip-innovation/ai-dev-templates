@@ -143,7 +143,7 @@ exit               # Exit Claude
 
 ```bash
 # Add knowledge base or docs
-claude --add-dir ~/repos/docs
+claude --add-dir ~/repos-epcvip/docs
 
 # Add multiple directories
 claude --add-dir ~/docs --add-dir ~/config
@@ -239,7 +239,7 @@ cd ~/repos/your-project
 claude
 
 # Better: With relevant docs
-claude --add-dir ~/repos/docs/your-project-docs
+claude --add-dir ~/repos-epcvip/docs/your-project-docs
 ```
 
 ### 3. Keep Sessions Focused

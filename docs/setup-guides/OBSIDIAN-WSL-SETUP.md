@@ -53,15 +53,15 @@ echo "✅ Obsidian launched in background"
 ### Daily Workflow
 
 1. **Open Obsidian**: Run `obs` or `obsidian &` in terminal
-2. **Vaults location**: `~/repos/docs/[vault-name]`
+2. **Vaults location**: `~/repos-epcvip/docs/[vault-name]`
 3. **GUI appears**: On Windows desktop via WSLg
 4. **Performance**: Native Linux filesystem speed
 
 ### Vault Paths
 
-- Personal docs: `~/repos/docs/personal-docs`
-- Company docs: `~/repos/docs/company-shared-docs`
-- Data docs: `~/repos/docs/query-docs`
+- Personal docs: `~/repos-epcvip/docs/personal-docs`
+- Company docs: `~/repos-epcvip/docs/company-shared-docs`
+- Data docs: `~/repos-epcvip/docs/query-docs`
 
 ## Integration with Workflow
 
@@ -75,7 +75,7 @@ echo "✅ Obsidian launched in background"
 ### Git Workflow
 ```bash
 # Before leaving location
-cd ~/repos/docs/personal-docs
+cd ~/repos-epcvip/docs/personal-docs
 git add . && git commit -m "changes"
 git push
 
