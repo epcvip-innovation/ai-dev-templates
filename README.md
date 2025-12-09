@@ -34,6 +34,7 @@
 ### 🎯 Daily Workflow
 - **[Daily Workflow Guide](./docs/setup-guides/DAILY-WORKFLOW.md)** - ⭐ Start here for everyday usage
 - [Multi-Device Workspace](./docs/setup-guides/MULTI-DEVICE-WORKSPACE.md) - 🆕 Access Claude Code from iPad/phone/laptop
+- [Local Network Sharing](./docs/setup-guides/LOCAL-NETWORK-SHARING.md) - Share dev servers & mockups with teammates
 - [Claude Code Setup](./docs/setup-guides/CLAUDE-CODE-SETUP.md) - Installing and using Claude Code CLI
 - [Codex Setup](./docs/setup-guides/CODEX-SETUP.md) - Alternative AI assistant setup
 - [Cursor + WSL Setup](./docs/setup-guides/CURSOR-WSL-SETUP.md) - IDE with WSL integration
