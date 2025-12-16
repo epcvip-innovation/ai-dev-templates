@@ -513,6 +513,64 @@ healthcheckTimeout = 120  # Increase if needed
 
 ## Cron Service Issues
 
+### Config File Not Found
+
+**Problem**: `config file railway.cron.toml does not exist`
+
+**Root Cause**: Railway config file path format is incorrect.
+
+**Solutions**:
+
+#### 1. Config File Path MUST Have Leading Slash
+```
+# ❌ Doesn't work
+Config File Path: railway.cron.toml
+Config File Path: validator-api/railway.cron.toml
+
+# ✅ Works - leading slash required
+Config File Path: /railway.cron.toml
+Config File Path: /validator-api/railway.cron.toml
+```
+
+#### 2. Place Config at Repo Root for Simplicity
+```
+your-repo/
+├── railway.cron.toml    # ✅ At root, reference as /railway.cron.toml
+├── validator-api/
+│   └── ...
+└── core/
+    └── ...
+```
+
+**Dashboard Settings**:
+- Root Directory: *(leave empty)*
+- Config File Path: `/railway.cron.toml`
+
+### Cron Can't Import Modules from Other Directories
+
+**Problem**: Cron needs modules outside its subdirectory (monorepo pattern)
+
+**Example**: `validator-api/cron/` needs `core/pulse/` from repo root
+
+**Solution**: Deploy from repo root, use `cd` in startCommand
+
+```toml
+# railway.cron.toml at repo root
+[build]
+builder = "RAILPACK"
+
+[deploy]
+cronSchedule = "0 15 * * *"
+startCommand = "cd validator-api && python -m cron.pulse_poster"
+restartPolicyType = "NEVER"
+```
+
+**Dashboard Settings**:
+- Root Directory: *(empty - deploys from repo root)*
+- Config File Path: `/railway.cron.toml`
+
+This allows Python to import from both `core/` (repo root) and `validator-api/cron/`.
+
 ### Cron Not Running
 
 **Problem**: Scheduled job doesn't execute

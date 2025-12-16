@@ -8,6 +8,22 @@ Railway looks for `railway.toml` or `railway.json` in your repository root. Conf
 
 **Format**: This guide uses `railway.toml` (TOML format).
 
+### Config File Path in Dashboard
+
+When setting `Config File Path` in Railway dashboard, **the path MUST have a leading slash**:
+
+```
+# ❌ Doesn't work
+Config File Path: railway.toml
+Config File Path: validator-api/railway.cron.toml
+
+# ✅ Works - leading slash required
+Config File Path: /railway.toml
+Config File Path: /railway.cron.toml
+```
+
+**Tip**: Place config files at repo root and reference as `/railway.toml` or `/railway.cron.toml` for simplicity.
+
 ## Your Working Configurations
 
 ### tiller-bridge (Basic Python Service)
@@ -61,23 +77,46 @@ startCommand = "python -m utils.sync_runner --type smart"
 NIXPACKS_PYTHON_VERSION = "3.11"
 ```
 
+### pulse-cron (Monorepo Cron - Dec 2025)
+
+For cron services in a monorepo where the cron script needs modules from repo root:
+
+```toml
+# /railway.cron.toml (at repo root)
+[build]
+builder = "RAILPACK"
+
+[deploy]
+cronSchedule = "0 15 * * *"  # 7am PST (15:00 UTC)
+startCommand = "cd validator-api && python -m cron.pulse_poster"
+restartPolicyType = "NEVER"
+```
+
+**Dashboard Settings**:
+- Root Directory: *(empty - deploys from repo root)*
+- Config File Path: `/railway.cron.toml` (leading slash required!)
+
+**Why this pattern**: The cron script at `validator-api/cron/` imports modules from `core/pulse/` at repo root. Deploying from repo root makes both accessible.
+
 ---
 
 ## Build Configuration
 
 ### Builder Selection
 
-**NIXPACKS** (Your current - deprecated but still works):
+**RAILPACK** (Default as of Dec 2025, actively developed):
+```toml
+[build]
+builder = "RAILPACK"
+```
+
+**NIXPACKS** (Deprecated - maintenance mode only):
 ```toml
 [build]
 builder = "nixpacks"
 ```
 
-**RAILPACK** (Recommended for new projects):
-```toml
-[build]
-builder = "RAILPACK"
-```
+**Note**: RAILPACK is Railway's new default builder. NIXPACKS still works but is in maintenance mode with no new features.
 
 **Dockerfile** (Custom builds):
 ```toml
