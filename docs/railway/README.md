@@ -41,6 +41,15 @@ This documentation is based on your actual production deployments (tiller-bridge
   - Project linking and initial deployment
   - Environment variables setup
 
+### Framework-Specific Guides
+
+- **[RAILWAY_NEXTJS.md](./RAILWAY_NEXTJS.md)** - Next.js deployment (NEW)
+  - Next.js 15 + React 19 configuration
+  - Standalone output setup
+  - Port mismatch troubleshooting
+  - Health check endpoints
+  - Supabase integration
+
 ### Core Guides
 
 - **[RAILWAY_WORKFLOWS.md](./RAILWAY_WORKFLOWS.md)** - Deployment workflows
@@ -161,6 +170,11 @@ railway ssh      # Interactive shell into container
 
 ### Active Production Services
 
+- **card-deal-app**: https://card-business-production.up.railway.app
+  - Next.js 15 + React 19 + Supabase Auth
+  - Standalone output for smaller images
+  - RAILPACK builder
+
 - **tiller-bridge**: https://tiller-bridge-production.up.railway.app
   - Python FastAPI + SQLite
   - Cron service for scheduled syncing
@@ -173,14 +187,15 @@ railway ssh      # Interactive shell into container
 
 ### Configuration Status
 
-| Project | Builder | Volume | Status |
-|---------|---------|--------|--------|
-| tiller-bridge | NIXPACKS | No | Production |
-| ping-tree-compare | NIXPACKS | Yes (/app/data) | Production |
-| anki-clone | NIXPACKS | Yes | Configured |
-| japanese-flashcard-app | NIXPACKS | Yes | Configured |
+| Project | Builder | Volume | Framework | Status |
+|---------|---------|--------|-----------|--------|
+| card-deal-app | RAILPACK | No | Next.js 15 | Production |
+| tiller-bridge | NIXPACKS | No | Python | Production |
+| ping-tree-compare | NIXPACKS | Yes (/app/data) | Python | Production |
+| anki-clone | NIXPACKS | Yes | Node.js | Configured |
+| japanese-flashcard-app | NIXPACKS | Yes | Node.js | Configured |
 
-**Recommendation**: Consider migrating to RAILPACK for smaller images and better caching.
+**Recommendation**: Consider migrating Python/Node.js apps to RAILPACK for smaller images and better caching.
 
 ## Common Tasks
 
@@ -333,6 +348,7 @@ dev-setup/
 │       ├── README.md                          # This file
 │       ├── RAILWAY_QUICKSTART.md              # Quick reference
 │       ├── RAILWAY_SETUP_GUIDE.md             # Initial setup
+│       ├── RAILWAY_NEXTJS.md                  # Next.js deployment (NEW)
 │       ├── RAILWAY_WORKFLOWS.md               # Deployment workflows
 │       ├── RAILWAY_CLI_REFERENCE.md           # CLI commands
 │       ├── RAILWAY_CONFIG_REFERENCE.md        # Configuration
@@ -361,6 +377,7 @@ dev-setup/
 
 **By Task**:
 - First-time Railway setup → [Setup Guide](./RAILWAY_SETUP_GUIDE.md)
+- Deploy Next.js app → [Next.js Guide](./RAILWAY_NEXTJS.md)
 - Deploy new project → [Workflows: Initial Deployment](./RAILWAY_WORKFLOWS.md#initial-deployment)
 - Update existing project → [Workflows: Day-to-Day](./RAILWAY_WORKFLOWS.md#day-to-day-development)
 - Something's broken → [Troubleshooting](./RAILWAY_TROUBLESHOOTING.md)
@@ -374,9 +391,9 @@ dev-setup/
 
 ---
 
-**Documentation Version**: 1.0
-**Last Updated**: 2025-11-16
-**Based On**: Your production deployments (tiller-bridge, ping-tree-compare) + Railway best practices as of November 2025
+**Documentation Version**: 1.1
+**Last Updated**: 2025-12-28
+**Based On**: Your production deployments (tiller-bridge, ping-tree-compare, card-deal-app) + Railway best practices as of December 2025
 **Optimized For**: Claude Code workflows
 
 ---
