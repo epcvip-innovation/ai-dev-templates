@@ -101,6 +101,76 @@ startCommand = "uvicorn main:app --host 0.0.0.0 --port $PORT"
 railway logs --limit 100 | grep -i "error\|exception\|failed"
 ```
 
+### Port Mismatch: Health Check Passes But External Requests Fail
+
+**Problem**: Health check passes (200 OK in deploy logs), but external requests return "Application failed to respond" (502 error).
+
+**Symptoms**:
+- Deploy logs show: `Healthcheck succeeded!`
+- App logs show: `PORT environment variable: 8080`
+- App logs show: `<<< RESPONSE: 200` for health check
+- BUT: `curl https://your-app.up.railway.app/health` returns 502
+
+**Root Cause**: Port mismatch between:
+- **Public Networking port** (manually configured in Railway UI, e.g., 8000)
+- **App's actual port** (Railway's injected `$PORT`, e.g., 8080)
+
+Railway's edge proxy routes external traffic to the configured Public Networking port, but the app is listening on a different port.
+
+**How This Happens**:
+1. When you first set up a service, you might manually enter a port (e.g., 8000)
+2. Later, Railway's "Railway magic ✨" auto-detects the correct port (e.g., 8080)
+3. The manual override takes precedence, causing the mismatch
+4. Health checks work because Railway checks internally on the correct port
+5. External requests fail because edge routes to the wrong port
+
+**Solution**:
+
+#### 1. Check Public Networking Port
+Go to **Service Settings → Networking → Public Networking**
+
+Look for the port shown under your domain (e.g., "Port 8000 · Metal Edge")
+
+#### 2. Switch to Auto-Detected Port
+1. Click the domain to edit it
+2. Click the dropdown that shows "Custom port"
+3. Look for "A port was detected by Railway magic ✨" with a port like "8080 (python)"
+4. **Select the auto-detected port** instead of custom port
+5. Click "Update"
+
+#### 3. Verify Fix
+```bash
+curl https://your-app.up.railway.app/health
+# Should now return: {"status":"healthy","port":"8080",...}
+```
+
+**Prevention - Best Practices**:
+
+1. **Always let Railway auto-detect ports** - Don't manually enter a port unless necessary
+2. **Include port in health response** - Makes debugging easier:
+   ```python
+   @app.get("/health")
+   async def health():
+       return {
+           "status": "healthy",
+           "port": os.getenv("PORT", "unknown")
+       }
+   ```
+3. **Log PORT at startup** - Helps identify mismatches:
+   ```python
+   logger.info(f"PORT environment variable: {os.getenv('PORT', 'NOT SET')}")
+   ```
+4. **Check after setting up new services** - Verify the auto-detected port is being used
+
+**CLI Detection** (requires service linking):
+```bash
+# Link service first (interactive - use external terminal)
+railway service
+
+# Check domain configuration
+railway domain --json
+```
+
 ### Build Fails
 
 **Problem**: Build process fails
@@ -803,6 +873,7 @@ Reference your production deployments:
 | Problem | Quick Fix |
 |---------|-----------|
 | Health check fails | Increase `healthcheckTimeout` |
+| Health check passes but 502 | Check Public Networking port matches app's PORT |
 | Database locked | Add `--workers 1` |
 | Data lost | Add volume mount |
 | Build fails | Check `railway logs --build` |
