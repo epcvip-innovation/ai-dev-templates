@@ -2,59 +2,50 @@
 
 Ready-to-use `railway.toml` templates for common project types.
 
+**Quick Reference**: See [../docs/railway/CLAUDE.md](../docs/railway/CLAUDE.md) for Claude Code integration guide.
+
 ## Template Files
 
-### NIXPACKS (Your Current Working Configs)
+### RAILPACK (Recommended)
 
-Based on your production deployments:
+Modern builder with smaller images and better caching:
 
-- **`nixpacks.python-basic.toml`** - Basic Python FastAPI service
-  - Source: tiller-bridge configuration
-  - Use for: Simple API services without persistence
+- **`railpack.python-basic.toml`** - Python FastAPI
+  - 77% smaller images, better caching
+  - Production example: athena-usage-monitor-fastapi
 
-- **`nixpacks.python-volume.toml`** - Python FastAPI with SQLite
-  - Source: ping-tree-compare configuration
-  - Use for: Apps with SQLite database needing persistence
-  - Includes: Volume mount, single worker for SQLite
+- **`railpack.python-volume.toml`** - Python + SQLite with persistence
+  - Volume mount for database persistence
+  - Single worker for SQLite concurrency
+  - Production example: ping-tree-compare
 
-- **`nixpacks.cron.toml`** - Scheduled cron service
-  - Source: tiller-bridge cron service
-  - Use for: Scheduled background tasks
-  - Separate Railway service required
+- **`railpack.python-migrations.toml`** - Python with database migrations
+  - Pre-deploy command for Alembic/Flask-Migrate
+  - Runs migrations before starting app
 
-### RAILPACK (Modern, Recommended)
-
-Updated versions with RAILPACK builder:
-
-- **`railpack.python-basic.toml`** - Basic Python FastAPI (RAILPACK)
-  - 77% smaller images vs NIXPACKS
-  - Better caching and build times
-
-- **`railpack.python-volume.toml`** - Python with SQLite (RAILPACK)
-  - Includes volume mount configuration
-  - Single worker for SQLite
-
-- **`railpack.python-migrations.toml`** - Python with auto-migrations
-  - Runs migrations before deployment
-  - Examples for Alembic, Flask-Migrate, custom scripts
-
-- **`railpack.node-basic.toml`** - Node.js application
+- **`railpack.node-basic.toml`** - Node.js applications
   - 38% smaller images vs NIXPACKS
   - Auto-detects Node version
+
+### NIXPACKS (Legacy)
+
+Deprecated but still functional. Use RAILPACK for new projects.
+
+- **`nixpacks.python-basic.toml`** - Basic Python FastAPI
+- **`nixpacks.python-volume.toml`** - Python + SQLite
+- **`nixpacks.cron.toml`** - Scheduled cron service
 
 ## Usage
 
 ### 1. Choose a Template
 
-Select based on your project type:
-
 | Project Type | Template |
 |-------------|----------|
-| Python API (simple) | `nixpacks.python-basic.toml` or `railpack.python-basic.toml` |
-| Python + SQLite | `nixpacks.python-volume.toml` or `railpack.python-volume.toml` |
+| Python API | `railpack.python-basic.toml` |
+| Python + SQLite | `railpack.python-volume.toml` |
 | Python + Migrations | `railpack.python-migrations.toml` |
-| Scheduled tasks | `nixpacks.cron.toml` |
 | Node.js | `railpack.node-basic.toml` |
+| Scheduled tasks | `nixpacks.cron.toml` |
 
 ### 2. Copy to Your Project
 
@@ -75,9 +66,9 @@ Update these fields in `railway.toml`:
 
 ```toml
 [deploy]
-startCommand = "uvicorn main:app --host 0.0.0.0 --port $PORT"  # Match your app
+startCommand = "python -m uvicorn main:app --host 0.0.0.0 --port $PORT"  # Use python -m for PATH reliability
 healthcheckPath = "/health"  # Verify endpoint exists
-healthcheckTimeout = 60      # Adjust based on startup time
+healthcheckTimeout = 120     # 60s for simple apps, 120s with database
 ```
 
 ### 4. Set Environment Variables
