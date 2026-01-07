@@ -24,7 +24,7 @@ This is an **AI workflow template library and personal documentation hub**, buil
 
 The core value of this repository. **Browse before using** - these are patterns to adapt, not rules to follow.
 
-### 7 Template Categories
+### 8 Template Categories
 
 **1. Slash Commands** (`templates/slash-commands/`)
 - 11 workflow commands for AI-driven development
@@ -65,6 +65,12 @@ The core value of this repository. **Browse before using** - these are patterns 
 - Environment-based tool access configuration
 - Reduces approval prompts
 - **See**: [templates/permissions/README.md](./templates/permissions/README.md)
+
+**8. Testing** (`templates/testing/`)
+- Playwright E2E testing patterns for Claude Code projects
+- Two modes: scripted tests (CI/regression) vs MCP (Claude-driven exploration)
+- Page Object Model and multi-user fixture patterns
+- **See**: [templates/testing/PLAYWRIGHT_CLAUDE_GUIDE.md](./templates/testing/PLAYWRIGHT_CLAUDE_GUIDE.md)
 
 ## Research & Journey
 
@@ -149,6 +155,7 @@ cursor .            # Open Cursor (Remote-WSL)
 - [templates/slash-commands/](./templates/slash-commands/) - 11 workflow commands
 - [templates/claude-md/](./templates/claude-md/) - CLAUDE.md structure templates
 - [templates/standards/](./templates/standards/) - Anti-slop standards & documentation strategy
+- [templates/testing/](./templates/testing/) - Playwright + Claude Code testing patterns
 
 **Research & Evidence**:
 - [JOURNAL.md](./JOURNAL.md) - Personal AI journey (14k+ lines)

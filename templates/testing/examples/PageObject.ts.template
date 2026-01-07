@@ -1,0 +1,213 @@
+import { Page, BrowserContext, expect } from '@playwright/test';
+
+/**
+ * Page Object Model template.
+ *
+ * Copy to test/e2e/helpers/YourPage.ts and customize for your app.
+ *
+ * Page Objects encapsulate:
+ * - Page navigation
+ * - User actions (click, fill, etc.)
+ * - State inspection (get text, check visibility)
+ * - Cleanup
+ *
+ * Benefits:
+ * - Reusable across tests
+ * - Single place to update selectors
+ * - Cleaner, more readable tests
+ */
+export class ExamplePage {
+  readonly page: Page;
+  readonly context: BrowserContext;
+  readonly name: string;
+
+  constructor(page: Page, context: BrowserContext, name: string = 'User') {
+    this.page = page;
+    this.context = context;
+    this.name = name;
+  }
+
+  // ==========================================================================
+  // Navigation
+  // ==========================================================================
+
+  /**
+   * Navigate to the main page.
+   */
+  async goto() {
+    await this.page.goto('/');
+    await this.page.waitForSelector('[data-testid="main-content"]');
+  }
+
+  /**
+   * Navigate with URL parameters.
+   */
+  async gotoWithParams(params: Record<string, string>) {
+    const searchParams = new URLSearchParams(params);
+    await this.page.goto(`/?${searchParams.toString()}`);
+    await this.page.waitForSelector('[data-testid="main-content"]');
+  }
+
+  // ==========================================================================
+  // Authentication Actions
+  // ==========================================================================
+
+  /**
+   * Log in with email and password.
+   */
+  async login(email: string, password: string) {
+    await this.page.click('[data-testid="login-button"]');
+    await this.page.fill('[data-testid="email-input"]', email);
+    await this.page.fill('[data-testid="password-input"]', password);
+    await this.page.click('[data-testid="submit-login"]');
+    await this.page.waitForSelector('[data-testid="user-menu"]');
+  }
+
+  /**
+   * Log out.
+   */
+  async logout() {
+    await this.page.click('[data-testid="user-menu"]');
+    await this.page.click('[data-testid="logout-button"]');
+    await this.page.waitForSelector('[data-testid="login-button"]');
+  }
+
+  // ==========================================================================
+  // Form Actions
+  // ==========================================================================
+
+  /**
+   * Fill a form field by test ID.
+   */
+  async fillField(testId: string, value: string) {
+    await this.page.fill(`[data-testid="${testId}"]`, value);
+  }
+
+  /**
+   * Click a button by test ID.
+   */
+  async clickButton(testId: string) {
+    await this.page.click(`[data-testid="${testId}"]`);
+  }
+
+  /**
+   * Select an option from a dropdown.
+   */
+  async selectOption(testId: string, value: string) {
+    await this.page.selectOption(`[data-testid="${testId}"]`, value);
+  }
+
+  // ==========================================================================
+  // Waiting Helpers
+  // ==========================================================================
+
+  /**
+   * Wait for an element to be visible.
+   */
+  async waitForElement(testId: string) {
+    await this.page.waitForSelector(`[data-testid="${testId}"]`);
+  }
+
+  /**
+   * Wait for an element to be hidden.
+   */
+  async waitForElementHidden(testId: string) {
+    await this.page.waitForSelector(`[data-testid="${testId}"]`, { state: 'hidden' });
+  }
+
+  /**
+   * Wait for navigation to a URL.
+   */
+  async waitForUrl(urlPattern: string | RegExp) {
+    await this.page.waitForURL(urlPattern);
+  }
+
+  /**
+   * Wait for loading to complete (customize selector).
+   */
+  async waitForLoading() {
+    await this.page.waitForSelector('[data-testid="loading"]', { state: 'hidden' });
+  }
+
+  // ==========================================================================
+  // State Inspection
+  // ==========================================================================
+
+  /**
+   * Get text content of an element.
+   */
+  async getText(testId: string): Promise<string | null> {
+    return this.page.textContent(`[data-testid="${testId}"]`);
+  }
+
+  /**
+   * Check if an element is visible.
+   */
+  async isVisible(testId: string): Promise<boolean> {
+    return this.page.isVisible(`[data-testid="${testId}"]`);
+  }
+
+  /**
+   * Get the current URL.
+   */
+  getUrl(): string {
+    return this.page.url();
+  }
+
+  /**
+   * Get current page title.
+   */
+  async getTitle(): Promise<string> {
+    return this.page.title();
+  }
+
+  /**
+   * Get value of an input field.
+   */
+  async getInputValue(testId: string): Promise<string> {
+    return this.page.inputValue(`[data-testid="${testId}"]`);
+  }
+
+  /**
+   * Get count of elements matching selector.
+   */
+  async getElementCount(testId: string): Promise<number> {
+    return this.page.locator(`[data-testid="${testId}"]`).count();
+  }
+
+  // ==========================================================================
+  // Assertions (optional - can also use expect() in tests)
+  // ==========================================================================
+
+  /**
+   * Assert element has specific text.
+   */
+  async assertText(testId: string, expectedText: string) {
+    await expect(this.page.locator(`[data-testid="${testId}"]`)).toHaveText(expectedText);
+  }
+
+  /**
+   * Assert element is visible.
+   */
+  async assertVisible(testId: string) {
+    await expect(this.page.locator(`[data-testid="${testId}"]`)).toBeVisible();
+  }
+
+  /**
+   * Assert element is hidden.
+   */
+  async assertHidden(testId: string) {
+    await expect(this.page.locator(`[data-testid="${testId}"]`)).toBeHidden();
+  }
+
+  // ==========================================================================
+  // Cleanup
+  // ==========================================================================
+
+  /**
+   * Close the browser context (cleans up session).
+   */
+  async close() {
+    await this.context.close();
+  }
+}
