@@ -2,6 +2,8 @@
 
 E2E testing patterns for Claude Code projects using Playwright.
 
+> **Status:** See [STATUS.md](./STATUS.md) for what's verified vs. untested.
+
 > **2026 Insight**: "2026 is the year testers move from 'writing scripts' to orchestrating AI-powered automation workflows."
 
 ## Contents

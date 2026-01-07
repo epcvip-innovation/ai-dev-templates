@@ -2,6 +2,8 @@
 
 GitHub Actions workflows for AI-assisted development using official Anthropic actions.
 
+> **Status:** These templates are RESEARCH-BASED, not yet tested in production. See [STATUS.md](./STATUS.md) for verification details.
+
 ## Contents
 
 | File | Purpose |
