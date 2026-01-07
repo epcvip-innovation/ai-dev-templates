@@ -110,7 +110,80 @@ jobs:
 
 ---
 
-### Official Resources
+### Official Anthropic GitHub Actions (January 2026)
+
+#### anthropics/claude-code-action
+**URL:** https://github.com/anthropics/claude-code-action
+
+**Status:** Official, Production-Ready (launched September 29, 2025)
+**Stars:** 4.9k+ | **Forks:** 1.4k+
+
+**Key Features:**
+- General-purpose PR automation and code changes
+- MCP server support via `--mcp-config` in `claude_args`
+- Playwright MCP works with `--headless` flag for CI
+- Tool restrictions via `--allowedTools` for black-box testing
+- Automatic PR commenting with findings
+- Multiple auth providers (Anthropic, Bedrock, Vertex AI, Foundry)
+
+**Configuration Example:**
+```yaml
+- uses: anthropics/claude-code-action@v1
+  with:
+    anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+    prompt: "Test the checkout flow"
+    claude_args: |
+      --mcp-config '{"mcpServers":{"playwright":{"command":"npx","args":["@playwright/mcp@latest","--headless"]}}}'
+      --allowedTools "mcp__playwright__browser_navigate,mcp__playwright__browser_click,..."
+```
+
+**Relevance:** This is THE official way to run Claude QA in CI. Supersedes CLI-based approaches.
+
+---
+
+#### anthropics/claude-code-security-review
+**URL:** https://github.com/anthropics/claude-code-security-review
+
+**Status:** Official, Production-Ready
+
+**Key Features:**
+- Automatic security scanning on every PR
+- Posts findings as line comments on specific code
+- Language agnostic
+- False positive filtering (excludes DoS, rate limiting noise)
+- Diff-aware (only scans changed files)
+
+**What It Checks:**
+- Injection attacks (SQL, command, XSS, XXE, NoSQL)
+- Authentication & authorization issues
+- Hardcoded secrets and sensitive data
+- Cryptographic weaknesses
+- Business logic flaws (race conditions, TOCTOU)
+- Input validation gaps
+
+**Simple Setup:**
+```yaml
+- uses: anthropics/claude-code-security-review@main
+  with:
+    claude-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
+```
+
+**Relevance:** Zero-config security scanning. Should be on every repo.
+
+---
+
+#### Claude Code GitHub Actions Documentation
+**URL:** https://code.claude.com/docs/en/github-actions
+
+**Key Topics:**
+- Setup via `/install-github-app` command
+- Tag mode vs Agent mode
+- Solutions guide with working examples
+- Security best practices
+
+---
+
+### Additional Official Resources
 
 #### Microsoft Playwright MCP
 **URL:** https://github.com/microsoft/playwright-mcp
@@ -202,7 +275,7 @@ Claude MCP explores → Identifies issues → Writes scripted test → CI runs f
 3. Reports findings as PR comment
 4. Screenshots attached as evidence
 
-**Template:** See `../ci/claude-qa-workflow.yml.template` (when created)
+**Template:** See [`../ci/claude-qa-workflow.yml.template`](../ci/claude-qa-workflow.yml.template)
 
 ---
 
@@ -228,7 +301,7 @@ await expect(page).toHaveScreenshot('chart.png', {
 });
 ```
 
-**Template:** See `examples/visual.spec.ts.template` (when created)
+**Template:** See [`examples/visual.spec.ts.template`](./examples/visual.spec.ts.template)
 
 ---
 

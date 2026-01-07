@@ -1,35 +1,53 @@
 # Claude QA Review Workflow
 #
 # Automated PR verification using Claude Code with Playwright MCP.
-# Triggered when the 'qa-verify' label is added to a PR.
+# Uses the official anthropics/claude-code-action@v1 for browser-based QA.
+#
+# Triggers:
+# - Automatically on file path changes (configure paths below)
+# - Manually when 'qa-verify' label is added
 #
 # Setup:
 # 1. Add ANTHROPIC_API_KEY secret to repository
-# 2. Create prompts/qa-persona.md with your app's features
-# 3. Customize server start and health check commands
-#
-# Usage:
-# - Add 'qa-verify' label to any PR
-# - Remove and re-add label to re-run
+# 2. Configure paths to match your app structure
+# 3. Customize the prompt for your app's features
 #
 # Based on: https://alexop.dev/posts/building_ai_qa_engineer_claude_code_playwright/
+# Docs: https://github.com/anthropics/claude-code-action
 
 name: Claude QA Review
 
 on:
+  # CUSTOMIZE: Add paths for your app
   pull_request:
+    paths:
+      - 'src/**'
+      - 'app/**'
+      # - 'server/**'
+    types: [opened, synchronize, reopened]
+
+  # Manual trigger via label
+  pull_request_target:
     types: [labeled]
+
+permissions:
+  contents: read
+  pull-requests: write
 
 jobs:
   qa-review:
-    # Only run when the specific label is added
-    if: github.event.label.name == 'qa-verify'
+    # Run if: matching files changed OR qa-verify label added
+    if: |
+      github.event_name == 'pull_request' ||
+      (github.event_name == 'pull_request_target' && github.event.label.name == 'qa-verify')
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -39,123 +57,73 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-        # Add additional dependency installation if needed:
-        # cd server && npm ci
+        # CUSTOMIZE: Add additional dependency installation if needed
+        # run: npm ci && cd server && npm ci
 
       - name: Build application
         run: npm run build
-        # Customize if your build command is different
+        # CUSTOMIZE: Your build command
 
       - name: Start dev server
         run: |
-          # CUSTOMIZE: Your server start command
+          # CUSTOMIZE: Your server start command and port
           npm start &
-          echo "Waiting for server to start..."
-          sleep 10
-
-      - name: Wait for server health
-        run: |
-          # CUSTOMIZE: Your health check URL and port
           for i in {1..30}; do
             if curl -s http://localhost:3000/health > /dev/null; then
-              echo "Server is ready!"
-              exit 0
+              echo "Server ready!"
+              break
             fi
-            echo "Waiting... ($i/30)"
             sleep 2
           done
-          echo "Server failed to start"
-          exit 1
 
-      - name: Install Playwright browsers
-        run: npx playwright install chromium
-
-      - name: Run Claude QA Review
-        id: qa-review
-        run: |
-          # Install Claude Code CLI
-          npm install -g @anthropic-ai/claude-code
-
-          # Configure Playwright MCP
-          echo '{"mcpServers":{"playwright":{"command":"npx","args":["@playwright/mcp@latest"]}}}' > ~/.mcp.json
-
-          # Prepare PR context
-          PR_BODY="${{ github.event.pull_request.body }}"
-          PR_TITLE="${{ github.event.pull_request.title }}"
-
-          # Run Claude with the QA persona
-          # Note: Requires prompts/qa-persona.md in your repo
-          cat prompts/qa-persona.md | \
-            sed "s|\${{ github.event.pull_request.title }}|${PR_TITLE}|g" | \
-            sed "s|\${{ github.event.pull_request.body }}|${PR_BODY}|g" | \
-            claude --print > qa-report.md 2>&1 || true
-
-          # Check if report was generated
-          if [ -f qa-report.md ] && [ -s qa-report.md ]; then
-            echo "QA report generated successfully"
-            echo "report_generated=true" >> $GITHUB_OUTPUT
-          else
-            echo "Failed to generate QA report"
-            echo "report_generated=false" >> $GITHUB_OUTPUT
-          fi
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        continue-on-error: true
-
-      - name: Post QA Report as Comment
-        if: steps.qa-review.outputs.report_generated == 'true'
-        uses: actions/github-script@v7
+      - name: Claude QA Review
+        uses: anthropics/claude-code-action@v1
         with:
-          script: |
-            const fs = require('fs');
-            const report = fs.readFileSync('qa-report.md', 'utf8');
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            You are Quinn, a meticulous QA engineer.
 
-            const comment = `## 🤖 Claude QA Verification Report
+            ## PR Context
+            **Title**: ${{ github.event.pull_request.title }}
+            **Description**: ${{ github.event.pull_request.body }}
 
-            ${report}
+            ## Test Instructions
+            Navigate to http://localhost:3000 and verify:
 
-            ---
-            *Automated QA by Claude Code with Playwright MCP*
-            *Triggered by: \`qa-verify\` label*`;
+            1. **Page loads correctly**
+               - Main content visible
+               - No console errors
 
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: comment
-            });
+            2. **Core user flow**
+               - CUSTOMIZE: Add your app's main flow
 
-      - name: Post Failure Notice
-        if: steps.qa-review.outputs.report_generated != 'true'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `## ⚠️ QA Verification Failed
+            3. **Mobile viewport**
+               - Resize to 375x667 (iPhone SE)
+               - Verify UI is usable
 
-              The automated QA review could not complete. This may be due to:
-              - Server startup issues
-              - Claude API rate limits or authentication
-              - MCP configuration problems
+            ## Output Format
+            Report as:
 
-              Please run manual QA or re-trigger by removing and re-adding the \`qa-verify\` label.`
-            });
+            ## QA Verification Report
 
-      - name: Upload QA Report Artifact
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: qa-report
-          path: qa-report.md
-          if-no-files-found: ignore
+            **Verdict**: PASS / PASS WITH NOTES / FAIL
 
-      - name: Upload Screenshots
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: qa-screenshots
-          path: .playwright-mcp/
-          if-no-files-found: ignore
+            ### Tested
+            - [x] Item that passed
+            - [ ] Item that failed
+
+            ### Issues Found
+            (Include severity and steps to reproduce)
+
+            Take screenshots of any issues.
+
+          # MCP configuration for Playwright browser automation
+          claude_args: |
+            --mcp-config '{"mcpServers":{"playwright":{"command":"npx","args":["@playwright/mcp@latest","--headless"]}}}'
+            --allowedTools "mcp__playwright__browser_navigate,mcp__playwright__browser_click,mcp__playwright__browser_type,mcp__playwright__browser_take_screenshot,mcp__playwright__browser_snapshot,mcp__playwright__browser_resize,mcp__playwright__browser_console_messages,mcp__playwright__browser_press_key,mcp__playwright__browser_wait_for"
+
+# Notes:
+# - The action automatically posts findings as a PR comment
+# - Screenshots are captured by Claude and included in the report
+# - ~7 minutes typical execution time
+# - For security-only review (faster), use anthropics/claude-code-security-review instead
