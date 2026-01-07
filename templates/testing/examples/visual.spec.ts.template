@@ -1,0 +1,224 @@
+import { test, expect } from '@playwright/test';
+
+/**
+ * Visual Regression Tests Template
+ *
+ * Captures baseline screenshots and compares against them on subsequent runs.
+ * Uses Playwright's built-in visual comparison with toHaveScreenshot().
+ *
+ * Setup:
+ * 1. Add to playwright.config.ts:
+ *    expect: {
+ *      toHaveScreenshot: {
+ *        maxDiffPixels: 100, // Allow minor differences
+ *      },
+ *    },
+ *
+ * Commands:
+ *   npx playwright test visual.spec.ts              # Run comparisons
+ *   npx playwright test visual.spec.ts --update-snapshots  # Update baselines
+ *
+ * Baselines stored in: test/e2e/visual.spec.ts-snapshots/
+ */
+
+test.describe('Visual Regression', () => {
+  // ============================================================================
+  // Page-Level Screenshots
+  // ============================================================================
+
+  test.describe('Key Pages', () => {
+    test('homepage - initial state', async ({ page }) => {
+      await page.goto('/');
+      await page.waitForLoadState('networkidle');
+
+      await expect(page).toHaveScreenshot('homepage.png', {
+        fullPage: true,
+      });
+    });
+
+    test('dashboard - logged in user', async ({ page }) => {
+      // Setup: authenticate or mock auth state
+      await page.goto('/dashboard');
+      await page.waitForSelector('[data-testid="dashboard-loaded"]');
+
+      await expect(page).toHaveScreenshot('dashboard.png', {
+        fullPage: true,
+      });
+    });
+
+    test('settings page', async ({ page }) => {
+      await page.goto('/settings');
+      await page.waitForLoadState('networkidle');
+
+      await expect(page).toHaveScreenshot('settings.png', {
+        fullPage: true,
+      });
+    });
+  });
+
+  // ============================================================================
+  // Component-Level Screenshots
+  // ============================================================================
+
+  test.describe('Components', () => {
+    test('navigation - desktop', async ({ page }) => {
+      await page.goto('/');
+      const nav = page.locator('[data-testid="navigation"]');
+      await nav.waitFor({ state: 'visible' });
+
+      await expect(nav).toHaveScreenshot('nav-desktop.png');
+    });
+
+    test('navigation - mobile', async ({ page }) => {
+      await page.setViewportSize({ width: 375, height: 667 });
+      await page.goto('/');
+
+      // Open mobile menu if collapsed
+      const menuBtn = page.locator('[data-testid="mobile-menu-btn"]');
+      if (await menuBtn.isVisible()) {
+        await menuBtn.click();
+      }
+
+      const nav = page.locator('[data-testid="navigation"]');
+      await expect(nav).toHaveScreenshot('nav-mobile.png');
+    });
+
+    test('card component - variants', async ({ page }) => {
+      await page.goto('/component-showcase#cards');
+
+      const cards = page.locator('[data-testid="card"]');
+      await expect(cards.first()).toHaveScreenshot('card-default.png');
+    });
+
+    test('form - empty state', async ({ page }) => {
+      await page.goto('/contact');
+      const form = page.locator('form');
+
+      await expect(form).toHaveScreenshot('form-empty.png');
+    });
+
+    test('form - with validation errors', async ({ page }) => {
+      await page.goto('/contact');
+
+      // Submit empty to trigger validation
+      await page.click('button[type="submit"]');
+      await page.waitForSelector('.error-message');
+
+      const form = page.locator('form');
+      await expect(form).toHaveScreenshot('form-errors.png');
+    });
+  });
+
+  // ============================================================================
+  // State Variations
+  // ============================================================================
+
+  test.describe('State Variations', () => {
+    test('loading state', async ({ page }) => {
+      // Intercept API to delay response
+      await page.route('**/api/data', async (route) => {
+        await new Promise((r) => setTimeout(r, 100));
+        await route.continue();
+      });
+
+      await page.goto('/data-page');
+      const loading = page.locator('[data-testid="loading"]');
+
+      await expect(loading).toHaveScreenshot('loading-state.png');
+    });
+
+    test('empty state', async ({ page }) => {
+      // Mock empty response
+      await page.route('**/api/items', (route) =>
+        route.fulfill({ json: { items: [] } })
+      );
+
+      await page.goto('/items');
+      await page.waitForSelector('[data-testid="empty-state"]');
+
+      await expect(page).toHaveScreenshot('empty-state.png');
+    });
+
+    test('error state', async ({ page }) => {
+      // Mock error response
+      await page.route('**/api/items', (route) =>
+        route.fulfill({ status: 500 })
+      );
+
+      await page.goto('/items');
+      await page.waitForSelector('[data-testid="error-state"]');
+
+      await expect(page).toHaveScreenshot('error-state.png');
+    });
+  });
+
+  // ============================================================================
+  // Responsive Breakpoints
+  // ============================================================================
+
+  test.describe('Responsive', () => {
+    const breakpoints = [
+      { name: 'mobile', width: 375, height: 667 },
+      { name: 'tablet', width: 768, height: 1024 },
+      { name: 'desktop', width: 1280, height: 720 },
+      { name: 'wide', width: 1920, height: 1080 },
+    ];
+
+    for (const { name, width, height } of breakpoints) {
+      test(`homepage - ${name} (${width}x${height})`, async ({ page }) => {
+        await page.setViewportSize({ width, height });
+        await page.goto('/');
+        await page.waitForLoadState('networkidle');
+
+        await expect(page).toHaveScreenshot(`homepage-${name}.png`, {
+          fullPage: true,
+        });
+      });
+    }
+  });
+
+  // ============================================================================
+  // Theme Variations
+  // ============================================================================
+
+  test.describe('Themes', () => {
+    test('light theme', async ({ page }) => {
+      await page.goto('/');
+      // Ensure light theme is active
+      await page.evaluate(() => {
+        document.documentElement.setAttribute('data-theme', 'light');
+      });
+
+      await expect(page).toHaveScreenshot('homepage-light.png');
+    });
+
+    test('dark theme', async ({ page }) => {
+      await page.goto('/');
+      await page.evaluate(() => {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      });
+
+      await expect(page).toHaveScreenshot('homepage-dark.png');
+    });
+  });
+});
+
+// ============================================================================
+// Helper: Custom comparison options
+// ============================================================================
+
+/**
+ * For components with animations or dynamic content, use higher thresholds:
+ *
+ * await expect(page).toHaveScreenshot('dynamic.png', {
+ *   maxDiffPixels: 500,      // Allow more pixel differences
+ *   threshold: 0.3,          // Higher color threshold (0-1)
+ *   animations: 'disabled',  // Disable CSS animations
+ * });
+ *
+ * For pixel-perfect checks:
+ *
+ * await expect(page).toHaveScreenshot('precise.png', {
+ *   maxDiffPixels: 0,        // No differences allowed
+ * });
+ */

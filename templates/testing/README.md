@@ -11,6 +11,7 @@ E2E testing patterns for Claude Code projects using Playwright.
 | [PLAYWRIGHT_CLAUDE_GUIDE.md](./PLAYWRIGHT_CLAUDE_GUIDE.md) | Comprehensive guide: all 4 modes, setup, patterns |
 | [MCP_WORKFLOW_GUIDE.md](./MCP_WORKFLOW_GUIDE.md) | Claude-driven browser control workflows |
 | [COMPETITOR_ANALYSIS.md](./COMPETITOR_ANALYSIS.md) | Using MCP for competitor research |
+| [RESEARCH_ARCHIVE.md](./RESEARCH_ARCHIVE.md) | Curated 2026 research findings and sources |
 | [examples/](./examples/) | Copy-paste starter files |
 
 ## The 4 Modes of Playwright

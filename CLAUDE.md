@@ -24,7 +24,7 @@ This is an **AI workflow template library and personal documentation hub**, buil
 
 The core value of this repository. **Browse before using** - these are patterns to adapt, not rules to follow.
 
-### 8 Template Categories
+### 9 Template Categories
 
 **1. Slash Commands** (`templates/slash-commands/`)
 - 11 workflow commands for AI-driven development
@@ -71,6 +71,12 @@ The core value of this repository. **Browse before using** - these are patterns 
 - Two modes: scripted tests (CI/regression) vs MCP (Claude-driven exploration)
 - Page Object Model and multi-user fixture patterns
 - **See**: [templates/testing/PLAYWRIGHT_CLAUDE_GUIDE.md](./templates/testing/PLAYWRIGHT_CLAUDE_GUIDE.md)
+
+**9. CI/CD** (`templates/ci/`)
+- GitHub Actions workflows for AI-assisted development
+- Claude QA: Automated PR verification with Claude + Playwright MCP
+- QA persona prompting for consistent, thorough reviews
+- **See**: [templates/ci/README.md](./templates/ci/README.md)
 
 ## Research & Journey
 
