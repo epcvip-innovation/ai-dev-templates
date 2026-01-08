@@ -12,6 +12,7 @@ E2E testing patterns for Claude Code projects using Playwright.
 |------|---------|
 | [PLAYWRIGHT_CLAUDE_GUIDE.md](./PLAYWRIGHT_CLAUDE_GUIDE.md) | Comprehensive guide: all 4 modes, setup, patterns |
 | [MCP_WORKFLOW_GUIDE.md](./MCP_WORKFLOW_GUIDE.md) | Claude-driven browser control workflows |
+| [COST_OPTIMIZATION_GUIDE.md](./COST_OPTIMIZATION_GUIDE.md) | **NEW** Cost analysis, model pricing, optimization strategies |
 | [COMPETITOR_ANALYSIS.md](./COMPETITOR_ANALYSIS.md) | Using MCP for competitor research |
 | [RESEARCH_ARCHIVE.md](./RESEARCH_ARCHIVE.md) | Curated 2026 research findings and sources |
 | [examples/](./examples/) | Copy-paste starter files |
@@ -131,6 +132,8 @@ Page Object Model with:
 
 - [PLAYWRIGHT_CLAUDE_GUIDE.md](./PLAYWRIGHT_CLAUDE_GUIDE.md) - Full guide
 - [MCP_WORKFLOW_GUIDE.md](./MCP_WORKFLOW_GUIDE.md) - MCP-specific patterns
+- [COST_OPTIMIZATION_GUIDE.md](./COST_OPTIMIZATION_GUIDE.md) - Cost analysis and optimization
 - [COMPETITOR_ANALYSIS.md](./COMPETITOR_ANALYSIS.md) - Market research automation
 - [Playwright Docs](https://playwright.dev/docs/intro)
 - [Microsoft Playwright MCP](https://github.com/microsoft/playwright-mcp)
+- [Playwright Agents](https://playwright.dev/docs/test-agents) - AI-powered test generation (v1.56+)
