@@ -6,19 +6,31 @@
 # Triggers:
 # - Automatically on file path changes (configure paths below)
 # - Manually when 'qa-verify' label is added
+# - Manually via workflow_dispatch (for testing)
 #
 # Setup:
 # 1. Add ANTHROPIC_API_KEY secret to repository
 # 2. Configure paths to match your app structure
 # 3. Customize the prompt for your app's features
 #
+# Cost: ~$0.60 per run (Sonnet 4.5, ~40 turns typical)
+# Duration: ~4-5 minutes total
+#
 # Based on: https://alexop.dev/posts/building_ai_qa_engineer_claude_code_playwright/
 # Docs: https://github.com/anthropics/claude-code-action
+# VERIFIED: 2026-01-08 (epcvip-tools-hub Run #20800668844)
 
 name: Claude QA Review
 
 on:
   # CUSTOMIZE: Add paths for your app
+  # Uncomment push trigger to run on main branch commits
+  # push:
+  #   branches: [main]
+  #   paths:
+  #     - 'src/**'
+  #     - 'app/**'
+
   pull_request:
     paths:
       - 'src/**'
@@ -30,14 +42,20 @@ on:
   pull_request_target:
     types: [labeled]
 
+  # Manual trigger for testing
+  workflow_dispatch:
+
 permissions:
   contents: read
   pull-requests: write
+  id-token: write  # Required for claude-code-action OIDC authentication
 
 jobs:
   qa-review:
-    # Run if: matching files changed OR qa-verify label added
+    # Run if: matching files changed OR qa-verify label added OR manual trigger
     if: |
+      github.event_name == 'push' ||
+      github.event_name == 'workflow_dispatch' ||
       github.event_name == 'pull_request' ||
       (github.event_name == 'pull_request_target' && github.event.label.name == 'qa-verify')
     runs-on: ubuntu-latest
@@ -80,6 +98,8 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          # Model selection: Sonnet is default and proven. Haiku/Opus trade-offs need research.
+          # model: claude-sonnet-4-5-20250929  # Default, ~$0.60/run
           prompt: |
             You are Quinn, a meticulous QA engineer.
 
@@ -118,6 +138,8 @@ jobs:
             Take screenshots of any issues.
 
           # MCP configuration for Playwright browser automation
+          # Tools: navigate, click, type, screenshot, snapshot, resize, console, press_key, wait_for
+          # Optional: Add browser_fill_form for form testing, browser_evaluate for JS execution
           claude_args: |
             --mcp-config '{"mcpServers":{"playwright":{"command":"npx","args":["@playwright/mcp@latest","--headless"]}}}'
             --allowedTools "mcp__playwright__browser_navigate,mcp__playwright__browser_click,mcp__playwright__browser_type,mcp__playwright__browser_take_screenshot,mcp__playwright__browser_snapshot,mcp__playwright__browser_resize,mcp__playwright__browser_console_messages,mcp__playwright__browser_press_key,mcp__playwright__browser_wait_for"
@@ -125,5 +147,6 @@ jobs:
 # Notes:
 # - The action automatically posts findings as a PR comment
 # - Screenshots are captured by Claude and included in the report
-# - ~7 minutes typical execution time
-# - For security-only review (faster), use anthropics/claude-code-security-review instead
+# - ~4-5 minutes typical execution time, ~$0.60 per run (Sonnet 4.5)
+# - For security-only review (faster, ~$0.05), use anthropics/claude-code-security-review instead
+# - id-token: write permission is REQUIRED for OIDC authentication

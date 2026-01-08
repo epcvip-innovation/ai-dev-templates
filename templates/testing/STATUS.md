@@ -18,25 +18,37 @@ This document tracks what has been TESTED vs. UNTESTED in these templates.
 ## CI Templates (`../ci/`)
 
 ### `claude-qa-workflow.yml.template`
-**Status:** RESEARCH-BASED
+**Status:** VERIFIED
 **Created:** 2026-01-07
+**Verified:** 2026-01-08
 **Source:** [Alex Op article](https://alexop.dev/posts/building_ai_qa_engineer_claude_code_playwright/), [Official docs](https://github.com/anthropics/claude-code-action)
 **Deployed to:** `epcvip-tools-hub/.github/workflows/wordle-qa.yml`
-**Tested:** NO - awaiting first PR run
+**Tested:** YES - Run #20800668844
+**Results:**
+- Duration: 4m 36s (219s Claude processing)
+- Turns: 39 browser interactions
+- Cost: $0.62 (Sonnet 4.5)
+- Status: SUCCESS
 **Notes:**
 - Uses official `anthropics/claude-code-action@v1`
 - MCP config with `--headless` flag for CI
 - `--allowedTools` for black-box testing
+- **Required fix:** `id-token: write` permission for OIDC auth
 
 ### `security-review.yml.template`
-**Status:** RESEARCH-BASED
+**Status:** VERIFIED
 **Created:** 2026-01-07
+**Verified:** 2026-01-08
 **Source:** [Official repo](https://github.com/anthropics/claude-code-security-review)
 **Deployed to:** `epcvip-tools-hub/.github/workflows/security.yml`
-**Tested:** NO - awaiting first PR run
+**Tested:** YES - Run #20800666122
+**Results:**
+- Duration: 36s
+- Findings: 0 vulnerabilities
+- Status: SUCCESS
 **Notes:**
 - Uses official `anthropics/claude-code-security-review@main`
-- Zero config setup
+- Zero config setup, works out of the box
 
 ### `qa-persona.md.template`
 **Status:** SPECULATIVE
@@ -124,6 +136,10 @@ This document tracks what has been TESTED vs. UNTESTED in these templates.
 
 | Date | Change |
 |------|--------|
+| 2026-01-08 | **VERIFIED** claude-qa-workflow.yml.template (Run #20800668844, $0.62, 39 turns) |
+| 2026-01-08 | **VERIFIED** security-review.yml.template (Run #20800666122, 36s) |
+| 2026-01-08 | Added `id-token: write` permission (required for OIDC) |
+| 2026-01-08 | Added `workflow_dispatch` triggers for manual testing |
 | 2026-01-07 | Created this STATUS.md |
 | 2026-01-07 | Fixed CI templates to use official actions |
 | 2026-01-07 | Updated RESEARCH_ARCHIVE with official sources |

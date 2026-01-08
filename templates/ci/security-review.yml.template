@@ -12,13 +12,24 @@
 # 1. Add ANTHROPIC_API_KEY secret to repository
 # 2. Copy this file to .github/workflows/security.yml
 #
+# Cost: ~$0.05 per run (fast, lightweight)
+# Duration: ~30-45 seconds
+#
 # Docs: https://github.com/anthropics/claude-code-security-review
+# VERIFIED: 2026-01-08 (epcvip-tools-hub Run #20800666122)
 
 name: Security Review
 
 on:
+  # Uncomment to run on pushes to main
+  # push:
+  #   branches: [main]
+
   pull_request:
     types: [opened, synchronize, reopened]
+
+  # Manual trigger for testing
+  workflow_dispatch:
 
 permissions:
   contents: read
