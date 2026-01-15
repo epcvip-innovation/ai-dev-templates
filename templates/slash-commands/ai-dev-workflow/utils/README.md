@@ -10,7 +10,7 @@ This directory contains Python utility scripts that enforce consistent behavior 
 
 ### 1. `feature_discovery.py` - Discover Active Features
 
-**Purpose:** Find active features from .active-features file (primary) or FEATURES_BACKLOG.md using grep (fallback). Validates HANDOFF.md status.
+**Purpose:** Discover active features by scanning `backlog/*/plan.md` files and reading YAML frontmatter. Features with `status: in_progress` are considered active.
 
 **Usage:**
 ```bash
@@ -23,28 +23,38 @@ python3 .claude/utils/feature_discovery.py
   "count": 2,
   "active_features": [
     {
+      "id": "session-based-auth",
       "name": "session-based-auth",
-      "remaining_hours": 12,
-      "blocked": true,
-      "status_summary": "Railway deployment issue"
+      "title": "Session-Based Authentication",
+      "status": "in_progress",
+      "priority": "P1",
+      "effort_estimate": "12h",
+      "remaining_hours": 8,
+      "blocked": false,
+      "started": "2026-01-09",
+      "plan_path": "backlog/session-based-auth/plan.md"
     },
     {
+      "id": "query-reorg",
       "name": "query-reorganization",
+      "title": "Query Reorganization",
+      "status": "in_progress",
+      "priority": "P2",
+      "effort_estimate": "3h",
       "remaining_hours": 3,
       "blocked": false,
-      "status_summary": "Ready for Phase 3"
+      "plan_path": "backlog/query-reorganization/plan.md"
     }
   ]
 }
 ```
 
 **Key Features:**
-- ✅ Uses .active-features file (primary) for fast discovery (50-300 tokens)
-- ✅ Falls back to grep on FEATURES_BACKLOG.md if .active-features missing
-- ✅ Enforces grep-only discovery (can't accidentally read full FEATURES_BACKLOG.md)
-- ✅ Parses grep output into structured JSON
-- ✅ Returns feature count for smart prompting logic
+- ✅ Scans `backlog/*/plan.md` for YAML frontmatter
+- ✅ Filters to `status: in_progress` features only
+- ✅ Parses frontmatter for structured data
 - ✅ Validates HANDOFF.md Status line format
+- ✅ No separate index file needed - frontmatter is source of truth
 
 **Used by:**
 - `/resume-feature` - Step 2 (feature discovery)
@@ -53,7 +63,7 @@ python3 .claude/utils/feature_discovery.py
 
 **Error Handling:**
 - Returns `{"count": 0, "active_features": []}` if no features found
-- Returns `{"count": 0, "error": "..."}` if FEATURES_BACKLOG.md missing
+- Returns `{"count": 0, "error": "..."}` if backlog/ directory missing
 
 ---
 
@@ -78,8 +88,8 @@ python3 .claude/utils/handoff_loader.py session-based-auth
   "handoff_content": "...",
   "plan_content": "...",
   "files_loaded": [
-    "docs/planning/features/session-based-auth/HANDOFF.md",
-    "docs/planning/features/session-based-auth/plan.md"
+    "backlog/session-based-auth/HANDOFF.md",
+    "backlog/session-based-auth/plan.md"
   ],
   "lines_loaded": 911,
   "status_valid": true,
@@ -89,7 +99,6 @@ python3 .claude/utils/handoff_loader.py session-based-auth
 
 **Key Features:**
 - ✅ Loads only selected feature (not all active features)
-- ✅ Prefers plan.md, falls back to README.md
 - ✅ Returns line count for context awareness
 - ✅ Validates HANDOFF.md Status line format
 - ✅ Context savings: ~50% reduction (1 feature vs all features)
@@ -157,36 +166,64 @@ python3 .claude/utils/plan_validator.py session-based-auth
 
 ---
 
-### 4. `active_features_manager.py` - Manage Active Features Index
+### 4. `active_features_manager.py` - Manage Feature Status
 
-**Purpose:** Manages .active-features index file (add, remove, list, is-active operations).
+**Purpose:** Manages feature status via plan.md YAML frontmatter. Replaces the old .active-features index file.
 
 **Usage:**
 ```bash
-python3 .claude/utils/active_features_manager.py add "feature-name"
-python3 .claude/utils/active_features_manager.py remove "feature-name"
 python3 .claude/utils/active_features_manager.py list
 python3 .claude/utils/active_features_manager.py is-active "feature-name"
+python3 .claude/utils/active_features_manager.py set-status "feature-name" "in_progress"
+python3 .claude/utils/active_features_manager.py set-status "feature-name" "complete"
 ```
 
 **Output Format:**
 ```json
 {
   "success": true,
-  "message": "Added 'feature-name' to active features",
-  "features": ["feature-name"]
+  "message": "Set 'feature-name' status to 'complete'",
+  "feature": "feature-name",
+  "status": "complete"
 }
 ```
 
 **Key Features:**
-- ✅ Auto-maintains .active-features index file
-- ✅ Validates feature directory exists before adding
+- ✅ Updates plan.md frontmatter directly
+- ✅ Auto-updates `started`/`completed` timestamps
 - ✅ Returns JSON for machine parsing
-- ✅ Used by `/start-feature` and `/feature-complete`
+- ✅ Valid statuses: `planned`, `in_progress`, `complete`, `on_hold`
 
 **Used by:**
-- `/start-feature` - Adds feature to index when starting
-- `/feature-complete` - Removes feature from index when completing
+- `/start-feature` - Sets status to in_progress when starting
+- `/feature-complete` - Sets status to complete when finishing
+
+---
+
+## Feature Plan Frontmatter
+
+Active features are tracked via YAML frontmatter in `backlog/*/plan.md`:
+
+```yaml
+---
+id: feature-name
+title: Human Readable Title
+status: in_progress    # planned | in_progress | complete | on_hold
+priority: P1           # P0 | P1 | P2 | P3
+effort_estimate: 8h
+effort_actual: 4h
+started: 2026-01-09
+completed: null
+component: null        # Optional: for multi-component repos
+tags: []               # Optional: for discoverability
+---
+```
+
+**Status values:**
+- `planned` - In backlog, not started
+- `in_progress` - Currently being worked on
+- `complete` - Finished
+- `on_hold` - Paused/blocked
 
 ---
 
@@ -246,7 +283,7 @@ python3 .claude/utils/feature_discovery.py
 **Parse JSON output** - feature count and details provided in structured format.
 ```
 
-**Benefit:** Claude MUST run the script, which enforces grep-only behavior programmatically.
+**Benefit:** Claude MUST run the script, which reads frontmatter programmatically.
 
 ---
 
@@ -267,55 +304,21 @@ python3 .claude/utils/feature_discovery.py
 **Utilities location:**
 ```
 .claude/utils/
-├── feature_discovery.py    (~300 lines)
-├── handoff_loader.py        (~180 lines)
-├── plan_validator.py        (~310 lines)
-├── active_features_manager.py (~265 lines)
-└── README.md                (this file)
+├── feature_discovery.py    (~180 lines)
+├── handoff_loader.py       (~180 lines)
+├── plan_validator.py       (~310 lines)
+├── active_features_manager.py (~200 lines)
+└── README.md               (this file)
 ```
 
 **Project root detection:**
-All scripts automatically find project root by looking for `.claude/` directory, so they work from any subdirectory.
-
----
-
-## Active Features Index
-
-The `.active-features` file at the project root serves as a lightweight index of features currently in progress:
-
-```
-.active-features                 # Auto-maintained index (DO NOT EDIT MANUALLY)
-.claude/utils/
-└── active_features_manager.py   # CLI tool for managing the index
-```
-
-**Purpose:** Minimize context usage during feature discovery (50-300 tokens vs 1000+ with grep).
-
-**How it works:**
-1. `/start-feature` automatically adds features to the index
-2. `/feature-complete` automatically removes them
-3. Feature discovery reads this file first (fallback to FEATURES_BACKLOG.md grep if missing)
-
-**Manual management (if needed):**
-```bash
-# List active features
-python3 .claude/utils/active_features_manager.py list
-
-# Check if a feature is active
-python3 .claude/utils/active_features_manager.py is-active "feature-name"
-
-# Manually add (rarely needed)
-python3 .claude/utils/active_features_manager.py add "feature-name"
-
-# Manually remove (rarely needed)
-python3 .claude/utils/active_features_manager.py remove "feature-name"
-```
+All scripts automatically find project root by looking for `backlog/` or `.claude/` directory, so they work from any subdirectory.
 
 ---
 
 ## HANDOFF.md Status Requirement
 
-For feature discovery to work correctly, **HANDOFF.md files MUST include a Status line in the first 10 lines:**
+For feature discovery to work correctly, **HANDOFF.md files SHOULD include a Status line in the first 10 lines:**
 
 ```markdown
 # Handoff: [Feature Name]
@@ -328,22 +331,7 @@ For feature discovery to work correctly, **HANDOFF.md files MUST include a Statu
 ...
 ```
 
-The `**Status:**` line is validated by `.claude/utils/feature_discovery.py` and `.claude/utils/handoff_loader.py`. If missing or malformed, you'll receive a warning (not an error - validation only, no auto-fixing).
-
----
-
-## Future Enhancements
-
-**Potential additions:**
-- `task_estimator.py` - Estimate effort for new tasks (for /add-task)
-- `drift_analyzer.py` - Detailed drift analysis (for /check-drift)
-- `test_utilities.py` - Unit tests for all utilities
-- `backlog_manager.py` - Add/update features in FEATURES_BACKLOG.md
-
-**Extension to other workflows:**
-- Query validation utilities
-- Documentation generation utilities
-- Git commit message formatters
+The `**Status:**` line is validated by utilities. If missing or malformed, you'll receive a warning (not an error - validation only, no auto-fixing).
 
 ---
 
@@ -386,7 +374,18 @@ python3 .claude/utils/feature_discovery.py
 # Output: {"error": "Feature directory not found: ..."}
 ```
 
-**Solution:** Check feature name spelling and that feature exists in `docs/planning/features/`
+**Solution:** Check feature name spelling and that feature exists in `backlog/`
+
+### No backlog directory
+```bash
+# Output: {"count": 0, "error": "backlog/ directory not found"}
+```
+
+**Solution:** Create the backlog structure:
+```bash
+mkdir -p backlog
+cp backlog/_TEMPLATE.md backlog/my-feature/plan.md
+```
 
 ---
 
@@ -401,6 +400,5 @@ When adding new utilities:
 
 ---
 
-**Last Updated:** 2025-01-16
+**Last Updated:** 2026-01-09
 **Related:** See `.claude/commands/ai-dev-workflow/` for slash commands that use these utilities
-

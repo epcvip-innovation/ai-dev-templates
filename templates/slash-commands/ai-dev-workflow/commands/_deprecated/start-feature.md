@@ -13,8 +13,8 @@ You are helping the user start work on a new feature. Follow this systematic pro
 **Read in this order:**
 
 1. **`CLAUDE.md`** - Project standards and current status
-2. **Feature backlog:** `docs/planning/FEATURES_BACKLOG.md` (to identify active features)
-3. **Task estimation guide:** `docs/planning/TASK_ESTIMATION_GUIDE.md` (for sizing guidance)
+2. **Feature backlog:** `backlog/_BACKLOG.md` (to identify available features)
+3. **Task estimation guide:** `docs/TASK_ESTIMATION_GUIDE.md` (for sizing guidance, if exists)
 
 ## Step 1.5: Feature Input Method
 
@@ -23,7 +23,7 @@ You are helping the user start work on a new feature. Follow this systematic pro
 **Three paths:**
 
 ### Path A: From Backlog
-If FEATURES_BACKLOG.md exists:
+If `backlog/_BACKLOG.md` exists:
 → Show prioritized list
 → User selects number
 
@@ -102,7 +102,7 @@ Which feature would you like to start with?
 - No checkpoints needed
 - **Continue to Step 3 (Create feature doc)**
 
-**Reference:** See `docs/planning/TASK_ESTIMATION_GUIDE.md` for calibration data and patterns.
+**Reference:** See `docs/TASK_ESTIMATION_GUIDE.md` for calibration data and patterns (if exists).
 
 ---
 
@@ -153,26 +153,32 @@ Already rejected in Step 2.5 (must split)
 ## Step 4.1: Create Feature Directory
 
 ```bash
-mkdir -p docs/planning/features/FEATURE_NAME
+mkdir -p backlog/FEATURE_NAME
 ```
 
-**Add to active features index:**
-```bash
-python3 .claude/utils/active_features_manager.py add "FEATURE_NAME"
-```
+**Note:** Active features are tracked via YAML frontmatter in `plan.md`, no separate index needed.
 
 ---
 
 ## Step 4.2: Create Plan Document
 
-### Option A: Lightweight README.md (Tier 1 default)
+### Option A: Lightweight plan.md (Tier 1 default)
 
-Create `docs/planning/features/FEATURE_NAME/README.md`:
+Create `backlog/FEATURE_NAME/plan.md` with minimal frontmatter:
 
 ```markdown
-# [Feature Name]
+---
+id: FEATURE_NAME
+title: Feature Title
+status: in_progress
+priority: P1
+effort_estimate: Xh
+effort_actual: null
+started: YYYY-MM-DD
+completed: null
+---
 
-**Effort:** [X]h | **Status:** In Progress
+# Feature Title
 
 ## Goal
 [1-2 sentence goal - what we're building and why]
@@ -180,19 +186,14 @@ Create `docs/planning/features/FEATURE_NAME/README.md`:
 ## Approach
 - [Key technical decision 1]
 - [Key technical decision 2]
-- [Key technical decision 3]
 
 ## Tasks
-1. [Specific action 1]
-2. [Specific action 2]
-3. [Specific action 3]
+1. [ ] [Specific action 1]
+2. [ ] [Specific action 2]
+3. [ ] [Specific action 3]
 
 ## Files to Change
-- `path/to/file1.py` - [what changes]
-- `path/to/file2.py` - [what changes]
-
-## Open Questions
-- [Question 1]
+- `path/to/file.py` - [what changes]
 ```
 
 **Then continue to Step 5 (no HANDOFF.md needed for lightweight)**
@@ -203,20 +204,20 @@ Create `docs/planning/features/FEATURE_NAME/README.md`:
 
 1. Copy template:
    ```bash
-   cp docs/planning/features/_TEMPLATE.md docs/planning/features/FEATURE_NAME/plan.md
+   cp backlog/_TEMPLATE.md backlog/FEATURE_NAME/plan.md
    ```
 
 2. Fill in the `plan.md` with:
+   - YAML frontmatter (id, title, status, priority, effort_estimate, started)
    - Business context from backlog or user description
    - Technical approach (use `/plan-approaches` if multiple valid options)
    - Data models & API contracts (if applicable)
-   - Migration strategy (if applicable)
    - Task breakdown with clear steps
    - Open questions
 
 3. Create initial `HANDOFF.md`:
    ```bash
-   touch docs/planning/features/FEATURE_NAME/HANDOFF.md
+   touch backlog/FEATURE_NAME/HANDOFF.md
    ```
 
    Fill with:
@@ -226,11 +227,11 @@ Create `docs/planning/features/FEATURE_NAME/README.md`:
    - Blockers: None or list any
 
 4. **Ask user to review:**
-   "I've created `docs/planning/features/FEATURE_NAME/plan.md`. Review the approach and let me know if you want to adjust before I break it into tasks."
+   "I've created `backlog/FEATURE_NAME/plan.md`. Review the approach and let me know if you want to adjust before I break it into tasks."
 
 ## Step 4.5: Validate Plan Quality (Auto-run)
 
-**Run quality checks from `docs/planning/PLAN_QUALITY_RUBRIC.md`:**
+**Run quality checks from `docs/PLAN_QUALITY_RUBRIC.md` (if exists):**
 
 ### Quick Validation Checks
 
@@ -312,34 +313,26 @@ Fix now or defer to backlog? [Fix/Defer]
 
 **Block implementation until critical issues resolved.**
 
-**Reference:** Full rubric at `docs/planning/PLAN_QUALITY_RUBRIC.md`
+**Reference:** Full rubric at `docs/PLAN_QUALITY_RUBRIC.md` (if exists)
 
 ---
 
-## Step 5: Update FEATURES_BACKLOG.md
+## Step 5: Update _BACKLOG.md
 
-**Add new feature to "🚧 In Progress" section:**
+**Move feature from priority section to "🚧 In Progress" section:**
 
 ```markdown
-### [Feature Name] ⭐
-**Status:** In Progress (Phase 1)
+### [Feature Name]
+**Status:** In Progress
 **Started:** [Date]
-**Effort:** [X]h total, 0h done (0%)
-**Priority:** [High/Medium/Low]
-**Feature Doc:** `docs/planning/features/[feature-name]/`
+**Effort:** [X]h
+**Priority:** [P1/P2/P3]
+**Plan:** `backlog/[feature-name]/plan.md`
 
 **Current Focus:** [First phase/task]
-
-**Quick Status:**
-- 📋 Just started
-- Next: [First concrete task]
-
-**Blockers:** None
-
-**Description:** [1-2 sentence summary]
 ```
 
-**Do NOT create CURRENT_SPRINT.md** - backlog is single source of truth for parallel Claude instances
+**Note:** The `plan.md` frontmatter with `status: in_progress` is the source of truth for active features.
 
 ## Step 6: Start Implementation
 
@@ -426,9 +419,10 @@ User: Yes
 
 ## References
 
-**Standards:**
-- `docs/planning/PLAN_QUALITY_RUBRIC.md` - Plan validation criteria
-- `docs/planning/TASK_ESTIMATION_GUIDE.md` - Sizing guidance and calibration
+**Standards (if they exist in your repo):**
+- `docs/PLAN_QUALITY_RUBRIC.md` - Plan validation criteria
+- `docs/TASK_ESTIMATION_GUIDE.md` - Sizing guidance and calibration
+- `backlog/_TEMPLATE.md` - Feature plan template with frontmatter
 
 **Related Commands:**
 - `/validate-plan` - Full quality check (auto-run in Step 4.5)

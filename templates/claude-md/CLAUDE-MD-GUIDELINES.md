@@ -176,7 +176,7 @@ We follow anti-slop principles: functions <50 lines, nesting <3, no premature op
 | Deployment procedures | DEPLOYMENT.md | Infrequent operation |
 | API documentation | API_REFERENCE.md | Detailed, reference-style |
 | Environment setup | SETUP.md | One-time operation |
-| Project planning | docs/planning/ | Not needed for coding sessions |
+| Project planning | backlog/ | Not needed for coding sessions |
 | Testing strategy | TESTING.md | Detailed procedures |
 | Quality checklists | QUALITY_CHECKLIST.md | Use /ai-review slash command instead |
 | Architecture decisions | docs/ADR/ | Reference when needed |

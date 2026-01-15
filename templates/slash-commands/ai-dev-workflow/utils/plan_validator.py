@@ -19,16 +19,16 @@ from pathlib import Path
 
 
 def find_project_root():
-    """Find the project root directory (where .claude/ exists)."""
+    """Find the project root directory (where backlog/ or .claude/ exists)."""
     current = Path.cwd()
     
     # Try current directory first
-    if (current / '.claude').exists():
+    if (current / 'backlog').exists() or (current / '.claude').exists():
         return current
     
-    # Walk up to find .claude directory
+    # Walk up to find backlog or .claude directory
     for parent in current.parents:
-        if (parent / '.claude').exists():
+        if (parent / 'backlog').exists() or (parent / '.claude').exists():
             return parent
     
     # Fallback: assume we're in project root
@@ -203,7 +203,7 @@ def validate_plan(feature_name):
         dict: JSON structure with validation results
     """
     project_root = find_project_root()
-    feature_dir = project_root / 'docs' / 'planning' / 'features' / feature_name
+    feature_dir = project_root / 'backlog' / feature_name
     
     if not feature_dir.exists():
         return {

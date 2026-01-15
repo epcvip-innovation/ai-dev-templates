@@ -1,6 +1,6 @@
 # Claude Code Quick Reference
 
-[← Back to Main README](../../README.md) | [Storage Reference →](./CLAUDE-CODE-STORAGE.md) | [Basic Setup Guide →](../setup-guides/CLAUDE-CODE-SETUP.md)
+[← Back to Main README](../../README.md) | [Storage Reference →](./CLAUDE-CODE-STORAGE.md) | [Playwright MCP →](./PLAYWRIGHT-MCP.md) | [Basic Setup Guide →](../setup-guides/CLAUDE-CODE-SETUP.md)
 
 Practical guide for managing Claude Code configuration, MCPs, and plugins.
 
@@ -59,9 +59,60 @@ npm update -g ccstatusline
 
 ### Popular Status Line Tools
 
-- **ccstatusline** - Feature-rich status with model, git, tokens
+- **ccstatusline** (recommended) - Feature-rich, customizable TUI configuration
   - Install: `npm install -g ccstatusline`
   - GitHub: https://github.com/sirmalloc/ccstatusline
+  - Config: `~/.config/ccstatusline/settings.json`
+
+### ccstatusline Available Widgets (v2.0.23+)
+
+| Widget | Description |
+|--------|-------------|
+| `model` | Claude model name |
+| `claude-session-id` | Session ID (for resuming with `claude -r`) |
+| `context-length` | Current context tokens |
+| `context-percentage` | Context usage % |
+| `context-percentage-usable` | Usable context % (80% auto-compact threshold) |
+| `git-branch` | Current git branch |
+| `git-changes` | Uncommitted changes (+/-) |
+| `git-worktree` | Active worktree name |
+| `current-working-dir` | CWD with configurable segments |
+| `version` | Claude Code version |
+| `session-clock` | Session elapsed time |
+| `session-cost` | Session cost in USD |
+| `tokens-input` / `tokens-output` / `tokens-total` | Token counts |
+| `tokens-cached` | Cached tokens |
+| `block-timer` | 5-hour block timer with progress |
+| `custom-text` | Static text (labels, emojis) |
+| `custom-command` | Shell command output (for custom data) |
+
+### Custom Widgets with custom-command
+
+You can add custom data via shell scripts:
+
+```json
+{
+  "id": "my-widget",
+  "type": "custom-command",
+  "commandPath": "~/.claude/scripts/my-script.sh",
+  "prefix": "Label:",
+  "timeout": 500
+}
+```
+
+The script receives Claude Code's JSON data via stdin (session_id, model, workspace, etc.).
+
+### Plan File in Statusline (Workaround)
+
+Claude Code doesn't expose plan file path to statuslines (GitHub issue #6227). Workaround:
+
+```bash
+# ~/.claude/scripts/current-plan.sh
+#!/bin/bash
+ls -t ~/.claude/plans/*.md 2>/dev/null | head -1 | xargs -I{} basename {} .md
+```
+
+Then add as custom-command widget to show most recent plan file name.
 
 ---
 
@@ -69,6 +120,7 @@ npm update -g ccstatusline
 
 ### What Are MCPs?
 MCPs give Claude access to external tools and data sources:
+- **Playwright**: Browser automation for frontend testing (see [Playwright MCP Guide](./PLAYWRIGHT-MCP.md))
 - **Notion**: Search/update Notion workspace
 - **Filesystem**: Read/write local files
 - **Database**: Query databases
@@ -103,6 +155,19 @@ MCPs give Claude access to external tools and data sources:
 - You manage auth/updates
 - More customizable
 - Works offline
+
+#### 3. Playwright MCP (Browser Automation)
+```json
+{
+  "type": "stdio",
+  "command": "npx",
+  "args": ["-y", "@playwright/mcp@latest", "--no-sandbox"]
+}
+```
+- Enables Claude to control a browser
+- Uses accessibility snapshots (faster/more reliable than screenshots)
+- Great for frontend testing and web automation
+- See [full Playwright MCP guide](./PLAYWRIGHT-MCP.md) for all options
 
 ### Managing MCPs
 
@@ -451,4 +516,4 @@ claude mcp add <name> <url>              # Add HTTP MCP
 
 ---
 
-Last Updated: December 2025
+Last Updated: January 2026

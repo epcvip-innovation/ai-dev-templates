@@ -1,0 +1,137 @@
+# Project Review Context
+
+**Purpose:** Provide project-specific context to code review agents to reduce false positives.
+
+Copy this file to `.claude/review-context.md` in your project and customize each section.
+
+---
+
+## App Scale
+
+<!-- CUSTOMIZE: Describe your application's scale and deployment -->
+
+- **Type**: [Web app / CLI tool / Library / API service]
+- **Users**: <[X] concurrent users
+- **Environment**: [Production / Hobby / Internal tool]
+- **Deployment**: [Cloud provider, region, infrastructure]
+
+**Example:**
+```markdown
+- **Type**: Multiplayer game server
+- **Users**: <100 concurrent users
+- **Environment**: Hobby/side project
+- **Deployment**: Single Railway deployment (US region)
+```
+
+---
+
+## Data Trust Model
+
+<!-- CUSTOMIZE: Define what data sources are trusted vs untrusted -->
+
+For each data source, specify:
+- **TRUSTED** - Hardcoded, developer-controlled, safe to use directly
+- **SEMI-TRUSTED** - Validated by auth provider, cosmetic use only
+- **UNTRUSTED** - User input, must be sanitized/validated
+
+| Data Source | Trust Level | Rationale |
+|-------------|-------------|-----------|
+| Table names in queries | TRUSTED | Hardcoded strings, not user input |
+| Environment variables | TRUSTED | Developer-controlled via deployment |
+| Request body userId | SEMI-TRUSTED | Validated by [auth provider] |
+| Query parameters | UNTRUSTED | User input, always validate |
+
+**Example:**
+```markdown
+- **Table names in db.ts**: TRUSTED - hardcoded strings, not user input
+- **Environment variables**: TRUSTED - developer-controlled via Railway
+- **Request body userId**: SEMI-TRUSTED - comes from Clerk session, cosmetic only
+- **Query params**: UNTRUSTED - always sanitize
+```
+
+---
+
+## Known Exceptions
+
+<!-- CUSTOMIZE: Document intentional deviations from best practices -->
+
+Patterns that look like issues but are intentional:
+
+| Pattern | File/Location | Rationale |
+|---------|---------------|-----------|
+| `ssl: { rejectUnauthorized: false }` | db.ts | Required for [database] connection pooler |
+| Unauthenticated endpoint | /api/version | Intentional for deployment debugging |
+| No server-side auth | Profile endpoints | Profile data is cosmetic only |
+
+**Example:**
+```markdown
+- `ssl: { rejectUnauthorized: false }` - Required for Neon connection pooler (documented)
+- `/api/version` - Intentionally unauthenticated for deployment debugging
+- `/api/admin/word-rejections` - Misnamed endpoint, returns non-sensitive analytics
+```
+
+---
+
+## Completed Work (Lower Priority)
+
+<!-- CUSTOMIZE: Files that should receive less scrutiny -->
+
+| Path Pattern | Reason |
+|--------------|--------|
+| `migrations/*.sql` | One-time use, already run successfully |
+| `schema/*.sql` | Applied to database, reference only |
+| `scripts/one-time/*.ts` | Migration scripts, already executed |
+
+---
+
+## Tech Stack Notes
+
+<!-- CUSTOMIZE: Stack-specific context that affects review -->
+
+| Component | Technology | Review Notes |
+|-----------|------------|--------------|
+| **Auth** | [Provider] | [How sessions work] |
+| **Database** | [Type] | [Connection pooling, ORM] |
+| **WebSocket** | [Library] | [Custom vs framework] |
+| **Frontend** | [Framework] | [SSR vs SPA] |
+
+**Example:**
+```markdown
+- **Auth**: Clerk (hosted UI, JWT sessions) - no server-side session store
+- **Database**: Neon PostgreSQL (serverless, connection pooler) - uses SSL termination
+- **WebSocket**: Custom ws library (not Supabase Realtime) - manual cleanup required
+- **Frontend**: Vanilla JS (no framework) - manual DOM updates
+```
+
+---
+
+## Usage with Code Review Plugin
+
+When the code review plugin runs, it will:
+
+1. **Check for this file** at `.claude/review-context.md`
+2. **Adjust severity scoring** based on context:
+   - Known exceptions → Reduce severity to 0 (ignore)
+   - Completed work → Reduce severity by 50%
+   - Trusted data sources → Don't flag as injection risk
+3. **Apply tech stack rules** - Framework-specific patterns
+
+### Example Severity Adjustments
+
+| Finding | Without Context | With Context |
+|---------|-----------------|--------------|
+| SSL verification disabled | 95 (Critical) | 0 (Known exception) |
+| No auth on endpoint | 80 (Critical) | 0 (Documented) |
+| Old migration script | 60 (Medium) | 30 (Lower priority) |
+| Hardcoded table name | 40 (Low) | 0 (Trusted data) |
+
+---
+
+## Template Customization Checklist
+
+- [ ] Fill in App Scale section
+- [ ] Define Data Trust Model for your inputs
+- [ ] Document Known Exceptions (SSL, auth, etc.)
+- [ ] List Completed Work paths
+- [ ] Add Tech Stack Notes
+- [ ] Save as `.claude/review-context.md` in your project

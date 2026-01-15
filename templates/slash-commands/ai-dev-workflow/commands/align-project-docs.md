@@ -33,10 +33,10 @@ ls -la .projects/[feature-name]/ 2>/dev/null || echo "No .projects/ folder found
 wc -l .projects/[feature-name]/*.md 2>/dev/null | sort -rn
 ```
 
-**For docs/planning/ structure:**
+**For backlog/ structure:**
 ```bash
-ls -la docs/planning/ 2>/dev/null
-wc -l docs/planning/*.md 2>/dev/null | sort -rn
+ls -la backlog/ 2>/dev/null
+wc -l backlog/*.md 2>/dev/null | sort -rn
 ```
 
 **For features/ structure:**
@@ -67,7 +67,7 @@ Creating session archive for completed tasks:
 # Create archive directory (adapt path to your structure)
 mkdir -p .projects/[feature-name]/archive
 # OR
-mkdir -p docs/planning/archive
+mkdir -p backlog/archive
 # OR
 mkdir -p features/[feature-name]/archive
 
@@ -76,9 +76,9 @@ SESSION_TIME=$(date +"%Y%m%d-%H%M")
 ```
 
 **Create archive file** at appropriate location:
+- `backlog/[feature-name]/archive/session-${SESSION_TIME}.md`
+- `backlog/archive/session-${SESSION_TIME}.md`
 - `.projects/[feature-name]/archive/session-${SESSION_TIME}.md`
-- `docs/planning/archive/session-${SESSION_TIME}.md`
-- `features/[feature-name]/archive/session-${SESSION_TIME}.md`
 
 Archive should contain:
 - Detailed implementation notes from completed tasks

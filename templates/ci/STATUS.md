@@ -2,6 +2,8 @@
 
 **Last Updated:** 2026-01-08 00:15 PST
 
+> **Note:** "Deployed To" references are example deployments from the author's projects used to verify these templates work in production.
+
 ## Quick Status
 
 | Template | Status | Deployed To | Tested |

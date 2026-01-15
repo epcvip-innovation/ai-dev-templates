@@ -45,7 +45,7 @@ Should it block current work? [Y/N]
 ## Step 2: Evaluate Scope Impact
 
 **Load current feature context:**
-1. Read `docs/planning/features/[name]/plan.md`
+1. Read `backlog/[name]/plan.md`
 2. Read `HANDOFF.md` (if exists)
 3. Check task tracking for current progress
 
@@ -171,7 +171,7 @@ Which option? [A/B/C]
 
 ### If Option B (Defer to Backlog)
 
-**1. Add to FEATURES_BACKLOG.md:**
+**1. Add to _BACKLOG.md:**
 ```markdown
 ### Feature: [Task name]
 **Effort:** [X hours]
@@ -203,7 +203,7 @@ Which option? [A/B/C]
 
 - **[New feature name]:** Created as separate project
   - **Why separate:** [Reason - substantial scope, different focus]
-  - **Link:** `docs/planning/features/[new-feature-name]/`
+  - **Link:** `backlog/[new-feature-name]/`
 ```
 
 ---
@@ -248,7 +248,7 @@ Ready to continue? [Y/n]
 
 **Feeds into:**
 - `plan.md` updates (if Option A)
-- `FEATURES_BACKLOG.md` (if Option B)
+- `_BACKLOG.md` (if Option B)
 - `/start-feature` (if Option C)
 - `HANDOFF.md` (notes discoveries)
 

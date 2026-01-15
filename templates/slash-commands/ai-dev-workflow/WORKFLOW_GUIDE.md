@@ -10,7 +10,7 @@ This workflow is structured around a feature-centric development cycle that leve
 
 ### 1. Planning Phase
 - **Goal:** Define and prioritize what to build.
-- **Process:** Features are added to `docs/planning/FEATURES_BACKLOG.md`, prioritized, and estimated.
+- **Process:** Features are added to `backlog/_BACKLOG.md`, prioritized, and estimated.
 - **Key Command:** `/start-feature` initiates this process.
 
 ### 2. Preparation & Design Phase
@@ -27,6 +27,13 @@ This workflow is structured around a feature-centric development cycle that leve
 - **Goal:** Ensure code quality and robustly fix issues.
 - **Process:** Code is reviewed against standards, and a structured, hypothesis-driven process is used to debug test failures.
 - **Key Commands:** `/ai-review`, `/debug-failure`.
+
+### 4.5. Feature Audit Phase (NEW)
+- **Goal:** Comprehensive verification that the feature was implemented correctly.
+- **Process:** Multi-lens review covering business logic, security, regression risk, and (for EPCVIP) experiment integrity and data contracts.
+- **Key Commands:** `/audit-feature`, `/audit:business`, `/audit:security`, `/audit:regression`.
+- **EPCVIP-Specific:** `/audit:experiment`, `/audit:data-contract`.
+- **Stop Rule:** Max 3 High + 5 Medium findings per lens to prevent infinite review loops.
 
 ### 5. Completion Phase
 - **Goal:** Finalize the feature with proper cleanup and documentation.
@@ -60,59 +67,73 @@ All commands are stored as markdown files in this directory (`.claude/commands/`
 - **`/debug-failure`**: Debug a test failure using a structured, hypothesis-driven process.
 - **`/audit-artifacts`**: Perform a deep cleanup of temporary or exploratory markdown files to reduce clutter.
 
+### Feature Audit Commands (NEW)
+- **`/audit-feature`**: Unified feature audit with bounded multi-lens review. Quick mode (default) or `--deep` for comprehensive analysis.
+- **`/audit:business`**: Business logic walkthrough - invariants, edge cases, intent verification.
+- **`/audit:security`**: Security audit - threat modeling, abuse cases, vulnerability detection.
+- **`/audit:regression`**: Regression surface analysis - what else could break from this change.
+- **`/audit:experiment`**: (EPCVIP) Experiment integrity - bucketing, logging, attribution, sample ratio.
+- **`/audit:data-contract`**: (EPCVIP) Data contract compliance - payload drift, PII handling, fallback behavior.
+
 ### Utility Commands
 - **`/help`**: Display a list of all available slash commands and their descriptions.
 
 ---
 
-## 📁 Planning File Structure
+## 📁 Backlog File Structure
 
-The core of this workflow resides in the `docs/planning/` directory.
+The core of this workflow resides in the `backlog/` directory at project root.
 
 ```
-docs/planning/
-├── FEATURES_BACKLOG.md          # Single source of truth for all features
-├── archive/                     # Historical sprint/feature archives
-└── features/
-    ├── _TEMPLATE.md             # Template for full feature plans
-    └── [feature-name]/          # Directory for a specific feature
-        ├── plan.md              # The detailed specification (for complex features)
-        ├── README.md            # A lightweight plan (for simple features)
-        ├── HANDOFF.md           # Session continuity document
-        └── archive/             # Archive of past session notes for this feature
+backlog/
+├── _BACKLOG.md                  # Main backlog (underscore sorts first)
+├── _TEMPLATE.md                 # Template for feature plans (YAML frontmatter)
+├── _SUBSYSTEM_BACKLOG.md        # Optional: subsystem-specific backlogs
+└── [feature-name]/              # Directory for a specific feature
+    ├── plan.md                  # Feature plan with YAML frontmatter
+    └── HANDOFF.md               # Session continuity document
+```
+
+**Feature plans use YAML frontmatter:**
+```yaml
+---
+id: feature-name
+title: Human Readable Title
+status: in_progress    # planned | in_progress | complete | on_hold
+priority: P1           # P0 | P1 | P2 | P3
+effort_estimate: 8h
+effort_actual: 4h
+started: 2026-01-09
+completed: null
+---
 ```
 
 ### Active Features Tracking
 
-The `.active-features` file at the project root serves as a lightweight index of features currently in progress:
-
-```
-.active-features                 # Auto-maintained index (DO NOT EDIT MANUALLY)
-.claude/utils/
-└── active_features_manager.py   # CLI tool for managing the index
-```
-
-**Purpose:** Minimize context usage during feature discovery (50-300 tokens vs 1000+ with grep).
+Active features are discovered by scanning `backlog/*/plan.md` files and reading YAML frontmatter.
 
 **How it works:**
-1. `/start-feature` automatically adds features to the index
-2. `/feature-complete` automatically removes them
-3. Feature discovery reads this file first (fallback to FEATURES_BACKLOG.md grep if missing)
+1. Scan `backlog/` for feature directories (folders not starting with `_`)
+2. Read `plan.md` frontmatter in each directory
+3. Features with `status: in_progress` are active
 
-**Manual management (if needed):**
+**Discovery script:**
 ```bash
-# List active features
-python3 .claude/utils/active_features_manager.py list
-
-# Check if a feature is active
-python3 .claude/utils/active_features_manager.py is-active "feature-name"
-
-# Manually add (rarely needed)
-python3 .claude/utils/active_features_manager.py add "feature-name"
-
-# Manually remove (rarely needed)
-python3 .claude/utils/active_features_manager.py remove "feature-name"
+python3 .claude/utils/feature_discovery.py
 ```
+
+Returns JSON:
+```json
+{
+  "count": 2,
+  "active_features": [
+    {"id": "session-auth", "status": "in_progress", "effort_estimate": "12h"},
+    {"id": "query-reorg", "status": "in_progress", "effort_estimate": "3h"}
+  ]
+}
+```
+
+**No manual index file needed** - frontmatter is the source of truth.
 
 ---
 
@@ -124,10 +145,10 @@ This workflow includes Python utility scripts in `.claude/utils/` that enforce c
 
 ### Available Utilities
 
-- **`feature_discovery.py`** - Discovers active features from `.active-features` file (primary) or FEATURES_BACKLOG.md using grep (fallback)
+- **`feature_discovery.py`** - Discovers active features by scanning `backlog/*/plan.md` frontmatter
 - **`handoff_loader.py`** - Loads only the selected feature's context (HANDOFF.md + plan.md)
 - **`plan_validator.py`** - Validates plans without loading full PLAN_QUALITY_RUBRIC.md
-- **`active_features_manager.py`** - Manages `.active-features` index file
+- **`active_features_manager.py`** - (Deprecated) Previously managed `.active-features` index - now use frontmatter
 
 **Key Benefits:**
 - ✅ Enforces correct behavior (can't be ignored like markdown instructions)
@@ -168,3 +189,47 @@ The `**Status:**` line is validated by `.claude/utils/feature_discovery.py` and 
 - **Parallel Work is Supported:** The per-feature directory structure allows multiple developers (or multiple AI instances) to work on different features simultaneously without merge conflicts in planning files.
 - **Embrace the Commands:** Using the slash commands ensures that the structured, quality-driven processes are followed. They are the "guardrails" of this workflow.
 
+---
+
+## 🔍 Feature Audit Workflow
+
+The `/audit-feature` command provides a layered review funnel to verify features are implemented correctly.
+
+### Audit Philosophy
+
+1. **Layered Review**: Different failure modes need different reviewers (security vs business logic vs regression)
+2. **Bounded Severity**: Stop conditions prevent infinite adversarial review loops
+3. **Learnings Capture**: Recurring issues become enforceable rules over time
+
+### Stop Rules (Critical)
+
+Every audit lens enforces:
+- **Max 3 Critical/High** issues per lens
+- **Max 5 Medium** issues (combined)
+- **Theme Grouping**: If >5 similar issues, group into one theme with representative example
+
+### Available Lenses
+
+| Lens | Command | When to Use |
+|------|---------|-------------|
+| **Quick Audit** | `/audit-feature` | Default - runs all core lenses |
+| **Business Logic** | `/audit:business` | Complex feature logic, monetization rules |
+| **Security** | `/audit:security` | Auth, payments, PII, user input |
+| **Regression** | `/audit:regression` | Refactors, shared code changes |
+| **Experiment** | `/audit:experiment` | A/B tests, bucketing (EPCVIP) |
+| **Data Contract** | `/audit:data-contract` | API changes, PII handling (EPCVIP) |
+
+### Recommended Workflow
+
+```
+1. Complete feature implementation
+2. Run /audit-feature for quick multi-lens review
+3. Address Critical/High issues
+4. Run /audit-feature --deep for fresh session review (optional)
+5. Run /feature-complete to finalize
+```
+
+### Pre-Commit Hook (Optional)Install `audit-precommit.py` for automatic checks before every commit:
+- Blocks on Critical issues (SQL injection, hardcoded secrets)
+- Warns on High issues (console.log, print statements)
+- See `templates/hooks/examples/audit-precommit/` for setup

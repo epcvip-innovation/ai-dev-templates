@@ -140,16 +140,21 @@
 
 ---
 
-## Official Guidance (as of Nov 1, 2025)
+## Official Guidance (Updated Jan 2026)
 
-**From Claude Code best practices**:
+**From Claude Code best practices (v2.1.x)**:
 - ✅ Target: **100-200 lines maximum**
 - ✅ Philosophy: **"Always lightweight"** - files prepended to every prompt
 - ❌ Warning: **"Long CLAUDE.md files are a code smell"**
 - ❌ Anti-pattern: **"Bloated files introduce noise and reduce effectiveness"**
 - ✅ Strategy: **"Reference separate docs instead of embedding detail"**
 
-**Sources**: Anthropic official documentation, community best practices, industry guidance
+**New in 2026:**
+- ✅ Use `#` key during sessions to have Claude auto-update CLAUDE.md
+- ✅ Use "think", "think hard", or "ultrathink" for extended reasoning on complex problems
+- ✅ Hub-and-spoke pattern is now industry standard (see below)
+
+**Sources**: [Anthropic Best Practices](https://www.anthropic.com/engineering/claude-code-best-practices), community patterns, industry guidance
 
 ---
 
@@ -225,6 +230,38 @@ We follow anti-slop principles: functions <50 lines, nesting <3, no premature op
 ```
 
 **Result**: 89 lines → 3 lines in CLAUDE.md, 100% information preserved in separate doc
+
+### Hub-and-Spoke Pattern
+
+The recommended architecture for project documentation:
+
+```
+CLAUDE.md (hub - 150-200 lines)
+├── CODING_STANDARDS.md (spoke)
+├── docs/ARCHITECTURE.md (spoke)
+├── .claude/review-context.md (spoke)
+└── backlog/_INDEX.md (spoke)
+```
+
+**Hub contains** (always loaded):
+- Project purpose (15 lines)
+- Tech stack overview (10 lines)
+- Critical warnings Claude gets wrong (30 lines)
+- Navigation to spokes (15 lines)
+- Essential commands (10 lines)
+
+**Spokes contain** (loaded when needed):
+- Detailed coding standards
+- Architecture decisions
+- Domain knowledge
+- Review context
+- Backlog/task lists
+
+**Why it works:**
+- Hub is always in context (every session)
+- Spokes are loaded on-demand (when relevant)
+- Total information: unlimited
+- Context cost: minimal (150-200 lines vs 500+)
 
 ---
 
@@ -446,6 +483,6 @@ Add to project README.md:
 
 ---
 
-**Last Updated**: 2025-11-01
-**Next Review**: 2026-02-01 (quarterly)
-**Maintained By**: dev-setup template library
+**Last Updated**: 2026-01-14
+**Next Review**: 2026-04-14 (quarterly)
+**Maintained By**: ai-dev-templates library

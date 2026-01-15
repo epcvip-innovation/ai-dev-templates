@@ -39,7 +39,7 @@ TASKS.md
 tasks.md
 TODO.md
 HANDOFF.md
-FEATURES_BACKLOG.md
+_BACKLOG.md
 CHANGELOG.md
 CONTRIBUTING.md
 
@@ -114,7 +114,7 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 
 ```bash
 # Core files (never archive)
-CORE_FILES=("CLAUDE.md" "README.md" "TASKS.md" "tasks.md" "TODO.md" "HANDOFF.md" "FEATURES_BACKLOG.md" "CHANGELOG.md" "CONTRIBUTING.md")
+CORE_FILES=("CLAUDE.md" "README.md" "TASKS.md" "tasks.md" "TODO.md" "HANDOFF.md" "_BACKLOG.md" "CHANGELOG.md" "CONTRIBUTING.md")
 
 echo "✅ Core Documents (NEVER Archive):"
 for file in "${CORE_FILES[@]}"; do
@@ -148,7 +148,7 @@ fi
 
 ```bash
 # Root directory markdown (potential candidates)
-ROOT_MD=$(echo "$ALL_MD" | grep -E "^\./[A-Z_-]+\.md$" | grep -v -E "(CLAUDE|README|TASKS|TODO|HANDOFF|FEATURES_BACKLOG|CHANGELOG|CONTRIBUTING)\.md")
+ROOT_MD=$(echo "$ALL_MD" | grep -E "^\./[A-Z_-]+\.md$" | grep -v -E "(CLAUDE|README|TASKS|TODO|HANDOFF|_BACKLOG|CHANGELOG|CONTRIBUTING)\.md")
 
 if [ -n "$ROOT_MD" ]; then
   CANDIDATE_COUNT=$(echo "$ROOT_MD" | wc -l)

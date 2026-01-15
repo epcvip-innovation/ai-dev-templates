@@ -14,7 +14,7 @@ You are resuming work on this feature after a break. Follow this systematic chec
 - **`CLAUDE.md`** - Project conventions, code quality standards, and anti-patterns
 
 **DO NOT read at this stage:**
-- ~~FEATURES_BACKLOG.md~~ (use discovery script in Step 2)
+- ~~_BACKLOG.md~~ (use discovery script in Step 2)
 - ~~PLAN_QUALITY_RUBRIC.md~~ (validator script handles this in Step 4.5)
 - ~~Any HANDOFF.md files~~ (load after user selects feature in Step 4)
 - ~~Any plan.md files~~ (load after user selects feature in Step 4)
@@ -41,7 +41,7 @@ python3 .claude/utils/feature_discovery.py
 }
 ```
 
-**CRITICAL:** This script enforces grep-only discovery. It physically CANNOT read the full FEATURES_BACKLOG.md file.
+**CRITICAL:** This script reads frontmatter from `backlog/*/plan.md` files to find active features.
 
 **Parse the JSON to determine next step** (see Step 3).
 
@@ -93,8 +93,8 @@ python3 .claude/utils/handoff_loader.py [feature-name]
   "handoff_content": "...",
   "plan_content": "...",
   "files_loaded": [
-    "docs/planning/features/session-based-auth/HANDOFF.md",
-    "docs/planning/features/session-based-auth/plan.md"
+    "backlog/session-based-auth/HANDOFF.md",
+    "backlog/session-based-auth/plan.md"
   ],
   "lines_loaded": 911
 }
@@ -212,7 +212,7 @@ Provide clear summary in this exact format:
 2. [Second concrete action]
 3. [Verification step against CLAUDE.md standards]
 
-📊 Estimation Guidance: See `docs/planning/TASK_ESTIMATION_GUIDE.md` for similar tasks  ← NEW
+📊 Estimation Guidance: See `docs/TASK_ESTIMATION_GUIDE.md` for similar tasks (if exists)
 ```
 
 ## Step 8: Ready to Continue
@@ -242,8 +242,8 @@ Wait for user confirmation before taking action.
 ## References (Load Only When Needed)
 
 **Standards (Conditional Loading):**
-- `docs/planning/PLAN_QUALITY_RUBRIC.md` - ⚠️ Load ONLY if `/check-drift` called
-- `docs/planning/TASK_ESTIMATION_GUIDE.md` - ⚠️ Load ONLY if `/add-task` called
+- `docs/PLAN_QUALITY_RUBRIC.md` - ⚠️ Load ONLY if `/check-drift` called
+- `docs/TASK_ESTIMATION_GUIDE.md` - ⚠️ Load ONLY if `/add-task` called
 
 **Related Commands:**
 - `/check-drift` - If plan seems off (will load rubric)

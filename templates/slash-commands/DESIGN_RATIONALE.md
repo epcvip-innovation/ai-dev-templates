@@ -33,10 +33,34 @@ This workflow has evolved through several iterations, incorporating lessons lear
     - `/debug-failure`: A sophisticated, Socratic method for debugging that prevents the AI from taking lazy shortcuts.
 - **Reliability Fixes:** We added `pwd` pre-flight checks to filesystem-heavy commands after an "after-action review" revealed the AI could get confused about its current working directory.
 
-### V3: Template/Design Separation (This Version)
+### V3: Template/Design Separation
 - **Key Change:** We recognized the need to separate the "deployable" template from the "design" documentation.
 - **`template/` folder:** Contains the clean, copy-paste-ready commands for bootstrapping a new project.
 - **`design/` folder:** Contains this document—the history, philosophy, and rationale that is essential for the template's maintainer but is unnecessary clutter for a project using the template.
+
+### V4: Streamlined Commands (January 2026)
+- **Key Change:** After 6+ months of real-world usage (esp. fwaptile-wordle project), we identified which commands provide genuine value vs. those superseded by Claude Code built-in features.
+
+**Deprecation decisions:**
+| Command | Real-world finding | Action |
+|---------|-------------------|--------|
+| `start-feature` | Claude's built-in `/plan` mode does this better | Deprecated |
+| `resume-feature` | Built-in plan files + session management | Deprecated |
+| `session-handoff` | Auto-compact improvements reduce need | Deprecated |
+| `add-task` | TodoWrite tool is more flexible | Deprecated |
+| `check-drift` | Not used in practice | Deprecated |
+| `audit/*` sub-commands | Better as plugin agents with sub-tasks | Deprecated |
+
+**New insight: Plugins > Slash Commands**
+- Plugins support auto-triggers based on natural language
+- Plugin sub-tasks can't be ignored (unlike optional slash commands)
+- Plugin hooks provide lifecycle control
+
+**Commands retained:**
+- `/audit-feature` - Still valuable for comprehensive quality checks
+- `/push` - Critical for safe commit workflows (added in V4)
+- `/debug-failure` - Unique Socratic debugging approach
+- `/plan-approaches` - Useful for early design exploration
 
 ---
 

@@ -5,6 +5,8 @@
 
 This document tracks what has been TESTED vs. UNTESTED in these templates.
 
+> **Note:** "Deployed to" references are example deployments from the author's projects used to verify these templates work in production. Your deployments will use your own repository paths.
+
 ## Legend
 
 | Status | Meaning |

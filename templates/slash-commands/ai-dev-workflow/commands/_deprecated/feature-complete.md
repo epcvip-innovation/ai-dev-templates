@@ -12,7 +12,7 @@ I'll complete this feature/task with proper cleanup, archiving, and documentatio
 **Read task tracking file** (adapt path to your project):
 ```bash
 # Find and read task file
-cat TASKS.md 2>/dev/null || cat docs/planning/TASKS.md 2>/dev/null || cat .projects/*/tasks.md 2>/dev/null
+cat TASKS.md 2>/dev/null || cat backlog/TASKS.md 2>/dev/null || cat .projects/*/tasks.md 2>/dev/null
 ```
 
 **Identify**:
@@ -102,14 +102,18 @@ SESSION_TIME=$(date +"%Y%m%d-%H%M")
 
 ## Step 5: Update Feature Tracking
 
-### Remove from Active Features Index
+### Update Feature Plan Frontmatter
 
-If this was a tracked feature in `.active-features`:
-```bash
-python3 .claude/utils/active_features_manager.py remove "FEATURE_NAME"
+Update the plan's YAML frontmatter:
+```yaml
+---
+status: complete
+completed: YYYY-MM-DD
+effort_actual: Xh  # Fill with actual time spent
+---
 ```
 
-### Update FEATURES_BACKLOG.md
+### Update _BACKLOG.md
 
 Move feature from "🚧 In Progress" to "✅ Recently Completed" section.
 
@@ -139,9 +143,9 @@ Keep as-is, just update priority markers if needed.
 ## Step 6: Create or Update Handoff
 
 **Create/update handoff document** at appropriate location:
-- `docs/HANDOFF.md`
-- `.projects/[feature]/HANDOFF.md`
-- `HANDOFF.md` (root)
+- `backlog/[feature]/HANDOFF.md`
+- `docs/HANDOFF.md` (project-wide)
+- `HANDOFF.md` (root, if simple project)
 
 ```markdown
 # Handoff: [Feature/Project Name]

@@ -37,17 +37,17 @@ if [ -d ".projects" ]; then
   echo "📁 Using .projects/ structure"
   PROJECT_DIR=".projects"
   ls -la .projects/
-elif [ -d "docs/planning" ]; then
-  echo "📁 Using docs/planning/ structure"
-  PROJECT_DIR="docs/planning"
-  ls -la docs/planning/
+elif [ -d "backlog" ]; then
+  echo "📁 Using backlog/ structure"
+  PROJECT_DIR="backlog"
+  ls -la backlog/
 elif [ -d "features" ]; then
   echo "📁 Using features/ structure"
   PROJECT_DIR="features"
   ls -la features/
 else
   echo "❌ No standard project structure found"
-  echo "   Looked for: .projects/, docs/planning/, features/"
+  echo "   Looked for: .projects/, backlog/, features/"
   echo "   Continue with root-level files only? [Y/n]"
 fi
 ```
@@ -63,7 +63,7 @@ fi
 python3 .claude/utils/feature_discovery.py
 
 # Option 2: Check HANDOFF.md location
-# If HANDOFF.md is at docs/planning/features/[feature-name]/HANDOFF.md
+# If HANDOFF.md is at backlog/[feature-name]/HANDOFF.md
 # The feature name is the directory name
 
 # Option 3: Check .active-features file
@@ -123,7 +123,7 @@ fi
 
 ### Load Context for Drift Check
 
-1. **Find plan document:** `docs/planning/features/[name]/plan.md`
+1. **Find plan document:** `backlog/[name]/plan.md`
 2. **Read original:** goal, estimate, tasks, approach
 3. **Read current state:** HANDOFF.md, git log (last 10-20 commits), task status
 
@@ -220,7 +220,7 @@ Proceed with handoff anyway? [y/N] (not recommended)
 
 Now it's systematic, automatic, and uses deterministic boolean checks.
 
-**Reference:** Full drift rubric at `docs/planning/PLAN_QUALITY_RUBRIC.md`
+**Reference:** Full drift rubric at `docs/PLAN_QUALITY_RUBRIC.md`
 
 ---
 
@@ -469,7 +469,7 @@ echo "📝 Updating: $HANDOFF_FILE"
 
 **Assessment**: [Explanation of drift category]
 
-**Reference**: See `docs/planning/TASK_ESTIMATION_GUIDE.md` for calibration
+**Reference**: See `docs/TASK_ESTIMATION_GUIDE.md` for calibration
 
 ---
 
@@ -768,7 +768,7 @@ Provide comprehensive summary:
 🚫 Blockers:
 └─ [Critical blocker or "None"]
 
-📚 Reference: `docs/planning/TASK_ESTIMATION_GUIDE.md` for next task sizing
+📚 Reference: `docs/TASK_ESTIMATION_GUIDE.md` for next task sizing
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -841,8 +841,8 @@ After each session, drift data feeds calibration log.
 ## References
 
 **Standards:**
-- `docs/planning/PLAN_QUALITY_RUBRIC.md` - Drift categories (Step 2.5)
-- `docs/planning/TASK_ESTIMATION_GUIDE.md` - Update calibration log
+- `docs/PLAN_QUALITY_RUBRIC.md` - Drift categories (Step 2.5)
+- `docs/TASK_ESTIMATION_GUIDE.md` - Update calibration log
 
 **Related Commands:**
 - `/check-drift` - Auto-run in Step 2.5

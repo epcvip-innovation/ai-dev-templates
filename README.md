@@ -4,6 +4,8 @@
 
 **Quick Start**: See [Daily Workflow Guide](./docs/setup-guides/DAILY-WORKFLOW.md) for everyday usage, or [New PC Setup](./docs/setup-guides/NEW-PC-SETUP.md) for initial setup.
 
+> **Starting a new project?** See [**New Project Setup Guide**](./docs/getting-started/NEW-PROJECT-SETUP.md) - covers CLAUDE.md, skills, slash commands, built-in plugins (`/feature-dev`, `/local-review`), MCPs, and backlog setup.
+
 > **Note**: This repository contains templates and personal examples. Replace paths, usernames, and repository URLs with your own before use. If you're setting up a new machine with your personal config, check the `personal/` folder (git-ignored) for your actual setup details.
 
 ## What This Repo Provides
@@ -42,9 +44,11 @@
 
 ### 🚀 Setting Up Environment
 - **[New PC Setup](./docs/setup-guides/NEW-PC-SETUP.md)** - 90-minute guided setup for Windows 11
+- **[New Project Setup](./docs/getting-started/NEW-PROJECT-SETUP.md)** - 🆕 Set up Claude Code workflows in any project
 - [Global CLI Commands](./docs/reference/GLOBAL-CLI-SETUP.md) - Make repo scripts globally available
 - [WSL Paths Reference](./docs/reference/WSL-PATHS.md) - Understanding Windows ↔ WSL paths
 - [Claude Code Config](./docs/reference/CLAUDE-CODE-CONFIG.md) - MCPs, plugins, and configuration
+- [Playwright MCP](./docs/reference/PLAYWRIGHT-MCP.md) - 🆕 Browser automation for frontend testing
 - [Claude Code Storage](./docs/reference/CLAUDE-CODE-STORAGE.md) - Session history, finding conversations
 - [Obsidian WSL Setup](./docs/setup-guides/OBSIDIAN-WSL-SETUP.md) - Running Obsidian in WSL
 
@@ -64,11 +68,13 @@
 - [Journal](./JOURNAL.md) - Personal AI-driven development journey
 
 ### 🎯 Common Tasks
+- **⭐ Set up new project** → [**New Project Setup Guide**](./docs/getting-started/NEW-PROJECT-SETUP.md) - Complete walkthrough
 - **Work from iPad/phone** → [Multi-Device Workspace](./docs/setup-guides/MULTI-DEVICE-WORKSPACE.md)
+- **Browser automation/testing** → [Playwright MCP](./docs/reference/PLAYWRIGHT-MCP.md)
 - **Replace `/compact`** → [Context Management Commands](./templates/slash-commands/context-management/)
 - **Enforce query validation** → [Query Validation Hook](./templates/hooks/query-validation/)
 - **Copy a slash command** → [templates/slash-commands/](./templates/slash-commands/)
-- **Set up new project** → [templates/projects/](./templates/projects/)
+- **Set up backlog system** → [templates/features-backlog/](./templates/features-backlog/)
 - **Learn anti-slop principles** → [templates/standards/ANTI_SLOP_STANDARDS.md](./templates/standards/ANTI_SLOP_STANDARDS.md)
 - **Browse documentation patterns** → [templates/standards/DOCUMENTATION_STRATEGY.md](./templates/standards/DOCUMENTATION_STRATEGY.md)
 - **See the journey** → [JOURNAL.md](./JOURNAL.md)

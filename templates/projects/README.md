@@ -49,7 +49,7 @@ If you have an existing .projects/ folder without this structure:
 
 ```
 Is this a simple feature (<1 week, <5 files)?
-├── YES → Add to FEATURES_BACKLOG.md (simple entry)
+├── YES → Add to backlog/_BACKLOG.md (simple entry)
 └── NO → Continue...
     │
     Is this a medium feature (1-2 weeks, 5-10 files)?
@@ -67,7 +67,7 @@ Does this project span multiple phases or need architectural decisions?
 
 | Feature | Complexity | Recommended Approach |
 |---------|------------|----------------------|
-| Add export button to table | Simple (<1 week) | FEATURES_BACKLOG.md entry |
+| Add export button to table | Simple (<1 week) | backlog/_BACKLOG.md entry |
 | Implement user authentication | Medium (1-2 weeks) | .projects/auth/ with 3 essential files |
 | Backend refactor (2,162 lines → modular) | Complex (>2 weeks) | .projects/backend-refactor/ with full structure |
 | Multi-tenant architecture migration | Very Complex (months) | Consider own repo or .projects/ with extensive docs |
@@ -108,50 +108,44 @@ your-project/
 
 ---
 
-### Option B: docs/planning/ (Recommended for Teams/Public Projects)
+### Option B: backlog/ (Recommended - Standard Structure)
 
 ```
 your-project/
-├── docs/
-│   ├── planning/
-│   │   ├── FEATURES_BACKLOG.md
-│   │   ├── TASKS.md
-│   │   └── features/
-│   │       └── [feature-name].md  (combines plan + tasks in one file)
-│   └── handoffs/
-│       └── [date].md
+├── backlog/
+│   ├── _BACKLOG.md              # Main backlog (underscore sorts first)
+│   ├── _TEMPLATE.md             # Feature plan template
+│   └── [feature-name]/
+│       ├── plan.md              # Feature plan with YAML frontmatter
+│       └── HANDOFF.md           # Session notes (optional)
 ├── CLAUDE.md
 └── src/
 ```
 
 **Pros**:
-- More discoverable (visible in docs/)
-- Traditional documentation location
-- Professional appearance for open-source
-- Works with mkdocs/static site generators
-- Clear separation: docs/ vs src/
+- Clear purpose (it's a backlog!)
+- YAML frontmatter enables tooling
+- Underscore prefix sorts root files first
+- Feature discovery via `feature_discovery.py`
+- Standard across all projects
 
 **Cons**:
 - More visible (can't hide WIP planning)
-- Slash commands need path configuration
-- More verbose paths
 
-**Best for**: Team projects, open-source repos, public planning
+**Best for**: All projects - this is the recommended standard
 
 ---
 
-### Option C: Hybrid (Used in dois-test-capacity-planner)
+### Option C: Hybrid (backlog + private WIP)
 
 ```
 your-project/
-├── docs/
-│   └── planning/
-│       ├── FEATURES_BACKLOG.md   (public ideas)
-│       ├── TASKS.md              (master task list)
-│       └── features/             (detailed public specs)
-│           └── [name].md
+├── backlog/
+│   ├── _BACKLOG.md              # Main backlog
+│   └── [feature-name]/          # Feature plans
+│       └── plan.md
 │
-├── .projects/                    (private WIP, gitignored)
+├── .projects/                   (private WIP, gitignored)
 │   └── [wip-feature]/
 │       ├── plan.md
 │       └── HANDOFF.md
@@ -160,7 +154,7 @@ your-project/
 ```
 
 **Pros**:
-- Public planning (docs/) + private experimentation (.projects/)
+- Public planning (backlog/) + private experimentation (.projects/)
 - Best of both approaches
 - Flexible: share what's ready, hide what's not
 - Good for open-source with private R&D
@@ -428,7 +422,7 @@ Your existing slash commands already support .projects/ pattern:
 **Checks multiple patterns**:
 ```bash
 .projects/[feature-name]/HANDOFF.md
-docs/planning/features/[feature]/handoff.md
+backlog/[feature]/HANDOFF.md
 features/[feature]/README.md
 ```
 
@@ -683,9 +677,9 @@ mv .projects/backend-refactor .projects/archive/backend-refactor
 ### Q: Should all repos use .projects/?
 
 **A**: No. Use based on project complexity:
-- Simple tools (single feature): ROADMAP.md or FEATURES_BACKLOG.md
-- Complex projects with multi-week features: .projects/
-- Mix: Both (backlog for ideas, .projects/ for active complex work)
+- Simple tools (single feature): ROADMAP.md or backlog/_BACKLOG.md
+- Complex projects with multi-week features: backlog/[feature]/plan.md
+- Mix: Both (backlog for ideas, .projects/ for private WIP)
 
 ### Q: How do I decide what goes in plan.md vs separate docs?
 

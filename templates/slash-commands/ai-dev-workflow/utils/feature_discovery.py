@@ -2,8 +2,8 @@
 """
 Feature Discovery Utility
 
-Discovers active features from .active-features file (primary) or
-FEATURES_BACKLOG.md using grep (fallback). Validates HANDOFF.md status.
+Discovers active features by scanning backlog/*/plan.md files and reading
+YAML frontmatter. Features with status: in_progress are considered active.
 
 Usage:
     python3 .claude/utils/feature_discovery.py
@@ -12,7 +12,6 @@ Output:
     JSON with feature count and structured feature data
 """
 
-import subprocess
 import json
 import re
 import sys
@@ -20,267 +19,208 @@ from pathlib import Path
 
 
 def find_project_root():
-    """Find the project root directory (where .claude/ exists)."""
+    """Find the project root directory (where backlog/ or .claude/ exists)."""
     current = Path.cwd()
     
     # Try current directory first
-    if (current / '.claude').exists():
+    if (current / 'backlog').exists() or (current / '.claude').exists():
         return current
     
-    # Walk up to find .claude directory
+    # Walk up to find backlog or .claude directory
     for parent in current.parents:
-        if (parent / '.claude').exists():
+        if (parent / 'backlog').exists() or (parent / '.claude').exists():
             return parent
     
     # Fallback: assume we're in project root
     return current
 
 
-def read_active_features_file():
+def parse_yaml_frontmatter(file_path):
     """
-    Read active features from .active-features file.
-
+    Parse YAML frontmatter from a markdown file.
+    
+    Args:
+        file_path: Path to markdown file
+        
     Returns:
-        list: Feature names (empty if file doesn't exist)
+        dict: Parsed frontmatter fields (empty dict if no frontmatter)
     """
-    project_root = find_project_root()
-    active_features_path = project_root / '.active-features'
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+        
+        # Check for YAML frontmatter (starts with ---)
+        if not content.startswith('---'):
+            return {}
+        
+        # Find the closing ---
+        end_match = re.search(r'\n---\s*\n', content[3:])
+        if not end_match:
+            return {}
+        
+        yaml_content = content[3:end_match.start() + 3]
+        
+        # Simple YAML parsing (key: value pairs)
+        frontmatter = {}
+        for line in yaml_content.strip().split('\n'):
+            if ':' in line:
+                key, value = line.split(':', 1)
+                key = key.strip()
+                value = value.strip()
+                
+                # Remove quotes if present
+                if (value.startswith('"') and value.endswith('"')) or \
+                   (value.startswith("'") and value.endswith("'")):
+                    value = value[1:-1]
+                
+                # Handle null values
+                if value.lower() in ('null', 'none', '~', ''):
+                    value = None
+                # Handle arrays (simple format: [a, b, c])
+                elif value.startswith('[') and value.endswith(']'):
+                    value = [v.strip().strip('"\'') for v in value[1:-1].split(',') if v.strip()]
+                
+                frontmatter[key] = value
+        
+        return frontmatter
+        
+    except Exception as e:
+        return {"_error": str(e)}
 
-    if not active_features_path.exists():
-        return None  # Signal to use fallback
 
-    features = []
-    with open(active_features_path, 'r') as f:
-        for line in f:
-            line = line.strip()
-            # Skip comments and empty lines
-            if line and not line.startswith('#'):
-                features.append(line)
-
-    return features
-
-
-def validate_handoff_status(feature_name):
+def validate_handoff_status(feature_dir):
     """
     Validate HANDOFF.md has proper Status line in first 10 lines.
-
+    
     Args:
-        feature_name: Name of feature
-
+        feature_dir: Path to feature directory
+        
     Returns:
-        dict: {"valid": bool, "error": str (if invalid)}
+        dict: {"valid": bool, "error": str (if invalid), "status": str (if found)}
     """
-    project_root = find_project_root()
-    handoff_path = project_root / 'docs' / 'planning' / 'features' / feature_name / 'HANDOFF.md'
-
+    handoff_path = feature_dir / 'HANDOFF.md'
+    
     if not handoff_path.exists():
         return {
-            "valid": False,
-            "error": f"HANDOFF.md not found for feature '{feature_name}'"
+            "valid": True,  # HANDOFF.md is optional
+            "has_handoff": False
         }
-
+    
     try:
-        # Read only first 10 lines (minimal context)
-        with open(handoff_path, 'r') as f:
+        with open(handoff_path, 'r', encoding='utf-8') as f:
             lines = [f.readline() for _ in range(10)]
-
-        # Look for **Status:** line
+        
         status_pattern = re.compile(r'\*\*Status\*\*:\s*(.+)')
-
+        
         for line in lines:
             match = status_pattern.search(line)
             if match:
-                # Found status line - valid
-                return {"valid": True}
-
-        # No status line found in first 10 lines
+                return {
+                    "valid": True,
+                    "has_handoff": True,
+                    "status": match.group(1).strip()
+                }
+        
         return {
             "valid": False,
-            "error": f"Missing **Status:** line in first 10 lines of HANDOFF.md"
+            "has_handoff": True,
+            "error": "Missing **Status:** line in first 10 lines of HANDOFF.md"
         }
-
+        
     except Exception as e:
         return {
             "valid": False,
+            "has_handoff": True,
             "error": f"Failed to read HANDOFF.md: {str(e)}"
         }
 
 
 def discover_features():
     """
-    Find active features from .active-features file (primary) or
-    FEATURES_BACKLOG.md grep (fallback). Validates HANDOFF.md status.
-
-    Returns:
-        dict: JSON structure with count and active_features list
-    """
-    # Try primary method: .active-features file
-    feature_names = read_active_features_file()
-
-    if feature_names is None:
-        # Fallback to grep method
-        return discover_features_grep()
-
-    # Build feature data with validation
-    features = []
-    for name in feature_names:
-        feature_data = {
-            "name": name,
-            "remaining_hours": None,
-            "blocked": False,
-            "status_summary": "In Progress"
-        }
-
-        # Validate HANDOFF.md status
-        status_check = validate_handoff_status(name)
-        if not status_check["valid"]:
-            feature_data["status_warning"] = status_check["error"]
-
-        features.append(feature_data)
-
-    return {
-        "count": len(features),
-        "active_features": features
-    }
-
-
-def discover_features_grep():
-    """
-    Fallback: Find active features using grep on FEATURES_BACKLOG.md.
-
+    Discover active features by scanning backlog/*/plan.md frontmatter.
+    
     Returns:
         dict: JSON structure with count and active_features list
     """
     project_root = find_project_root()
-    backlog_path = project_root / 'docs' / 'planning' / 'FEATURES_BACKLOG.md'
-
-    if not backlog_path.exists():
+    backlog_dir = project_root / 'backlog'
+    
+    if not backlog_dir.exists():
         return {
             "count": 0,
             "active_features": [],
-            "error": f"FEATURES_BACKLOG.md not found at {backlog_path}"
+            "error": f"backlog/ directory not found in {project_root}"
         }
-
-    try:
-        # Use grep to extract only "In Progress" section (minimal context)
-        # -A 100 allows for multiple features (~30-40 lines each)
-        result = subprocess.run(
-            ['grep', '-A', '100', '🚧 In Progress', str(backlog_path)],
-            capture_output=True,
-            text=True,
-            check=False
-        )
-
-        if result.returncode != 0 or not result.stdout.strip():
-            # No features in progress
-            return {
-                "count": 0,
-                "active_features": []
-            }
-
-        features = parse_grep_output(result.stdout)
-
-        return {
-            "count": len(features),
-            "active_features": features
-        }
-
-    except Exception as e:
-        return {
-            "count": 0,
-            "active_features": [],
-            "error": f"Failed to discover features: {str(e)}"
-        }
-
-
-def parse_grep_output(grep_output):
-    """
-    Parse grep output into structured feature list.
     
-    Expected format from FEATURES_BACKLOG.md:
-        ### Feature Name ⭐
-        **Status:** In Progress (Phase X)
-        **Started:** 2025-11-15
-        **Effort:** 12h total, 8h done (67%)
-        ...
-        **Blockers:** None / [blocker description]
-    
-    Args:
-        grep_output: Raw output from grep command
-        
-    Returns:
-        list: Structured feature data
-    """
     features = []
-    lines = grep_output.strip().split('\n')
     
-    current_feature = None
+    # Scan all directories in backlog (excluding _ prefixed files)
+    for item in backlog_dir.iterdir():
+        if item.is_dir() and not item.name.startswith('_'):
+            plan_path = item / 'plan.md'
+            
+            if plan_path.exists():
+                frontmatter = parse_yaml_frontmatter(plan_path)
+                
+                if frontmatter.get('_error'):
+                    continue
+                
+                status = frontmatter.get('status', '').lower()
+                
+                # Only include in_progress features
+                if status == 'in_progress':
+                    # Calculate remaining hours if we have estimate and actual
+                    remaining_hours = None
+                    effort_estimate = frontmatter.get('effort_estimate')
+                    effort_actual = frontmatter.get('effort_actual')
+                    
+                    if effort_estimate:
+                        # Parse "Xh" format
+                        est_match = re.search(r'(\d+)', str(effort_estimate))
+                        if est_match:
+                            total = int(est_match.group(1))
+                            if effort_actual:
+                                act_match = re.search(r'(\d+)', str(effort_actual))
+                                if act_match:
+                                    done = int(act_match.group(1))
+                                    remaining_hours = max(0, total - done)
+                            else:
+                                remaining_hours = total
+                    
+                    # Check HANDOFF.md
+                    handoff_check = validate_handoff_status(item)
+                    
+                    feature_data = {
+                        "id": frontmatter.get('id', item.name),
+                        "name": item.name,
+                        "title": frontmatter.get('title', item.name),
+                        "status": status,
+                        "priority": frontmatter.get('priority'),
+                        "effort_estimate": effort_estimate,
+                        "effort_actual": effort_actual,
+                        "remaining_hours": remaining_hours,
+                        "blocked": frontmatter.get('blocked', False),
+                        "started": frontmatter.get('started'),
+                        "component": frontmatter.get('component'),
+                        "plan_path": str(plan_path.relative_to(project_root))
+                    }
+                    
+                    # Add handoff status
+                    if handoff_check.get('status'):
+                        feature_data["status_summary"] = handoff_check['status']
+                    if handoff_check.get('error'):
+                        feature_data["status_warning"] = handoff_check['error']
+                    
+                    features.append(feature_data)
     
-    for line in lines:
-        line = line.strip()
-        
-        # Feature name line (starts with ###)
-        if line.startswith('###'):
-            # Save previous feature if exists
-            if current_feature and current_feature.get('name'):
-                features.append(current_feature)
-            
-            # Start new feature
-            name_match = re.search(r'###\s+(.+?)(?:\s+⭐)?$', line)
-            if name_match:
-                current_feature = {
-                    "name": name_match.group(1).strip(),
-                    "remaining_hours": None,
-                    "blocked": False,
-                    "status_summary": "In Progress"
-                }
-        
-        elif current_feature:
-            # Extract effort/remaining hours
-            if '**Effort:**' in line:
-                # Try to extract remaining hours
-                remaining_match = re.search(r'(\d+)h\s+remaining', line, re.IGNORECASE)
-                if remaining_match:
-                    current_feature['remaining_hours'] = int(remaining_match.group(1))
-                else:
-                    # Try to calculate from "Xh total, Yh done"
-                    total_match = re.search(r'(\d+)h\s+total.*?(\d+)h\s+done', line)
-                    if total_match:
-                        total = int(total_match.group(1))
-                        done = int(total_match.group(2))
-                        current_feature['remaining_hours'] = total - done
-            
-            # Extract blocker status
-            elif '**Blockers:**' in line:
-                current_feature['blocked'] = 'None' not in line and line.strip() != '**Blockers:**'
-                if current_feature['blocked']:
-                    # Extract blocker description
-                    blocker_match = re.search(r'\*\*Blockers:\*\*\s+(.+)', line)
-                    if blocker_match:
-                        current_feature['status_summary'] = blocker_match.group(1).strip()
-            
-            # Extract status summary
-            elif '**Status:**' in line:
-                status_match = re.search(r'\*\*Status:\*\*\s+(.+)', line)
-                if status_match:
-                    status_text = status_match.group(1).strip()
-                    # Remove "In Progress" since that's redundant
-                    status_text = re.sub(r'^In Progress\s*\(?\s*', '', status_text)
-                    status_text = re.sub(r'\)?$', '', status_text)
-                    if status_text:
-                        current_feature['status_summary'] = status_text
-            
-            # Stop parsing this feature at separator
-            elif line.startswith('---') or line.startswith('##'):
-                if current_feature.get('name'):
-                    features.append(current_feature)
-                    current_feature = None
+    # Sort by priority (P0 > P1 > P2 > P3)
+    priority_order = {'P0': 0, 'P1': 1, 'P2': 2, 'P3': 3, None: 9}
+    features.sort(key=lambda f: priority_order.get(f.get('priority'), 9))
     
-    # Add last feature if exists
-    if current_feature and current_feature.get('name'):
-        features.append(current_feature)
-    
-    return features
+    return {
+        "count": len(features),
+        "active_features": features
+    }
 
 
 def main():
@@ -299,4 +239,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-

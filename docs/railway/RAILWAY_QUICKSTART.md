@@ -159,12 +159,12 @@ railway logs --limit 100 | grep -i error || echo "No errors found"
 Reference your existing Railway deployments:
 
 - **tiller-bridge**: https://tiller-bridge-production.up.railway.app
-- **ping-tree-compare**: https://ping-tree-compare-production.up.railway.app
+- **ping-tree-compare**: https://compare.epcvip.vip
 
 Test health checks:
 ```bash
 curl -s https://tiller-bridge-production.up.railway.app/health
-curl -s https://ping-tree-compare-production.up.railway.app/health
+curl -s https://compare.epcvip.vip/health
 ```
 
 ## Key Limitations

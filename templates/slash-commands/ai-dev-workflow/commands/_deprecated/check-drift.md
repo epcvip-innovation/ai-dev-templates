@@ -22,7 +22,7 @@ Compare original plan against actual development progress to detect drift and re
 ## Step 1: Load Plan and Current State
 
 **Read in order:**
-1. **Original plan** (`docs/planning/features/[name]/plan.md`)
+1. **Original plan** (`backlog/[name]/plan.md`)
 2. **Handoff document** (`HANDOFF.md` if exists)
 3. **Git log** (recent commits as fallback)
 4. **Task tracking** (current task list or sprint file)
@@ -245,7 +245,7 @@ Run /replan-feature or /split-feature?
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Feature: [Name]
-Plan: docs/planning/features/[name]/plan.md
+Plan: backlog/[name]/plan.md
 Date: [Current date]
 
 ---

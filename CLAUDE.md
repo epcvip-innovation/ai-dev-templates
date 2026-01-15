@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-<!-- AUDIT: Run /audit-claude-md quarterly. Last audit: 2025-11-03. Next: 2026-02-03 -->
+<!-- AUDIT: Run /audit-claude-md quarterly. Last audit: 2026-01-15. Next: 2026-04-15 -->
 
 This file provides guidance to Claude Code when working with this repository.
 
@@ -8,9 +8,9 @@ This file provides guidance to Claude Code when working with this repository.
 
 This is an **AI workflow template library and personal documentation hub**, built from 6+ months of real-world AI-assisted development experience.
 
-**Primary Purpose**: 27 production-validated templates for AI-assisted development
+**Primary Purpose**: 66 template files across 10 categories for AI-assisted development
 - Evidence-based approach: 239+ commits analyzed across 4 production repositories
-- 7 template categories: slash commands, CLAUDE.md structures, anti-slop standards, hooks, project organization, features backlog, permissions
+- 10 template categories: slash commands, CLAUDE.md structures, anti-slop standards, hooks, project organization, features backlog, permissions, testing, CI/CD, plugins
 - Ready for personal use, team adoption, and future public sharing
 
 **Secondary Purpose**: Personal AI journey documentation
@@ -24,12 +24,12 @@ This is an **AI workflow template library and personal documentation hub**, buil
 
 The core value of this repository. **Browse before using** - these are patterns to adapt, not rules to follow.
 
-### 9 Template Categories
+### 10 Template Categories
 
 **1. Slash Commands** (`templates/slash-commands/`)
-- 11 workflow commands for AI-driven development
-- Categories: feature workflow, session management, analysis, quality, context management, completion, documentation
-- Examples: `/start-feature`, `/resume-feature`, `/plan-approaches`, `/ai-review`, `/align-project-docs`
+- 9 active commands (7 deprecated, moved to `_deprecated/`)
+- Categories: quality (`/audit-feature`, `/ai-review`), design (`/plan-approaches`), git (`/push`), debugging (`/debug-failure`)
+- Examples: `/audit-feature`, `/push`, `/plan-approaches`, `/ai-review`, `/debug-failure`
 - **See**: [templates/slash-commands/README.md](./templates/slash-commands/README.md)
 
 **2. CLAUDE.md Structures** (`templates/claude-md/`)
@@ -57,8 +57,8 @@ The core value of this repository. **Browse before using** - these are patterns 
 - **See**: [templates/projects/README.md](./templates/projects/README.md)
 
 **6. Features Backlog** (`templates/features-backlog/`)
-- Tier-based prioritization (Tier 1: critical, Tier 2: important, Tier 3: nice-to-have)
-- Prevents over-engineering
+- Two approaches: Simple (single-file) or Folder-based (with Python utilities)
+- YAML frontmatter for tracking status, priority, effort
 - **See**: [templates/features-backlog/README.md](./templates/features-backlog/README.md)
 
 **7. Permissions** (`templates/permissions/`)
@@ -77,6 +77,12 @@ The core value of this repository. **Browse before using** - these are patterns 
 - Claude QA: Automated PR verification with Claude + Playwright MCP
 - QA persona prompting for consistent, thorough reviews
 - **See**: [templates/ci/README.md](./templates/ci/README.md)
+
+**10. Plugins** (`templates/plugins/`)
+- Claude Code skills for common workflows
+- Multi-agent adversarial code review (5-agent and 3-agent lite versions)
+- Severity scoring, technology-specific patterns
+- **See**: [templates/plugins/README.md](./templates/plugins/README.md)
 
 ## Research & Journey
 
@@ -156,9 +162,15 @@ cursor .            # Open Cursor (Remote-WSL)
 
 ## Documentation Map
 
+**Getting Started** (New Projects):
+- [docs/getting-started/NEW-PROJECT-SETUP.md](./docs/getting-started/NEW-PROJECT-SETUP.md) - Complete project setup guide
+- [docs/decisions/BUILTIN_VS_CUSTOM.md](./docs/decisions/BUILTIN_VS_CUSTOM.md) - When to use built-in vs custom
+
 **Template Library** (Primary):
 - [templates/README.md](./templates/README.md) - Complete template library overview
-- [templates/slash-commands/](./templates/slash-commands/) - 11 workflow commands
+- [templates/slash-commands/](./templates/slash-commands/) - 9 active workflow commands
+- [templates/plugins/](./templates/plugins/) - Claude Code skills (code-review, backlog)
+- [templates/features-backlog/](./templates/features-backlog/) - Simple & folder-based backlog systems
 - [templates/claude-md/](./templates/claude-md/) - CLAUDE.md structure templates
 - [templates/standards/](./templates/standards/) - Anti-slop standards & documentation strategy
 - [templates/testing/](./templates/testing/) - Playwright + Claude Code testing patterns

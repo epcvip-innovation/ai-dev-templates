@@ -185,7 +185,7 @@ FORMAT: Category → File → When to use it
 **For setup/installation**: [README.md](./README.md) or [SETUP.md](./SETUP.md)
 **For domain knowledge**: [DOMAIN_GUIDE.md](./docs/DOMAIN_GUIDE.md)
 **For deployment**: [DEPLOYMENT.md](./docs/DEPLOYMENT.md)
-**For project planning**: [docs/planning/](./docs/planning/)
+**For project planning**: [backlog/](./backlog/)
 
 <!--
 This is the most important section for keeping CLAUDE.md lean.

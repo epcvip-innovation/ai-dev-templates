@@ -22,16 +22,16 @@ Run PLAN_QUALITY_RUBRIC.md checklist against feature plan, identify issues, sugg
 
 ### 1.1: Load Plan Quality Rubric
 
-**Read rubric:**
-- File: `docs/planning/PLAN_QUALITY_RUBRIC.md`
+**Read rubric (if exists):**
+- File: `docs/PLAN_QUALITY_RUBRIC.md`
 - Sections: Scope Clarity (5), Feasibility (4), Implementability (4), Size (3), Technical (3)
 
 ### 1.2: Load Plan Document
 
 **Find plan:**
 ```bash
-# Look for plan (common locations)
-PLAN_FILE=$(find docs/planning/features -name "plan.md" 2>/dev/null | head -1)
+# Look for plan in backlog directory
+PLAN_FILE=$(find backlog -name "plan.md" 2>/dev/null | head -1)
 
 echo "📋 Validating: $PLAN_FILE"
 ```
