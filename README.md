@@ -2,9 +2,21 @@
 
 **Multi-AI Development Environment + Template Library**
 
-**Quick Start**: See [Daily Workflow Guide](./docs/setup-guides/DAILY-WORKFLOW.md) for everyday usage, or [New PC Setup](./docs/setup-guides/NEW-PC-SETUP.md) for initial setup.
+---
 
-> **Starting a new project?** See [**New Project Setup Guide**](./docs/getting-started/NEW-PROJECT-SETUP.md) - covers CLAUDE.md, skills, slash commands, built-in plugins (`/feature-dev`, `/local-review`), MCPs, and backlog setup.
+### Where Should I Start?
+
+| Your Situation | Guide | Time |
+|----------------|-------|------|
+| **New to Claude Code?** | [Quickstart](./docs/getting-started/CLAUDE-CODE-QUICKSTART.md) | 5 min |
+| **Have Claude Code, starting a project?** | [Project Setup](./docs/getting-started/NEW-PROJECT-SETUP.md) | 30 min |
+| **Setting up full dev environment?** | [New PC Setup](./docs/setup-guides/NEW-PC-SETUP.md) | 90 min |
+
+> **What is Claude Code?** An AI coding assistant that runs in your terminal. It reads your codebase, writes code, runs commands, and helps you build software faster.
+
+---
+
+**Daily users**: See [Daily Workflow Guide](./docs/setup-guides/DAILY-WORKFLOW.md) for everyday usage.
 
 > **Note**: This repository contains templates and personal examples. Replace paths, usernames, and repository URLs with your own before use. If you're setting up a new machine with your personal config, check the `personal/` folder (git-ignored) for your actual setup details.
 
@@ -15,8 +27,8 @@
    - Parallel AI workflows with Claude Code and Codex
    - 32-core system optimized for AI-assisted development
 
-2. **Template Library** - 27 validated patterns for AI-assisted development
-   - **13 slash commands** across 7 workflow categories (development, analysis, documentation)
+2. **Template Library** - 66 template files across 10 categories
+   - **9 active slash commands** (quality, design, git workflow)
    - **CLAUDE.md structures** - Lightweight, evidence-based project context templates
    - **Project organization** - `.projects/` 3-tier backlog system
    - **Anti-slop standards** - Automated quality gates preventing AI-generated bloat

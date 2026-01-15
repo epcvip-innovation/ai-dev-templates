@@ -4,6 +4,9 @@ One-stop reference for setting up Claude Code workflows in a new project.
 
 **Updated**: January 2026 (Claude Code v2.1.x)
 
+> **Prerequisites**: Claude Code must be installed and authenticated.
+> Run `claude --version` to verify. If not installed, see [Quickstart](./CLAUDE-CODE-QUICKSTART.md) first (5 min).
+
 ---
 
 ## Quick Start (30 minutes)
