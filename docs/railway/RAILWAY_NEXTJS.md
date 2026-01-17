@@ -65,6 +65,70 @@ restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 3
 ```
 
+## BasePath Configuration (Multi-App Deployments)
+
+When deploying multiple apps under one domain (e.g., `tools.epcvip.vip/funnels/`, `tools.epcvip.vip/compare/`), use Next.js basePath.
+
+### next.config.ts
+
+```typescript
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  output: "standalone",
+  basePath: "/funnels",  // Your app's path prefix
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "*.supabase.co",
+        pathname: "/storage/v1/object/public/**",
+      },
+    ],
+  },
+};
+
+export default nextConfig;
+```
+
+### Health Check Path
+
+**Critical**: Include basePath in health check configuration:
+
+```toml
+# railway.toml
+[deploy]
+healthcheckPath = "/funnels/api/health"  # basePath + /api/health
+```
+
+### Asset Paths
+
+Static assets automatically use basePath, but dynamic paths need handling:
+
+```typescript
+// lib/utils.ts
+const ASSET_BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "/funnels";
+
+// Use in image paths, etc.
+const screenshotUrl = `${ASSET_BASE_PATH}/reports/${date}/screenshots/${filename}`;
+```
+
+### Environment Variable
+
+Set in Railway for runtime access:
+
+```
+NEXT_PUBLIC_BASE_PATH=/funnels
+```
+
+### Common Issues
+
+**404 on static assets**: Verify paths include basePath prefix.
+
+**Health check fails**: Ensure `healthcheckPath` includes basePath.
+
+**Links broken**: Use Next.js `<Link>` component (handles basePath automatically) instead of `<a>` tags.
+
 ## Health Check Endpoint
 
 Create `/app/api/health/route.ts`:
@@ -290,9 +354,18 @@ Fix: Ensure `-H 0.0.0.0` in start command.
 - [Railway Next.js Template](https://github.com/nextjs/deploy-railway)
 - [Railway Config Reference](https://docs.railway.com/reference/config-as-code)
 
-## Production Example
+## Production Examples
 
-**card-deal-app** (Next.js 15.5.9 + React 19):
+### card-deal-app (Next.js 15.5.9 + React 19)
 - URL: https://card-business-production.up.railway.app
 - Health: https://card-business-production.up.railway.app/api/health
 - Stack: Next.js 15, React 19, Supabase Auth, Tailwind CSS
+- Config: Standard Railpack, no basePath
+
+### competitor-analyzer Report Viewer (Next.js 16 + React 19)
+- URL: https://tools.epcvip.vip/funnels/
+- Health: https://tools.epcvip.vip/funnels/api/health
+- Stack: Next.js 16, React 19, Tailwind CSS 4, shadcn/ui
+- Config: Railpack with basePath `/funnels` for multi-app domain
+- Why Railpack: Standard Next.js app, no custom system dependencies
+- Source: `utilities/competitor-analyzer/web/`

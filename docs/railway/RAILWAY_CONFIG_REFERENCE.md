@@ -77,6 +77,28 @@ startCommand = "python -m utils.sync_runner --type smart"
 NIXPACKS_PYTHON_VERSION = "3.11"
 ```
 
+### competitor-analyzer (Next.js with basePath - Jan 2026)
+
+For Next.js apps deployed under a subdomain path:
+
+```toml
+# web/railway.toml
+[build]
+builder = "RAILPACK"
+
+[deploy]
+healthcheckPath = "/funnels/api/health"  # Include basePath!
+healthcheckTimeout = 120
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3
+```
+
+**Dashboard Settings**:
+- Root Directory: `/web` (Next.js app folder in monorepo)
+- Config File Path: `/railway.toml` (relative to root directory)
+
+**Why this pattern**: App deployed at `tools.epcvip.vip/funnels/` requires basePath in next.config.ts AND in healthcheckPath.
+
 ### pulse-cron (Monorepo Cron - Dec 2025)
 
 For cron services in a monorepo where the cron script needs modules from repo root:
@@ -124,6 +146,41 @@ builder = "nixpacks"
 builder = "DOCKERFILE"
 dockerfilePath = "Dockerfile"  # Optional: default is "Dockerfile"
 ```
+
+### Railpack vs Dockerfile Decision Matrix
+
+| Use Case | Recommended | Reason |
+|----------|-------------|--------|
+| Standard Next.js app | **Railpack** | Auto-detects framework, handles standalone builds |
+| Standard Python/FastAPI | **Railpack** | Auto-detects requirements.txt, sets up uvicorn |
+| Standard Node.js app | **Railpack** | Auto-detects package.json, runs build scripts |
+| Multi-stage builds needed | **Dockerfile** | Control over build layers and caching |
+| Custom system packages | **Dockerfile** | apt-get install, custom binaries |
+| Monorepo with shared deps | **Dockerfile** | Better control over dependency resolution |
+| Complex Python (Poetry, etc.) | **Dockerfile** | Explicit dependency management |
+| Quick prototyping | **Railpack** | Zero config, fast iteration |
+
+### Real Project Examples
+
+**competitor-analyzer** → Railpack
+- Type: Next.js 16 Report Viewer
+- Why: Standard framework, no special dependencies
+- Config: `builder = "RAILPACK"` with basePath
+- Source: `utilities/competitor-analyzer/web/railway.toml`
+
+**data-platform-assistant** → Dockerfile
+- Type: Python monorepo with multiple services
+- Why: Multi-stage build, AWS SDK, Athena dependencies
+- Config: Custom `Dockerfile` with apt packages
+- Source: `tools/data-platform-assistant/Dockerfile`
+
+### Migration Guidance
+
+When in doubt, **start with Railpack**. Only switch to Dockerfile when:
+1. Build fails due to missing system packages
+2. You need multi-stage optimization
+3. You have complex dependency trees (Poetry with private repos, etc.)
+4. Framework auto-detection picks wrong settings
 
 ### Build Command
 
@@ -657,6 +714,8 @@ Must use single worker for SQLite.
 
 - **Railway Config Documentation**: https://docs.railway.com/reference/config-as-code
 - **Your Working Configs**:
-  - tiller-bridge/railway.toml
-  - ping-tree-compare/railway.toml
-  - tiller-bridge/railway.cron.toml
+  - tiller-bridge/railway.toml (Python FastAPI)
+  - ping-tree-compare/railway.toml (Python + SQLite volume)
+  - tiller-bridge/railway.cron.toml (Cron job)
+  - competitor-analyzer/web/railway.toml (Next.js with basePath)
+  - data-platform-assistant/Dockerfile (Python monorepo with custom deps)
