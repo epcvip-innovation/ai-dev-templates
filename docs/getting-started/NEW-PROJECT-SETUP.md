@@ -11,6 +11,8 @@ One-stop reference for setting up Claude Code workflows in a new project.
 
 ## Quick Start (30 minutes)
 
+> **Starting fresh?** See [TECH_STACK_DEFAULTS.md](./TECH_STACK_DEFAULTS.md) for recommended tech choices.
+
 ### Step 1: CLAUDE.md (5 min)
 
 Create a hub CLAUDE.md file (100-200 lines max):
@@ -411,6 +413,7 @@ your-project/
 
 ## See Also
 
+- [TECH_STACK_DEFAULTS.md](./TECH_STACK_DEFAULTS.md) - Preferred tech choices for new projects
 - [templates/claude-md/](../../templates/claude-md/) - CLAUDE.md templates
 - [templates/slash-commands/](../../templates/slash-commands/) - Command templates
 - [templates/plugins/](../../templates/plugins/) - Skill templates
