@@ -44,6 +44,12 @@ The core value of this repository. **Browse before using** - these are patterns 
 - 789 lines of detailed standards with recognition patterns
 - **See**: [templates/standards/ANTI_SLOP_STANDARDS.md](./templates/standards/ANTI_SLOP_STANDARDS.md)
 
+**3b. Frontend Standards** (`templates/standards/`)
+- CSS/JS interaction patterns for vanilla JavaScript projects
+- Prevents display type mismatches (block vs flex vs grid)
+- Class-based visibility toggling, state management patterns
+- **See**: [templates/standards/FRONTEND_STANDARDS.md](./templates/standards/FRONTEND_STANDARDS.md)
+
 **4. Hooks System** (`templates/hooks/`)
 - Workflow automation: query validation, pre-commit formatting, logging
 - Event-driven patterns for AI workflows
