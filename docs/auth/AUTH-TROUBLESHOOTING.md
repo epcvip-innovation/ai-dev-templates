@@ -36,6 +36,72 @@ For multi-app setups, accept that localhost OAuth may not work perfectly. Design
 
 ---
 
+## OAuth Callback Fails (PKCE "missing code" or Silent Redirect)
+
+### Symptom
+After Google login, the callback fails with "missing code" error, fails silently, or redirects back to login page.
+
+### Cause
+**Server-side code exchange without `code_verifier`**. PKCE (Proof Key for Code Exchange) requires:
+1. Client generates `code_verifier` and stores it in localStorage
+2. Client sends `code_challenge` (hash of verifier) to auth server
+3. After redirect, the **same client** must exchange `code` + `code_verifier`
+
+If the server tries to exchange the authorization code directly with Supabase's `/auth/v1/token` endpoint, it doesn't have access to the `code_verifier` stored in the browser, causing the exchange to fail.
+
+### Wrong Pattern (Server-Side Exchange)
+```typescript
+// ❌ BROKEN - Server can't access client's code_verifier
+app.get('/auth/callback', async (req, res) => {
+  const { code } = req.query;
+  const response = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=authorization_code`, {
+    body: JSON.stringify({ code }),  // Missing code_verifier!
+  });
+});
+```
+
+### Correct Pattern (Recommended)
+
+```javascript
+// ✅ Let Supabase handle PKCE exchange automatically
+const { data: { session }, error } = await sb.auth.getSession();
+
+if (error) {
+  console.error('[Auth] Session error:', error);
+  window.location.href = '/login?error=oauth_failed';
+  return;
+}
+
+if (session) {
+  // User is authenticated - proceed with app logic
+}
+```
+
+**Why `getSession()` is preferred:**
+- Handles PKCE state management internally
+- Works gracefully when users switch accounts mid-flow (no stale code_verifier issues)
+- Simpler code - no need to parse URL params manually
+- Matches OAuth 2.1 best practices (2026)
+- All EPCVIP repos use this pattern consistently
+
+**Alternative: Explicit exchange (legacy)**
+```javascript
+// ⚠️ Only use if you need fine-grained control over the exchange
+const code = new URLSearchParams(window.location.search).get('code');
+if (code) {
+  const { data, error } = await sb.auth.exchangeCodeForSession(code);
+}
+```
+This approach is more prone to PKCE state misalignment when users switch Google accounts during the OAuth flow.
+
+### Solution
+1. Serve an HTML page at `/auth/callback` (don't handle exchange server-side)
+2. Load Supabase JS SDK in that HTML page
+3. Use `getSession()` - SDK handles PKCE automatically
+4. Never exchange the authorization code server-side without the code_verifier
+
+---
+
 ## Logout Doesn't Work (Redirects Back to Dashboard)
 
 ### Symptom
