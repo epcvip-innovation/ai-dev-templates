@@ -65,6 +65,62 @@ restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 3
 ```
 
+## Standalone Mode + Railpack (Recommended)
+
+When using `output: "standalone"` with Railpack builder, you need **two config files** because Railpack ignores `startCommand` in railway.toml.
+
+### The Problem
+
+Railpack auto-detects Next.js and defaults to `npm run start`, which fails with standalone:
+```
+⚠ "next start" does not work with "output: standalone" configuration.
+Use "node .next/standalone/server.js" instead.
+```
+
+### The Solution
+
+**1. `railway.toml`** - Railway platform settings only:
+```toml
+[build]
+builder = "RAILPACK"
+
+[deploy]
+healthcheckPath = "/api/health"
+healthcheckTimeout = 120
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3
+```
+
+**2. `railpack.json`** - Railpack builder settings (same directory):
+```json
+{
+  "$schema": "https://schema.railpack.com",
+  "deploy": {
+    "startCommand": "node .next/standalone/server.js",
+    "variables": {
+      "HOSTNAME": "0.0.0.0"
+    }
+  }
+}
+```
+
+### Why HOSTNAME=0.0.0.0?
+
+Next.js standalone binds to the container hostname by default. Without this, the server listens on an internal hostname and Railway's health checks can't reach it:
+```
+# Without HOSTNAME - fails health checks
+- Network: http://d812d860f458:8080
+
+# With HOSTNAME=0.0.0.0 - works
+- Network: http://0.0.0.0:8080
+```
+
+### Performance Impact
+
+This pattern significantly improves build times:
+- Before (npm run start): ~347 seconds
+- After (standalone): ~38 seconds (89% faster)
+
 ## BasePath Configuration (Multi-App Deployments)
 
 When deploying multiple apps under one domain (e.g., `tools.epcvip.vip/funnels/`, `tools.epcvip.vip/compare/`), use Next.js basePath.
@@ -363,9 +419,10 @@ Fix: Ensure `-H 0.0.0.0` in start command.
 - Config: Standard Railpack, no basePath
 
 ### competitor-analyzer Report Viewer (Next.js 16 + React 19)
-- URL: https://tools.epcvip.vip/funnels/
-- Health: https://tools.epcvip.vip/funnels/api/health
+- URL: https://tools.epcvip.vip
+- Health: https://tools.epcvip.vip/api/health
 - Stack: Next.js 16, React 19, Tailwind CSS 4, shadcn/ui
-- Config: Railpack with basePath `/funnels` for multi-app domain
-- Why Railpack: Standard Next.js app, no custom system dependencies
+- Config: Railpack + `railpack.json` for standalone startCommand
 - Source: `utilities/competitor-analyzer/web/`
+- Key files: `railway.toml` (platform), `railpack.json` (builder)
+- Note: Uses standalone pattern documented above - 89% faster builds

@@ -77,27 +77,44 @@ startCommand = "python -m utils.sync_runner --type smart"
 NIXPACKS_PYTHON_VERSION = "3.11"
 ```
 
-### competitor-analyzer (Next.js with basePath - Jan 2026)
+### competitor-analyzer (Next.js Standalone + Railpack - Jan 2026)
 
-For Next.js apps deployed under a subdomain path:
+Next.js with standalone output requires **two config files** when using Railpack:
 
+**1. `web/railway.toml`** - Railway platform settings:
 ```toml
-# web/railway.toml
 [build]
 builder = "RAILPACK"
 
 [deploy]
-healthcheckPath = "/funnels/api/health"  # Include basePath!
+healthcheckPath = "/api/health"
 healthcheckTimeout = 120
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 3
 ```
 
-**Dashboard Settings**:
-- Root Directory: `/web` (Next.js app folder in monorepo)
-- Config File Path: `/railway.toml` (relative to root directory)
+**2. `web/railpack.json`** - Railpack builder settings (including startCommand):
+```json
+{
+  "$schema": "https://schema.railpack.com",
+  "deploy": {
+    "startCommand": "node .next/standalone/server.js",
+    "variables": {
+      "HOSTNAME": "0.0.0.0"
+    }
+  }
+}
+```
 
-**Why this pattern**: App deployed at `tools.epcvip.vip/funnels/` requires basePath in next.config.ts AND in healthcheckPath.
+**Why two files?**
+- `railway.toml` controls Railway platform (health checks, restart policy)
+- `railpack.json` controls Railpack builder (start command, env vars)
+- Railpack ignores `startCommand` in railway.toml - it uses its own config!
+
+**Why HOSTNAME=0.0.0.0?**
+Next.js standalone binds to container hostname by default. Setting `HOSTNAME=0.0.0.0` makes it listen on all interfaces so Railway's health checks can reach it.
+
+**Results**: Build time dropped from ~347s to ~38s (89% faster)
 
 ### pulse-cron (Monorepo Cron - Dec 2025)
 
