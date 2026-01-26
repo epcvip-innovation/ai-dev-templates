@@ -71,6 +71,39 @@ Claude Code hooks are shell commands that execute at specific workflow events:
 
 ---
 
+### 3b. Enhanced Sensitive File Blocker (Example) - NEW
+**Path**: [`examples/sensitive-file-blocker/sensitive-file-blocker-enhanced.py`](./examples/sensitive-file-blocker/sensitive-file-blocker-enhanced.py)
+**Use case**: Comprehensive secrets/credentials protection
+**Features**:
+- Multi-strategy detection: exact filenames, extensions, path patterns
+- 30+ blocked filenames (vs 4 in basic version)
+- Extension blocking (.pem, .key, .p12, .jks, .crt)
+- Regex path patterns (/secrets/, /credentials/, etc.)
+- SSH key protection (id_rsa, id_ed25519, known_hosts)
+- Cloud credentials (.aws/credentials, .gcloud/, .azure/)
+- Optional Read blocking
+
+**When to use**: Any project handling credentials or sensitive data
+
+**Attribution**: Based on [TheDecipherist/claude-code-mastery](https://github.com/TheDecipherist/claude-code-mastery)
+
+---
+
+### 5. Dangerous Commands Blocker (Example) - NEW
+**Path**: [`examples/dangerous-commands-blocker/`](./examples/dangerous-commands-blocker/)
+**Use case**: Prevent destructive Bash commands
+**Features**:
+- Blocks: `rm -rf /`, curl-to-shell, force push to main, DROP DATABASE
+- Warns: recursive delete, chmod 777, force push (general)
+- Early exit for safe commands (performance)
+- Regex-based pattern matching
+
+**When to use**: Any project where Claude executes Bash commands
+
+**Attribution**: Based on [TheDecipherist/claude-code-mastery](https://github.com/TheDecipherist/claude-code-mastery)
+
+---
+
 ### 4. Command Logger (Example)
 **Path**: [`examples/command-logger/`](./examples/command-logger/)
 **Use case**: Audit trail of all Bash commands
