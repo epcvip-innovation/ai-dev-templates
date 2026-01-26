@@ -1,5 +1,9 @@
 # Supabase Code Patterns
 
+Generic authentication code patterns for different frameworks. These are **copy-paste starting points** - customize for your project's access control requirements (RBAC tables, allowed domains, etc.).
+
+---
+
 Proven authentication patterns for different frameworks.
 
 ## Streamlit Pattern
@@ -67,7 +71,7 @@ from fastapi import Request, HTTPException, status
 
 # Configuration
 SUPABASE_JWT_SECRET = os.getenv("SUPABASE_JWT_SECRET", "")
-ALLOWED_DOMAIN = os.getenv("ALLOWED_DOMAIN", "epcvip.com")
+ALLOWED_DOMAIN = os.getenv("ALLOWED_DOMAIN", "")
 JWT_ALGORITHM = "HS256"
 
 def verify_supabase_token(token: str) -> Optional[Dict[str, Any]]:
@@ -265,10 +269,19 @@ The FastAPI pattern above supports both automatically.
 
 ```bash
 # Required
-SUPABASE_URL=https://yuithqxycicgokkgmpzg.supabase.co
+SUPABASE_URL=https://your-project.supabase.co
 SUPABASE_ANON_KEY=<anon-key>
 SUPABASE_JWT_SECRET=<jwt-secret>
+
+# Access control
+ALLOWED_USERS=user1@domain.com,user2@domain.com
 
 # Production mode
 ENVIRONMENT=production
 ```
+
+---
+
+## Note
+
+For comprehensive auth templates, see [templates/auth/](../../templates/auth/).

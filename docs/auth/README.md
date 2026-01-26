@@ -1,66 +1,50 @@
-# Authentication with Supabase
+# Authentication Documentation
 
-Standard authentication pattern for EPCVIP internal tools using Supabase Auth.
+## Templates (Recommended)
 
-## Why Supabase Auth
+For reusable auth patterns, see the template library:
 
-| Requirement | Supabase Delivers |
-|-------------|-------------------|
-| Works for Streamlit, FastAPI, custom UIs | SDKs for Python, JS, and more |
-| Password reset, MFA, admin panel | All built-in |
-| Learn once, use everywhere | Same patterns across all apps |
-| Low/no cost | Free 100K MAU |
-| SOC2 certified | Type 2 |
+| Template | Description |
+|----------|-------------|
+| [templates/auth/README.md](../../templates/auth/README.md) | Overview and decision guide |
+| [templates/auth/SUPABASE_AUTH.md](../../templates/auth/SUPABASE_AUTH.md) | Supabase setup and code patterns |
+| [templates/auth/ACCESS_CONTROL.md](../../templates/auth/ACCESS_CONTROL.md) | Per-app allowlists and RBAC |
+
+## Project-Specific Setup
+
+These docs contain setup guides specific to your environment:
+
+| Guide | Description |
+|-------|-------------|
+| [SUPABASE-SETUP-GUIDE.md](SUPABASE-SETUP-GUIDE.md) | How to set up a new Supabase project |
+| [AUTH-TROUBLESHOOTING.md](AUTH-TROUBLESHOOTING.md) | Common issues and solutions |
 
 ## Quick Start Checklist
 
 ### New Project Setup
-- [ ] Get Supabase credentials from existing project (or create new)
+- [ ] Get Supabase credentials (create project or reuse existing)
 - [ ] Add env vars: `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_JWT_SECRET`
-- [ ] Copy appropriate code pattern (Streamlit or FastAPI)
+- [ ] Copy code pattern from [templates/auth/](../../templates/auth/)
 - [ ] Add production URL to Supabase Redirect URLs
-- [ ] Deploy to Railway
-
-### Existing Supabase Project
-- **Project**: `epcvip-auth` (shared across tools)
-- **Dashboard**: https://supabase.com/dashboard/project/yuithqxycicgokkgmpzg
-
-## Documentation
-
-| Guide | Description |
-|-------|-------------|
-| [SUPABASE-SETUP-GUIDE.md](SUPABASE-SETUP-GUIDE.md) | Project setup, providers, credentials |
-| [SUPABASE-CODE-PATTERNS.md](SUPABASE-CODE-PATTERNS.md) | Streamlit, FastAPI, and frontend patterns |
-| [AUTH-TROUBLESHOOTING.md](AUTH-TROUBLESHOOTING.md) | Common issues and solutions |
-
-## Currently Deployed Tools
-
-| Tool | Framework | Auth Status |
-|------|-----------|-------------|
-| athena-usage-monitor | Streamlit | Supabase (Google OAuth) |
-| ping-tree-compare | FastAPI | Supabase (Google OAuth + Email) |
+- [ ] Configure `ALLOWED_USERS` or `ALLOWED_DOMAIN`
+- [ ] Deploy
 
 ## Environment Variables
 
-### Required for All Apps
 ```bash
-SUPABASE_URL=https://yuithqxycicgokkgmpzg.supabase.co
-SUPABASE_ANON_KEY=<get from dashboard>
+# Required
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_ANON_KEY=eyJ...
+
+# Server-side (FastAPI, Next.js API routes)
+SUPABASE_JWT_SECRET=your-jwt-secret
+
+# Access control
+ALLOWED_USERS=user1@domain.com,user2@domain.com
+ALLOWED_DOMAIN=yourdomain.com
 ```
 
-### Additional for FastAPI Backend
-```bash
-SUPABASE_JWT_SECRET=<get from dashboard - Settings > API > JWT Secret>
-```
+## See Also
 
-### Optional Development
-```bash
-ENVIRONMENT=development
-DEVELOPER_HOME_IP=<your WSL IP>  # Enables localhost auth bypass
-```
-
-## Related Resources
-
-- **Templates**: `utilities/supabase-auth-templates/`
-- **Tools Hub**: https://ahhhdum.github.io/epcvip-tools-hub/
-- **Railway Docs**: `docs/railway/`
+- [Railway Deployment](../railway/README.md) — Deploying with env vars
+- [Testing](../../templates/testing/README.md) — Testing auth flows with Playwright

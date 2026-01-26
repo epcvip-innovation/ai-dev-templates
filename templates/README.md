@@ -17,7 +17,7 @@ Production-validated patterns for AI-assisted development.
 
 ---
 
-## 10 Template Categories
+## 11 Template Categories
 
 | Category | Purpose | Entry Point |
 |----------|---------|-------------|
@@ -31,6 +31,7 @@ Production-validated patterns for AI-assisted development.
 | **permissions** | Tool access configuration | [README](./permissions/README.md) |
 | **testing** | Playwright + Claude Code patterns | [PLAYWRIGHT_CLAUDE_GUIDE.md](./testing/PLAYWRIGHT_CLAUDE_GUIDE.md) |
 | **ci** | GitHub Actions workflows | [README](./ci/README.md) |
+| **auth** | Supabase Auth & access control patterns | [README](./auth/README.md) |
 
 ---
 
