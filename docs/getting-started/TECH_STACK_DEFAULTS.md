@@ -29,6 +29,7 @@ When starting a new project, these are battle-tested choices based on real produ
 - Auto-deploy on push to main
 - Custom domains via Cloudflare
 - Persistent volumes for SQLite
+- **Static assets**: Git-hash versioning for CDN cache-busting. See [STATIC-ASSETS-CDN.md](../reference/STATIC-ASSETS-CDN.md)
 
 ---
 

@@ -1,9 +1,9 @@
 # Architectural Decision Record: WSL for Development
 
-**Status**: Active  
-**Date**: 2024-09  
-**Deciders**: Personal development workflow  
-**Last Updated**: 2025-11-16
+**Status**: Active
+**Date**: 2024-09
+**Deciders**: Personal development workflow
+**Last Updated**: 2026-01-21
 
 ---
 
@@ -109,7 +109,7 @@ All code repositories, Claude Code, Codex, and most development tooling run in W
 
 ### Neutral
 
-- **Resource allocation**: Configured WSL with 24GB RAM, 26 processors (out of 64GB, 32 threads)
+- **Resource allocation**: Configure WSL based on your hardware (see `.wslconfig` example below)
 - **Both environments available**: Can use Windows tools when needed
 
 ---
@@ -118,14 +118,31 @@ All code repositories, Claude Code, Codex, and most development tooling run in W
 
 ### Current Configuration
 
-**WSL Version**: WSL2  
-**Distribution**: Ubuntu  
-**Resource Allocation** (`.wslconfig`):
+**WSL Version**: WSL2
+**Distribution**: Ubuntu
+**Config Location**: `C:\Users\<username>\.wslconfig`
+
+**Recommended .wslconfig** (as of 2026-01):
 ```ini
 [wsl2]
-memory=24GB
-processors=26
+# Resource allocation (adjust to your hardware)
+memory=48GB
+processors=16
+swap=8GB
+
+# Networking - NAT mode (default, most compatible)
+localhostForwarding=true   # Access WSL services from Windows
+firewall=true
+autoProxy=true
+
+[experimental]
+sparseVhd=true             # Auto-shrink disk
+autoMemoryReclaim=gradual  # Return unused RAM to Windows
 ```
+
+**Full reference:** See `~/WSL-CONFIG-REFERENCE.md` or [WSL-NODE-WORKAROUNDS.md](../reference/WSL-NODE-WORKAROUNDS.md)
+
+**Why NAT mode (default):** Simpler and more compatible than mirrored mode. Node.js timeouts are resolved with `UNDICI_NO_HTTP2=1` (set globally in `~/.bashrc` or per-project in `package.json`). Mirrored mode can cause Windows DNS resolution failures on some setups.
 
 **Directory Structure**:
 ```
@@ -223,8 +240,8 @@ Windows:
 
 ## Decision Review
 
-**Review Date**: Quarterly  
-**Next Review**: 2026-02
+**Review Date**: Quarterly
+**Next Review**: 2026-04
 
 **Criteria for Reconsidering**:
 - WSL performance degrades
