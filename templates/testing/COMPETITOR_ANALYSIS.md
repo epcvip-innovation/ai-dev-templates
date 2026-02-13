@@ -294,6 +294,12 @@ For large-scale or ongoing monitoring, consider dedicated tools:
 3. 🟢 Low: Zapier integration (nice to have)
 ```
 
+## Related Guides
+
+- [MCP_WORKFLOW_GUIDE.md](./MCP_WORKFLOW_GUIDE.md) — Competitor analysis is Pattern 5 in the MCP workflow guide
+- [PLAYWRIGHT_CLAUDE_GUIDE.md](./PLAYWRIGHT_CLAUDE_GUIDE.md) — MCP setup and all 5 Playwright approaches
+- [COST_OPTIMIZATION_GUIDE.md](./COST_OPTIMIZATION_GUIDE.md) — Model selection for cost-effective analysis
+
 ## Further Reading
 
 - [Browse AI: Competitor Monitoring](https://www.browse.ai/)

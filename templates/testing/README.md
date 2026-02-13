@@ -6,18 +6,34 @@ E2E testing patterns for Claude Code projects using Playwright.
 
 > **2026 Insight**: "2026 is the year testers move from 'writing scripts' to orchestrating AI-powered automation workflows."
 
+## Start Here
+
+**New to Playwright + Claude Code?** Start with [PLAYWRIGHT_CLAUDE_GUIDE.md](./PLAYWRIGHT_CLAUDE_GUIDE.md) — it covers all 5 approaches, setup, and patterns.
+
+**Already using Playwright?** Jump to what you need:
+
+| Goal | Read |
+|------|------|
+| Reduce token costs / pick the right model | [COST_OPTIMIZATION_GUIDE.md](./COST_OPTIMIZATION_GUIDE.md) |
+| Use MCP for browser exploration | [MCP_WORKFLOW_GUIDE.md](./MCP_WORKFLOW_GUIDE.md) |
+| CLI vs MCP vs Chrome — full comparison | [BROWSER_AUTOMATION_LANDSCAPE_2026.md](./BROWSER_AUTOMATION_LANDSCAPE_2026.md) |
+
+**Want the full picture?** [BROWSER_AUTOMATION_LANDSCAPE_2026.md](./BROWSER_AUTOMATION_LANDSCAPE_2026.md) covers every approach, model benchmark, and platform compatibility matrix.
+
 ## Contents
 
-| File | Purpose |
-|------|---------|
-| [PLAYWRIGHT_CLAUDE_GUIDE.md](./PLAYWRIGHT_CLAUDE_GUIDE.md) | Comprehensive guide: 5 approaches, setup, patterns |
-| [MCP_WORKFLOW_GUIDE.md](./MCP_WORKFLOW_GUIDE.md) | Claude-driven browser control workflows |
-| [COST_OPTIMIZATION_GUIDE.md](./COST_OPTIMIZATION_GUIDE.md) | Cost analysis, model pricing, optimization strategies |
-| [BROWSER_AUTOMATION_LANDSCAPE_2026.md](./BROWSER_AUTOMATION_LANDSCAPE_2026.md) | **NEW** Full landscape: 5 approaches, model selection, platform compatibility |
-| [AUDIT_2026-02.md](./AUDIT_2026-02.md) | **NEW** Cross-repo Playwright audit with per-repo findings |
-| [COMPETITOR_ANALYSIS.md](./COMPETITOR_ANALYSIS.md) | Using MCP for competitor research |
-| [RESEARCH_ARCHIVE.md](./RESEARCH_ARCHIVE.md) | Curated 2026 research findings and sources |
-| [examples/](./examples/) | Copy-paste starter files (configs, Page Objects, fixtures) |
+| File | Type | Purpose |
+|------|------|---------|
+| [PLAYWRIGHT_CLAUDE_GUIDE.md](./PLAYWRIGHT_CLAUDE_GUIDE.md) | Guide | Comprehensive guide: 5 approaches, setup, patterns |
+| [MCP_WORKFLOW_GUIDE.md](./MCP_WORKFLOW_GUIDE.md) | Guide | Claude-driven browser control workflows |
+| [COST_OPTIMIZATION_GUIDE.md](./COST_OPTIMIZATION_GUIDE.md) | Reference | Cost analysis, model pricing, optimization strategies |
+| [BROWSER_AUTOMATION_LANDSCAPE_2026.md](./BROWSER_AUTOMATION_LANDSCAPE_2026.md) | Reference | Full landscape: 5 approaches, model selection, platform compatibility |
+| [PLAYWRIGHT_CLI_EVALUATION.md](./PLAYWRIGHT_CLI_EVALUATION.md) | Reference | CLI vs MCP token measurements and comparison |
+| [AUDIT_2026-02.md](./AUDIT_2026-02.md) | Audit | Cross-repo Playwright audit with per-repo findings |
+| [COMPETITOR_ANALYSIS.md](./COMPETITOR_ANALYSIS.md) | Guide | Using MCP for competitor research |
+| [RESEARCH_ARCHIVE.md](./RESEARCH_ARCHIVE.md) | Archive | Curated 2026 research findings and sources |
+| [STATUS.md](./STATUS.md) | Status | Verification state of every doc and template |
+| [examples/](./examples/) | Templates | Copy-paste starter files (configs, Page Objects, fixtures) |
 
 ## The 5 Approaches to Playwright
 
@@ -141,14 +157,23 @@ Page Object Model with:
 - State inspection
 - Cleanup
 
-## Further Reading
+## Reading Order
 
-- [PLAYWRIGHT_CLAUDE_GUIDE.md](./PLAYWRIGHT_CLAUDE_GUIDE.md) — Full guide with 5 approaches
-- [MCP_WORKFLOW_GUIDE.md](./MCP_WORKFLOW_GUIDE.md) — MCP-specific patterns
-- [COST_OPTIMIZATION_GUIDE.md](./COST_OPTIMIZATION_GUIDE.md) — Cost analysis, model selection
-- [BROWSER_AUTOMATION_LANDSCAPE_2026.md](./BROWSER_AUTOMATION_LANDSCAPE_2026.md) — Landscape analysis, CLI vs MCP
-- [AUDIT_2026-02.md](./AUDIT_2026-02.md) — Cross-repo audit findings
-- [COMPETITOR_ANALYSIS.md](./COMPETITOR_ANALYSIS.md) — Market research automation
+```
+PLAYWRIGHT_CLAUDE_GUIDE          ← start here
+    │           │           │
+    ▼           ▼           ▼
+MCP_WORKFLOW   COST_OPT   BROWSER_LANDSCAPE
+    │                          │
+    ▼                          ▼
+COMPETITOR                 CLI_EVALUATION
+ANALYSIS
+```
+
+**Background reading** (no particular order): [AUDIT_2026-02](./AUDIT_2026-02.md), [STATUS](./STATUS.md), [RESEARCH_ARCHIVE](./RESEARCH_ARCHIVE.md)
+
+## External Links
+
 - [Playwright Docs](https://playwright.dev/docs/intro)
 - [Microsoft Playwright MCP](https://github.com/microsoft/playwright-mcp)
 - [Playwright Agents](https://playwright.dev/docs/test-agents) — AI-powered test generation (v1.56+, experimental)

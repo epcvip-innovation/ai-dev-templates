@@ -239,6 +239,9 @@ npx playwright init-agents --loop=vscode
 ## See Also
 
 - [BROWSER_AUTOMATION_LANDSCAPE_2026.md](./BROWSER_AUTOMATION_LANDSCAPE_2026.md) — Full landscape analysis, platform compatibility, CLI vs MCP
+- [PLAYWRIGHT_CLI_EVALUATION.md](./PLAYWRIGHT_CLI_EVALUATION.md) — Token measurements behind section 5 above
+- [PLAYWRIGHT_CLAUDE_GUIDE.md](./PLAYWRIGHT_CLAUDE_GUIDE.md) — Setup for the testing layers described here
+- [MCP_WORKFLOW_GUIDE.md](./MCP_WORKFLOW_GUIDE.md) — Layer 3 AI QA workflow patterns
 - [AUDIT_2026-02.md](./AUDIT_2026-02.md) — Cross-repo Playwright audit with per-repo findings
 
 ## Sources
