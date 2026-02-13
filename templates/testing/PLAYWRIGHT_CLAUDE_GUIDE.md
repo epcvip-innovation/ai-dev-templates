@@ -4,39 +4,54 @@ A comprehensive guide for automated E2E testing using Playwright, with patterns 
 
 > **2026 Insight**: "2026 is the year testers move from 'writing scripts' to orchestrating AI-powered automation workflows." — [TestLeaf](https://www.testleaf.com/blog/playwright-mcp-ai-test-automation-2026/)
 
-## The 4 Modes of Playwright
+## The 5 Approaches to Playwright (February 2026)
 
-| Mode | Command | Who Sees Page | Best For |
-|------|---------|---------------|----------|
+| Approach | Command / Setup | Who Sees Page | Best For |
+|----------|----------------|---------------|----------|
 | **Headless** | `npx playwright test` | Nobody | CI/CD, fast regression |
 | **Headed** | `npx playwright test --headed` | Human watches | Demos, stakeholder presentations |
 | **UI Mode** | `npx playwright test --ui` | Human interacts | Debugging, writing tests |
 | **MCP** | Claude + Playwright MCP | Claude AI | Exploration, visual bugs, competitor analysis |
+| **Chrome** | Claude Code Chrome (beta) | Claude AI | Quick browser tasks (macOS/Linux only, **NOT WSL2**) |
 
-## Two Fundamental Approaches
+> **New in 2026:** Playwright CLI (`@playwright/cli`) offers ~3x token savings vs MCP (verified) — see [BROWSER_AUTOMATION_LANDSCAPE_2026.md](./BROWSER_AUTOMATION_LANDSCAPE_2026.md) and [evaluation results](./PLAYWRIGHT_CLI_EVALUATION.md).
 
-Playwright with Claude Code operates in two complementary approaches:
+## Three Fundamental Approaches
 
-### Mode 1: Scripted Tests (CI/Regression)
+### Approach 1: Scripted Tests (CI/Regression)
 
 ```
 Code runs → Assertions check → Pass/Fail
 ```
 
-- **Who sees the page**: Nobody - just code assertions
+- **Who sees the page**: Nobody — just code assertions
 - **Speed**: Fast (milliseconds per action)
 - **Repeatability**: 100% deterministic
 - **Best for**: CI/CD, regression testing, automated checks
 
-### Mode 2: MCP Browser Control (Claude-Driven)
+### Approach 2: MCP Browser Control (Claude-Driven)
 
 ```
 Claude navigates → Takes snapshot → Claude SEES the page → Decides action
 ```
 
-- **Who sees the page**: Claude AI sees screenshots and DOM
-- **Speed**: Slower (AI thinking time)
+- **Who sees the page**: Claude AI sees accessibility tree and DOM
+- **Speed**: Slower (AI thinking time + MCP protocol overhead)
 - **Best for**: Exploration, debugging, one-off tasks, visual verification
+- **Current version**: v0.0.64 (in-memory profiles by default)
+
+### Approach 3: Claude Code Chrome (Beta)
+
+```
+Claude uses built-in browser → No MCP setup needed
+```
+
+- **Who sees the page**: Claude AI directly
+- **Speed**: Fast (no MCP protocol overhead)
+- **Platform**: macOS, native Linux only — **does NOT work on WSL2**
+- **Best for**: Quick browser tasks when MCP isn't configured
+
+> **WSL2 users:** Claude Code Chrome is not available in WSL2. Use Playwright MCP instead.
 
 ## When to Use Which
 
@@ -433,29 +448,37 @@ The Model Context Protocol (MCP) lets Claude control a real browser, observe res
 claude mcp add playwright npx '@playwright/mcp@latest'
 ```
 
-Or configure manually in `~/.claude.json` or `.mcp.json`:
+Or configure manually in `.mcp.json` (project-level, recommended):
 
 ```json
 {
   "mcpServers": {
     "playwright": {
+      "type": "stdio",
       "command": "npx",
-      "args": ["@playwright/mcp@latest"]
+      "args": ["-y", "@playwright/mcp@latest", "--no-sandbox"]
     }
   }
 }
 ```
 
+> **WSL2/Linux:** Always include `--no-sandbox`. See [examples/mcp.json.template](./examples/mcp.json.template) for platform-specific configs.
+
+> **v0.0.64 note:** In-memory profiles are now the default (`--isolated` behavior). Use `--user-data-dir` for persistent profiles.
+
 ### Available MCP Tools
 
-Claude can use 25+ browser control tools:
+Claude can use 28+ browser control tools:
 
 | Category | Tools |
 |----------|-------|
-| **Navigation** | `browser_navigate`, `browser_navigate_back`, `browser_navigate_forward` |
+| **Navigation** | `browser_navigate`, `browser_navigate_back` |
 | **Observation** | `browser_snapshot`, `browser_take_screenshot`, `browser_console_messages` |
-| **Interaction** | `browser_click`, `browser_type`, `browser_fill_form`, `browser_select_option` |
+| **Interaction** | `browser_click`, `browser_type`, `browser_fill_form`, `browser_select_option`, `browser_hover`, `browser_drag` |
+| **Input** | `browser_press_key`, `browser_file_upload`, `browser_handle_dialog` |
 | **State** | `browser_network_requests`, `browser_tabs`, `browser_evaluate` |
+| **Automation** | `browser_run_code` — run Playwright code snippets directly |
+| **Control** | `browser_wait_for`, `browser_resize`, `browser_close`, `browser_install` |
 
 ### How MCP Works
 
@@ -589,8 +612,23 @@ test('guest user sees login prompt when adding to cart', async ({ page }) => {
 | `npx playwright show-report` | View HTML report |
 | `npx playwright codegen` | Generate tests by recording |
 
+## Platform Compatibility
+
+| Approach | macOS | Linux | WSL2 | CI (Ubuntu) |
+|----------|:-----:|:-----:|:----:|:-----------:|
+| Playwright MCP | Yes | Yes | Yes* | Yes** |
+| Playwright CLI | Yes | Yes | Yes* | Yes |
+| Claude Code Chrome | Yes | Yes | **NO** | No |
+| Scripted Tests | Yes | Yes | Yes* | Yes |
+
+*\*Requires `--no-sandbox` flag*
+*\*\*Requires `--headless` flag*
+
 ## See Also
 
+- [BROWSER_AUTOMATION_LANDSCAPE_2026.md](./BROWSER_AUTOMATION_LANDSCAPE_2026.md) — Full landscape analysis, model selection guide
+- [AUDIT_2026-02.md](./AUDIT_2026-02.md) — Cross-repo Playwright audit
+- [COST_OPTIMIZATION_GUIDE.md](./COST_OPTIMIZATION_GUIDE.md) — Model pricing and cost optimization
 - [Playwright Documentation](https://playwright.dev/docs/intro)
 - [Page Object Model](https://playwright.dev/docs/pom)
 - [Fixtures](https://playwright.dev/docs/test-fixtures)

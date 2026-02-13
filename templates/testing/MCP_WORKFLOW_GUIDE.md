@@ -2,6 +2,8 @@
 
 A practical guide for using Claude Code with Playwright MCP for browser automation, debugging, and exploration.
 
+> **February 2026 Update:** MCP is now at v0.0.64 with 28+ tools. For a comparison of MCP vs the new Playwright CLI (2-4x fewer tokens, verified), see [BROWSER_AUTOMATION_LANDSCAPE_2026.md](./BROWSER_AUTOMATION_LANDSCAPE_2026.md).
+
 ## What is MCP?
 
 **Model Context Protocol (MCP)** is a standard that allows AI tools to communicate with local systems. Playwright MCP exposes browser automation as tools that Claude can call directly.
@@ -17,20 +19,23 @@ A practical guide for using Claude Code with Playwright MCP for browser automati
 claude mcp add playwright npx '@playwright/mcp@latest'
 ```
 
-### Manual Configuration
+### Manual Configuration (Recommended)
 
-Add to `~/.claude.json` or project `.mcp.json`:
+Add to project `.mcp.json`:
 
 ```json
 {
   "mcpServers": {
     "playwright": {
+      "type": "stdio",
       "command": "npx",
-      "args": ["@playwright/mcp@latest"]
+      "args": ["-y", "@playwright/mcp@latest", "--no-sandbox"]
     }
   }
 }
 ```
+
+> **Required flags:** `-y` (auto-confirm npx), `--no-sandbox` (WSL2/Linux). See [examples/mcp.json.template](./examples/mcp.json.template) for platform variants.
 
 ### Verify Installation
 
@@ -103,13 +108,20 @@ Claude should open a browser, navigate, and describe the page.
 | `browser_hover` | Hover over element |
 | `browser_drag` | Drag and drop |
 
+### Automation
+| Tool | Purpose |
+|------|---------|
+| `browser_run_code` | Run Playwright code snippets directly |
+
 ### Utility
 | Tool | Purpose |
 |------|---------|
 | `browser_wait_for` | Wait for text/element |
-| `browser_evaluate` | Run JavaScript |
+| `browser_evaluate` | Run JavaScript on page |
+| `browser_handle_dialog` | Accept/dismiss browser dialogs |
 | `browser_close` | Close browser |
 | `browser_resize` | Resize viewport |
+| `browser_install` | Install browser (first-time setup) |
 
 ## Workflow Patterns
 
@@ -316,17 +328,27 @@ cat ~/.claude.json | grep playwright
 
 ### Slow Performance
 
-The `@tontoko/fast-playwright-mcp` fork optimizes tokens:
+**Option 1: Playwright CLI (recommended for token savings)**
+
+The new Playwright CLI uses 2-4x fewer tokens than MCP. See [BROWSER_AUTOMATION_LANDSCAPE_2026.md](./BROWSER_AUTOMATION_LANDSCAPE_2026.md#3-playwright-cli-vs-mcp-comparison) for setup and comparison.
+
+**Option 2: `@tontoko/fast-playwright-mcp` fork**
+
+Third-party fork that optimizes MCP tokens. The official CLI is now the better alternative, but this exists:
 ```json
 {
   "mcpServers": {
     "playwright": {
       "command": "npx",
-      "args": ["@tontoko/fast-playwright-mcp"]
+      "args": ["-y", "@tontoko/fast-playwright-mcp"]
     }
   }
 }
 ```
+
+### Model Selection for MCP Workflows
+
+Use **Haiku 4.5** for MCP-driven QA to reduce costs — same browser automation accuracy as Sonnet (61% OSWorld) at 3x lower cost. See [COST_OPTIMIZATION_GUIDE.md](./COST_OPTIMIZATION_GUIDE.md#model-selection-for-browser-automation) for full analysis.
 
 ## Integration with CI
 
@@ -345,8 +367,22 @@ While MCP is primarily for interactive use, you can trigger Claude-driven testin
 
 See [Alex Op's AI QA Engineer](https://alexop.dev/posts/building_ai_qa_engineer_claude_code_playwright/) for a full implementation.
 
+## Playwright CLI Alternative
+
+For workflows where token cost matters (CI, batch automation), consider the **Playwright CLI** — uses shell commands instead of MCP tools, achieving 2-4x token reduction (~890 vs ~3,330 tokens measured per flow).
+
+| Aspect | MCP | CLI |
+|--------|-----|-----|
+| Tokens per flow | ~3,330 | ~890 |
+| Setup | `.mcp.json` config | `npm i -g @anthropic-ai/playwright-cli` + `playwright-cli install` |
+| Best for | Interactive exploration | Scripted automation, CI |
+
+See [BROWSER_AUTOMATION_LANDSCAPE_2026.md](./BROWSER_AUTOMATION_LANDSCAPE_2026.md#3-playwright-cli-vs-mcp-comparison) for full comparison.
+
 ## Further Reading
 
+- [BROWSER_AUTOMATION_LANDSCAPE_2026.md](./BROWSER_AUTOMATION_LANDSCAPE_2026.md) — Full landscape analysis
+- [COST_OPTIMIZATION_GUIDE.md](./COST_OPTIMIZATION_GUIDE.md) — Model pricing and optimization
 - [Microsoft Playwright MCP](https://github.com/microsoft/playwright-mcp)
 - [Simon Willison's TIL](https://til.simonwillison.net/claude-code/playwright-mcp-claude-code)
 - [TestLeaf 2026 Guide](https://www.testleaf.com/blog/playwright-mcp-ai-test-automation-2026/)

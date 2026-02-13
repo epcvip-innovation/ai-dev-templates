@@ -18,18 +18,48 @@ A comprehensive guide to cost-effective testing strategies combining traditional
 
 ---
 
-## Claude Model Pricing (2026)
+## Claude Model Pricing (February 2026)
 
-| Model | Input/M | Output/M | Use Case |
-|-------|---------|----------|----------|
-| **Haiku 3.5** | $0.80 | $4.00 | Simple checks, high volume |
-| **Haiku 4.5** | $1.00 | $5.00 | Quick smoke tests |
-| **Sonnet 4.5** | $3.00 | $15.00 | Balanced (recommended default) |
-| **Opus 4.5** | $5.00 | $25.00 | Complex reasoning, fewer turns |
+| Model | Input/MTok | Output/MTok | Speed (t/s) | Use Case |
+|-------|:----------:|:-----------:|:-----------:|----------|
+| **Haiku 3.5** | $0.80 | $4.00 | ~100 | Simple checks, high volume |
+| **Haiku 4.5** | $1.00 | $5.00 | 105 | CI QA, browser automation, smoke tests |
+| **Sonnet 4.5** | $3.00 | $15.00 | 70 | Balanced default |
+| **Opus 4.6** | $5.00 | $25.00 | 72 | Complex reasoning, fewer turns |
+| **Opus 4.6 Fast** | $30.00 | $150.00 | 178 | Speed-critical, interactive debugging |
+
+### Model Selection for Browser Automation
+
+Based on OSWorld benchmarks (the standard for browser automation evaluation):
+
+| Model | OSWorld Score | Cost/MTok (in) | Speed | Recommendation |
+|-------|:------------:|:--------------:|:-----:|----------------|
+| **Haiku 4.5** | 61% | $1.00 | 105 t/s | **Best value** — same accuracy as Sonnet, 3x cheaper |
+| **Sonnet 4.5** | 61% | $3.00 | 70 t/s | Good default when cost isn't primary concern |
+| **Opus 4.6** | — | $5.00 | 72 t/s | Complex multi-step flows, fewer turns |
+| **Opus 4.6 Fast** | Same as Opus | $30.00 | 178 t/s | Only when speed > cost (demos, interactive) |
+
+**Key insight:** Haiku 4.5 matches Sonnet 4.5 in browser automation accuracy (61% OSWorld) while being 3x cheaper and 1.5x faster. Use Haiku for CI QA and high-volume automation.
+
+### Opus 4.6 Fast Mode Analysis
+
+- **2.5x faster** than standard Opus (178 vs 72 tokens/sec)
+- **6x more expensive** ($30/$150 vs $5/$25)
+- **Same accuracy** — it's the same model with faster inference, no quality tradeoff
+- **When it's worth it:** Interactive debugging sessions where developer time matters, live demos, time-boxed exploration. Not worth it for batch/CI workloads.
+
+### Codex Spark (GPT 5.3) — Monitor Only
+
+- **Claimed speed:** 1000+ t/s (unverified independently)
+- **Accuracy:** 58.4% Terminal-Bench (not comparable to OSWorld)
+- **25% accuracy drop** from GPT-5 base model (speed-optimized tradeoff)
+- **No API access** — ChatGPT Pro only
+- **Reported issues:** Playwright MCP tool calling reliability problems
+- **Recommendation:** Do not adopt. Revisit when API becomes available.
 
 ### Model Efficiency Hypothesis
 
-Opus 4.5 may be cost-competitive with Sonnet for complex tasks due to fewer turns:
+Opus 4.6 may be cost-competitive with Sonnet for complex tasks due to fewer turns:
 - Sonnet: 39 turns × ~16K tokens = ~$0.62
 - Opus (hypothetical): 15 turns × ~16K tokens = ~$0.60
 
@@ -76,6 +106,25 @@ STOP after completing these 5 checks.
 - Playwright MCP adds ~5K tokens before any work
 - Mitigation: Use project-scoped `.mcp.json` files
 
+### 5. Playwright CLI (~3x Token Savings)
+
+The new Playwright CLI (`@playwright/cli`) runs browser automation via shell commands instead of MCP tools:
+
+| Metric | MCP | CLI | Savings |
+|--------|:---:|:---:|:-------:|
+| Tokens per flow | ~3,330 | ~890 | **73%** |
+| Tool definitions | 28+ tools loaded | 0 | **~5K tokens** |
+| Architecture | MCP protocol | Bash commands | Simpler |
+
+*Note: Per-flow measurements from hands-on evaluation. Session-level totals will be higher.*
+
+**When to use CLI over MCP:**
+- CI/CD pipelines (token cost matters at volume)
+- Batch automation
+- Simple navigation + screenshot tasks
+
+**Status:** Tested — adopt for CI and chatty-app workflows. See [evaluation results](./PLAYWRIGHT_CLI_EVALUATION.md).
+
 ---
 
 ## Visual Regression Testing Options
@@ -110,7 +159,7 @@ await expect(page).toHaveScreenshot('component.png', {
 
 ---
 
-## Playwright Agents (New in v1.56, Oct 2025)
+## Playwright Agents (v1.56+, Experimental)
 
 Three AI-powered agents that automate test creation:
 
@@ -124,6 +173,8 @@ Three AI-powered agents that automate test creation:
 ```bash
 npx playwright init-agents --loop=vscode
 ```
+
+**Status:** Still experimental as of February 2026. Estimated 6-12 months from production-ready. Track progress but do not adopt yet.
 
 **Use Case:** Generate initial tests, then maintain manually for stability.
 
@@ -185,6 +236,11 @@ npx playwright init-agents --loop=vscode
 
 ---
 
+## See Also
+
+- [BROWSER_AUTOMATION_LANDSCAPE_2026.md](./BROWSER_AUTOMATION_LANDSCAPE_2026.md) — Full landscape analysis, platform compatibility, CLI vs MCP
+- [AUDIT_2026-02.md](./AUDIT_2026-02.md) — Cross-repo Playwright audit with per-repo findings
+
 ## Sources
 
 - [Anthropic Pricing](https://platform.claude.com/docs/en/about-claude/pricing)
@@ -193,7 +249,8 @@ npx playwright init-agents --loop=vscode
 - [Playwright Agents](https://playwright.dev/docs/test-agents)
 - [Percy vs Chromatic](https://medium.com/@crissyjoshua/percy-vs-chromatic-which-visual-regression-testing-tool-to-use-6cdce77238dc)
 - [MCP Hidden Costs](https://mariogiancini.com/the-hidden-cost-of-mcp-servers-and-when-theyre-worth-it)
+- [OSWorld Benchmark](https://os-world.github.io/)
 
 ---
 
-*Last Updated: 2026-01-08*
+*Last Updated: 2026-02-13*

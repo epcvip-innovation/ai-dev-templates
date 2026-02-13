@@ -10,21 +10,26 @@ E2E testing patterns for Claude Code projects using Playwright.
 
 | File | Purpose |
 |------|---------|
-| [PLAYWRIGHT_CLAUDE_GUIDE.md](./PLAYWRIGHT_CLAUDE_GUIDE.md) | Comprehensive guide: all 4 modes, setup, patterns |
+| [PLAYWRIGHT_CLAUDE_GUIDE.md](./PLAYWRIGHT_CLAUDE_GUIDE.md) | Comprehensive guide: 5 approaches, setup, patterns |
 | [MCP_WORKFLOW_GUIDE.md](./MCP_WORKFLOW_GUIDE.md) | Claude-driven browser control workflows |
-| [COST_OPTIMIZATION_GUIDE.md](./COST_OPTIMIZATION_GUIDE.md) | **NEW** Cost analysis, model pricing, optimization strategies |
+| [COST_OPTIMIZATION_GUIDE.md](./COST_OPTIMIZATION_GUIDE.md) | Cost analysis, model pricing, optimization strategies |
+| [BROWSER_AUTOMATION_LANDSCAPE_2026.md](./BROWSER_AUTOMATION_LANDSCAPE_2026.md) | **NEW** Full landscape: 5 approaches, model selection, platform compatibility |
+| [AUDIT_2026-02.md](./AUDIT_2026-02.md) | **NEW** Cross-repo Playwright audit with per-repo findings |
 | [COMPETITOR_ANALYSIS.md](./COMPETITOR_ANALYSIS.md) | Using MCP for competitor research |
 | [RESEARCH_ARCHIVE.md](./RESEARCH_ARCHIVE.md) | Curated 2026 research findings and sources |
-| [examples/](./examples/) | Copy-paste starter files |
+| [examples/](./examples/) | Copy-paste starter files (configs, Page Objects, fixtures) |
 
-## The 4 Modes of Playwright
+## The 5 Approaches to Playwright
 
-| Mode | Command | Best For |
-|------|---------|----------|
+| Approach | Command / Setup | Best For |
+|----------|----------------|----------|
 | **Headless** | `npx playwright test` | CI/CD, fast regression |
 | **Headed** | `npx playwright test --headed` | Demos, stakeholder presentations |
 | **UI Mode** | `npx playwright test --ui` | Debugging, writing tests |
 | **MCP** | Claude + Playwright MCP | Exploration, visual bugs, competitor analysis |
+| **Chrome** | Claude Code Chrome (beta) | Quick browser tasks (macOS/Linux, **NOT WSL2**) |
+
+> **New:** Playwright CLI (`@playwright/cli`) offers ~3x token savings vs MCP (verified) — see [BROWSER_AUTOMATION_LANDSCAPE_2026.md](./BROWSER_AUTOMATION_LANDSCAPE_2026.md) and [evaluation results](./PLAYWRIGHT_CLI_EVALUATION.md).
 
 ## Quick Start
 
@@ -111,9 +116,17 @@ export const test = base.extend({
 
 ### `examples/playwright.config.ts.template`
 Ready-to-use configuration with:
-- Auto-start dev server
-- Trace/video on failure
-- Chrome + mobile projects
+- `BASE_URL` env var support (test localhost or production)
+- Conditional `webServer` (only starts when targeting localhost)
+- Auto-start dev server, trace/video on failure
+- Chrome + Firefox + mobile projects
+
+### `examples/mcp.json.template`
+Standardized MCP configs for:
+- WSL2/Linux (with `--no-sandbox`)
+- macOS (minimal flags)
+- CI/Headless (with `--headless`)
+- Video recording (competitor analysis)
 
 ### `examples/fixtures.ts.template`
 Custom fixtures for:
@@ -130,10 +143,12 @@ Page Object Model with:
 
 ## Further Reading
 
-- [PLAYWRIGHT_CLAUDE_GUIDE.md](./PLAYWRIGHT_CLAUDE_GUIDE.md) - Full guide
-- [MCP_WORKFLOW_GUIDE.md](./MCP_WORKFLOW_GUIDE.md) - MCP-specific patterns
-- [COST_OPTIMIZATION_GUIDE.md](./COST_OPTIMIZATION_GUIDE.md) - Cost analysis and optimization
-- [COMPETITOR_ANALYSIS.md](./COMPETITOR_ANALYSIS.md) - Market research automation
+- [PLAYWRIGHT_CLAUDE_GUIDE.md](./PLAYWRIGHT_CLAUDE_GUIDE.md) — Full guide with 5 approaches
+- [MCP_WORKFLOW_GUIDE.md](./MCP_WORKFLOW_GUIDE.md) — MCP-specific patterns
+- [COST_OPTIMIZATION_GUIDE.md](./COST_OPTIMIZATION_GUIDE.md) — Cost analysis, model selection
+- [BROWSER_AUTOMATION_LANDSCAPE_2026.md](./BROWSER_AUTOMATION_LANDSCAPE_2026.md) — Landscape analysis, CLI vs MCP
+- [AUDIT_2026-02.md](./AUDIT_2026-02.md) — Cross-repo audit findings
+- [COMPETITOR_ANALYSIS.md](./COMPETITOR_ANALYSIS.md) — Market research automation
 - [Playwright Docs](https://playwright.dev/docs/intro)
 - [Microsoft Playwright MCP](https://github.com/microsoft/playwright-mcp)
-- [Playwright Agents](https://playwright.dev/docs/test-agents) - AI-powered test generation (v1.56+)
+- [Playwright Agents](https://playwright.dev/docs/test-agents) — AI-powered test generation (v1.56+, experimental)
