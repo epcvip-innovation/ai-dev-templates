@@ -1,0 +1,97 @@
+// =============================================================================
+// Playwright MCP Configuration Templates
+// =============================================================================
+//
+// Copy the appropriate variant to your project root as `.mcp.json`
+//
+// Required flags for all environments:
+//   -y              Auto-confirm npx (prevents interactive prompts)
+//   "type": "stdio" Explicit transport type
+//
+// Platform-specific flags:
+//   --no-sandbox    Required for WSL2 and Linux (Chromium sandbox issue)
+//   --headless      Required for CI environments (no display server)
+//   --save-video    Optional: record browser sessions (competitor analysis)
+//
+// =============================================================================
+
+// -----------------------------------------------------------------------------
+// Variant 1: WSL2 / Linux (Development)
+// -----------------------------------------------------------------------------
+// Use this for local development on WSL2 or native Linux.
+// The --no-sandbox flag is required because Chromium's sandbox doesn't work
+// in WSL2/containerized environments.
+{
+  "mcpServers": {
+    "playwright": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest", "--no-sandbox"]
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Variant 2: macOS (Development)
+// -----------------------------------------------------------------------------
+// Use this for local development on macOS.
+// No --no-sandbox needed on macOS.
+{
+  "mcpServers": {
+    "playwright": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest"]
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Variant 3: CI / Headless (GitHub Actions, etc.)
+// -----------------------------------------------------------------------------
+// Use this for CI environments where no display server is available.
+// Combines --headless (no GUI) and --no-sandbox (Linux containers).
+{
+  "mcpServers": {
+    "playwright": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest", "--headless", "--no-sandbox"]
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Variant 4: Video Recording (Competitor Analysis)
+// -----------------------------------------------------------------------------
+// Use this when you need to record browser sessions (e.g., funnel analysis).
+// Videos are saved to the output directory.
+{
+  "mcpServers": {
+    "playwright": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest", "--no-sandbox", "--save-video", "1280x720"]
+    }
+  }
+}
+
+// =============================================================================
+// Notes:
+//
+// Version: These templates target @playwright/mcp v0.0.64+
+//
+// In-memory profiles: v0.0.64 uses in-memory profiles by default (--isolated
+// behavior). Use --user-data-dir for persistent profiles if needed.
+//
+// Browser installation: Run before first use:
+//   npx playwright install chromium
+//   npx playwright install-deps chromium  (Linux/WSL only)
+//
+// Or use the browser_install MCP tool.
+//
+// See also:
+//   - BROWSER_AUTOMATION_LANDSCAPE_2026.md - Full landscape comparison
+//   - PLAYWRIGHT_CLAUDE_GUIDE.md - Testing patterns and workflows
+//   - docs/reference/PLAYWRIGHT-MCP.md - Complete CLI flag reference
+// =============================================================================

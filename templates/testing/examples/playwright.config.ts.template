@@ -4,8 +4,17 @@ import { defineConfig, devices } from '@playwright/test';
  * Playwright configuration template.
  *
  * Copy to your project root as playwright.config.ts
- * Adjust baseURL and webServer command for your app.
+ * Adjust baseURL, port, and webServer command for your app.
+ *
+ * Supports BASE_URL env var for testing against different environments:
+ *   BASE_URL=https://your-app.com npx playwright test   # Test production
+ *   npx playwright test                                  # Test localhost (default)
  */
+
+// Support BASE_URL env var for flexible test targeting
+const baseURL = process.env.BASE_URL || 'http://localhost:3000';
+const isLocalhost = baseURL.includes('localhost');
+
 export default defineConfig({
   // Test file location
   testDir: './test/e2e',
@@ -26,8 +35,8 @@ export default defineConfig({
   reporter: 'html',
 
   use: {
-    // Base URL for relative navigation
-    baseURL: 'http://localhost:3000',
+    // Base URL for relative navigation (supports env var override)
+    baseURL,
 
     // Capture trace on first retry (for debugging failures)
     trace: 'on-first-retry',
@@ -54,11 +63,11 @@ export default defineConfig({
     },
   ],
 
-  // Auto-start dev server before tests
-  webServer: {
+  // Auto-start dev server before tests (only when targeting localhost)
+  webServer: isLocalhost ? {
     command: 'npm start',
     url: 'http://localhost:3000/health', // Health check endpoint
     reuseExistingServer: !process.env.CI,
     timeout: 30000,
-  },
+  } : undefined,
 });

@@ -2,9 +2,11 @@
 
 [← Back to Main README](../../README.md) | [Claude Code Config →](./CLAUDE-CODE-CONFIG.md)
 
-**Last Updated**: January 2026
+**Last Updated**: February 2026 | **MCP Version**: v0.0.64
 
 Comprehensive guide to setting up Playwright MCP for browser automation with Claude Code.
+
+> **February 2026:** MCP v0.0.64 uses in-memory profiles by default. New tools: `browser_run_code`, `browser_handle_dialog`, `browser_fill_form`. See [BROWSER_AUTOMATION_LANDSCAPE_2026.md](../../templates/testing/BROWSER_AUTOMATION_LANDSCAPE_2026.md) for alternatives (CLI, Chrome beta).
 
 ---
 
@@ -130,7 +132,14 @@ npx playwright install-deps chromium
 
 ### Session Persistence
 
+> **v0.0.64 change:** In-memory profiles are now the default behavior. The `--isolated` flag is no longer needed — it's the default. Use `--user-data-dir` to opt into persistent profiles.
+
 ```json
+// Default behavior (v0.0.64+): in-memory, no disk persistence
+{
+  "args": ["@playwright/mcp@latest"]
+}
+
 // Use persistent profile (keeps cookies, localStorage)
 {
   "args": ["@playwright/mcp@latest", "--user-data-dir", "/path/to/profile"]
@@ -139,11 +148,6 @@ npx playwright install-deps chromium
 // Load saved session state
 {
   "args": ["@playwright/mcp@latest", "--storage-state", "/path/to/state.json"]
-}
-
-// Isolated mode (in-memory, no disk persistence)
-{
-  "args": ["@playwright/mcp@latest", "--isolated"]
 }
 ```
 
@@ -284,6 +288,11 @@ When Playwright MCP is active, Claude has access to these browser automation too
 |------|-------------|
 | `browser_tabs` | List, create, close, select tabs |
 
+### Automation
+| Tool | Description |
+|------|-------------|
+| `browser_run_code` | Run Playwright code snippets — execute arbitrary Playwright JavaScript |
+
 ### Control
 | Tool | Description |
 |------|-------------|
@@ -291,7 +300,7 @@ When Playwright MCP is active, Claude has access to these browser automation too
 | `browser_resize` | Change browser size |
 | `browser_close` | Close the browser |
 | `browser_install` | Install browser (first-time setup) |
-| `browser_handle_dialog` | Accept/dismiss dialogs |
+| `browser_handle_dialog` | Accept/dismiss browser dialogs (alerts, confirms, prompts) |
 
 ---
 
@@ -542,11 +551,32 @@ Playwright MCP adds tool definitions to Claude's context. This is generally smal
 
 ---
 
+---
+
+## Claude Code Chrome (Beta)
+
+Claude Code now includes a built-in browser (Claude Code Chrome) that provides browser automation without MCP setup.
+
+**Capabilities:**
+- Direct browser control without MCP overhead
+- No `.mcp.json` configuration needed
+- Same automation capabilities
+
+**Critical limitation:**
+- **Does NOT work on WSL2** — our primary development environment
+- macOS and native Linux only
+
+**Recommendation:** Continue using Playwright MCP for WSL2 development. Monitor Claude Code Chrome for WSL2 support updates.
+
+---
+
 ## See Also
 
-- [Claude Code Config Reference](./CLAUDE-CODE-CONFIG.md) - MCP management, plugins, hooks
-- [Claude Code Setup Guide](../setup-guides/CLAUDE-CODE-SETUP.md) - Basic Claude Code setup
-- [Daily Workflow](../setup-guides/DAILY-WORKFLOW.md) - Development workflow patterns
+- [BROWSER_AUTOMATION_LANDSCAPE_2026.md](../../templates/testing/BROWSER_AUTOMATION_LANDSCAPE_2026.md) — Full landscape analysis, CLI vs MCP, model selection
+- [AUDIT_2026-02.md](../../templates/testing/AUDIT_2026-02.md) — Cross-repo Playwright audit
+- [Claude Code Config Reference](./CLAUDE-CODE-CONFIG.md) — MCP management, plugins, hooks
+- [Claude Code Setup Guide](../setup-guides/CLAUDE-CODE-SETUP.md) — Basic Claude Code setup
+- [Daily Workflow](../setup-guides/DAILY-WORKFLOW.md) — Development workflow patterns
 
 ## External Resources
 
@@ -557,4 +587,4 @@ Playwright MCP adds tool definitions to Claude's context. This is generally smal
 
 ---
 
-Last Updated: January 2026
+Last Updated: February 2026
