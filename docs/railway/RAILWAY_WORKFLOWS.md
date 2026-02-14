@@ -73,7 +73,7 @@ railway link
 #### Step 4: Connect GitHub Repository
 
 In Railway Dashboard (web):
-1. Go to https://railway.app/dashboard
+1. Go to https://railway.com/dashboard
 2. Select your project
 3. Click "Add Service" → "GitHub Repo"
 4. Authorize and select your repository

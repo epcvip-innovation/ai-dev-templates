@@ -116,7 +116,7 @@ Next.js standalone binds to container hostname by default. Setting `HOSTNAME=0.0
 
 **Results**: Build time dropped from ~347s to ~38s (89% faster)
 
-### pulse-cron (Monorepo Cron - Dec 2025)
+### pulse-cron (Monorepo Cron)
 
 For cron services in a monorepo where the cron script needs modules from repo root:
 
@@ -143,7 +143,7 @@ restartPolicyType = "NEVER"
 
 ### Builder Selection
 
-**RAILPACK** (Default as of Dec 2025, actively developed):
+**RAILPACK** (Default, actively developed):
 ```toml
 [build]
 builder = "RAILPACK"

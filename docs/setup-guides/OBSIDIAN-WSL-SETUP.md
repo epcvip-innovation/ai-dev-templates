@@ -1,5 +1,5 @@
 # Obsidian in WSL Setup
-**Date Configured:** September 29, 2025
+**Date Configured:** September 2025 | **Last Reviewed:** February 2026
 **Purpose:** Run Obsidian natively in WSL to avoid Windows filesystem access issues
 
 ## Why Obsidian in WSL?

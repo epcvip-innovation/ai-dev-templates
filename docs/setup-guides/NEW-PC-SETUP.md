@@ -1,6 +1,6 @@
 # New PC Setup - Simple Guide
 
-**Updated:** October 20, 2025  
+**Updated:** February 2026
 **Time:** ~90 minutes
 
 ---

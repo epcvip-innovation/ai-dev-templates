@@ -2,7 +2,7 @@
 
 [← Back to Main README](../../README.md) | [Multi-Device Workspace →](./MULTI-DEVICE-WORKSPACE.md)
 
-**Last Updated**: December 2025 | **Time Required**: 5-10 minutes
+**Last Updated**: February 2026 | **Time Required**: 5-10 minutes
 
 Share your local dev server, mockups, or prototypes with teammates on the same network (or VPN).
 

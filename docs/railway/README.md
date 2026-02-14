@@ -128,10 +128,10 @@ This documentation covers EPCVIP's Railway deployment ecosystem as of February 2
 
 Location: `../../templates/railway/`
 
-**NIXPACKS Templates** (Your current working configs):
-- `nixpacks.python-basic.toml` - Basic Python FastAPI (from tiller-bridge)
-- `nixpacks.python-volume.toml` - Python with SQLite (from ping-tree-compare)
-- `nixpacks.cron.toml` - Cron service (from tiller-bridge-cron)
+**NIXPACKS Templates** (Legacy, still used by ping-tree-compare):
+- `nixpacks.python-basic.toml` - Basic Python FastAPI
+- `nixpacks.python-volume.toml` - Python with SQLite
+- `nixpacks.cron.toml` - Cron service
 
 **RAILPACK Templates** (Modern, recommended):
 - `railpack.python-basic.toml` - Basic Python with 77% smaller images

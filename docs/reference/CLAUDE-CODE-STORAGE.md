@@ -2,11 +2,11 @@
 
 [← Back to Main README](../../README.md) | [Configuration Reference →](./CLAUDE-CODE-CONFIG.md)
 
-**Last Updated**: December 7, 2025 | **Claude Code Version**: 2.0.x
+**Last Updated**: February 2026 | **Claude Code Version**: 2.1.x
 
 Practical guide to Claude Code's local data storage, session history, and how to find old conversations.
 
-> **Note**: This documents internal storage based on community observation (December 2025).
+> **Note**: This documents internal storage based on community observation.
 > Internal formats may change between versions. Official documentation is limited.
 
 ---

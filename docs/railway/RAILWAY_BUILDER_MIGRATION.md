@@ -324,41 +324,19 @@ Options: `ON_FAILURE`, `ALWAYS`, `NEVER`
 
 ## Project-Specific Migration Notes
 
-### tiller-bridge
+### ping-tree-compare (remaining NIXPACKS service)
 
-**Current**: Python FastAPI with SQLite, cron service
+**Current**: Python FastAPI with persistent volume (NIXPACKS)
 **Considerations**:
-- Main service: straightforward migration
-- Cron service: update railway.cron.toml separately
-- Database: No changes needed (volume mounts work the same)
-- Estimated benefit: 77% smaller image, faster builds
-
-**Migration steps**:
-1. Update main railway.toml
-2. Update railway.cron.toml
-3. Test cron schedule still works (every 30 minutes)
-
-### ping-tree-compare
-
-**Current**: Python FastAPI with persistent volume
-**Considerations**:
-- Volume mount syntax identical
+- Volume mount syntax identical between builders
 - Single worker for SQLite: keep `--workers 1`
 - Health check timeout: 120s (keep the same)
 - Estimated benefit: 77% smaller image
 
 **Migration steps**:
-1. Update railway.toml
+1. Update railway.toml (`builder = "RAILPACK"`, uppercase `restartPolicyType`)
 2. Verify volume mount after migration: `railway ssh` → check `/app/data`
 3. Test database operations
-
-### anki-clone & japanese-flashcard-app
-
-**Current**: Node.js applications
-**Considerations**:
-- Node.js support in RAILPACK
-- Build commands preserved
-- Estimated benefit: 38% smaller image
 
 ## Rollback Plan
 

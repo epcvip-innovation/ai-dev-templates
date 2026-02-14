@@ -274,7 +274,7 @@ railway logs --limit 10
 
 ## Multiple Projects
 
-If you work with multiple Railway projects (like tiller-bridge, ping-tree-compare):
+If you work with multiple Railway projects (like ping-tree-compare, docs-site, experiments-dashboard):
 
 ### Each repository should have:
 1. Its own `.railway/` directory
@@ -284,11 +284,11 @@ If you work with multiple Railway projects (like tiller-bridge, ping-tree-compar
 ### Switching between projects:
 ```bash
 # Navigate to project directory
-cd ~/repos/tiller-bridge
-railway status  # Shows tiller-bridge project
-
-cd ~/repos/ping-tree-compare
+cd ~/repos-epcvip/utilities/ping-tree-compare
 railway status  # Shows ping-tree-compare project
+
+cd ~/repos-epcvip/utilities/docs-site
+railway status  # Shows docs-site project
 ```
 
 Railway CLI automatically uses the correct project based on the `.railway/` directory in your current working directory.
@@ -406,9 +406,10 @@ npm install -g @railway/cli
 
 ---
 
-**Your Current Status**:
-- ✅ CLI Installed: v4.5.5 at `~/.npm-global/bin/railway`
-- ✅ Authenticated: your-email@example.com
-- ✅ Projects Linked: tiller-bridge, ping-tree-compare (and others)
+**Verify your setup**:
+```bash
+railway version    # Check CLI is installed
+railway status     # Check you're linked to a project
+```
 
-You're all set up! See [RAILWAY_QUICKSTART.md](./RAILWAY_QUICKSTART.md) for day-to-day usage.
+You're all set up! See [RAILWAY_MCP_GUIDE.md](./RAILWAY_MCP_GUIDE.md) for using Railway through Claude Code, or [RAILWAY_QUICKSTART.md](./RAILWAY_QUICKSTART.md) for CLI day-to-day usage.
