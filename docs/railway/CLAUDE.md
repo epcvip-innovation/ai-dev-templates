@@ -4,6 +4,8 @@
 
 | Task | File |
 |------|------|
+| What is Railway? | [RAILWAY_OVERVIEW.md](RAILWAY_OVERVIEW.md) |
+| Railway MCP (Claude Code) | [RAILWAY_MCP_GUIDE.md](RAILWAY_MCP_GUIDE.md) |
 | First time setup | [RAILWAY_SETUP_GUIDE.md](RAILWAY_SETUP_GUIDE.md) |
 | Daily reference | [RAILWAY_QUICKSTART.md](RAILWAY_QUICKSTART.md) |
 | Deploy a project | [RAILWAY_WORKFLOWS.md](RAILWAY_WORKFLOWS.md) |

@@ -4,13 +4,21 @@ Guide for migrating from NIXPACKS (deprecated) to RAILPACK (current).
 
 ## Current Status
 
-Your existing Railway projects use **NIXPACKS**, which still works but is now deprecated:
-- **tiller-bridge**: NIXPACKS
-- **ping-tree-compare**: NIXPACKS
-- **anki-clone**: NIXPACKS
-- **japanese-flashcard-app**: NIXPACKS
+EPCVIP operates 11 Railway services. Most have migrated to **RAILPACK**; a few remain on **NIXPACKS** (still works, maintenance-only mode).
 
-**Good news**: NIXPACKS continues to work! No urgent migration needed, but RAILPACK offers significant improvements.
+| Service | Current Builder | Status |
+|---------|----------------|--------|
+| Experiments Dashboard | RAILPACK | Migrated |
+| Reports Dashboard | RAILPACK | Migrated |
+| Athena Monitor | RAILPACK | Migrated |
+| Documentation Hub | RAILPACK | Migrated |
+| Tools Hub | RAILPACK | Migrated |
+| Admin Dashboard | RAILPACK | Migrated |
+| Funnel Step Lab | RAILPACK | Migrated |
+| Competitor Analyzer | RAILPACK | Migrated (Next.js) |
+| Fwaptile Wordle | RAILPACK | Migrated |
+| Ping Tree Compare | NIXPACKS | Pending — verify volume mount |
+| Uptime Kuma | Docker | Self-hosted, N/A |
 
 ## Why Migrate to RAILPACK?
 
@@ -37,7 +45,7 @@ RAILPACK is Railway's next-generation builder, offering substantial improvements
 - NIXPACKS in maintenance-only mode
 - New features only coming to RAILPACK
 
-### Supported Languages (as of November 2025)
+### Supported Languages (as of February 2026)
 
 RAILPACK currently supports:
 - Node.js
@@ -88,7 +96,7 @@ RAILPACK currently supports:
 ### Option 1: Via Railway Dashboard (Easiest)
 
 1. **Open Railway Dashboard**
-   - Go to https://railway.app/dashboard
+   - Go to https://railway.com/dashboard
    - Select your project
 
 2. **Navigate to Service Settings**
@@ -490,11 +498,20 @@ After migration, you should see:
 
 **Migration Status Tracker**:
 
-| Project | Current Builder | Target | Status | Notes |
+| Service | Current Builder | Target | Status | Notes |
 |---------|----------------|--------|--------|-------|
-| tiller-bridge | NIXPACKS | RAILPACK | 🟡 Pending | Test cron service |
-| ping-tree-compare | NIXPACKS | RAILPACK | 🟡 Pending | Verify volume mount |
-| anki-clone | NIXPACKS | RAILPACK | 🟡 Pending | Low priority |
-| japanese-flashcard-app | NIXPACKS | RAILPACK | 🟡 Pending | Good test candidate |
+| Experiments Dashboard | RAILPACK | — | Complete | |
+| Reports Dashboard | RAILPACK | — | Complete | |
+| Athena Monitor | RAILPACK | — | Complete | |
+| Documentation Hub | RAILPACK | — | Complete | |
+| Tools Hub | RAILPACK | — | Complete | |
+| Admin Dashboard | RAILPACK | — | Complete | |
+| Funnel Step Lab | RAILPACK | — | Complete | |
+| Competitor Analyzer | RAILPACK | — | Complete | Next.js |
+| Fwaptile Wordle | RAILPACK | — | Complete | |
+| Ping Tree Compare | NIXPACKS | RAILPACK | Pending | Verify volume mount post-migration |
+| Uptime Kuma | Docker | — | N/A | Self-hosted image |
 
-Legend: 🟡 Pending | 🔵 In Progress | 🟢 Complete | 🔴 Issues
+Legend: Complete | Pending | N/A
+
+**Last Updated**: February 2026

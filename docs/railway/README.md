@@ -4,26 +4,44 @@ Complete guide to deploying projects to Railway, optimized for Claude Code workf
 
 ## Overview
 
-This documentation is based on your actual production deployments (tiller-bridge, ping-tree-compare) and latest Railway best practices as of November 2025.
+This documentation covers EPCVIP's Railway deployment ecosystem as of February 2026.
 
-**Your Current Setup**:
-- Railway CLI v4.5.5 installed via npm
-- Authenticated as your-email@example.com
-- 4 projects using Railway (2 in active production)
+**Current Setup**:
+- Railway CLI installed via npm
+- 11 services across multiple Railway projects (all in production)
+- MCP server configured for Claude Code integration
+- Custom domains on Cloudflare (`*.epcvip.vip`)
 
 ## Quick Start
 
 **New to Railway?** Start here:
 
-1. **[Quickstart Guide](./RAILWAY_QUICKSTART.md)** - Fast reference for day-to-day usage
-2. **[Setup Guide](./RAILWAY_SETUP_GUIDE.md)** - Initial setup and authentication
-3. **[Workflows](./RAILWAY_WORKFLOWS.md)** - Step-by-step deployment workflows
+1. **[Railway Overview](./RAILWAY_OVERVIEW.md)** - What Railway is and why we use it
+2. **[MCP Guide](./RAILWAY_MCP_GUIDE.md)** - Using Railway through Claude Code (recommended)
+3. **[Setup Guide](./RAILWAY_SETUP_GUIDE.md)** - Initial setup and authentication
+4. **[Quickstart Guide](./RAILWAY_QUICKSTART.md)** - Fast reference for day-to-day usage
 
 **Already familiar?** Jump to:
 - [CLI Reference](./RAILWAY_CLI_REFERENCE.md) - Command reference
 - [Troubleshooting](./RAILWAY_TROUBLESHOOTING.md) - Common issues and solutions
 
 ## Documentation Structure
+
+### Overview & MCP
+
+- **[RAILWAY_OVERVIEW.md](./RAILWAY_OVERVIEW.md)** - What Railway is and why we use it
+  - Platform overview and competitive positioning
+  - Why EPCVIP chose Railway
+  - Ecosystem summary (11 services)
+  - Three interaction methods: MCP, CLI, Dashboard
+  - Key concepts and pricing
+
+- **[RAILWAY_MCP_GUIDE.md](./RAILWAY_MCP_GUIDE.md)** - Railway MCP for Claude Code
+  - MCP vs CLI vs Dashboard comparison
+  - Complete tool reference (16 tools)
+  - 5 workflow recipes
+  - Decision tree for choosing interaction method
+  - Safety model and troubleshooting
 
 ### Getting Started
 
@@ -346,9 +364,11 @@ dev-setup/
 ├── docs/
 │   └── railway/
 │       ├── README.md                          # This file
+│       ├── RAILWAY_OVERVIEW.md                # What Railway is, why we use it
+│       ├── RAILWAY_MCP_GUIDE.md               # MCP server for Claude Code
 │       ├── RAILWAY_QUICKSTART.md              # Quick reference
 │       ├── RAILWAY_SETUP_GUIDE.md             # Initial setup
-│       ├── RAILWAY_NEXTJS.md                  # Next.js deployment (NEW)
+│       ├── RAILWAY_NEXTJS.md                  # Next.js deployment
 │       ├── RAILWAY_WORKFLOWS.md               # Deployment workflows
 │       ├── RAILWAY_CLI_REFERENCE.md           # CLI commands
 │       ├── RAILWAY_CONFIG_REFERENCE.md        # Configuration
@@ -376,6 +396,8 @@ dev-setup/
 ## Quick Navigation
 
 **By Task**:
+- What is Railway? → [Overview](./RAILWAY_OVERVIEW.md)
+- Using Railway from Claude Code → [MCP Guide](./RAILWAY_MCP_GUIDE.md)
 - First-time Railway setup → [Setup Guide](./RAILWAY_SETUP_GUIDE.md)
 - Deploy Next.js app → [Next.js Guide](./RAILWAY_NEXTJS.md)
 - Deploy new project → [Workflows: Initial Deployment](./RAILWAY_WORKFLOWS.md#initial-deployment)
@@ -385,16 +407,16 @@ dev-setup/
 - Configure railway.toml → [Config Reference](./RAILWAY_CONFIG_REFERENCE.md)
 
 **By Experience Level**:
-- **Beginner**: Start with [Quickstart](./RAILWAY_QUICKSTART.md) and [Setup Guide](./RAILWAY_SETUP_GUIDE.md)
-- **Intermediate**: Focus on [Workflows](./RAILWAY_WORKFLOWS.md) and [Config Reference](./RAILWAY_CONFIG_REFERENCE.md)
+- **Beginner**: Start with [Overview](./RAILWAY_OVERVIEW.md), then [Setup Guide](./RAILWAY_SETUP_GUIDE.md)
+- **Intermediate**: Focus on [MCP Guide](./RAILWAY_MCP_GUIDE.md) and [Workflows](./RAILWAY_WORKFLOWS.md)
 - **Advanced**: Explore [Automation](./RAILWAY_AUTOMATION.md) and [Builder Migration](./RAILWAY_BUILDER_MIGRATION.md)
 
 ---
 
-**Documentation Version**: 1.1
-**Last Updated**: 2025-12-28
-**Based On**: Your production deployments (tiller-bridge, ping-tree-compare, card-deal-app) + Railway best practices as of December 2025
-**Optimized For**: Claude Code workflows
+**Documentation Version**: 2.0
+**Last Updated**: February 2026
+**Based On**: 11 production EPCVIP services + Railway best practices as of February 2026
+**Optimized For**: Claude Code workflows (MCP-first)
 
 ---
 

@@ -99,6 +99,77 @@ Need up-to-date library docs?
 
 ---
 
+## Deployment & Infrastructure Decision Tree
+
+```
+Need to manage deployment/infrastructure?
+│
+├─ Railway services (deploy, logs, variables)
+│  │
+│  ├─ In Claude Code session
+│  │  └─ Use: Railway MCP
+│  │     - Direct access to 16 Railway tools
+│  │     - Structured JSON responses
+│  │     - Claude chains operations (logs → diagnose → fix)
+│  │     - Best for: Status checks, log analysis, deploys, variable management
+│  │
+│  ├─ Need auth, SSH, or interactive commands
+│  │  └─ Use: Railway CLI (external terminal)
+│  │     - railway login (browser OAuth)
+│  │     - railway ssh (interactive shell)
+│  │     - railway connect (database shell)
+│  │     - Best for: Initial setup, container debugging
+│  │
+│  └─ Need destructive operations or billing
+│     └─ Use: Railway Dashboard (railway.com)
+│        - Delete projects/services
+│        - Manage billing and plans
+│        - Change builder (NIXPACKS → RAILPACK)
+│        - Best for: Admin operations, visual overview
+│
+├─ Database management (Supabase)
+│  │
+│  ├─ Schema changes (DDL)
+│  │  └─ Use: Supabase MCP (apply_migration)
+│  │     - Tracked migrations
+│  │     - Rollback support
+│  │     - Best for: CREATE TABLE, ALTER, indexes
+│  │
+│  ├─ Data queries (DML)
+│  │  └─ Use: Supabase MCP (execute_sql)
+│  │     - Direct SQL execution
+│  │     - Read/write operations
+│  │     - Best for: INSERT, SELECT, UPDATE, analytics
+│  │
+│  └─ Project management
+│     └─ Use: Supabase MCP (list_projects, get_project)
+│        - List projects and tables
+│        - Generate TypeScript types
+│        - Check advisory notices
+│        - Best for: Project discovery, type generation
+│
+└─ Monitoring and health
+   └─ Use: Railway MCP (get-logs) + Uptime Kuma
+      - Filtered log queries (@level:error, compound filters)
+      - Deployment history and status
+      - Uptime Kuma for continuous monitoring (uptime.epcvip.vip)
+```
+
+### Quick Reference
+
+| Scenario | Tool | Why |
+|----------|------|-----|
+| Check if service is healthy | Railway MCP | `get-logs` with error filter |
+| Deploy code changes | Railway MCP | `deploy` from workspace path |
+| Set env vars without redeploy | Railway MCP | `set-variables` with `skipDeploys` |
+| SSH into container | Railway CLI | Interactive session needed |
+| Delete a service | Railway Dashboard | Safety — destructive operation |
+| Create database table | Supabase MCP | `apply_migration` with tracking |
+| Run analytics query | Supabase MCP | `execute_sql` for ad-hoc queries |
+| Check for security issues | Supabase MCP | `get_advisors` (security type) |
+
+---
+
 ## TODO: Validate These Patterns
 
 - [ ] Test Playwright MCP vs Browser MCP for real scenarios
@@ -116,5 +187,5 @@ Need up-to-date library docs?
 
 ---
 
-**Last Updated**: 2026-01-15
+**Last Updated**: 2026-02-13
 **Status**: Draft - needs validation before promotion
