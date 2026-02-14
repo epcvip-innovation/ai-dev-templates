@@ -226,31 +226,125 @@ async function logout() {
 
 ## Development Bypass Pattern
 
-Allow localhost access without authentication during development.
+Allow localhost/private network access without authentication during development. Uses **TCP peer IP only** (`request.client.host`) for security decisions — never trust forwarded headers (`X-Forwarded-For`) for auth bypass, as they can be spoofed.
+
+> **Security note**: `get_client_ip()` (which reads forwarded headers) is still useful for **audit logging** — worst case an attacker spoofs their own IP in logs. But auth bypass decisions must use the unforgeable TCP peer IP.
 
 ```python
 # In auth_supabase.py
-ENVIRONMENT = os.getenv("ENVIRONMENT", "production")
-DEVELOPER_HOME_IP = os.getenv("DEVELOPER_HOME_IP", "")
+ENVIRONMENT = os.getenv("ENVIRONMENT", "production").lower()
+DEVELOPER_HOME_IP = os.getenv("DEVELOPER_HOME_IP")
+
+
+def is_development_environment() -> bool:
+    """Check if running in development mode."""
+    return ENVIRONMENT in ["development", "dev", "local"]
+
+
+def get_dev_persona() -> tuple[str, str]:
+    """Dev bypass persona from env vars. Returns (email, role).
+    Role is normalized (strip + lowercase) to prevent casing/whitespace lockouts.
+    """
+    email = os.getenv("DEV_EMAIL", "").strip() or "dev@localhost"
+    role = os.getenv("DEV_ROLE", "").strip().lower() or "admin"
+    return email, role
+
+
+def get_client_ip(request: Request) -> str:
+    """Get real client IP, handling proxies (Railway, Cloudflare, etc.)
+
+    NOTE: Only use for audit logging, NOT for auth decisions.
+    Forwarded headers can be spoofed by attackers.
+    """
+    forwarded_for = request.headers.get("x-forwarded-for", "").split(",")[0].strip()
+    if forwarded_for:
+        return forwarded_for
+    real_ip = request.headers.get("x-real-ip", "").strip()
+    if real_ip:
+        return real_ip
+    return getattr(request.client, "host", "")
+
 
 def should_bypass_auth(request: Request) -> bool:
-    """Check if request should bypass authentication."""
-    if ENVIRONMENT != "development":
+    """
+    Check if authentication should be bypassed for local development.
+
+    Requires BOTH:
+    - ENVIRONMENT=development (or dev/local)
+    - Request from localhost, local network, or DEVELOPER_HOME_IP
+
+    Uses TCP peer IP (request.client.host) — unforgeable.
+    Does NOT trust X-Forwarded-For or X-Real-IP headers.
+    """
+    client_host = getattr(request.client, "host", "")
+    # Use TCP peer IP only (unforgeable) — not forwarded headers which can be spoofed
+    real_ip = getattr(request.client, "host", "")
+
+    # Check for localhost variants
+    is_localhost = (
+        client_host in ["127.0.0.1", "::1", "localhost"]
+        or client_host.startswith("127.")
+        or real_ip in ["127.0.0.1", "::1", "localhost"]
+        or real_ip.startswith("127.")
+    )
+
+    # Check for local network IPs (192.168.x.x, 172.16-31.x.x, 10.x.x.x)
+    def is_private_ip(ip):
+        if not ip or not ip[0].isdigit():
+            return False
+        if ip.startswith("192.168.") or ip.startswith("10.") or ip.startswith("127."):
+            return True
+        if ip.startswith("172."):
+            try:
+                second_octet = int(ip.split(".")[1])
+                return 16 <= second_octet <= 31
+            except (ValueError, IndexError):
+                return False
         return False
 
-    if not DEVELOPER_HOME_IP:
-        return False
+    is_local_network = is_private_ip(client_host) or is_private_ip(real_ip)
 
-    client_ip = request.client.host if request.client else ""
-    return client_ip == DEVELOPER_HOME_IP
+    if DEVELOPER_HOME_IP:
+        is_authorized_ip = real_ip == DEVELOPER_HOME_IP or client_host == DEVELOPER_HOME_IP
+    else:
+        is_authorized_ip = False
+
+    is_dev_env = is_development_environment()
+
+    bypass_allowed = is_dev_env and (is_localhost or is_local_network or is_authorized_ip)
+
+    if bypass_allowed:
+        logger.info(f"Auth bypass: client={client_host}, real_ip={real_ip}, "
+                     f"localhost={is_localhost}, local_net={is_local_network}, "
+                     f"authorized={is_authorized_ip}")
+
+    return bypass_allowed
+
 
 async def require_authentication(request: Request) -> str:
     # Dev bypass
     if should_bypass_auth(request):
-        return "dev@localhost"
+        dev_email, _ = get_dev_persona()
+        return dev_email
 
     # Normal auth flow...
 ```
+
+### Deployment Status (Feb 2026)
+
+All `*.epcvip.vip` FastAPI services use this pattern:
+
+| Service | Auth File | TCP Peer IP | Private IP Check | `get_dev_persona()` |
+|---------|-----------|:-----------:|:----------------:|:-------------------:|
+| ping-tree-compare | `auth_supabase.py` | Yes | Yes | Yes |
+| athena-usage-monitor | `auth_supabase.py` | Yes | Yes | Yes |
+| docs-site | `auth_supabase.py` | Yes | Yes | Yes |
+| epcvip-admin | `auth.py` | Yes | Yes | Yes |
+| experiments-dashboard | `auth_supabase.py` | Yes | Yes | Yes |
+| funnel-step-lab | `auth.py` | Yes | Yes | Yes |
+| **supabase-auth-templates** | `fastapi/auth.py` | Yes | Yes | Yes |
+
+Reference implementation: `utilities/supabase-auth-templates/fastapi/auth.py`
 
 ---
 

@@ -360,18 +360,73 @@ For static sites or simple frontends.
 
 ## Development Bypass
 
-Optional: Skip auth in development for faster iteration.
+Skip auth in development for faster iteration. Uses **TCP peer IP** (`request.client.host`) — never forwarded headers — to prevent spoofed bypass on production.
 
 ```python
-ENVIRONMENT = os.getenv("ENVIRONMENT", "production")
-DEV_USER = os.getenv("DEV_USER", "dev@localhost")
+ENVIRONMENT = os.getenv("ENVIRONMENT", "production").lower()
+DEVELOPER_HOME_IP = os.getenv("DEVELOPER_HOME_IP")
+
+
+def is_development_environment() -> bool:
+    return ENVIRONMENT in ["development", "dev", "local"]
+
+
+def get_dev_persona() -> tuple[str, str]:
+    """Dev bypass persona from env vars. Returns (email, role)."""
+    email = os.getenv("DEV_EMAIL", "").strip() or "dev@localhost"
+    role = os.getenv("DEV_ROLE", "").strip().lower() or "admin"
+    return email, role
+
+
+def should_bypass_auth(request: Request) -> bool:
+    """
+    Requires BOTH:
+    - ENVIRONMENT=development (or dev/local)
+    - Request from localhost, local network, or DEVELOPER_HOME_IP
+
+    Uses TCP peer IP only (unforgeable) — NOT forwarded headers.
+    """
+    client_host = getattr(request.client, "host", "")
+    real_ip = getattr(request.client, "host", "")
+
+    is_localhost = (
+        client_host in ["127.0.0.1", "::1", "localhost"]
+        or client_host.startswith("127.")
+        or real_ip in ["127.0.0.1", "::1", "localhost"]
+        or real_ip.startswith("127.")
+    )
+
+    def is_private_ip(ip):
+        if not ip or not ip[0].isdigit():
+            return False
+        if ip.startswith("192.168.") or ip.startswith("10.") or ip.startswith("127."):
+            return True
+        if ip.startswith("172."):
+            try:
+                second_octet = int(ip.split(".")[1])
+                return 16 <= second_octet <= 31
+            except (ValueError, IndexError):
+                return False
+        return False
+
+    is_local_network = is_private_ip(client_host) or is_private_ip(real_ip)
+
+    if DEVELOPER_HOME_IP:
+        is_authorized_ip = real_ip == DEVELOPER_HOME_IP or client_host == DEVELOPER_HOME_IP
+    else:
+        is_authorized_ip = False
+
+    return is_development_environment() and (is_localhost or is_local_network or is_authorized_ip)
+
 
 async def require_auth(request: Request) -> str:
-    # Dev bypass
-    if ENVIRONMENT == "development":
-        return DEV_USER
+    if should_bypass_auth(request):
+        dev_email, _ = get_dev_persona()
+        return dev_email
 
     # Normal auth flow...
 ```
 
-**Warning**: Never deploy with `ENVIRONMENT=development` in production.
+**Safety**: Even with `ENVIRONMENT=development`, bypass only works from localhost/private IPs (TCP peer, unforgeable). A production server behind Cloudflare/Railway will see the proxy's IP, not the client's.
+
+For the full reference implementation with RBAC, audit logging, and admin checks, see `utilities/supabase-auth-templates/fastapi/auth.py`.

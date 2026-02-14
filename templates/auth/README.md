@@ -138,3 +138,5 @@ For React/JS apps with great UX needs, **Clerk is excellent**.
 - [ ] Access control validates on every request
 - [ ] No secrets in client-side code
 - [ ] OAuth redirect URLs are explicit (no wildcards)
+- [ ] Dev bypass uses TCP peer IP (`request.client.host`), not forwarded headers
+- [ ] Dev bypass requires BOTH `ENVIRONMENT=development` AND localhost/private IP
