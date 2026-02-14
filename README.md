@@ -8,10 +8,11 @@ Evidence-based templates and setup guides for Claude Code, Codex, and AI-assiste
 
 | You Are... | Start Here | Time |
 |------------|-----------|------|
-| **New to AI coding assistants** | [Getting Started](./docs/getting-started/SETUP-GUIDE-2026.md) | 10 min |
+| **New (Mac or Linux)** | [Getting Started](./docs/getting-started/SETUP-GUIDE-2026.md) | 10 min |
+| **New (Windows)** | [Getting Started](./docs/getting-started/SETUP-GUIDE-2026.md) — see the Windows setup path inside | 10 min |
+| **Windows + want full Linux dev environment** | [Getting Started](./docs/getting-started/SETUP-GUIDE-2026.md) → then [New PC Setup](./docs/setup-guides/NEW-PC-SETUP.md) | 10 + 90 min |
 | **Setting up Claude Code quickly** | [Quickstart](./docs/getting-started/CLAUDE-CODE-QUICKSTART.md) | 5 min |
 | **Starting a new project** | [New Project Setup](./docs/getting-started/NEW-PROJECT-SETUP.md) | 30 min |
-| **Want the full WSL2 power setup** | [New PC Setup](./docs/setup-guides/NEW-PC-SETUP.md) | 90 min |
 | **Experienced — here for templates** | [Templates](./templates/) | Browse |
 
 > **What is Claude Code?** An AI coding assistant that runs in your terminal (or VS Code). It reads your codebase, writes code, runs commands, and helps you build software faster. We also recommend **Codex CLI** as a secondary tool — one writes code, the other reviews it.
@@ -37,10 +38,10 @@ Evidence-based templates and setup guides for Claude Code, Codex, and AI-assiste
    - [Claude Code deep-dive](./docs/setup-guides/CLAUDE-CODE-SETUP.md) — Configuration, troubleshooting, best practices
    - [Codex CLI](./docs/setup-guides/CODEX-SETUP.md) — Dual-tool workflow setup
 
-3. **Advanced: WSL2 Power Setup** — Full Linux dev environment for Windows users
+3. **WSL2 Power Setup** (optional, Windows only) — Full Linux dev environment
    - [New PC Setup](./docs/setup-guides/NEW-PC-SETUP.md) — 90-minute guided Windows 11 + WSL2 setup
    - [Why WSL?](./docs/decisions/why-wsl.md) — Architecture decision (it's a choice, not a requirement)
-   - For WSL2 resource allocation, see [New PC Setup](./docs/setup-guides/NEW-PC-SETUP.md)
+   - The [Getting Started](./docs/getting-started/SETUP-GUIDE-2026.md) guide explains when to choose WSL vs native Windows
 
 4. **Research & Evidence** — Extracted from real-world usage, not arbitrary
    - 4 repository audits (ping-tree-compare, tiller-bridge, dois-processor, template projects)

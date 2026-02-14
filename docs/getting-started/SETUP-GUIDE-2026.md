@@ -30,6 +30,23 @@ If you're just getting started, **begin with Claude Code only** and add Codex la
 | **Windows (WSL2)** | Linux installer inside WSL | Our power-user setup |
 | **Linux** | Native installer | One command, auto-updates |
 
+#### Windows Users: Which Path?
+
+Both paths get you a fully working Claude Code setup. The difference is performance and environment:
+
+| | **Windows Native** | **Windows + WSL2** |
+|---|---|---|
+| **Install time** | 2 minutes | 90 minutes (one-time) |
+| **Complexity** | Just works | Two environments to learn |
+| **File I/O speed** | ~200 MB/s | ~2.4 GB/s (10x faster) |
+| **Shell** | PowerShell / Git Bash | Native bash |
+| **Matches production** | No (servers run Linux) | Yes |
+| **Best for** | Getting started fast, light usage | Heavy CLI, shell scripts, Docker |
+
+**Our recommendation**: Start with **Windows Native** below to get productive today. If you hit friction with slow git operations or shell compatibility, upgrade to WSL2 later — it's a one-time 90-minute setup: [New PC Setup](../setup-guides/NEW-PC-SETUP.md).
+
+**Why we use WSL2**: [Architecture Decision Record](../decisions/why-wsl.md)
+
 ### Installation
 
 #### macOS / Linux (native installer — recommended)
