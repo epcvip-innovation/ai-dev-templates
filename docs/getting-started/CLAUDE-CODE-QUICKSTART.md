@@ -16,29 +16,35 @@ Claude Code is an AI coding assistant that runs in your terminal. It can:
 
 ## Prerequisites
 
-Before installing, verify you have:
-
-```bash
-# Node.js 18 or higher
-node --version    # Should show v18.x.x or higher
-
-# npm (comes with Node.js)
-npm --version     # Should show 8.x.x or higher
-```
-
-**Don't have Node.js?** Install from [nodejs.org](https://nodejs.org/) (LTS version recommended).
-
-**Authentication** - You'll need ONE of:
+**Authentication** — You'll need ONE of:
 - Anthropic API key ([console.anthropic.com](https://console.anthropic.com))
-- Claude Max subscription (uses OAuth)
+- Claude Pro/Max subscription (uses OAuth)
+
+> **Note**: Node.js is only required if using the npm install method. The native installer has no dependencies.
 
 ---
 
 ## Install (2 minutes)
 
+### Recommended: Native Installer
+
+**macOS / Linux / WSL2**:
+```bash
+curl -fsSL https://claude.ai/install.sh | bash
+```
+
+**Windows (PowerShell)**:
+```powershell
+irm https://claude.ai/install.ps1 | iex
+```
+
+### Alternative: npm (legacy)
+
 ```bash
 npm install -g @anthropic-ai/claude-code
 ```
+
+> npm installs don't auto-update. The native installer is preferred.
 
 Verify installation:
 ```bash
@@ -56,7 +62,7 @@ claude auth
 
 This opens a browser window. Choose your auth method:
 - **API Key**: Paste your Anthropic API key
-- **Claude Max**: Sign in with your Anthropic account
+- **Claude Pro/Max**: Sign in with your Anthropic account
 
 ---
 
@@ -91,12 +97,23 @@ claude "Create a function that validates email addresses"
 claude "/help"
 ```
 
+### VS Code Extension (Optional)
+
+For an IDE-integrated experience:
+
+1. Open VS Code (1.98.0+)
+2. `Cmd/Ctrl+Shift+X` → search "Claude Code"
+3. Install the extension by Anthropic
+
+You can use both the terminal and VS Code extension simultaneously.
+
 ---
 
 ## Next Steps
 
 | What You Want | Where to Go |
 |---------------|-------------|
+| Full setup guide (all platforms, Codex too) | [Getting Started](./SETUP-GUIDE-2026.md) (10 min) |
 | Set up a project properly | [New Project Setup](./NEW-PROJECT-SETUP.md) (30 min) |
 | Learn slash commands | [Slash Commands](../../templates/slash-commands/README.md) |
 | Understand best practices | [CLAUDE.md Guidelines](../../templates/claude-md/README.md) |
@@ -108,7 +125,9 @@ claude "/help"
 
 ### "command not found: claude"
 
-npm's global bin directory isn't in your PATH. Fix:
+**Native installer**: Open a new terminal window — the installer updates your PATH automatically.
+
+**npm install**: npm's global bin directory isn't in your PATH. Fix:
 ```bash
 # Find where npm installs global packages
 npm config get prefix
@@ -130,7 +149,7 @@ claude auth status
 ### Permission errors on install
 
 ```bash
-# Use sudo (Linux/macOS)
+# Use sudo (Linux/macOS) — only needed for npm method
 sudo npm install -g @anthropic-ai/claude-code
 
 # Or fix npm permissions (better long-term)
@@ -148,4 +167,4 @@ sudo npm install -g @anthropic-ai/claude-code
 ---
 
 **Time to complete**: ~5 minutes
-**Last updated**: January 2026
+**Last updated**: February 2026

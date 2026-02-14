@@ -1,42 +1,48 @@
-## WSL2 + Claude Code + Codex + Cursor Development Setup
+## AI-Assisted Development — Templates, Guides & Setup
 
-**Multi-AI Development Environment + Template Library**
+Evidence-based templates and setup guides for Claude Code, Codex, and AI-assisted development workflows.
 
 ---
 
 ### Where Should I Start?
 
-| Your Situation | Guide | Time |
-|----------------|-------|------|
-| **New to Claude Code?** | [Quickstart](./docs/getting-started/CLAUDE-CODE-QUICKSTART.md) | 5 min |
-| **Have Claude Code, starting a project?** | [Project Setup](./docs/getting-started/NEW-PROJECT-SETUP.md) | 30 min |
-| **Setting up full dev environment?** | [New PC Setup](./docs/setup-guides/NEW-PC-SETUP.md) | 90 min |
+| You Are... | Start Here | Time |
+|------------|-----------|------|
+| **New to AI coding assistants** | [Getting Started](./docs/getting-started/SETUP-GUIDE-2026.md) | 10 min |
+| **Setting up Claude Code quickly** | [Quickstart](./docs/getting-started/CLAUDE-CODE-QUICKSTART.md) | 5 min |
+| **Starting a new project** | [New Project Setup](./docs/getting-started/NEW-PROJECT-SETUP.md) | 30 min |
+| **Want the full WSL2 power setup** | [New PC Setup](./docs/setup-guides/NEW-PC-SETUP.md) | 90 min |
+| **Experienced — here for templates** | [Templates](./templates/) | Browse |
 
-> **What is Claude Code?** An AI coding assistant that runs in your terminal. It reads your codebase, writes code, runs commands, and helps you build software faster.
+> **What is Claude Code?** An AI coding assistant that runs in your terminal (or VS Code). It reads your codebase, writes code, runs commands, and helps you build software faster. We also recommend **Codex CLI** as a secondary tool — one writes code, the other reviews it.
 
 ---
 
 **Daily users**: See [Daily Workflow Guide](./docs/setup-guides/DAILY-WORKFLOW.md) for everyday usage.
 
-> **Note**: This repository contains templates and personal examples. Replace paths, usernames, and repository URLs with your own before use. If you're setting up a new machine with your personal config, check the `personal/` folder (git-ignored) for your actual setup details.
+> **Note**: This repository contains templates and examples. Replace paths, usernames, and repository URLs with your own before use.
 
 ## What This Repo Provides
 
-1. **Development Environment** - WSL2 + Claude Code + Codex CLI + Cursor IDE
-   - High-performance Linux filesystem (~2.4 GB/s vs 200 MB/s Windows)
-   - Parallel AI workflows with Claude Code and Codex
-   - 32-core system optimized for AI-assisted development
-
-2. **Template Library** - 66 template files across 10 categories
+1. **Template Library** — 66 template files across 10 categories
    - **9 active slash commands** (quality, design, git workflow)
-   - **CLAUDE.md structures** - Lightweight, evidence-based project context templates
-   - **Project organization** - `.projects/` 3-tier backlog system
-   - **Anti-slop standards** - Automated quality gates preventing AI-generated bloat
-   - **Features backlog** - Tier-based prioritization framework
-   - **Permission environments** - Tool access configuration patterns
-   - **Workflow hooks** - Automated validation and enforcement (query validation, formatting)
+   - **CLAUDE.md structures** — Lightweight, evidence-based project context templates
+   - **Project organization** — `.projects/` 3-tier backlog system
+   - **Anti-slop standards** — Automated quality gates preventing AI-generated bloat
+   - **Hooks, permissions, testing, CI/CD, plugins** — Full workflow automation
 
-3. **Research & Evidence** - Extracted from real-world usage, not arbitrary
+2. **Setup Guides** — Get running on Mac, Windows, or Linux
+   - [Getting Started](./docs/getting-started/SETUP-GUIDE-2026.md) — Platform-agnostic setup for Claude Code + Codex
+   - [Quickstart](./docs/getting-started/CLAUDE-CODE-QUICKSTART.md) — 5-minute Claude Code install
+   - [Claude Code deep-dive](./docs/setup-guides/CLAUDE-CODE-SETUP.md) — Configuration, troubleshooting, best practices
+   - [Codex CLI](./docs/setup-guides/CODEX-SETUP.md) — Dual-tool workflow setup
+
+3. **Advanced: WSL2 Power Setup** — Full Linux dev environment for Windows users
+   - [New PC Setup](./docs/setup-guides/NEW-PC-SETUP.md) — 90-minute guided Windows 11 + WSL2 setup
+   - [Why WSL?](./docs/decisions/why-wsl.md) — Architecture decision (it's a choice, not a requirement)
+   - For WSL2 resource allocation, see [New PC Setup](./docs/setup-guides/NEW-PC-SETUP.md)
+
+4. **Research & Evidence** — Extracted from real-world usage, not arbitrary
    - 4 repository audits (ping-tree-compare, tiller-bridge, dois-processor, template projects)
    - 239+ commits analyzed for pattern validation
    - 13 patterns tested across multiple projects before extraction
@@ -45,42 +51,32 @@
 
 ## Quick Navigation
 
-### 🎯 Daily Workflow
-- **[Daily Workflow Guide](./docs/setup-guides/DAILY-WORKFLOW.md)** - ⭐ Start here for everyday usage
-- [Multi-Device Workspace](./docs/setup-guides/MULTI-DEVICE-WORKSPACE.md) - 🆕 Access Claude Code from iPad/phone/laptop
-- [Local Network Sharing](./docs/setup-guides/LOCAL-NETWORK-SHARING.md) - Share dev servers & mockups with teammates
-- [Claude Code Setup](./docs/setup-guides/CLAUDE-CODE-SETUP.md) - Installing and using Claude Code CLI
-- [Codex Setup](./docs/setup-guides/CODEX-SETUP.md) - Alternative AI assistant setup
-- [Cursor + WSL Setup](./docs/setup-guides/CURSOR-WSL-SETUP.md) - IDE with WSL integration
-- [Why WSL?](./docs/decisions/why-wsl.md) - Architecture decision: why we use WSL (it's a choice, not a requirement)
+### Setup Guides
+- **[Getting Started](./docs/getting-started/SETUP-GUIDE-2026.md)** — Platform-agnostic Claude Code + Codex setup (Mac, Windows, Linux)
+- [Quickstart](./docs/getting-started/CLAUDE-CODE-QUICKSTART.md) — 5-minute Claude Code install
+- [Claude Code Setup](./docs/setup-guides/CLAUDE-CODE-SETUP.md) — Full installation and configuration
+- [Codex Setup](./docs/setup-guides/CODEX-SETUP.md) — Dual-tool workflow with Codex CLI
+- [Daily Workflow Guide](./docs/setup-guides/DAILY-WORKFLOW.md) — Everyday usage patterns
+- [Multi-Device Workspace](./docs/setup-guides/MULTI-DEVICE-WORKSPACE.md) — Access Claude Code from iPad/phone/laptop
+- [Cursor + WSL Setup](./docs/setup-guides/CURSOR-WSL-SETUP.md) — IDE with WSL integration (Windows)
+- [Why WSL?](./docs/decisions/why-wsl.md) — Architecture decision: why we use WSL (it's a choice, not a requirement)
 
-### 🚀 Setting Up Environment
-- **[New PC Setup](./docs/setup-guides/NEW-PC-SETUP.md)** - 90-minute guided setup for Windows 11
-- **[New Project Setup](./docs/getting-started/NEW-PROJECT-SETUP.md)** - 🆕 Set up Claude Code workflows in any project
-- [Global CLI Commands](./docs/reference/GLOBAL-CLI-SETUP.md) - Make repo scripts globally available
-- [WSL Paths Reference](./docs/reference/WSL-PATHS.md) - Understanding Windows ↔ WSL paths
-- [Claude Code Config](./docs/reference/CLAUDE-CODE-CONFIG.md) - MCPs, plugins, and configuration
-- [Playwright MCP](./docs/reference/PLAYWRIGHT-MCP.md) - 🆕 Browser automation for frontend testing
-- [Claude Code Storage](./docs/reference/CLAUDE-CODE-STORAGE.md) - Session history, finding conversations
-- [Obsidian WSL Setup](./docs/setup-guides/OBSIDIAN-WSL-SETUP.md) - Running Obsidian in WSL
-
-### 📚 Browse Templates
-- [**Slash Commands**](./templates/slash-commands/) - 13 commands across 7 categories
-  - ⭐ **[Context Management](./templates/slash-commands/context-management/)** - Replace `/compact` with explicit control
-- [**CLAUDE.md Structures**](./templates/claude-md/) - Lightweight project context templates
-- [**Project Organization**](./templates/projects/) - `.projects/` 3-tier backlog system
-- [**Anti-Slop Standards**](./templates/standards/) - Automated quality enforcement
-- [**Features Backlog**](./templates/features-backlog/) - Tier-based prioritization
-- [**Permissions**](./templates/permissions/) - Tool access configuration
-- [**Hooks**](./templates/hooks/) - 🆕 Workflow automation and validation hooks
+### Browse Templates
+- [**Slash Commands**](./templates/slash-commands/) — 13 commands across 7 categories
+  - [Context Management](./templates/slash-commands/context-management/) — Replace `/compact` with explicit control
+- [**CLAUDE.md Structures**](./templates/claude-md/) — Lightweight project context templates
+- [**Project Organization**](./templates/projects/) — `.projects/` 3-tier backlog system
+- [**Anti-Slop Standards**](./templates/standards/) — Automated quality enforcement
+- [**Features Backlog**](./templates/features-backlog/) — Tier-based prioritization
+- [**Permissions**](./templates/permissions/) — Tool access configuration
+- [**Hooks**](./templates/hooks/) — Workflow automation and validation hooks
+- [**Testing**](./templates/testing/) — Playwright + Claude Code testing patterns
+- [**CI/CD**](./templates/ci/) — GitHub Actions for AI-assisted development
+- [**Plugins**](./templates/plugins/) — Claude Code skills (code review, backlog)
 - [**All Templates →**](./templates/)
 
-### 🔍 Research & Validation
-- Research methodology and audit findings excluded from this repository for brevity. Templates are production-validated from 239+ commits across 4 repositories.
-- [Journal](./JOURNAL.md) - Personal AI-driven development journey
-
-### 🎯 Common Tasks
-- **⭐ Set up new project** → [**New Project Setup Guide**](./docs/getting-started/NEW-PROJECT-SETUP.md) - Complete walkthrough
+### Common Tasks
+- **Set up new project** → [**New Project Setup Guide**](./docs/getting-started/NEW-PROJECT-SETUP.md)
 - **Work from iPad/phone** → [Multi-Device Workspace](./docs/setup-guides/MULTI-DEVICE-WORKSPACE.md)
 - **Browser automation/testing** → [Playwright MCP](./docs/reference/PLAYWRIGHT-MCP.md)
 - **Replace `/compact`** → [Context Management Commands](./templates/slash-commands/context-management/)
@@ -89,7 +85,6 @@
 - **Set up backlog system** → [templates/features-backlog/](./templates/features-backlog/)
 - **Learn anti-slop principles** → [templates/standards/ANTI_SLOP_STANDARDS.md](./templates/standards/ANTI_SLOP_STANDARDS.md)
 - **Browse documentation patterns** → [templates/standards/DOCUMENTATION_STRATEGY.md](./templates/standards/DOCUMENTATION_STRATEGY.md)
-- **See the journey** → [JOURNAL.md](./JOURNAL.md)
 
 ---
 
@@ -116,50 +111,27 @@ dev my-project cursor         # Open in Cursor IDE
 | Start Claude | `claude` |
 | Start Codex | `codex` |
 | Open Cursor | `cursor .` |
-| Launch Obsidian | `obs` |
 | Check performance | `perf` or `perf --disk` |
 
 **Full command reference**: [docs/reference/COMMANDS.md](./docs/reference/COMMANDS.md)
 
 ---
 
-## System Overview
+## Architecture: Our WSL2 Setup (Windows)
 
-### Performance Baseline
-
-| Component | Spec | Notes |
-|-----------|------|-------|
-| **CPU** | i9-14900K (32 threads) | 24-26 allocated to WSL |
-| **Memory** | 64GB total, 24GB to WSL | Typical usage: 1-2GB |
-| **Linux FS** | ~2.4 GB/s | Use `~/repos/` for all code |
-| **Windows FS** | ~200 MB/s | 10x slower, avoid for dev |
-| **GPU** | RTX 4080 SUPER | Available to WSL via WSLg |
-
-### Directory Structure
-```
-~/repos/              # All projects (Linux FS - FAST)
-  ├── code/           # Development projects
-  ├── docs/           # Documentation (Obsidian vaults)
-  │   ├── personal-docs/            # Personal docs
-  │   ├── company-shared-docs/      # Company docs
-  │   └── query-docs/               # Query docs
-  └── ai-dev-templates/  # This repo
-~/bin/                # Custom scripts (dev, perf, etc.)
-~/knowledge-base/     # Symlinks to doc repos
-```
-
-### Architecture
 ```text
 Windows 11 Pro (Host)
 ├── Cursor IDE (Windows) → Remote-WSL → WSL2
-└── WSL2 Ubuntu (24GB RAM, 26 processors)
-    ├── ~/repos/ (all projects - FAST: 2.4 GB/s)
+└── WSL2 Ubuntu
+    ├── ~/repos/ (all projects - Linux FS, fast I/O)
     ├── Claude Code (AI pair programming)
-    ├── Codex CLI (Alternative AI)
-    └── Obsidian (via WSLg)
+    ├── Codex CLI (secondary AI, cross-review)
+    └── VS Code / Cursor (via Remote-WSL)
 ```
 
-**Why WSL?**: Linux filesystem is 10x faster than Windows FS. See [Why WSL?](./docs/decisions/why-wsl.md) for full rationale.
+This is our team's power-user setup on Windows. **Not required** — Claude Code and Codex work natively on Mac, Windows, and Linux without WSL. See [Getting Started](./docs/getting-started/SETUP-GUIDE-2026.md) for platform-agnostic installation.
+
+**Why WSL?**: Linux filesystem is 10x faster than Windows FS for development. See [Why WSL?](./docs/decisions/why-wsl.md) for full rationale.
 
 ---
 
@@ -167,10 +139,10 @@ Windows 11 Pro (Host)
 
 | Issue | Solution |
 |-------|----------|
+| **Claude/Codex not found** | See [Getting Started](./docs/getting-started/SETUP-GUIDE-2026.md) for install instructions |
 | **Cursor won't open from WSL** | Use `cursor .` command or see [Cursor WSL Setup](./docs/setup-guides/CURSOR-WSL-SETUP.md) |
-| **Memory growing** | Check with `perf`, restart: `wsl --shutdown` (PowerShell) |
-| **Slow performance** | Ensure code is in `~/repos/`, not `/mnt/c/` |
-| **Claude/Codex not found** | See setup guides: [Claude Code](./docs/setup-guides/CLAUDE-CODE-SETUP.md) \| [Codex](./docs/setup-guides/CODEX-SETUP.md) |
+| **Memory growing (WSL)** | Check with `perf`, restart: `wsl --shutdown` (PowerShell) |
+| **Slow performance (WSL)** | Ensure code is in `~/repos/`, not `/mnt/c/` |
 
 ---
 
@@ -178,16 +150,14 @@ Windows 11 Pro (Host)
 
 This repo includes sample configuration files and scripts:
 
-- `scripts/dev` - Project launcher with AI assistant integration
-- `scripts/perf` - WSL2 performance monitoring
-- `scripts/obs` - Obsidian launcher for WSL
-- `templates/` - Reusable templates for projects, slash commands, hooks
-- `docs/` - Setup guides and reference documentation
-  - `docs/railway/` - [Railway deployment guides](./docs/railway/README.md) for cloud-hosted projects
+- `scripts/dev` — Project launcher with AI assistant integration
+- `scripts/perf` — WSL2 performance monitoring
+- `scripts/obs` — Obsidian launcher for WSL
+- `templates/` — Reusable templates for projects, slash commands, hooks
+- `docs/` — Setup guides and reference documentation
+  - `docs/railway/` — [Railway deployment guides](./docs/railway/README.md) for cloud-hosted projects
 
 **Note**: System-specific configs (like `.bashrc`, actual project paths) live in `personal/` (git-ignored).
-
-**WSL Configuration**: `C:\Users\<YourUsername>\.wslconfig` (24GB RAM, 26 processors, mirrored networking)
 
 ---
 
@@ -221,37 +191,37 @@ These aren't theoretical best practices. They were extracted from real usage:
 
 ### Template Categories
 
-**📝 Slash Commands** (13 commands, 7 categories)
+**Slash Commands** (13 commands, 7 categories)
 - Development workflow: `/start-feature`, `/resume`, `/feature-complete`
 - Analysis: `/plan-approaches`, `/performance-analysis`
 - Documentation: `/audit-claude-md`, `/sync-team-docs`
 - [Browse all commands →](./templates/slash-commands/)
 
-**📋 CLAUDE.md Structures**
+**CLAUDE.md Structures**
 - Lightweight project context (150-200 lines recommended)
 - Hub-and-spoke pattern (main CLAUDE.md → category docs)
 - Evidence from 4 repo audits
 - [See templates →](./templates/claude-md/)
 
-**📂 Project Organization**
+**Project Organization**
 - `.projects/` 3-tier backlog system (active, backlog, icebox)
 - Prevents "forgotten feature" syndrome
 - Integrates with slash commands
 - [Learn more →](./templates/projects/)
 
-**✨ Anti-Slop Standards**
+**Anti-Slop Standards**
 - 7 universal standards (functions <50 lines, nesting <3, etc.)
 - Automated enforcement (grep patterns, pre-commit hooks)
 - Recognition patterns for AI-generated bloat
 - [Full standards →](./templates/standards/)
 
-**🎯 Features Backlog**
+**Features Backlog**
 - Tier-based prioritization (Tier 1: critical, Tier 2: important, Tier 3: nice-to-have)
 - Prevents over-engineering ("Tier 1 only" mindset)
 - Works with .projects/ system
 - [See template →](./templates/features-backlog/)
 
-**🔐 Permissions**
+**Permissions**
 - Environment-based tool access (home repo, work repo, demo mode)
 - Security patterns for AI tools
 - Pre-configured permission sets
@@ -259,18 +229,5 @@ These aren't theoretical best practices. They were extracted from real usage:
 
 ---
 
-### The Journey (Personal Context)
-
-This template library documents my evolution with AI-assisted development over 6+ months:
-
-- **Early mistakes**: Over-engineered solutions, AI-generated bloat, forgotten features
-- **Pattern recognition**: What worked across multiple projects? What didn't?
-- **Systematic extraction**: Auditing commits to find recurring patterns
-- **Sharing**: Making these patterns reusable for others
-
-**See the full story**: [JOURNAL.md](./JOURNAL.md) - Learnings, insights, and evolution over time.
-
----
-
 Created: September 2024
-Last Updated: November 2025
+Last Updated: February 13, 2026

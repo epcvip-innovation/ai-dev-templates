@@ -13,12 +13,7 @@ This is an **AI workflow template library and personal documentation hub**, buil
 - 10 template categories: slash commands, CLAUDE.md structures, anti-slop standards, hooks, project organization, features backlog, permissions, testing, CI/CD, plugins
 - Ready for personal use, team adoption, and future public sharing
 
-**Secondary Purpose**: Personal AI journey documentation
-- JOURNAL.md: 14k+ line learning log from Jan-Nov 2025
-- research/: Pattern validation methodology and audit findings (excluded from repo for brevity)
-- Proof of expertise and community contribution
-
-**Target Audience**: Self (primary), team (secondary), public community (future)
+**Target Audience**: Team (primary), public community (future)
 
 ## Template Library
 
@@ -90,7 +85,7 @@ The core value of this repository. **Browse before using** - these are patterns 
 - Severity scoring, technology-specific patterns
 - **See**: [templates/plugins/README.md](./templates/plugins/README.md)
 
-## Research & Journey
+## Research & Evidence
 
 ### Evidence-Based Approach
 
@@ -103,13 +98,6 @@ All templates extracted from real production usage, not theoretical best practic
 
 **Note**: Research methodology and audit findings (PATTERNS-SUMMARY.md, EXTRACTION-ROADMAP.md, audit-findings/) are excluded from this repository for brevity. Templates are production-validated and ready for use.
 
-### Personal AI Journey
-
-**[JOURNAL.md](./JOURNAL.md)** (14k+ lines) - Learning log from Jan-Nov 2025
-- Documents evolution from mistakes to validated patterns
-- 7 sessions: Standards extraction → Context management → Hooks system
-- Real-world learnings, insights, and iteration
-
 ## Using This Repository
 
 **Philosophy**: "Evidence-based patterns you can copy and adapt, not rules you must follow."
@@ -121,7 +109,6 @@ All templates extracted from real production usage, not theoretical best practic
 4. **Validate** patterns work for your specific context
 
 **For Context & Learning**:
-- Read [JOURNAL.md](./JOURNAL.md) to understand the journey and evolution
 - See [README.md](./README.md) for complete navigation
 
 **Don't**:
@@ -138,9 +125,10 @@ All templates extracted from real production usage, not theoretical best practic
 - **[docs/decisions/why-wsl.md](./docs/decisions/why-wsl.md)** - Why we use WSL (architectural decision)
 
 **Setup Guides**:
-- **[docs/setup-guides/NEW-PC-SETUP.md](./docs/setup-guides/NEW-PC-SETUP.md)** - 90-minute new machine setup
-- **[docs/setup-guides/CLAUDE-CODE-SETUP.md](./docs/setup-guides/CLAUDE-CODE-SETUP.md)** - Claude Code installation
-- **[docs/setup-guides/CODEX-SETUP.md](./docs/setup-guides/CODEX-SETUP.md)** - Codex installation
+- **[docs/getting-started/SETUP-GUIDE-2026.md](./docs/getting-started/SETUP-GUIDE-2026.md)** - Platform-agnostic setup (Mac, Windows, Linux)
+- **[docs/setup-guides/NEW-PC-SETUP.md](./docs/setup-guides/NEW-PC-SETUP.md)** - 90-minute WSL2 new machine setup
+- **[docs/setup-guides/CLAUDE-CODE-SETUP.md](./docs/setup-guides/CLAUDE-CODE-SETUP.md)** - Claude Code deep-dive
+- **[docs/setup-guides/CODEX-SETUP.md](./docs/setup-guides/CODEX-SETUP.md)** - Codex CLI + dual-tool workflow
 - **[docs/setup-guides/CURSOR-WSL-SETUP.md](./docs/setup-guides/CURSOR-WSL-SETUP.md)** - Cursor + WSL integration
 
 **Reference**:
@@ -163,7 +151,6 @@ cursor .            # Open Cursor (Remote-WSL)
 
 **Common tasks**:
 - Browse templates: `ls templates/`
-- Read journal: `cat JOURNAL.md` or open in editor
 - Check performance: `perf`
 
 ## Documentation Map
@@ -182,7 +169,6 @@ cursor .            # Open Cursor (Remote-WSL)
 - [templates/testing/](./templates/testing/) - Playwright + Claude Code testing patterns
 
 **Research & Evidence**:
-- [JOURNAL.md](./JOURNAL.md) - Personal AI journey (14k+ lines)
 - Research methodology and audit findings excluded from repository for brevity
 
 **Environment Setup** (Secondary):
@@ -197,5 +183,5 @@ cursor .            # Open Cursor (Remote-WSL)
 1. **This is a template library** - Not an environment setup guide (that's secondary)
 2. **Evidence-based** - All patterns validated across 239+ commits in production repos
 3. **Adapt, don't copy** - Templates are starting points, not rigid requirements
-4. **Future publication** - Intended for personal use, team sharing, and public community contribution
-5. **Living documentation** - Continuously updated based on real-world usage (see JOURNAL.md)
+4. **Team resource** - Intended for team use and public community contribution
+5. **Living documentation** - Continuously updated based on real-world usage

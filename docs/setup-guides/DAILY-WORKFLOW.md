@@ -1,8 +1,10 @@
 # Daily Workflow Guide
 
-**Last Updated**: 2025-11-16
+**Last Updated**: 2026-02-13
 
-A practical guide to the daily development workflow using Claude Code, Codex, and Cursor IDE in WSL2.
+A practical guide to the daily development workflow using Claude Code, Codex, and Cursor IDE.
+
+> **New here?** See [Getting Started](../getting-started/SETUP-GUIDE-2026.md) for platform-agnostic installation. This guide covers everyday usage patterns once tools are installed.
 
 ---
 
@@ -238,15 +240,12 @@ See [WSL Paths Reference](../reference/WSL-PATHS.md#performance) for explanation
 
 ### Issue: Claude Code or Codex not found
 
-**Solution**: Install or add to PATH
+**Solution**: Install using the [Getting Started guide](../getting-started/SETUP-GUIDE-2026.md) (covers all platforms).
+
 ```bash
 # Check if installed
 which claude
 which codex
-
-# If missing, install
-npm install -g @anthropic-ai/claude-code
-# (See setup guides for Codex)
 ```
 
 See setup guides: [Claude Code](./CLAUDE-CODE-SETUP.md) | [Codex](./CODEX-SETUP.md)

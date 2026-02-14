@@ -1,30 +1,45 @@
-# Codex Setup Guide
+# Codex CLI Setup Guide
 
-**Last Updated**: 2025-11-16  
+[← Back to Main README](../../README.md) | [Getting Started (all platforms) →](../getting-started/SETUP-GUIDE-2026.md)
+
+**Last Updated**: 2026-02-13
 **Time Required**: 5-10 minutes
 
-Guide to installing and configuring Codex CLI for AI-assisted development.
+Guide to installing Codex CLI and using it alongside Claude Code for a dual-tool development workflow.
 
 ---
 
-## What is Codex?
+## What is Codex CLI?
 
-Codex is OpenAI's code generation AI, available as a CLI tool for terminal-based development assistance.
+Codex CLI is OpenAI's terminal-based AI coding assistant ([github.com/openai/codex](https://github.com/openai/codex)). It runs in your terminal, similar to Claude Code, but uses OpenAI's GPT models.
 
-**Note**: As of 2024, OpenAI's Codex API was sunset. This guide documents the setup for historical reference (as of November 2025). Consider alternatives like:
-- **Claude Code** (Anthropic) - See [Claude Code Setup](./CLAUDE-CODE-SETUP.md)
-- **GitHub Copilot CLI** - `gh copilot`
-- **OpenAI CLI** (GPT-4) - Direct API access
+> **Not the old Codex API**: OpenAI's original Codex API was sunset in 2024. Codex CLI is a separate, actively-maintained tool released in 2025. Don't confuse the two.
 
-**Official Documentation**: Check [OpenAI Platform Docs](https://platform.openai.com/docs) for current status.
+**Current version**: v0.100.0+
+**Default model**: GPT-5.3-codex
+**Speed variant**: GPT-5.3-codex-spark (real-time, 15x faster — released Feb 12, 2026)
+
+**Official Repository**: [https://github.com/openai/codex](https://github.com/openai/codex)
+
+---
+
+## Why We Use Both Claude Code + Codex CLI
+
+We recommend running Claude Code and Codex CLI simultaneously as a dual-tool workflow:
+
+- **Different models catch different issues** — Claude (Opus 4.6) and Codex (GPT-5.3) have different strengths and blind spots
+- **Cross-review** — One tool writes code, the other reviews it
+- **Split terminals** — Run both side-by-side on the same project
+- **MCP integration** — Can run Codex as an MCP server inside Claude Code, or vice versa
+
+**Claude Code is our primary tool.** Codex is the secondary tool for cross-review and comparison. If you only want one tool, start with Claude Code.
 
 ---
 
 ## Prerequisites
 
-- WSL2 (Ubuntu) OR Windows native
-- OpenAI API key
-- Node.js/npm OR Python (depending on implementation)
+- Node.js 22+ and npm (for npm install) — or Homebrew on macOS (no Node.js needed)
+- A paid ChatGPT account (Plus, Pro, Team, or Enterprise)
 
 **Check if already installed**:
 ```bash
@@ -36,64 +51,32 @@ codex --version
 
 ## Installation
 
-### Historical Installation (Reference)
-
-**Note**: If the original Codex CLI is no longer available, consider alternatives above.
-
 ```bash
-# Example installation (if still available)
-npm install -g codex-cli
-
-# OR via pip (if Python-based)
-pip install openai-codex
-
-# Verify
-codex --version
+npm install -g @openai/codex
 ```
 
-### Alternative: OpenAI CLI
-
+Or via Homebrew (macOS):
 ```bash
-# Install OpenAI CLI (2025)
-pip install openai
+brew install --cask codex
+```
 
-# Or via npm if available
-npm install -g openai-cli
-
-# Authenticate
-openai api-key set YOUR_API_KEY
+Verify installation:
+```bash
+codex --version
 ```
 
 ---
 
 ## Authentication
 
-### API Key Setup
+### ChatGPT Account Sign-In
+
+Codex CLI authenticates via your ChatGPT account (not an API key):
 
 ```bash
-# Set environment variable
-export OPENAI_API_KEY="your-api-key-here"
-
-# Add to ~/.bashrc for persistence
-echo 'export OPENAI_API_KEY="your-api-key-here"' >> ~/.bashrc
-source ~/.bashrc
-```
-
-**Get API Key**: [https://platform.openai.com/api-keys](https://platform.openai.com/api-keys)
-
----
-
-## Configuration
-
-### Basic Configuration
-
-Codex typically stores configuration in `~/.config/codex/` or similar.
-
-```bash
-# Check config location
-ls ~/.config/codex/
-# Or
-codex config --show
+codex
+# Follow the browser prompts to sign in with your ChatGPT account
+# Requires a paid ChatGPT plan (Plus, Pro, Team, or Enterprise)
 ```
 
 ---
@@ -104,16 +87,14 @@ codex config --show
 
 ```bash
 # Start in current directory
-codex
-
-# With specific context
 cd ~/repos/your-project
 codex
+
+# Ask questions, write code, run commands — similar to Claude Code
 ```
 
 ### Common Commands
 
-Similar to Claude Code:
 ```
 help     # Show available commands
 exit     # Exit Codex
@@ -121,151 +102,103 @@ exit     # Exit Codex
 
 ---
 
-## Recommended Alternatives (2025)
+## Dual-Tool Workflow
 
-### Option 1: Claude Code (Primary Recommendation)
+This is our recommended way to use both tools together.
 
-```bash
-# Install Claude Code
-npm install -g @anthropic-ai/claude-code
+### Split Terminal Setup
 
-# Use instead of Codex
-claude
+Open two terminal windows (or use tmux/split pane):
+
+```
+┌─────────────────────────┬─────────────────────────┐
+│ Terminal 1: Claude Code  │ Terminal 2: Codex CLI    │
+│                          │                          │
+│ $ cd ~/repos/my-project  │ $ cd ~/repos/my-project  │
+│ $ claude                 │ $ codex                  │
+│                          │                          │
+│ "Add input validation    │ "Review the changes in   │
+│  to the users API        │  src/api/users.ts —      │
+│  endpoint"               │  any issues?"            │
+│                          │                          │
+└─────────────────────────┴─────────────────────────┘
 ```
 
-**Advantages**:
-- Active development
-- Better code understanding
-- File editing capabilities
-- Maintained by Anthropic
+### Workflow Patterns
 
-See [Claude Code Setup](./CLAUDE-CODE-SETUP.md) for details.
+**Pattern 1: Write + Review**
+1. Use Claude Code to implement a feature
+2. Switch to Codex and ask it to review the changes
+3. Fix any issues either tool catches
 
-### Option 2: GitHub Copilot CLI
+**Pattern 2: Competing Approaches**
+1. Ask both tools the same question
+2. Compare their approaches
+3. Pick the better solution (or combine them)
 
-```bash
-# Install gh CLI
-# See: https://cli.github.com/
-
-# Install Copilot extension
-gh extension install github/gh-copilot
-
-# Use
-gh copilot suggest "your question"
-gh copilot explain "code snippet"
-```
-
-**Advantages**:
-- Integrated with GitHub
-- Works with Copilot subscription
-- Good for git operations
-
-### Option 3: OpenAI Direct (GPT-4)
-
-```bash
-# Use OpenAI API directly
-# Create custom wrapper script
-```
+**Pattern 3: MCP Cross-Use**
+Run Codex as an MCP server inside Claude Code (or vice versa). This lets one tool invoke the other programmatically. See [Claude Code Config](../reference/CLAUDE-CODE-CONFIG.md) for MCP setup.
 
 ---
 
 ## Troubleshooting
 
-### Issue: Codex command not found
+### Issue: "command not found: codex"
 
-**Solution**: Codex may no longer be available. Use alternatives:
-
+**Solution**: Ensure npm global bin is in your PATH:
 ```bash
-# Install Claude Code instead
-npm install -g @anthropic-ai/claude-code
-claude
+# Check npm global prefix
+npm config get prefix
 
-# Or GitHub Copilot CLI
-gh extension install github/gh-copilot
+# Add to PATH if needed
+export PATH="$PATH:$(npm config get prefix)/bin"
+
+# Reinstall
+npm install -g @openai/codex
 ```
 
-### Issue: API authentication fails
+### Issue: Authentication fails
 
 **Solution**:
 ```bash
-# Verify API key
-echo $OPENAI_API_KEY
+# Re-run codex and follow the browser prompts
+codex
 
-# Test API access
-curl https://api.openai.com/v1/models \
-  -H "Authorization: Bearer $OPENAI_API_KEY"
+# If browser doesn't open, check your default browser setting
+# Ensure you have a paid ChatGPT plan (Plus, Pro, Team, or Enterprise)
 ```
-
----
-
-## Migration Path
-
-If you were using Codex and need to migrate:
-
-### To Claude Code
-
-1. Install Claude Code: See [Claude Code Setup](./CLAUDE-CODE-SETUP.md)
-2. Update `dev` script to use `claude` instead of `codex`
-3. Test workflow with Claude
-
-### To GitHub Copilot CLI
-
-1. Install gh CLI and Copilot extension
-2. Update scripts to use `gh copilot`
-3. Test integration
-
----
-
-## Integration with Other Tools
-
-### With Claude Code (Recommended)
-
-Use both side-by-side for comparison:
-```bash
-# Terminal 1
-claude
-
-# Terminal 2
-codex  # or alternative
-```
-
-### With Cursor IDE
-
-1. Run AI assistant in terminal
-2. Use Cursor for implementation
-3. Verify changes before committing
 
 ---
 
 ## Performance Tips
 
-Similar to Claude Code:
-- Keep sessions focused
-- Clear context between projects
-- Use version control
-- Review AI suggestions before applying
+- Keep sessions focused on one project
+- Clear context between tasks
+- Use version control — review AI suggestions before committing
+- For comparison workflows, keep both tools on the same codebase directory
 
 ---
 
 ## See Also
 
 **Setup Guides**:
-- [Claude Code Setup](./CLAUDE-CODE-SETUP.md) - Primary AI assistant (recommended)
-- [Daily Workflow](./DAILY-WORKFLOW.md) - Using AI tools daily
-- [Cursor WSL Setup](./CURSOR-WSL-SETUP.md) - IDE integration
+- [Getting Started](../getting-started/SETUP-GUIDE-2026.md) — Platform-agnostic setup for both tools
+- [Claude Code Setup](./CLAUDE-CODE-SETUP.md) — Primary AI assistant (recommended)
+- [Daily Workflow](./DAILY-WORKFLOW.md) — Using AI tools daily
+- [Cursor WSL Setup](./CURSOR-WSL-SETUP.md) — IDE integration
 
 **Reference**:
-- [Commands Reference](../reference/COMMANDS.md) - All available commands
+- [Commands Reference](../reference/COMMANDS.md) — All available commands
 
 **Official**:
-- [OpenAI Platform](https://platform.openai.com/)
-- [GitHub Copilot CLI](https://docs.github.com/en/copilot/github-copilot-in-the-cli)
+- [OpenAI Codex CLI (GitHub)](https://github.com/openai/codex)
+- [Codex CLI Official Documentation](https://developers.openai.com/codex/)
+- [Codex CLI Quickstart](https://developers.openai.com/codex/quickstart/)
 
 ---
 
 **Next Steps**:
-1. Consider [Claude Code](./CLAUDE-CODE-SETUP.md) as primary AI assistant
-2. Configure [Cursor IDE](./CURSOR-WSL-SETUP.md)
-3. Read [Daily Workflow](./DAILY-WORKFLOW.md) guide
-4. Update `dev` script if switching from Codex
-
+1. Codex CLI installed
+2. Set up [Claude Code](./CLAUDE-CODE-SETUP.md) if you haven't already
+3. Try the [dual-tool workflow](#dual-tool-workflow) with split terminals
+4. Read [Daily Workflow](./DAILY-WORKFLOW.md) guide

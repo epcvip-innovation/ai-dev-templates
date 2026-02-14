@@ -1,9 +1,11 @@
 # Cursor + WSL Setup Guide
 
-**Last Updated**: 2025-11-16  
+**Last Updated**: 2026-02-13
 **Time Required**: 10-15 minutes
 
 Complete guide to setting up Cursor IDE with WSL for native Linux development from Windows.
+
+> **On macOS or Linux?** Install the Claude Code extension directly in Cursor (`cursor:extension/anthropic.claude-code`) — no WSL setup needed. This guide covers the **Windows + WSL** configuration specifically.
 
 ---
 
