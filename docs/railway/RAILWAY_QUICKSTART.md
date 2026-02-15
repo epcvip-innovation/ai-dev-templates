@@ -4,7 +4,7 @@ Quick reference for deploying existing projects to Railway, optimized for Claude
 
 ## Your Current Setup
 
-- **Railway CLI**: v4.5.5 installed via npm at `~/.npm-global/bin/railway`
+- **Railway CLI**: Installed via npm at `~/.npm-global/bin/railway`
 - **Authentication**: your-email@example.com
 - **Installation method**: `npm install -g @railway/cli`
 
@@ -13,6 +13,8 @@ Verify your setup:
 railway --version
 railway whoami
 ```
+
+> **Prefer MCP?** If you use Claude Code, the Railway MCP server lets you manage deployments without the CLI. See [RAILWAY_MCP_GUIDE.md](./RAILWAY_MCP_GUIDE.md).
 
 ## Claude Code Compatibility
 
@@ -158,12 +160,12 @@ railway logs --limit 100 | grep -i error || echo "No errors found"
 
 Reference your existing Railway deployments:
 
-- **tiller-bridge**: https://tiller-bridge-production.up.railway.app
+- **docs-site**: https://docs.epcvip.vip
 - **ping-tree-compare**: https://compare.epcvip.vip
 
 Test health checks:
 ```bash
-curl -s https://tiller-bridge-production.up.railway.app/health
+curl -s https://docs.epcvip.vip/health
 curl -s https://compare.epcvip.vip/health
 ```
 

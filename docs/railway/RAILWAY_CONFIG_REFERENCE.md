@@ -26,20 +26,18 @@ Config File Path: /railway.cron.toml
 
 ## Your Working Configurations
 
-### tiller-bridge (Basic Python Service)
+### docs-site (Basic Python Service)
 
 ```toml
 [build]
-builder = "nixpacks"
+builder = "RAILPACK"
 
 [deploy]
 startCommand = "uvicorn main:app --host 0.0.0.0 --port $PORT --log-level info"
 healthcheckPath = "/health"
 healthcheckTimeout = 60
-restartPolicyType = "on_failure"
-
-[environment]
-NIXPACKS_PYTHON_VERSION = "3.11"
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3
 ```
 
 ### ping-tree-compare (Python with Persistent Volume)
@@ -63,7 +61,7 @@ NIXPACKS_PYTHON_VERSION = "3.11"
 
 **Note**: `--workers 1` is critical for SQLite to prevent database locking.
 
-### tiller-bridge-cron (Scheduled Service)
+### Cron Service Example (Scheduled Service)
 
 ```toml
 [build]
@@ -261,7 +259,7 @@ Railway pings this endpoint to verify deployment success.
 ```toml
 [deploy]
 healthcheckPath = "/health"
-healthcheckTimeout = 60   # tiller-bridge: 60 seconds
+healthcheckTimeout = 60   # docs-site: 60 seconds
 healthcheckTimeout = 120  # ping-tree-compare: 120 seconds
 ```
 
@@ -314,7 +312,7 @@ preDeployCommand = ["npm", "run", "migrate"]
 
 ### Cron Schedule
 
-For scheduled jobs (like tiller-bridge cron service):
+For scheduled jobs:
 
 ```toml
 [deploy]
@@ -599,9 +597,9 @@ For production services with active traffic.
 
 ## Migrating Your Existing Configs
 
-### Update tiller-bridge to RAILPACK
+### Migrating a NIXPACKS Service to RAILPACK
 
-**Current** (NIXPACKS):
+**Before** (NIXPACKS):
 ```toml
 [build]
 builder = "nixpacks"
@@ -616,7 +614,7 @@ restartPolicyType = "on_failure"
 NIXPACKS_PYTHON_VERSION = "3.11"
 ```
 
-**Updated** (RAILPACK):
+**After** (RAILPACK):
 ```toml
 [build]
 builder = "RAILPACK"
@@ -731,8 +729,7 @@ Must use single worker for SQLite.
 
 - **Railway Config Documentation**: https://docs.railway.com/reference/config-as-code
 - **Your Working Configs**:
-  - tiller-bridge/railway.toml (Python FastAPI)
+  - docs-site/railway.toml (Python FastAPI)
   - ping-tree-compare/railway.toml (Python + SQLite volume)
-  - tiller-bridge/railway.cron.toml (Cron job)
   - competitor-analyzer/web/railway.toml (Next.js with basePath)
   - data-platform-assistant/Dockerfile (Python monorepo with custom deps)

@@ -92,7 +92,7 @@ The core value of this repository. **Browse before using** - these are patterns 
 All templates extracted from real production usage, not theoretical best practices.
 
 **Methodology**:
-1. **Pattern Discovery**: 4 repositories audited (ping-tree-compare, tiller-bridge, dois-processor, claude-dev-template)
+1. **Pattern Discovery**: 4 repositories audited (ping-tree-compare, dois-processor, claude-dev-template, and others)
 2. **Validation**: 239+ commits analyzed for recurring patterns
 3. **Refinement**: Tested in new projects, iterated based on feedback
 

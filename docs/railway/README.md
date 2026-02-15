@@ -81,7 +81,7 @@ This documentation covers EPCVIP's Railway deployment ecosystem as of February 2
 
 - **[RAILWAY_CONFIG_REFERENCE.md](./RAILWAY_CONFIG_REFERENCE.md)** - Configuration guide
   - railway.toml complete reference
-  - Your working configurations (tiller-bridge, ping-tree-compare)
+  - Your working configurations (docs-site, ping-tree-compare)
   - NIXPACKS vs RAILPACK comparison
   - Build and deploy configuration options
   - Volume mounts and persistence
@@ -188,30 +188,21 @@ railway ssh      # Interactive shell into container
 
 ### Active Production Services
 
-- **card-deal-app**: https://card-business-production.up.railway.app
-  - Next.js 15 + React 19 + Supabase Auth
-  - Standalone output for smaller images
+- **docs-site**: https://docs.epcvip.vip
+  - Python FastAPI
   - RAILPACK builder
 
-- **tiller-bridge**: https://tiller-bridge-production.up.railway.app
-  - Python FastAPI + SQLite
-  - Cron service for scheduled syncing
-  - NIXPACKS builder
-
-- **ping-tree-compare**: https://ping-tree-compare-production.up.railway.app
+- **ping-tree-compare**: https://compare.epcvip.vip
   - Python FastAPI + SQLite with persistent volume
   - Single worker for SQLite
-  - NIXPACKS builder
+  - NIXPACKS builder (pending RAILPACK migration)
 
 ### Configuration Status
 
 | Project | Builder | Volume | Framework | Status |
 |---------|---------|--------|-----------|--------|
-| card-deal-app | RAILPACK | No | Next.js 15 | Production |
-| tiller-bridge | NIXPACKS | No | Python | Production |
+| docs-site | RAILPACK | No | Python | Production |
 | ping-tree-compare | NIXPACKS | Yes (/app/data) | Python | Production |
-| anki-clone | NIXPACKS | Yes | Node.js | Configured |
-| japanese-flashcard-app | NIXPACKS | Yes | Node.js | Configured |
 
 **Recommendation**: Consider migrating Python/Node.js apps to RAILPACK for smaller images and better caching.
 

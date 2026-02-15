@@ -681,7 +681,7 @@ python -m utils.sync_runner --type smart
 
 **Solution**: **Check smart sync logic**
 
-Your tiller-bridge pattern:
+Your cron service pattern:
 ```python
 def should_sync_now():
     """Determine if sync should run based on time"""
@@ -784,7 +784,7 @@ railway --service=your-service-id logs
 # - Typos in field names
 
 # Verify against working config:
-cat ~/repos/tiller-bridge/railway.toml
+cat ~/repos/docs-site/railway.toml
 ```
 
 ### "Build exceeded timeout"
@@ -858,8 +858,9 @@ https://railway.app/status
 ### Your Working Examples
 
 Reference your production deployments:
-- **tiller-bridge**: https://tiller-bridge-production.up.railway.app
-- **ping-tree-compare**: https://ping-tree-compare-production.up.railway.app
+- **docs-site**: https://docs.epcvip.vip
+- **ping-tree-compare**: https://compare.epcvip.vip
+- **athena-monitor**: https://athena.epcvip.vip
 
 ### Documentation
 

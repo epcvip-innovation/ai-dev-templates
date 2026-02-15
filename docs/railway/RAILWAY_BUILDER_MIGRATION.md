@@ -175,7 +175,7 @@ git checkout -b migrate-to-railpack
 
 Example for your projects:
 
-**tiller-bridge**:
+**docs-site**:
 ```toml
 [build]
 builder = "RAILPACK"
@@ -377,19 +377,15 @@ railway logs --follow
 
 For multiple projects, migrate one at a time:
 
-### Phase 1: Testing Project
-- Migrate least critical project first
-- Example: japanese-flashcard-app (low traffic)
-- Monitor for 1 week
+### Recommended Order
+1. **Least critical service first** — build confidence with a low-risk migration
+2. **Monitor for 1 week** before proceeding to the next service
+3. **Migrate remaining services** in order of increasing criticality
 
-### Phase 2: Medium Complexity
-- Migrate anki-clone
-- Monitor for 1 week
+### Current Fleet
 
-### Phase 3: Production Projects
-- Migrate ping-tree-compare
-- Monitor for 1 week
-- Migrate tiller-bridge last (most critical)
+10 services already on RAILPACK. One remaining:
+- **ping-tree-compare** (NIXPACKS → RAILPACK) — verify volume mount post-migration
 
 ## Post-Migration Monitoring
 

@@ -115,7 +115,7 @@ Including `port` in response helps debug port mismatch issues.
 | Project | Stack | Features |
 |---------|-------|----------|
 | ping-tree-compare | Python + SQLite | Volume persistence, auth |
-| tiller-bridge | Python FastAPI | Cron service, automation |
+| docs-site | Python FastAPI | Documentation hub |
 | athena-usage-monitor | Python FastAPI | Supabase auth, Athena |
 
 ## Python Version

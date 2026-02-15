@@ -1,6 +1,6 @@
 # Railway + Next.js Deployment Guide
 
-Complete guide for deploying Next.js applications to Railway, based on production experience with card-deal-app (Next.js 15 + React 19).
+Complete guide for deploying Next.js applications to Railway, based on production experience with Next.js 15+ and React 19.
 
 ## Quick Start
 
@@ -278,13 +278,13 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbG...
 If your Next.js app is in a subdirectory:
 
 **Railway Dashboard:**
-- Root Directory: `/card-deal-app` (your app's folder)
+- Root Directory: `/web` (your app's folder)
 - Config File Path: `/railway.toml` (relative to root directory)
 
 **railway.toml stays in the app folder:**
 ```
 your-repo/
-├── card-deal-app/
+├── web/
 │   ├── railway.toml
 │   ├── package.json
 │   └── ...
@@ -411,12 +411,6 @@ Fix: Ensure `-H 0.0.0.0` in start command.
 - [Railway Config Reference](https://docs.railway.com/reference/config-as-code)
 
 ## Production Examples
-
-### card-deal-app (Next.js 15.5.9 + React 19)
-- URL: https://card-business-production.up.railway.app
-- Health: https://card-business-production.up.railway.app/api/health
-- Stack: Next.js 15, React 19, Supabase Auth, Tailwind CSS
-- Config: Standard Railpack, no basePath
 
 ### competitor-analyzer Report Viewer (Next.js 16 + React 19)
 - URL: https://tools.epcvip.vip

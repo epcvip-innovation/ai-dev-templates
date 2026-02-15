@@ -133,7 +133,7 @@
 |------|-------|--------|----------------|
 | claude-dev-template | 178 | ✅ Good | Appropriate detail for template protection |
 | ping-tree-compare | 226 | ⚠️ Minor bloat | ~30 lines extractable (env vars, tech stack) |
-| tiller-bridge | 289 | ❌ Bloated | ~60 lines extractable (coding standards) |
+| fastapi-service-b | 289 | ❌ Bloated | ~60 lines extractable (coding standards) |
 | dois-test-capacity | 512 | ❌❌ Severe bloat | ~334 lines extractable (65% bloat!) |
 
 **Conclusion**: Only 1 of 4 repos met official guidance (100-200 lines). Others demonstrate bloat accumulation over time.
@@ -457,7 +457,7 @@ Add to project README.md:
 ### Validation from Audited Repos
 - **claude-dev-template** (178 lines): Only repo meeting guidance ✅
 - **ping-tree-compare** (226 lines): 13% over, modular strategy partially applied
-- **tiller-bridge** (289 lines): 45% over, embedded standards
+- **fastapi-service-b** (289 lines): 45% over, embedded standards
 - **dois-test-capacity** (512 lines): 156% over, severe bloat
 
 **Conclusion**: 75% of audited repos violated guidance → Templates needed to prevent bloat.

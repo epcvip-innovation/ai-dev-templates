@@ -497,7 +497,7 @@ curl -X POST https://your-app.up.railway.app/api/admin/migrate \
 
 ## Cron Service Setup
 
-Based on tiller-bridge's working pattern.
+Based on working cron service patterns.
 
 ### Step 1: Create railway.cron.toml
 

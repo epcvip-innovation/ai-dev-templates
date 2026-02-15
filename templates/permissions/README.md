@@ -342,7 +342,7 @@ If you already have `.claude/settings.local.json`, merge permissions from templa
 
 ## Common Patterns from Your Repos
 
-### Pattern 1: Python Backend Service (tiller-bridge)
+### Pattern 1: Python Backend Service (FastAPI)
 
 ```json
 "Bash(python:*)",

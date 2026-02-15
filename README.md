@@ -44,7 +44,7 @@ Evidence-based templates and setup guides for Claude Code, Codex, and AI-assiste
    - The [Getting Started](./docs/getting-started/SETUP-GUIDE-2026.md) guide explains when to choose WSL vs native Windows
 
 4. **Research & Evidence** — Extracted from real-world usage, not arbitrary
-   - 4 repository audits (ping-tree-compare, tiller-bridge, dois-processor, template projects)
+   - 4 repository audits (production FastAPI services, data processors, template projects)
    - 239+ commits analyzed for pattern validation
    - 13 patterns tested across multiple projects before extraction
 
@@ -171,9 +171,8 @@ This repo includes sample configuration files and scripts:
 These aren't theoretical best practices. They were extracted from real usage:
 
 1. **Pattern Discovery** (4 repositories audited)
-   - ping-tree-compare (6 months, 80+ commits)
-   - tiller-bridge (4 months, 50+ commits)
-   - dois-processor (3 months, 60+ commits)
+   - Production FastAPI services (6+ months, 130+ commits)
+   - Data processing pipelines (3 months, 60+ commits)
    - Template projects (2 months, 49+ commits)
 
 2. **Validation** (239+ commits analyzed)

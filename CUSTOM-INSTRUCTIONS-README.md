@@ -104,7 +104,7 @@ Director of Experimentation at EPCVIP. Core focus: AI-powered development tools,
 
 - **Primary workflow**: Claude Code (CLI) through WSL, Cursor Pro as IDE
 - **Template library**: 27 validated templates across 9 categories (slash commands, CLAUDE.md structures, anti-slop standards, hooks, project organization, testing, CI/CD, permissions, features backlog)
-- **Production deployments**: 3+ apps on Railway (card-deal-app, tiller-bridge, ping-tree-compare)
+- **Production deployments**: 11 services on Railway (see EPCVIP_SERVICES.md)
 - **Multi-device access**: Claude Code from iPad/phone via Tailscale + tmux (built during Japan trip)
 - **Automation**: Global query validation hooks, GitHub Actions with Claude QA persona
 

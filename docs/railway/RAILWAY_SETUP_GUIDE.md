@@ -19,7 +19,7 @@ npm install -g @railway/cli
 
 This installs Railway CLI globally, making it available system-wide. Your current installation:
 - Location: `~/.npm-global/bin/railway`
-- Version: v4.5.5
+- Version: Run `railway --version` to check
 
 ### Method 2: Homebrew (Alternative)
 

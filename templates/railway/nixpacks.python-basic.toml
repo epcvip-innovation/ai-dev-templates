@@ -1,5 +1,5 @@
 # Railway Configuration - Python FastAPI (NIXPACKS)
-# Based on: tiller-bridge working configuration
+# Based on: production FastAPI service configuration
 #
 # Usage:
 # 1. Copy to your project root as railway.toml

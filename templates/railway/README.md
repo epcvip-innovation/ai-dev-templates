@@ -145,4 +145,4 @@ See `scripts/` directory for automation scripts:
 
 ---
 
-**Note**: All templates are based on your working production deployments (tiller-bridge, ping-tree-compare).
+**Note**: All templates are based on working production deployments (EPCVIP FastAPI services, ping-tree-compare).

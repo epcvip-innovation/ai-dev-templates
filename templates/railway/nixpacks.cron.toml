@@ -1,5 +1,5 @@
 # Railway Configuration for Cron Service (NIXPACKS)
-# Based on: tiller-bridge-cron working configuration
+# Based on: production cron service configuration
 #
 # This is for a SEPARATE Railway service that handles scheduled tasks
 #
