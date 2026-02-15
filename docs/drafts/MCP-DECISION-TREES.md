@@ -152,7 +152,7 @@ Need to manage deployment/infrastructure?
    └─ Use: Railway MCP (get-logs) + Uptime Kuma
       - Filtered log queries (@level:error, compound filters)
       - Deployment history and status
-      - Uptime Kuma for continuous monitoring (uptime.epcvip.vip)
+      - Uptime Kuma for continuous monitoring (your-uptime-monitor.example.com)
 ```
 
 ### Quick Reference

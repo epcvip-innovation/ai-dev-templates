@@ -4,21 +4,7 @@ Guide for migrating from NIXPACKS (deprecated) to RAILPACK (current).
 
 ## Current Status
 
-EPCVIP operates 11 Railway services. Most have migrated to **RAILPACK**; a few remain on **NIXPACKS** (still works, maintenance-only mode).
-
-| Service | Current Builder | Status |
-|---------|----------------|--------|
-| Experiments Dashboard | RAILPACK | Migrated |
-| Reports Dashboard | RAILPACK | Migrated |
-| Athena Monitor | RAILPACK | Migrated |
-| Documentation Hub | RAILPACK | Migrated |
-| Tools Hub | RAILPACK | Migrated |
-| Admin Dashboard | RAILPACK | Migrated |
-| Funnel Step Lab | RAILPACK | Migrated |
-| Competitor Analyzer | RAILPACK | Migrated (Next.js) |
-| Fwaptile Wordle | RAILPACK | Migrated |
-| Ping Tree Compare | NIXPACKS | Pending — verify volume mount |
-| Uptime Kuma | Docker | Self-hosted, N/A |
+RAILPACK is Railway's actively developed builder. NIXPACKS still works but is in maintenance-only mode. If you have services on NIXPACKS, consider migrating when convenient.
 
 ## Why Migrate to RAILPACK?
 
@@ -49,7 +35,7 @@ RAILPACK is Railway's next-generation builder, offering substantial improvements
 
 RAILPACK currently supports:
 - Node.js
-- Python (your primary language)
+- Python
 - Go
 - PHP
 - Static HTML (Vite, Astro, CRA, Angular)
@@ -173,9 +159,9 @@ git checkout -b migrate-to-railpack
 # Change builder from nixpacks to RAILPACK
 ```
 
-Example for your projects:
+Example configurations:
 
-**docs-site**:
+**Basic Python Service**:
 ```toml
 [build]
 builder = "RAILPACK"
@@ -188,7 +174,7 @@ restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 3
 ```
 
-**ping-tree-compare**:
+**Python with Persistent Volume**:
 ```toml
 [build]
 builder = "RAILPACK"
@@ -322,15 +308,14 @@ restartPolicyType = "ON_FAILURE"
 
 Options: `ON_FAILURE`, `ALWAYS`, `NEVER`
 
-## Project-Specific Migration Notes
+## Migration Notes for Common Patterns
 
-### ping-tree-compare (remaining NIXPACKS service)
+### Python with Persistent Volume
 
-**Current**: Python FastAPI with persistent volume (NIXPACKS)
 **Considerations**:
 - Volume mount syntax identical between builders
 - Single worker for SQLite: keep `--workers 1`
-- Health check timeout: 120s (keep the same)
+- Health check timeout: keep the same value
 - Estimated benefit: 77% smaller image
 
 **Migration steps**:
@@ -375,17 +360,12 @@ railway logs --follow
 
 ## Gradual Migration Strategy
 
-For multiple projects, migrate one at a time:
+For multiple services, migrate one at a time:
 
 ### Recommended Order
 1. **Least critical service first** — build confidence with a low-risk migration
 2. **Monitor for 1 week** before proceeding to the next service
 3. **Migrate remaining services** in order of increasing criticality
-
-### Current Fleet
-
-10 services already on RAILPACK. One remaining:
-- **ping-tree-compare** (NIXPACKS → RAILPACK) — verify volume mount post-migration
 
 ## Post-Migration Monitoring
 
@@ -466,26 +446,8 @@ After migration, you should see:
 - **Railway RAILPACK Announcement**: https://blog.railway.com/p/introducing-railpack
 - **Railway Build Configuration**: https://docs.railway.com/guides/build-configuration
 - **NIXPACKS Reference**: https://docs.railway.com/reference/nixpacks
-- **Your Templates**: See `templates/railway/` for NIXPACKS and RAILPACK examples
+- **Config Templates**: See `templates/railway/` for NIXPACKS and RAILPACK examples
 
 ---
-
-**Migration Status Tracker**:
-
-| Service | Current Builder | Target | Status | Notes |
-|---------|----------------|--------|--------|-------|
-| Experiments Dashboard | RAILPACK | — | Complete | |
-| Reports Dashboard | RAILPACK | — | Complete | |
-| Athena Monitor | RAILPACK | — | Complete | |
-| Documentation Hub | RAILPACK | — | Complete | |
-| Tools Hub | RAILPACK | — | Complete | |
-| Admin Dashboard | RAILPACK | — | Complete | |
-| Funnel Step Lab | RAILPACK | — | Complete | |
-| Competitor Analyzer | RAILPACK | — | Complete | Next.js |
-| Fwaptile Wordle | RAILPACK | — | Complete | |
-| Ping Tree Compare | NIXPACKS | RAILPACK | Pending | Verify volume mount post-migration |
-| Uptime Kuma | Docker | — | N/A | Self-hosted image |
-
-Legend: Complete | Pending | N/A
 
 **Last Updated**: February 2026

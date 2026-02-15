@@ -379,7 +379,6 @@ For GitHub Actions / CI environments:
 - [MCP_WORKFLOW_GUIDE.md](./MCP_WORKFLOW_GUIDE.md) — Deep dive into MCP patterns and workflows
 - [COST_OPTIMIZATION_GUIDE.md](./COST_OPTIMIZATION_GUIDE.md) — Cost projections and optimization strategies
 - [PLAYWRIGHT_CLI_EVALUATION.md](./PLAYWRIGHT_CLI_EVALUATION.md) — Hands-on CLI vs MCP token measurements
-- [AUDIT_2026-02.md](./AUDIT_2026-02.md) — How our repos actually use Playwright today
 
 ---
 

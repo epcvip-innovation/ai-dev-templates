@@ -17,68 +17,50 @@ Railway is a Platform-as-a-Service (PaaS) for deploying applications directly fr
 
 **Competitive positioning**:
 
-| Platform | Strength | Weakness (for us) |
-|----------|----------|-------------------|
+| Platform | Strength | Weakness |
+|----------|----------|----------|
 | **Railway** | Git-push deploys, MCP integration, simple UX | Smaller ecosystem than AWS |
 | Heroku | Mature, well-known | Expensive after free tier removal |
 | Render | Similar to Railway | No MCP server, less flexible |
 | Fly.io | Edge deployment, low latency | More DevOps complexity |
 | Vercel | Best for Next.js frontends | Backend support is secondary |
-| AWS (ECS/Lambda) | Enterprise-grade | Overkill for small team |
+| AWS (ECS/Lambda) | Enterprise-grade | Overkill for small teams |
 
 ---
 
-## Why EPCVIP Uses Railway
+## Why Choose Railway
 
-**Team context**: Small innovation team shipping internal tools fast. We need deploys in minutes, not hours of DevOps.
+**Best fit for**: Small teams shipping internal tools fast. You need deploys in minutes, not hours of DevOps.
 
-**What Railway gives us**:
+**What Railway gives you**:
 - **Git-push deploys** — push to `main`, Railway builds and deploys automatically
-- **Pro plan** — $20/seat + usage-based pricing (no idle charges on scale-to-zero)
-- **Custom domains** on Cloudflare — all services at `*.epcvip.vip`
-- **MCP integration** — Claude Code can manage Railway directly (our primary interaction method)
+- **Usage-based pricing** — Pro plan at $20/seat + usage (no idle charges on scale-to-zero)
+- **Custom domains** — bring your own domain with Cloudflare or other DNS providers
+- **MCP integration** — Claude Code can manage Railway directly (primary interaction method)
 - **Multi-service projects** — group related services under one project
 - **Persistent volumes** — SQLite databases survive redeploys
 - **Health checks** — automatic rollback on failed deploys
 
-**What we don't use Railway for**:
-- Production customer-facing systems (those run on AWS via `~/epcvip/`)
-- Data pipelines (AWS Glue/Athena)
-- Authentication (Supabase)
+**What Railway is not for**:
+- High-traffic customer-facing production systems (use AWS, GCP, etc.)
+- Data pipelines (use managed services like AWS Glue/Athena)
+- Authentication providers (use Supabase, Auth0, etc.)
 
 ---
 
-## Our Ecosystem
+## Typical Architecture
 
-All EPCVIP innovation services deploy on Railway with the architecture:
+Services deploy to Railway with this architecture:
 
 ```
-GitHub repo → Railway (build + deploy) → Cloudflare (CDN + SSL) → *.epcvip.vip
+GitHub repo → Railway (build + deploy) → DNS/CDN (SSL) → your-app.example.com
 ```
-
-### Service Summary
-
-| Service | Domain | Stack | Railway Project |
-|---------|--------|-------|-----------------|
-| Experiments Dashboard | xp.epcvip.vip | FastAPI + Vanilla JS | experiments-dashboard |
-| Reports Dashboard | reports.epcvip.vip | FastAPI + Streamlit | EPCVIP Datalake Validator |
-| Ping Tree Compare | compare.epcvip.vip | FastAPI + Vanilla JS | ping-tree-compare |
-| Athena Monitor | athena.epcvip.vip | FastAPI + Vanilla JS | epcvip-pulse-automation |
-| Documentation Hub | docs.epcvip.vip | FastAPI + React/Jinja2 | epcvip.vip \| Hub |
-| Tools Hub | epcvip.vip | Express + Vanilla JS | epcvip.vip \| Hub |
-| Competitor Analyzer | tools.epcvip.vip | Next.js + React | competitor-analyzer |
-| Fwaptile Wordle | fwaptile.com | Express + Vanilla JS | fwaptile-wordle |
-| Funnel Step Lab | lab.epcvip.vip | FastAPI + Vanilla JS | funnel-step-lab |
-| Admin Dashboard | admin.epcvip.vip | FastAPI + Vanilla JS | epcvip-admin |
-| Uptime Kuma | uptime.epcvip.vip | Node.js (self-hosted) | uptime-kuma |
-
-> **Full details**: See [EPCVIP_SERVICES.md](../../../../EPCVIP_SERVICES.md) for auth providers, tech stacks, RBAC setup, and environment variables. This table is intentionally a summary — the services doc is the source of truth.
 
 ---
 
 ## Three Interaction Methods
 
-Railway offers three ways to manage your services. We use all three depending on context.
+Railway offers three ways to manage your services. Use all three depending on context.
 
 ### 1. MCP Server (Recommended for Claude Code)
 
@@ -123,7 +105,7 @@ The web dashboard at [railway.com](https://railway.com) provides a visual UI for
 ## Key Concepts
 
 ### Project
-A container for one or more services. Example: `epcvip.vip | Hub` contains both `epcvip-tools-hub` and `docs-site`.
+A container for one or more services. For example, a project might contain both a frontend and a backend service.
 
 ### Service
 A single deployable unit within a project. Each service has its own source repo, environment variables, and domain.
@@ -156,7 +138,7 @@ The system that turns your code into a container image:
 
 **Usage-based components**: CPU, memory, network egress, build minutes. Pro plan includes a usage credit.
 
-**EPCVIP uses Pro plan** — the per-seat cost is minimal for a small team, and usage-based pricing means we only pay for what we use.
+**Recommendation**: Pro plan is a good fit for small teams — the per-seat cost is minimal, and usage-based pricing means you only pay for what you use.
 
 ---
 
@@ -168,7 +150,6 @@ The system that turns your code into a container image:
 - [RAILWAY_QUICKSTART.md](./RAILWAY_QUICKSTART.md) — Daily reference card
 - [RAILWAY_WORKFLOWS.md](./RAILWAY_WORKFLOWS.md) — Deployment workflows
 - [RAILWAY_BUILDER_MIGRATION.md](./RAILWAY_BUILDER_MIGRATION.md) — NIXPACKS to RAILPACK migration
-- [EPCVIP_SERVICES.md](../../../../EPCVIP_SERVICES.md) — Full service catalog with auth and architecture
 
 ## External Resources
 

@@ -34,9 +34,9 @@ npm install -g @playwright/cli@latest
 
 **Workspace init:**
 ```bash
-cd ~/repos-epcvip/utilities/fwaptile-wordle
+cd ~/repos/your-project
 playwright-cli install
-# ✅ Workspace initialized at `/home/adams/repos-epcvip/utilities/fwaptile-wordle`.
+# ✅ Workspace initialized at `/home/user/repos/your-project`.
 # ✅ Found chrome, will use it as the default browser.
 ```
 
@@ -403,7 +403,6 @@ Files are timestamped. No auto-cleanup — accumulates over sessions.
 - [BROWSER_AUTOMATION_LANDSCAPE_2026.md](./BROWSER_AUTOMATION_LANDSCAPE_2026.md) — Full landscape comparison (CLI is Approach 2)
 - [MCP_WORKFLOW_GUIDE.md](./MCP_WORKFLOW_GUIDE.md) — The MCP alternative evaluated here
 - [COST_OPTIMIZATION_GUIDE.md](./COST_OPTIMIZATION_GUIDE.md) — Cost context and optimization strategies
-- [STATUS.md](./STATUS.md) — Verification state of this evaluation
 
 ---
 

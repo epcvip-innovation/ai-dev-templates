@@ -75,7 +75,7 @@ Project paths are encoded by replacing `/` with `-`:
 | Actual Path | Encoded Folder Name |
 |-------------|---------------------|
 | `/home/adams/repos/myproject` | `-home-adams-repos-myproject` |
-| `/mnt/c/Users/adam.s/Documents/Foo` | `-mnt-c-Users-adam-s-Documents-Foo` |
+| `/mnt/c/Users/yourname/Documents/Foo` | `-mnt-c-Users-yourname-Documents-Foo` |
 
 ### File Types
 

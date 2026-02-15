@@ -265,9 +265,6 @@ See setup guides: [Claude Code](./CLAUDE-CODE-SETUP.md) | [Codex](./CODEX-SETUP.
 - [Commands Reference](../reference/COMMANDS.md) - All available commands
 - [Why WSL?](../decisions/why-wsl.md) - Architectural decision rationale
 
-**Optional Tools**:
-- [Obsidian WSL Setup](./OBSIDIAN-WSL-SETUP.md) - Note-taking and documentation editor
-
 ---
 
 ## Quick Reference Card

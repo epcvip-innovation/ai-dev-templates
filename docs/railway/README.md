@@ -4,19 +4,19 @@ Complete guide to deploying projects to Railway, optimized for Claude Code workf
 
 ## Overview
 
-This documentation covers EPCVIP's Railway deployment ecosystem as of February 2026.
+This documentation covers Railway deployment patterns as of February 2026.
 
-**Current Setup**:
-- Railway CLI installed via npm
-- 11 services across multiple Railway projects (all in production)
-- MCP server configured for Claude Code integration
-- Custom domains on Cloudflare (`*.epcvip.vip`)
+**What's covered**:
+- Railway CLI setup and authentication
+- MCP server configuration for Claude Code integration
+- Deployment workflows, configuration, and troubleshooting
+- Framework-specific guides (Python/FastAPI, Next.js)
 
 ## Quick Start
 
 **New to Railway?** Start here:
 
-1. **[Railway Overview](./RAILWAY_OVERVIEW.md)** - What Railway is and why we use it
+1. **[Railway Overview](./RAILWAY_OVERVIEW.md)** - What Railway is and why to use it
 2. **[MCP Guide](./RAILWAY_MCP_GUIDE.md)** - Using Railway through Claude Code (recommended)
 3. **[Setup Guide](./RAILWAY_SETUP_GUIDE.md)** - Initial setup and authentication
 4. **[Quickstart Guide](./RAILWAY_QUICKSTART.md)** - Fast reference for day-to-day usage
@@ -29,10 +29,9 @@ This documentation covers EPCVIP's Railway deployment ecosystem as of February 2
 
 ### Overview & MCP
 
-- **[RAILWAY_OVERVIEW.md](./RAILWAY_OVERVIEW.md)** - What Railway is and why we use it
+- **[RAILWAY_OVERVIEW.md](./RAILWAY_OVERVIEW.md)** - What Railway is and why to use it
   - Platform overview and competitive positioning
-  - Why EPCVIP chose Railway
-  - Ecosystem summary (11 services)
+  - Why choose Railway
   - Three interaction methods: MCP, CLI, Dashboard
   - Key concepts and pricing
 
@@ -46,7 +45,7 @@ This documentation covers EPCVIP's Railway deployment ecosystem as of February 2
 ### Getting Started
 
 - **[RAILWAY_QUICKSTART.md](./RAILWAY_QUICKSTART.md)** - Quick reference
-  - Your current setup confirmation
+  - Setup confirmation
   - Claude Code compatibility guide
   - Common commands and patterns
   - Primary deployment workflow
@@ -61,7 +60,7 @@ This documentation covers EPCVIP's Railway deployment ecosystem as of February 2
 
 ### Framework-Specific Guides
 
-- **[RAILWAY_NEXTJS.md](./RAILWAY_NEXTJS.md)** - Next.js deployment (NEW)
+- **[RAILWAY_NEXTJS.md](./RAILWAY_NEXTJS.md)** - Next.js deployment
   - Next.js 15 + React 19 configuration
   - Standalone output setup
   - Port mismatch troubleshooting
@@ -81,7 +80,7 @@ This documentation covers EPCVIP's Railway deployment ecosystem as of February 2
 
 - **[RAILWAY_CONFIG_REFERENCE.md](./RAILWAY_CONFIG_REFERENCE.md)** - Configuration guide
   - railway.toml complete reference
-  - Your working configurations (docs-site, ping-tree-compare)
+  - Working configuration examples
   - NIXPACKS vs RAILPACK comparison
   - Build and deploy configuration options
   - Volume mounts and persistence
@@ -119,7 +118,6 @@ This documentation covers EPCVIP's Railway deployment ecosystem as of February 2
   - Why migrate (77% smaller Python images, 38% smaller Node images)
   - Migration decision framework
   - Step-by-step migration process
-  - Project-specific migration notes for your repos
   - Rollback procedures
 
 ## Templates & Scripts
@@ -128,7 +126,7 @@ This documentation covers EPCVIP's Railway deployment ecosystem as of February 2
 
 Location: `../../templates/railway/`
 
-**NIXPACKS Templates** (Legacy, still used by ping-tree-compare):
+**NIXPACKS Templates** (Legacy, still functional):
 - `nixpacks.python-basic.toml` - Basic Python FastAPI
 - `nixpacks.python-volume.toml` - Python with SQLite
 - `nixpacks.cron.toml` - Cron service
@@ -183,28 +181,6 @@ railway ssh      # Interactive shell into container
 4. **Create admin API endpoints** - For operations that would normally need SSH
 
 **See**: [RAILWAY_QUICKSTART.md#claude-code-compatibility](./RAILWAY_QUICKSTART.md#claude-code-compatibility)
-
-## Your Production Deployments
-
-### Active Production Services
-
-- **docs-site**: https://docs.epcvip.vip
-  - Python FastAPI
-  - RAILPACK builder
-
-- **ping-tree-compare**: https://compare.epcvip.vip
-  - Python FastAPI + SQLite with persistent volume
-  - Single worker for SQLite
-  - NIXPACKS builder (pending RAILPACK migration)
-
-### Configuration Status
-
-| Project | Builder | Volume | Framework | Status |
-|---------|---------|--------|-----------|--------|
-| docs-site | RAILPACK | No | Python | Production |
-| ping-tree-compare | NIXPACKS | Yes (/app/data) | Python | Production |
-
-**Recommendation**: Consider migrating Python/Node.js apps to RAILPACK for smaller images and better caching.
 
 ## Common Tasks
 
@@ -273,7 +249,7 @@ curl https://your-app.up.railway.app/health
 
 ## Migration Path: NIXPACKS → RAILPACK
 
-Your projects currently use NIXPACKS (deprecated). RAILPACK offers:
+RAILPACK offers:
 - **77% smaller Python images** (faster deploys, lower costs)
 - **38% smaller Node.js images**
 - Better caching and build times
@@ -355,7 +331,7 @@ dev-setup/
 ├── docs/
 │   └── railway/
 │       ├── README.md                          # This file
-│       ├── RAILWAY_OVERVIEW.md                # What Railway is, why we use it
+│       ├── RAILWAY_OVERVIEW.md                # What Railway is, why to use it
 │       ├── RAILWAY_MCP_GUIDE.md               # MCP server for Claude Code
 │       ├── RAILWAY_QUICKSTART.md              # Quick reference
 │       ├── RAILWAY_SETUP_GUIDE.md             # Initial setup
@@ -406,7 +382,6 @@ dev-setup/
 
 **Documentation Version**: 2.0
 **Last Updated**: February 2026
-**Based On**: 11 production EPCVIP services + Railway best practices as of February 2026
 **Optimized For**: Claude Code workflows (MCP-first)
 
 ---

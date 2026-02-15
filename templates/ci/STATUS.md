@@ -8,8 +8,8 @@
 
 | Template | Status | Deployed To | Tested |
 |----------|--------|-------------|--------|
-| `claude-qa-workflow.yml.template` | **VERIFIED** | epcvip-tools-hub | YES |
-| `security-review.yml.template` | **VERIFIED** | epcvip-tools-hub | YES |
+| `claude-qa-workflow.yml.template` | **VERIFIED** | example-project | YES |
+| `security-review.yml.template` | **VERIFIED** | example-project | YES |
 | `qa-persona.md.template` | SPECULATIVE | - | NO |
 
 ---

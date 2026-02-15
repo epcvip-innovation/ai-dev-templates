@@ -30,9 +30,9 @@ This workflow is structured around a feature-centric development cycle that leve
 
 ### 4.5. Feature Audit Phase (NEW)
 - **Goal:** Comprehensive verification that the feature was implemented correctly.
-- **Process:** Multi-lens review covering business logic, security, regression risk, and (for EPCVIP) experiment integrity and data contracts.
+- **Process:** Multi-lens review covering business logic, security, regression risk, and optionally domain-specific lenses (experiment integrity, data contracts).
 - **Key Commands:** `/audit-feature`, `/audit:business`, `/audit:security`, `/audit:regression`.
-- **EPCVIP-Specific:** `/audit:experiment`, `/audit:data-contract`.
+- **Domain-specific (optional):** `/audit:experiment`, `/audit:data-contract`.
 - **Stop Rule:** Max 3 High + 5 Medium findings per lens to prevent infinite review loops.
 
 ### 5. Completion Phase
@@ -72,8 +72,8 @@ All commands are stored as markdown files in this directory (`.claude/commands/`
 - **`/audit:business`**: Business logic walkthrough - invariants, edge cases, intent verification.
 - **`/audit:security`**: Security audit - threat modeling, abuse cases, vulnerability detection.
 - **`/audit:regression`**: Regression surface analysis - what else could break from this change.
-- **`/audit:experiment`**: (EPCVIP) Experiment integrity - bucketing, logging, attribution, sample ratio.
-- **`/audit:data-contract`**: (EPCVIP) Data contract compliance - payload drift, PII handling, fallback behavior.
+- **`/audit:experiment`**: (Domain-specific) Experiment integrity - bucketing, logging, attribution, sample ratio.
+- **`/audit:data-contract`**: (Domain-specific) Data contract compliance - payload drift, PII handling, fallback behavior.
 
 ### Utility Commands
 - **`/help`**: Display a list of all available slash commands and their descriptions.
@@ -216,8 +216,8 @@ Every audit lens enforces:
 | **Business Logic** | `/audit:business` | Complex feature logic, monetization rules |
 | **Security** | `/audit:security` | Auth, payments, PII, user input |
 | **Regression** | `/audit:regression` | Refactors, shared code changes |
-| **Experiment** | `/audit:experiment` | A/B tests, bucketing (EPCVIP) |
-| **Data Contract** | `/audit:data-contract` | API changes, PII handling (EPCVIP) |
+| **Experiment** | `/audit:experiment` | A/B tests, bucketing (domain-specific) |
+| **Data Contract** | `/audit:data-contract` | API changes, PII handling (domain-specific) |
 
 ### Recommended Workflow
 

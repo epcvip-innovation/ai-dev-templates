@@ -47,7 +47,7 @@
 | Repo | Backlog Location(s) | Has Duplicates | Slash Commands | Python Utils | Complexity |
 |------|---------------------|----------------|----------------|--------------|------------|
 | data-platform-assistant | `docs/planning/BACKLOG.md` + `docs/planning/FEATURES_BACKLOG.md` | YES | 14+ commands | 4 utilities | HIGH |
-| epcvip-tools-hub | `BACKLOG.md` (root) + `tools/BACKLOG.md` | YES | 5 commands | None | HIGH |
+| tools-hub | `BACKLOG.md` (root) + `tools/BACKLOG.md` | YES | 5 commands | None | HIGH |
 | athena-usage-monitor-fastapi | `BACKLOG.md` (root) | No | None | None | LOW |
 | engagement-analysis | `planning/BACKLOG.md` (wrong location) | No | None | None | MEDIUM |
 | experimentation-toolkit | NONE | N/A | None | None | LOW |
@@ -75,7 +75,7 @@
 - `resume-feature.md` - Uses `feature_discovery.py`
 - `feature-complete.md` - Updates `FEATURES_BACKLOG.md`
 
-#### 2. epcvip-tools-hub
+#### 2. tools-hub
 
 **Files Found:**
 - `BACKLOG.md` (743 lines) - Main backlog with P0-P3 priority + T-shirt sizing
@@ -357,7 +357,7 @@ grep -r "FEATURES_BACKLOG" tools/data-platform-assistant/.claude/
 
 ---
 
-### 6. epcvip-tools-hub (MOST COMPLEX)
+### 6. tools-hub (MOST COMPLEX)
 
 **Goal:** Consolidate duplicates and update all references
 
@@ -432,7 +432,7 @@ grep -r "FEATURES_BACKLOG" tools/data-platform-assistant/.claude/
 └─────────────────────────────────────────────────────────────┘
                             ↓
 ┌─────────────────────────────────────────────────────────────┐
-│ 6. epcvip-tools-hub                                         │
+│ 6. tools-hub                                         │
 │    Most complex - duplicates + multiple references          │
 │    Complexity: HIGH | Dependencies: Template                │
 └─────────────────────────────────────────────────────────────┘
@@ -496,7 +496,7 @@ The repo has TWO backlog files:
 
 ---
 
-#### Q2: epcvip-tools-hub - Duplicate Backlogs
+#### Q2: tools-hub - Duplicate Backlogs
 The repo has TWO backlog files:
 - `BACKLOG.md` (root) - Main backlog (743 lines, Wordle Battle + Overworld)
 - `tools/BACKLOG.md` - Map Editor specific (161 lines)
@@ -511,14 +511,14 @@ The repo has TWO backlog files:
 
 #### Q3: Effort Sizing Standardization
 Currently different repos use different effort scales:
-- **epcvip-tools-hub:** T-shirt sizing (XS, S, M, L, XL)
+- **tools-hub:** T-shirt sizing (XS, S, M, L, XL)
 - **Others:** Hours (4-6h, 8-12h, etc.)
 
 **Options:**
 - **A) STANDARDIZE TO HOURS** - Convert all to hour estimates
 - **B) ALLOW FLEXIBILITY** - Each repo keeps its preferred scale
 
-**Recommendation:** Option B (allow flexibility) - T-shirt sizing works well for epcvip-tools-hub
+**Recommendation:** Option B (allow flexibility) - T-shirt sizing works well for tools-hub
 
 ---
 
@@ -553,10 +553,10 @@ Please update your bookmarks and references.
 | `tools/data-platform-assistant/docs/planning/FEATURES_BACKLOG.md` | Main features backlog | ✅ Full |
 | `tools/data-platform-assistant/.claude/commands/ai-dev-workflow/commands/start-feature.md` | Feature workflow command | ✅ Full |
 | `tools/data-platform-assistant/.claude/utils/feature_discovery.py` | Python utility | ✅ Full |
-| `utilities/epcvip-tools-hub/CLAUDE.md` | Repo context | ✅ Full |
-| `utilities/epcvip-tools-hub/BACKLOG.md` | Main backlog | ✅ Full |
-| `utilities/epcvip-tools-hub/tools/BACKLOG.md` | Map editor backlog | ✅ Full |
-| `utilities/epcvip-tools-hub/.claude/commands/start-feature.md` | Feature workflow command | ✅ Full |
+| `utilities/tools-hub/CLAUDE.md` | Repo context | ✅ Full |
+| `utilities/tools-hub/BACKLOG.md` | Main backlog | ✅ Full |
+| `utilities/tools-hub/tools/BACKLOG.md` | Map editor backlog | ✅ Full |
+| `utilities/tools-hub/.claude/commands/start-feature.md` | Feature workflow command | ✅ Full |
 | `utilities/athena-usage-monitor-fastapi/CLAUDE.md` | Repo context | ✅ Full |
 | `utilities/athena-usage-monitor-fastapi/BACKLOG.md` | Backlog | ✅ Full |
 | `engagement-analysis/CLAUDE.md` | Repo context | ✅ Full |

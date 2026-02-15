@@ -1,12 +1,12 @@
 ---
-description: EPCVIP data contract and compliance audit - payload drift, PII handling, fallback behavior
+description: Domain-specific data contract and compliance audit - payload drift, PII handling, fallback behavior
 allowed-tools: read_file, grep, codebase_search, run_terminal_cmd
 argument-hint: [service-or-file] [--pii-focus] [--api-changes]
 ---
 
 ## Command
 
-**EPCVIP-Specific Lens**: Audit data contracts, compliance requirements, and PII handling to prevent silent data drift and compliance violations.
+**Domain-specific-Specific Lens**: Audit data contracts, compliance requirements, and PII handling to prevent silent data drift and compliance violations.
 
 **When to use:**
 - API contract changes (new endpoints, modified schemas)
@@ -343,7 +343,7 @@ If `--api-changes` flag, focus on contract:
 ## Integration
 
 **Works with:**
-- `/audit-feature` - This is the data-contract lens (EPCVIP-specific)
+- `/audit-feature` - This is the data-contract lens (Domain-specific-specific)
 - Schema validation tools
 - API documentation generators
 

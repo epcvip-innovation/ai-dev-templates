@@ -573,7 +573,6 @@ Claude Code now includes a built-in browser (Claude Code Chrome) that provides b
 ## See Also
 
 - [BROWSER_AUTOMATION_LANDSCAPE_2026.md](../../templates/testing/BROWSER_AUTOMATION_LANDSCAPE_2026.md) — Full landscape analysis, CLI vs MCP, model selection
-- [AUDIT_2026-02.md](../../templates/testing/AUDIT_2026-02.md) — Cross-repo Playwright audit
 - [Claude Code Config Reference](./CLAUDE-CODE-CONFIG.md) — MCP management, plugins, hooks
 - [Claude Code Setup Guide](../setup-guides/CLAUDE-CODE-SETUP.md) — Basic Claude Code setup
 - [Daily Workflow](../setup-guides/DAILY-WORKFLOW.md) — Development workflow patterns

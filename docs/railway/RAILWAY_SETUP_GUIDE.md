@@ -11,15 +11,13 @@ Complete guide for initial Railway CLI installation, authentication, and project
 
 ## CLI Installation
 
-### Method 1: npm Global Install (Your Current Method)
+### Method 1: npm Global Install (Recommended)
 
 ```bash
 npm install -g @railway/cli
 ```
 
-This installs Railway CLI globally, making it available system-wide. Your current installation:
-- Location: `~/.npm-global/bin/railway`
-- Version: Run `railway --version` to check
+This installs Railway CLI globally, making it available system-wide.
 
 ### Method 2: Homebrew (Alternative)
 
@@ -105,7 +103,7 @@ For CI/CD or automation, you can use Railway API tokens:
 
 ## Adding Railway to Existing Repository
 
-This is your primary use case - deploying an existing GitHub repo to Railway.
+This is the primary use case — deploying an existing GitHub repo to Railway.
 
 ### Prerequisites
 
@@ -274,7 +272,7 @@ railway logs --limit 10
 
 ## Multiple Projects
 
-If you work with multiple Railway projects (like ping-tree-compare, docs-site, experiments-dashboard):
+If you work with multiple Railway projects:
 
 ### Each repository should have:
 1. Its own `.railway/` directory
@@ -284,11 +282,11 @@ If you work with multiple Railway projects (like ping-tree-compare, docs-site, e
 ### Switching between projects:
 ```bash
 # Navigate to project directory
-cd ~/repos-epcvip/utilities/ping-tree-compare
-railway status  # Shows ping-tree-compare project
+cd ~/repos/project-a
+railway status  # Shows project-a info
 
-cd ~/repos-epcvip/utilities/docs-site
-railway status  # Shows docs-site project
+cd ~/repos/project-b
+railway status  # Shows project-b info
 ```
 
 Railway CLI automatically uses the correct project based on the `.railway/` directory in your current working directory.
@@ -356,7 +354,7 @@ Now that Railway is set up:
 
 | Task | Command | Notes |
 |------|---------|-------|
-| Install CLI | `npm install -g @railway/cli` | Your method |
+| Install CLI | `npm install -g @railway/cli` | Recommended method |
 | Login | `railway login` | Use external terminal |
 | Check auth | `railway whoami` | Works in Claude Code |
 | Create project | `railway init` | Interactive |

@@ -1,6 +1,6 @@
 # Railway Configuration Reference
 
-Complete guide to `railway.toml` configuration based on your working projects and latest Railway standards.
+Complete guide to `railway.toml` configuration with working examples and latest Railway standards.
 
 ## Configuration File
 
@@ -24,9 +24,9 @@ Config File Path: /railway.cron.toml
 
 **Tip**: Place config files at repo root and reference as `/railway.toml` or `/railway.cron.toml` for simplicity.
 
-## Your Working Configurations
+## Working Configuration Examples
 
-### docs-site (Basic Python Service)
+### Basic Python Service
 
 ```toml
 [build]
@@ -40,7 +40,7 @@ restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 3
 ```
 
-### ping-tree-compare (Python with Persistent Volume)
+### Python with Persistent Volume
 
 ```toml
 [build]
@@ -75,7 +75,7 @@ startCommand = "python -m utils.sync_runner --type smart"
 NIXPACKS_PYTHON_VERSION = "3.11"
 ```
 
-### competitor-analyzer (Next.js Standalone + Railpack - Jan 2026)
+### Next.js Standalone + Railpack
 
 Next.js with standalone output requires **two config files** when using Railpack:
 
@@ -114,7 +114,7 @@ Next.js standalone binds to container hostname by default. Setting `HOSTNAME=0.0
 
 **Results**: Build time dropped from ~347s to ~38s (89% faster)
 
-### pulse-cron (Monorepo Cron)
+### Monorepo Cron Service
 
 For cron services in a monorepo where the cron script needs modules from repo root:
 
@@ -125,7 +125,7 @@ builder = "RAILPACK"
 
 [deploy]
 cronSchedule = "0 15 * * *"  # 7am PST (15:00 UTC)
-startCommand = "cd validator-api && python -m cron.pulse_poster"
+startCommand = "cd api && python -m cron.task_runner"
 restartPolicyType = "NEVER"
 ```
 
@@ -133,7 +133,7 @@ restartPolicyType = "NEVER"
 - Root Directory: *(empty - deploys from repo root)*
 - Config File Path: `/railway.cron.toml` (leading slash required!)
 
-**Why this pattern**: The cron script at `validator-api/cron/` imports modules from `core/pulse/` at repo root. Deploying from repo root makes both accessible.
+**Why this pattern**: The cron script at `api/cron/` imports modules from `core/` at repo root. Deploying from repo root makes both accessible.
 
 ---
 
@@ -174,20 +174,6 @@ dockerfilePath = "Dockerfile"  # Optional: default is "Dockerfile"
 | Monorepo with shared deps | **Dockerfile** | Better control over dependency resolution |
 | Complex Python (Poetry, etc.) | **Dockerfile** | Explicit dependency management |
 | Quick prototyping | **Railpack** | Zero config, fast iteration |
-
-### Real Project Examples
-
-**competitor-analyzer** → Railpack
-- Type: Next.js 16 Report Viewer
-- Why: Standard framework, no special dependencies
-- Config: `builder = "RAILPACK"` with basePath
-- Source: `utilities/competitor-analyzer/web/railway.toml`
-
-**data-platform-assistant** → Dockerfile
-- Type: Python monorepo with multiple services
-- Why: Multi-stage build, AWS SDK, Athena dependencies
-- Config: Custom `Dockerfile` with apt packages
-- Source: `tools/data-platform-assistant/Dockerfile`
 
 ### Migration Guidance
 
@@ -231,7 +217,7 @@ railpackVersion = "0.7.0"
 
 ### Start Command
 
-**Python/FastAPI** (your pattern):
+**Python/FastAPI**:
 ```toml
 [deploy]
 startCommand = "uvicorn main:app --host 0.0.0.0 --port $PORT"
@@ -255,12 +241,12 @@ startCommand = "node index.js"
 
 Railway pings this endpoint to verify deployment success.
 
-**Your patterns**:
+**Common patterns**:
 ```toml
 [deploy]
 healthcheckPath = "/health"
-healthcheckTimeout = 60   # docs-site: 60 seconds
-healthcheckTimeout = 120  # ping-tree-compare: 120 seconds
+healthcheckTimeout = 60   # Simple apps: 60 seconds
+healthcheckTimeout = 120  # Database apps: 120 seconds
 ```
 
 **Recommendations**:
@@ -277,7 +263,7 @@ async def health():
 
 ### Restart Policies
 
-**Your current** (NIXPACKS lowercase):
+**NIXPACKS** (lowercase):
 ```toml
 [deploy]
 restartPolicyType = "on_failure"
@@ -339,7 +325,7 @@ drainingSeconds = "10"     # Wait 10s between SIGTERM and SIGKILL
 
 For persistent storage (databases, uploads, etc.).
 
-**Your pattern** (ping-tree-compare):
+**Basic volume**:
 ```toml
 [[deploy.volumeMounts]]
 mountPath = "/app/data"
@@ -366,7 +352,7 @@ mountPath = "/app/data"
 
 Set environment-specific variables in configuration.
 
-**Your pattern** (NIXPACKS Python version):
+**NIXPACKS Python version**:
 ```toml
 [environment]
 NIXPACKS_PYTHON_VERSION = "3.11"
@@ -595,9 +581,7 @@ For production services with active traffic.
 
 ---
 
-## Migrating Your Existing Configs
-
-### Migrating a NIXPACKS Service to RAILPACK
+## Migrating NIXPACKS to RAILPACK
 
 **Before** (NIXPACKS):
 ```toml
@@ -628,44 +612,6 @@ restartPolicyMaxRetries = 3
 ```
 
 Remove `[environment]` section - RAILPACK auto-detects Python version.
-
-### Update ping-tree-compare to RAILPACK
-
-**Current** (NIXPACKS):
-```toml
-[build]
-builder = "nixpacks"
-
-[deploy]
-startCommand = "uvicorn main:app --host 0.0.0.0 --port $PORT --log-level info --workers 1"
-healthcheckPath = "/health"
-healthcheckTimeout = 120
-restartPolicyType = "on_failure"
-
-[[deploy.volumeMounts]]
-mountPath = "/app/data"
-
-[environment]
-NIXPACKS_PYTHON_VERSION = "3.11"
-```
-
-**Updated** (RAILPACK):
-```toml
-[build]
-builder = "RAILPACK"
-
-[deploy]
-startCommand = "uvicorn main:app --host 0.0.0.0 --port $PORT --log-level info --workers 1"
-healthcheckPath = "/health"
-healthcheckTimeout = 120
-restartPolicyType = "ON_FAILURE"
-restartPolicyMaxRetries = 3
-
-[[deploy.volumeMounts]]
-mountPath = "/app/data"
-```
-
-Same changes: remove `[environment]`, update `restartPolicyType` to uppercase.
 
 ---
 
@@ -728,8 +674,3 @@ Must use single worker for SQLite.
 ## Resources
 
 - **Railway Config Documentation**: https://docs.railway.com/reference/config-as-code
-- **Your Working Configs**:
-  - docs-site/railway.toml (Python FastAPI)
-  - ping-tree-compare/railway.toml (Python + SQLite volume)
-  - competitor-analyzer/web/railway.toml (Next.js with basePath)
-  - data-platform-assistant/Dockerfile (Python monorepo with custom deps)

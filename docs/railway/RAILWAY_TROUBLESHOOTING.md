@@ -1,6 +1,6 @@
 # Railway Troubleshooting Guide
 
-Common issues and solutions based on your production deployments and Claude Code workflows.
+Common issues and solutions for Railway deployments and Claude Code workflows.
 
 ## Authentication Issues
 
@@ -36,8 +36,6 @@ npm install -g @railway/cli
 # Verify
 railway --version
 ```
-
-**Your Setup**: `~/.npm-global/bin/railway`
 
 ### Authentication Expires
 
@@ -312,8 +310,6 @@ startCommand = "uvicorn main:app --host 0.0.0.0 --port $PORT --workers 1"
 ```
 
 **Why**: Multiple workers cause simultaneous write attempts to SQLite.
-
-**Your Pattern**: ping-tree-compare uses `--workers 1` (correct).
 
 ### Database Data Lost After Redeploy
 
@@ -606,7 +602,7 @@ Config File Path: /validator-api/railway.cron.toml
 ```
 your-repo/
 ├── railway.cron.toml    # ✅ At root, reference as /railway.cron.toml
-├── validator-api/
+├── api/
 │   └── ...
 └── core/
     └── ...
@@ -620,7 +616,7 @@ your-repo/
 
 **Problem**: Cron needs modules outside its subdirectory (monorepo pattern)
 
-**Example**: `validator-api/cron/` needs `core/pulse/` from repo root
+**Example**: `api/cron/` needs `core/` modules from repo root
 
 **Solution**: Deploy from repo root, use `cd` in startCommand
 
@@ -631,7 +627,7 @@ builder = "RAILPACK"
 
 [deploy]
 cronSchedule = "0 15 * * *"
-startCommand = "cd validator-api && python -m cron.pulse_poster"
+startCommand = "cd api && python -m cron.task_runner"
 restartPolicyType = "NEVER"
 ```
 
@@ -639,7 +635,7 @@ restartPolicyType = "NEVER"
 - Root Directory: *(empty - deploys from repo root)*
 - Config File Path: `/railway.cron.toml`
 
-This allows Python to import from both `core/` (repo root) and `validator-api/cron/`.
+This allows Python to import from both `core/` (repo root) and `api/cron/`.
 
 ### Cron Not Running
 
@@ -681,7 +677,7 @@ python -m utils.sync_runner --type smart
 
 **Solution**: **Check smart sync logic**
 
-Your cron service pattern:
+Example cron pattern:
 ```python
 def should_sync_now():
     """Determine if sync should run based on time"""
@@ -783,8 +779,8 @@ railway --service=your-service-id logs
 # - Incorrect indentation
 # - Typos in field names
 
-# Verify against working config:
-cat ~/repos/docs-site/railway.toml
+# Verify against a known working config template
+cat templates/railway/railpack.python-basic.toml
 ```
 
 ### "Build exceeded timeout"
@@ -855,17 +851,10 @@ echo "Errors in last 500 logs: $error_count"
 
 https://railway.app/status
 
-### Your Working Examples
-
-Reference your production deployments:
-- **docs-site**: https://docs.epcvip.vip
-- **ping-tree-compare**: https://compare.epcvip.vip
-- **athena-monitor**: https://athena.epcvip.vip
-
 ### Documentation
 
 - **Railway Docs**: https://docs.railway.com
-- **Your Guides**: See `dev-setup/docs/railway/`
+- **Deployment Guides**: See the other files in this `docs/railway/` directory
 
 ---
 

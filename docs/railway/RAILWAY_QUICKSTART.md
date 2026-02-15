@@ -156,19 +156,6 @@ railway logs --limit 200 | grep -i "database\|connection\|timeout"
 railway logs --limit 100 | grep -i error || echo "No errors found"
 ```
 
-## Your Production Apps
-
-Reference your existing Railway deployments:
-
-- **docs-site**: https://docs.epcvip.vip
-- **ping-tree-compare**: https://compare.epcvip.vip
-
-Test health checks:
-```bash
-curl -s https://docs.epcvip.vip/health
-curl -s https://compare.epcvip.vip/health
-```
-
 ## Key Limitations
 
 1. **Interactive authentication doesn't work in Claude Code**

@@ -330,21 +330,21 @@ async def require_authentication(request: Request) -> str:
     # Normal auth flow...
 ```
 
-### Deployment Status (Feb 2026)
+### Deployment Checklist
 
-All `*.epcvip.vip` FastAPI services use this pattern:
+When deploying this pattern across your FastAPI services, verify each service has:
+
+| Checkpoint | Description |
+|------------|-------------|
+| TCP Peer IP | Uses `request.client.host` (not forwarded headers) for auth bypass |
+| Private IP Check | Validates localhost + private IP ranges |
+| `get_dev_persona()` | Returns dev email/role from env vars |
+
+Track your services in a table like:
 
 | Service | Auth File | TCP Peer IP | Private IP Check | `get_dev_persona()` |
 |---------|-----------|:-----------:|:----------------:|:-------------------:|
-| ping-tree-compare | `auth_supabase.py` | Yes | Yes | Yes |
-| athena-usage-monitor | `auth_supabase.py` | Yes | Yes | Yes |
-| docs-site | `auth_supabase.py` | Yes | Yes | Yes |
-| epcvip-admin | `auth.py` | Yes | Yes | Yes |
-| experiments-dashboard | `auth_supabase.py` | Yes | Yes | Yes |
-| funnel-step-lab | `auth.py` | Yes | Yes | Yes |
-| **supabase-auth-templates** | `fastapi/auth.py` | Yes | Yes | Yes |
-
-Reference implementation: `utilities/supabase-auth-templates/fastapi/auth.py`
+| my-api | `auth_supabase.py` | Yes | Yes | Yes |
 
 ---
 

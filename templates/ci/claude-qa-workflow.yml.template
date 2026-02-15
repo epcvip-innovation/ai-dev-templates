@@ -18,7 +18,7 @@
 #
 # Based on: https://alexop.dev/posts/building_ai_qa_engineer_claude_code_playwright/
 # Docs: https://github.com/anthropics/claude-code-action
-# VERIFIED: 2026-01-08 (epcvip-tools-hub Run #20800668844)
+# VERIFIED: 2026-01-08 (production deployment)
 
 name: Claude QA Review
 

@@ -153,14 +153,14 @@ claude
 
 ```bash
 # Create structure
-mkdir -p ~/repos/code ~/repos-epcvip/docs ~/bin
+mkdir -p ~/repos/code ~/repos/docs ~/bin
 
 # Clone dev-setup repo (replace with your username/fork)
 cd ~/repos
 git clone https://github.com/<your-username>/dev-setup.git
 
 # Clone your documentation repos to WSL (IMPORTANT: not to /mnt/c/!)
-# cd ~/repos-epcvip/docs
+# cd ~/repos/docs
 
 # Example: Clone your repos (customize for your setup)
 # git clone https://github.com/<your-org>/your-docs.git
@@ -222,8 +222,8 @@ mkdir -p ~/knowledge-base
 
 # Create symlinks to your doc repos (customize for your setup)
 # Example:
-# ln -s ~/repos-epcvip/docs/your-docs ~/knowledge-base/docs
-# ln -s ~/repos-epcvip/docs/your-project ~/knowledge-base/project
+# ln -s ~/repos/docs/your-docs ~/knowledge-base/docs
+# ln -s ~/repos/docs/your-project ~/knowledge-base/project
 
 # Or use personal/setup/setup-knowledge-base.sh if you have it
 ```
@@ -334,7 +334,7 @@ perf
 obs
 
 # Test project launcher
-cd ~/repos-epcvip/docs
+cd ~/repos/docs
 dev personal-docs claude
 # Should start Claude Code
 ```

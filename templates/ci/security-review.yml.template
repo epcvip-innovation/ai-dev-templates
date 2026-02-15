@@ -16,7 +16,7 @@
 # Duration: ~30-45 seconds
 #
 # Docs: https://github.com/anthropics/claude-code-security-review
-# VERIFIED: 2026-01-08 (epcvip-tools-hub Run #20800666122)
+# VERIFIED: 2026-01-08 (production deployment)
 
 name: Security Review
 

@@ -110,14 +110,6 @@ Including `port` in response helps debug port mismatch issues.
 
 **See**: [RAILWAY_BUILDER_MIGRATION.md](RAILWAY_BUILDER_MIGRATION.md)
 
-## Production Deployments (Reference)
-
-| Project | Stack | Features |
-|---------|-------|----------|
-| ping-tree-compare | Python + SQLite | Volume persistence, auth |
-| docs-site | Python FastAPI | Documentation hub |
-| athena-usage-monitor | Python FastAPI | Supabase auth, Athena |
-
 ## Python Version
 
 RAILPACK auto-detects from (in order):

@@ -627,7 +627,6 @@ test('guest user sees login prompt when adding to cart', async ({ page }) => {
 ## See Also
 
 - [BROWSER_AUTOMATION_LANDSCAPE_2026.md](./BROWSER_AUTOMATION_LANDSCAPE_2026.md) — Full landscape analysis, model selection guide
-- [AUDIT_2026-02.md](./AUDIT_2026-02.md) — Cross-repo Playwright audit
 - [COST_OPTIMIZATION_GUIDE.md](./COST_OPTIMIZATION_GUIDE.md) — Model pricing and cost optimization
 - [Playwright Documentation](https://playwright.dev/docs/intro)
 - [Page Object Model](https://playwright.dev/docs/pom)

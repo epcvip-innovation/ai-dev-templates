@@ -397,7 +397,7 @@ exit          # Close SSH
 
 Consider separate tmux sessions:
 ```bash
-tmux new -s work-epcvip
+tmux new -s work-project
 tmux new -s personal-projects
 ```
 

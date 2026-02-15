@@ -123,7 +123,7 @@ This pattern significantly improves build times:
 
 ## BasePath Configuration (Multi-App Deployments)
 
-When deploying multiple apps under one domain (e.g., `tools.epcvip.vip/funnels/`, `tools.epcvip.vip/compare/`), use Next.js basePath.
+When deploying multiple apps under one domain (e.g., `your-app.example.com/funnels/`, `your-app.example.com/compare/`), use Next.js basePath.
 
 ### next.config.ts
 
@@ -409,14 +409,3 @@ Fix: Ensure `-H 0.0.0.0` in start command.
 - [Next.js Deployment Docs](https://nextjs.org/docs/app/getting-started/deploying)
 - [Railway Next.js Template](https://github.com/nextjs/deploy-railway)
 - [Railway Config Reference](https://docs.railway.com/reference/config-as-code)
-
-## Production Examples
-
-### competitor-analyzer Report Viewer (Next.js 16 + React 19)
-- URL: https://tools.epcvip.vip
-- Health: https://tools.epcvip.vip/api/health
-- Stack: Next.js 16, React 19, Tailwind CSS 4, shadcn/ui
-- Config: Railpack + `railpack.json` for standalone startCommand
-- Source: `utilities/competitor-analyzer/web/`
-- Key files: `railway.toml` (platform), `railpack.json` (builder)
-- Note: Uses standalone pattern documented above - 89% faster builds

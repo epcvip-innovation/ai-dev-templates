@@ -1,12 +1,12 @@
 ---
-description: EPCVIP experiment integrity audit - bucketing, logging, attribution, sample ratio
+description: Domain-specific experiment integrity audit - bucketing, logging, attribution, sample ratio
 allowed-tools: read_file, grep, codebase_search, run_terminal_cmd
 argument-hint: [experiment-name] [--comprehensive]
 ---
 
 ## Command
 
-**EPCVIP-Specific Lens**: Audit experiment implementation for integrity issues that could corrupt test results or bias outcomes.
+**Domain-specific-Specific Lens**: Audit experiment implementation for integrity issues that could corrupt test results or bias outcomes.
 
 **When to use:**
 - New A/B test implementation
@@ -274,7 +274,7 @@ If `--comprehensive` flag, also check:
 ## Integration
 
 **Works with:**
-- `/audit-feature` - This is the experiment lens (EPCVIP-specific)
+- `/audit-feature` - This is the experiment lens (Domain-specific-specific)
 - `experimentation-toolkit` - Analysis framework
 - A/B test documentation templates
 

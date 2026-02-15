@@ -82,7 +82,7 @@ if (session) {
 - Works gracefully when users switch accounts mid-flow (no stale code_verifier issues)
 - Simpler code - no need to parse URL params manually
 - Matches OAuth 2.1 best practices (2026)
-- All EPCVIP repos use this pattern consistently
+- Recommended as the standard pattern across all repos
 
 **Alternative: Explicit exchange (legacy)**
 ```javascript

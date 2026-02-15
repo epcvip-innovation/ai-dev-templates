@@ -122,7 +122,7 @@ Check my Railway status and list all projects
 
 **Example — check a project's services**:
 ```
-List all services in /home/adams/repos-epcvip/utilities/ping-tree-compare
+List all services in /path/to/my-project
 ```
 
 ### Deployment
@@ -134,12 +134,12 @@ List all services in /home/adams/repos-epcvip/utilities/ping-tree-compare
 
 **Example — deploy a service**:
 ```
-Deploy the ping-tree-compare service from /home/adams/repos-epcvip/utilities/ping-tree-compare
+Deploy the my-api service from /path/to/my-project
 ```
 
 **Example — deploy with build log streaming**:
 ```
-Deploy ping-tree-compare with ci mode enabled so I can see build logs
+Deploy my-api with ci mode enabled so I can see build logs
 ```
 
 ### Environment Management
@@ -151,7 +151,7 @@ Deploy ping-tree-compare with ci mode enabled so I can see build logs
 
 **Example — create staging from production**:
 ```
-Create a "staging" environment duplicating "production" for ping-tree-compare
+Create a "staging" environment duplicating "production" for my-api
 ```
 
 ### Variables
@@ -163,11 +163,11 @@ Create a "staging" environment duplicating "production" for ping-tree-compare
 
 **Example — check and set variables**:
 ```
-Show me all environment variables for the ping-tree-compare service
+Show me all environment variables for the my-api service
 ```
 
 ```
-Set ENVIRONMENT=production and LOG_LEVEL=info for ping-tree-compare, skip triggering a deploy
+Set ENVIRONMENT=production and LOG_LEVEL=info for my-api, skip triggering a deploy
 ```
 
 > **Note**: Setting variables triggers a redeploy by default. Use `skipDeploys` to batch changes, then deploy once.
@@ -180,7 +180,7 @@ Set ENVIRONMENT=production and LOG_LEVEL=info for ping-tree-compare, skip trigge
 
 **Example**:
 ```
-Generate a domain for the docs-site service
+Generate a domain for the my-api service
 ```
 
 ### Logs
@@ -203,12 +203,12 @@ Generate a domain for the docs-site service
 
 **Example — check for errors**:
 ```
-Get the last 50 deployment logs for ping-tree-compare, filtered to errors only
+Get the last 50 deployment logs for my-api, filtered to errors only
 ```
 
 **Example — investigate specific deployment**:
 ```
-Get build logs for deployment ID abc123 in ping-tree-compare
+Get build logs for deployment ID abc123 in my-api
 ```
 
 ### Project Creation
@@ -232,7 +232,7 @@ When a service is broken and you need to figure out why:
 
 ```
 1. Check Railway status to make sure I'm authenticated
-2. List deployments for ping-tree-compare to find the failing one
+2. List deployments for my-api to find the failing one
 3. Get the build logs for the latest deployment
 4. If the build succeeded, get the deploy logs filtered to errors
 5. Summarize what went wrong and suggest a fix
@@ -250,7 +250,7 @@ When a service is broken and you need to figure out why:
 Deploy code changes and confirm the deployment succeeds:
 
 ```
-Deploy ping-tree-compare, then check the deployment logs to confirm it's healthy
+Deploy my-api, then check the deployment logs to confirm it's healthy
 ```
 
 **What Claude does**:
@@ -260,7 +260,7 @@ Deploy ping-tree-compare, then check the deployment logs to confirm it's healthy
 
 ### Recipe 3: Fleet Health Check
 
-Check the status of all EPCVIP services at once:
+Check the status of all your services at once:
 
 ```
 List all my Railway projects, then for each one list the services and their latest deployment status
@@ -277,24 +277,24 @@ List all my Railway projects, then for each one list the services and their late
 Bootstrap a new Railway service for a FastAPI app:
 
 ```
-1. Create a new Railway project called "my-new-tool" linked to /home/adams/repos-epcvip/utilities/my-new-tool
-2. Set these environment variables: ENVIRONMENT=production, APP_ID=my-new-tool, SUPABASE_URL=https://yuithqxycicgokkgmpzg.supabase.co
+1. Create a new Railway project called "my-new-tool" linked to /path/to/my-new-tool
+2. Set these environment variables: ENVIRONMENT=production, APP_ID=my-new-tool
 3. Generate a Railway domain for it
 4. Deploy it
 ```
 
 **What Claude does**:
 1. `create-project-and-link` — creates and links
-2. `set-variables` with `skipDeploys: true` — sets all vars without triggering 3 deploys
+2. `set-variables` with `skipDeploys: true` — sets all vars without triggering multiple deploys
 3. `generate-domain` — gets the public URL
 4. `deploy` — builds and deploys
 
 ### Recipe 5: Investigate a Production Issue
 
-A user reports that athena.epcvip.vip is slow:
+A user reports that your app is slow:
 
 ```
-Check the latest deployment logs for the athena-monitor service, filtered to warnings and errors.
+Check the latest deployment logs for the my-api service, filtered to warnings and errors.
 Also list the current environment variables to check for misconfigurations.
 ```
 
@@ -362,7 +362,7 @@ MCP has intentional limitations for safety:
 
 ### Shared Project Safety
 
-Some Railway projects contain multiple services (e.g., `epcvip.vip | Hub` has both `epcvip-tools-hub` and `docs-site`). When using MCP:
+Some Railway projects contain multiple services (e.g., a frontend and backend in the same project). When using MCP:
 
 - Always specify the `service` parameter when operating on shared projects
 - Use `list-services` first to confirm which services exist
@@ -484,12 +484,11 @@ Create `.mcp.json` in your project root to enable Railway MCP only for specific 
 
 ## See Also
 
-- [RAILWAY_OVERVIEW.md](./RAILWAY_OVERVIEW.md) — What Railway is and why we use it
+- [RAILWAY_OVERVIEW.md](./RAILWAY_OVERVIEW.md) — What Railway is and why to use it
 - [RAILWAY_CLI_REFERENCE.md](./RAILWAY_CLI_REFERENCE.md) — CLI command reference for external terminal
 - [RAILWAY_SETUP_GUIDE.md](./RAILWAY_SETUP_GUIDE.md) — First-time setup and authentication
 - [RAILWAY_WORKFLOWS.md](./RAILWAY_WORKFLOWS.md) — Step-by-step deployment workflows
 - [RAILWAY_TROUBLESHOOTING.md](./RAILWAY_TROUBLESHOOTING.md) — General troubleshooting (beyond MCP)
-- [EPCVIP_SERVICES.md](../../../../EPCVIP_SERVICES.md) — Full service catalog
 - [Playwright MCP Guide](../reference/PLAYWRIGHT-MCP.md) — Similar MCP guide for browser automation
 
 ## External Resources

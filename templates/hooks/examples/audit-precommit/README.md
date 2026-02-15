@@ -173,7 +173,7 @@ This hook provides **fast, deterministic checks** as a pre-commit gate.
 For comprehensive audits, use `/audit-feature` which provides:
 - Multi-lens review (business logic, security, regression)
 - Bounded severity with stop conditions
-- EPCVIP-specific lenses (experiment integrity, data contracts)
+- Domain-specific lenses (experiment integrity, data contracts)
 
 **Workflow:**
 1. Pre-commit hook catches obvious issues automatically

@@ -327,8 +327,8 @@ If `--lens` flag is provided, run only that lens:
 - `--lens security` → Run only Security & Abuse Cases lens
 - `--lens business` → Run only Business Logic Walkthrough
 - `--lens regression` → Run only Regression Surface analysis
-- `--lens experiment` → Run only Experiment Integrity (EPCVIP)
-- `--lens data-contract` → Run only Data Contract Compliance (EPCVIP)
+- `--lens experiment` → Run only Experiment Integrity (domain-specific)
+- `--lens data-contract` → Run only Data Contract Compliance (domain-specific)
 
 For full lens documentation, see: `/audit:business`, `/audit:security`, etc.
 

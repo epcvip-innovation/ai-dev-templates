@@ -19,7 +19,7 @@ When starting a new project, these are battle-tested choices based on real produ
 **Auth**: Supabase
 - Google OAuth with PKCE flow
 - JWT-based, server-side validation
-- RBAC via shared `epcvip_app_roles` table
+- RBAC via shared `app_roles` table
 
 **Database**:
 - **Supabase PostgreSQL** - When you need user data, shared state
@@ -93,4 +93,3 @@ When starting a new project, these are battle-tested choices based on real produ
 ## See Also
 
 - [NEW-PROJECT-SETUP.md](./NEW-PROJECT-SETUP.md) - Claude Code setup for new projects
-- [EPCVIP_SERVICES.md](../../../../EPCVIP_SERVICES.md) - EPCVIP service architecture and tech stacks

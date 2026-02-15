@@ -2,8 +2,6 @@
 
 E2E testing patterns for Claude Code projects using Playwright.
 
-> **Status:** See [STATUS.md](./STATUS.md) for what's verified vs. untested.
-
 > **2026 Insight**: "2026 is the year testers move from 'writing scripts' to orchestrating AI-powered automation workflows."
 
 ## Start Here
@@ -29,10 +27,8 @@ E2E testing patterns for Claude Code projects using Playwright.
 | [COST_OPTIMIZATION_GUIDE.md](./COST_OPTIMIZATION_GUIDE.md) | Reference | Cost analysis, model pricing, optimization strategies |
 | [BROWSER_AUTOMATION_LANDSCAPE_2026.md](./BROWSER_AUTOMATION_LANDSCAPE_2026.md) | Reference | Full landscape: 5 approaches, model selection, platform compatibility |
 | [PLAYWRIGHT_CLI_EVALUATION.md](./PLAYWRIGHT_CLI_EVALUATION.md) | Reference | CLI vs MCP token measurements and comparison |
-| [AUDIT_2026-02.md](./AUDIT_2026-02.md) | Audit | Cross-repo Playwright audit with per-repo findings |
 | [COMPETITOR_ANALYSIS.md](./COMPETITOR_ANALYSIS.md) | Guide | Using MCP for competitor research |
 | [RESEARCH_ARCHIVE.md](./RESEARCH_ARCHIVE.md) | Archive | Curated 2026 research findings and sources |
-| [STATUS.md](./STATUS.md) | Status | Verification state of every doc and template |
 | [examples/](./examples/) | Templates | Copy-paste starter files (configs, Page Objects, fixtures) |
 
 ## The 5 Approaches to Playwright
@@ -170,7 +166,7 @@ COMPETITOR                 CLI_EVALUATION
 ANALYSIS
 ```
 
-**Background reading** (no particular order): [AUDIT_2026-02](./AUDIT_2026-02.md), [STATUS](./STATUS.md), [RESEARCH_ARCHIVE](./RESEARCH_ARCHIVE.md)
+**Background reading**: [RESEARCH_ARCHIVE](./RESEARCH_ARCHIVE.md)
 
 ## External Links
 

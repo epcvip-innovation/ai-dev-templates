@@ -4,14 +4,14 @@ How to set up Supabase authentication for a new tool or join an existing project
 
 ## Option A: Join Existing Project (Recommended)
 
-EPCVIP tools share a single Supabase project for centralized user management.
+If your team shares a single Supabase project for centralized user management, join the existing one.
 
 ### Get Credentials
 
-1. Go to https://supabase.com/dashboard/project/yuithqxycicgokkgmpzg
+1. Go to `https://supabase.com/dashboard/project/your-project-id`
 2. Navigate to **Settings > API**
 3. Copy:
-   - **Project URL**: `https://yuithqxycicgokkgmpzg.supabase.co`
+   - **Project URL**: `https://your-project-id.supabase.co`
    - **Anon Key**: Under "Project API keys" (safe for client-side)
    - **JWT Secret**: Under "JWT Settings" > Legacy JWT Secret tab
 
@@ -69,18 +69,18 @@ Only needed if you require isolated user management.
 
 ### 4. Domain Restriction (Optional)
 
-To restrict to @epcvip.com emails, handle in application code:
+To restrict to your company's email domain, handle in application code:
 
 ```python
 # FastAPI example
-if not email.endswith('@epcvip.com'):
-    raise HTTPException(403, "Only @epcvip.com emails allowed")
+if not email.endswith('@your-company.com'):
+    raise HTTPException(403, "Only @your-company.com emails allowed")
 ```
 
 ```javascript
 // Frontend example
-if (!email.toLowerCase().endsWith('@epcvip.com')) {
-    showError('Only @epcvip.com emails are allowed');
+if (!email.toLowerCase().endsWith('@your-company.com')) {
+    showError('Only @your-company.com emails are allowed');
     return;
 }
 ```
@@ -95,7 +95,7 @@ Add these in Railway dashboard > Variables:
 
 ```bash
 # Required
-SUPABASE_URL=https://yuithqxycicgokkgmpzg.supabase.co
+SUPABASE_URL=https://your-project-id.supabase.co
 SUPABASE_ANON_KEY=<your-anon-key>
 
 # For FastAPI with local JWT validation
@@ -110,7 +110,7 @@ ENVIRONMENT=production
 Create `.env.local` (gitignored):
 
 ```bash
-SUPABASE_URL=https://yuithqxycicgokkgmpzg.supabase.co
+SUPABASE_URL=https://your-project-id.supabase.co
 SUPABASE_ANON_KEY=<your-anon-key>
 SUPABASE_JWT_SECRET=<your-jwt-secret>
 
