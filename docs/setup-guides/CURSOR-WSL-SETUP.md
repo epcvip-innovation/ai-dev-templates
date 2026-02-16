@@ -390,7 +390,7 @@ rm -rf ~/.vscode-server
 **Setup Guides**:
 - [Daily Workflow](./DAILY-WORKFLOW.md) - Using Cursor in daily development
 - [Claude Code Setup](./CLAUDE-CODE-SETUP.md) - AI assistant setup
-- [New PC Setup](./NEW-PC-SETUP.md) - Complete setup guide
+- [Getting Started](../getting-started/SETUP-GUIDE-2026.md) - Platform-agnostic setup
 
 **Reference**:
 - [WSL Paths Reference](../reference/WSL-PATHS.md) - Understanding paths

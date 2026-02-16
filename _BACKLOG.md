@@ -13,12 +13,12 @@
 
 ## P1 - High Priority
 
-### Pass 15: Dev Server Skill Genericization
+### Pass 16: Dev Server Skill Genericization
 **Priority:** P1
 **Added:** 2026-02-15
 **Source:** Pass 11 skills audit — flagship skill #3
 
-**Problem:** The dev-server skill currently has hardcoded repo-specific startup sequences (epcvip repos). Needs genericization to work as a template pattern.
+**Problem:** The dev-server skill currently has hardcoded repo-specific startup sequences. Needs genericization to work as a template pattern.
 
 **Action:** Extract the pattern (auto-detect framework, apply correct startup) from the org-specific implementation. Create a template version in `templates/plugins/`.
 
@@ -165,6 +165,29 @@
 
 ## Completed
 
+### 2026-02-16: Pass 16 — Shareability Cleanup
+- Moved NEW-PC-SETUP.md to _private/ (personal machine bootstrap, not a template)
+- Removed all _private/ references from CLAUDE.md (5 occurrences)
+- Generalized org-specific repo names in CLAUDE.md
+- Reframed why-wsl.md from "why I chose" to "when WSL makes sense"
+- Softened prescriptive framing in DAILY-WORKFLOW.md and MULTI-DEVICE-WORKSPACE.md
+- Fixed 2 broken outbound links (DEVELOPMENT-ENVIRONMENT.md, JOURNAL.md)
+- Updated 12 incoming links from removed NEW-PC-SETUP.md
+
+### 2026-02-16: Pass 15 — README Orientation & Platform Framing
+- Added value prop opening to README.md (what this repo is, why it matters)
+- Fixed 3 conflicting slash command counts (9, 13 → all now 21)
+- Renamed WSL architecture header to "Windows Power Setup: WSL2 (Optional)"
+- Platform-annotated Common Issues table (3 WSL-specific rows now labeled)
+- Platform-annotated utility scripts (perf, obs)
+- Clarified CLAUDE.md secondary purpose: platform-agnostic first, WSL optional
+
+### 2026-02-16: Pass 14b — Remove Volatile Specifics from ADVANCED-WORKFLOWS
+- Removed model versions (GPT-5.3-Codex), dollar pricing ($20-200/mo), SWE-bench scores
+- Reframed model selection from cost-first ("default to cheapest") to stakes-based ("match model to stakes")
+- Kept durable tier names (haiku/sonnet/opus) — these persist across releases
+- Volatile pricing data stays in COST_OPTIMIZATION_GUIDE.md where it belongs
+
 ### 2026-02-16: Pass 14 — Expand ADVANCED-WORKFLOWS to 7-Section Power-User Guide
 - Expanded from 4 sections (272 lines) to 7 sections (386 lines)
 - Section 1 (Context): Added MCP context costs, skill description budget, avoid list, compact-by-work-type, official 95% compaction trigger
@@ -217,4 +240,4 @@ Added from TheDecipherist/claude-code-mastery:
 External guides evaluated:
 - [TheDecipherist/claude-code-mastery](https://github.com/TheDecipherist/claude-code-mastery) - Security hooks, MCP decision trees, research citations
 
-Comparative analysis: See `_private/research/` for methodology and findings
+Comparative analysis: Research methodology documented internally

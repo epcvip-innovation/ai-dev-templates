@@ -81,20 +81,6 @@ The core value of this repository. **Browse before using** - these are patterns 
 - Includes [SKILL-TEMPLATE.md](./templates/plugins/SKILL-TEMPLATE.md) for creating new skills
 - **See**: [templates/plugins/README.md](./templates/plugins/README.md)
 
-## Repository Layers
-
-This repo has three layers of content:
-
-| Layer | Location | Visibility | Purpose |
-|-------|----------|-----------|---------|
-| Private | `_private/` | Gitignored (own repo) | Personal configs, research intake, workflow preferences |
-| Templates | `templates/` | Public | Reusable AI dev patterns (9 categories) |
-| Docs | `docs/` | Public | Setup guides, reference, decisions |
-
-`_private/` is a nested git repo — it's version-controlled separately and structurally invisible to this repo's git. See `_private/README.md` for setup instructions.
-
-**Safety**: `.gitignore` excludes `_private/`, and a pre-commit hook (`scripts/hooks/pre-commit`) blocks accidental staging. Install with: `cp scripts/hooks/pre-commit .git/hooks/pre-commit`
-
 ## Research & Evidence
 
 ### Evidence-Based Approach
@@ -102,11 +88,11 @@ This repo has three layers of content:
 All templates extracted from real production usage, not theoretical best practices.
 
 **Methodology**:
-1. **Pattern Discovery**: 4 repositories audited (ping-tree-compare, dois-processor, claude-dev-template, and others)
+1. **Pattern Discovery**: 4 repositories audited (production FastAPI services, data processors, template projects)
 2. **Validation**: 239+ commits analyzed for recurring patterns
 3. **Refinement**: Tested in new projects, iterated based on feedback
 
-**Note**: Research methodology and audit findings live in `_private/research/` (separate repo). Templates are production-validated and ready for use.
+**Note**: 239+ commits analyzed across production repositories. Templates are production-validated and ready for use.
 
 ## Using This Repository
 
@@ -128,7 +114,7 @@ All templates extracted from real production usage, not theoretical best practic
 
 ## Development Environment
 
-**Secondary Purpose**: WSL2-based development environment setup and utilities.
+**Secondary Purpose**: Development environment setup (platform-agnostic guides + optional WSL2 power setup for Windows).
 
 **Quick Start**:
 - **[docs/setup-guides/DAILY-WORKFLOW.md](./docs/setup-guides/DAILY-WORKFLOW.md)** - ⭐ Daily workflow guide
@@ -136,7 +122,6 @@ All templates extracted from real production usage, not theoretical best practic
 
 **Setup Guides**:
 - **[docs/getting-started/SETUP-GUIDE-2026.md](./docs/getting-started/SETUP-GUIDE-2026.md)** - Platform-agnostic setup (Mac, Windows, Linux)
-- **[docs/setup-guides/NEW-PC-SETUP.md](./docs/setup-guides/NEW-PC-SETUP.md)** - 90-minute WSL2 new machine setup
 - **[docs/setup-guides/CLAUDE-CODE-SETUP.md](./docs/setup-guides/CLAUDE-CODE-SETUP.md)** - Claude Code deep-dive
 - **[docs/setup-guides/CODEX-SETUP.md](./docs/setup-guides/CODEX-SETUP.md)** - Codex CLI + dual-tool workflow
 - **[docs/setup-guides/CURSOR-WSL-SETUP.md](./docs/setup-guides/CURSOR-WSL-SETUP.md)** - Cursor + WSL integration
@@ -178,9 +163,6 @@ cursor .            # Open Cursor (Remote-WSL)
 - [templates/claude-md/](./templates/claude-md/) - CLAUDE.md structure templates
 - [templates/standards/](./templates/standards/) - Anti-slop standards & documentation strategy
 - [templates/testing/](./templates/testing/) - Playwright + Claude Code testing patterns
-
-**Research & Evidence**:
-- Research methodology and audit findings in `_private/research/` (separate repo)
 
 **Reference**:
 - [docs/reference/ADVANCED-WORKFLOWS.md](./docs/reference/ADVANCED-WORKFLOWS.md) - 7-section power-user guide: context, planning, agents, extensions, predictability, tool strategy, meta-principles

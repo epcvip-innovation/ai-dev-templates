@@ -35,12 +35,14 @@ Claude Code can do all of this - but traditionally requires a terminal on your d
 - **tmux** - Persistent sessions that survive disconnects and device switches
 - **Mosh** (optional) - For very unstable networks
 
+> **Alternatives:** GitHub Codespaces or Gitpod provide browser-based dev environments without self-hosting. The stack below is for developers who prefer a self-hosted setup with full control.
+
 ### Result
 Start a Claude session on your desktop, continue it from your iPad at a coffee shop, check in from your phone on the train.
 
 ### Connection Architecture
 ```
-Your Device → Tailscale VPN → Home PC → WSL2 Ubuntu → Claude Code
+Your Device → Tailscale VPN → Dev Machine → Claude Code
 ```
 
 ---
@@ -470,4 +472,4 @@ Before relying on this workflow:
 
 ---
 
-_This guide was extracted from a 3-week Japan trip where the workflow was used daily for travel planning, expense tracking, and research - proof that Claude Code is more than a coding tool. See [JOURNAL.md](../../JOURNAL.md) for the full story._
+_This workflow has been tested extensively on the go — trains, coffee shops, hotels — proof that Claude Code is more than a desktop coding tool._

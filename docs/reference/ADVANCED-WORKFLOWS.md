@@ -197,11 +197,11 @@ Main conversation                    Sub-agent
 
 ### Model Selection for Agents
 
-| Agent Task | Recommended Model | Rationale |
-|-----------|-------------------|-----------|
-| File scanning, pattern finding | haiku | Speed and cost; accuracy sufficient for search |
-| Code review, bug hunting | sonnet | Needs reasoning but not deep architecture insight |
-| Architecture decisions, complex refactors | opus | Worth the premium for critical decisions |
+| Agent Task | Model Spectrum | Rationale |
+|-----------|---------------|-----------|
+| File scanning, pattern finding | haiku | Clear efficiency win — speed and cost, accuracy sufficient |
+| Code review, implementation | sonnet → opus | Depends on stakes. Sonnet saves cost; opus gives deeper reasoning |
+| Architecture, complex debugging | opus | Worth the premium — fewer iterations, better first-pass quality |
 
 ### Downsides to Know
 
@@ -211,15 +211,15 @@ Main conversation                    Sub-agent
 - **Overhead** — For a 3-second Grep, spawning an agent adds 10-30 seconds of startup overhead
 - **No nesting** — Sub-agents cannot spawn their own sub-agents. Design workflows with one level of delegation
 
-### Cost Awareness
+### Model Selection Philosophy
 
-Default to the cheapest model that gets the job done:
+Match the model to the stakes, not the other way around:
 
-- **Haiku for scanning/exploration** — Searching files, pattern matching, summarizing. Fast, cheap, sufficient
-- **Sonnet for standard implementation** — Writing code, reviewing changes, moderate reasoning
-- **Opus for architecture/critical debugging** — Complex multi-file reasoning, security reviews, design decisions
+- **Haiku for bulk scanning** — File searches, pattern matching, summarization. A clear efficiency win where reasoning depth doesn't matter
+- **Sonnet or opus for implementation** — Sonnet saves budget; opus often saves *time* through fewer iterations and better first-pass quality. Teams building quality software typically find top-tier models worth the cost
+- **Opus for architecture/critical work** — Security reviews, design decisions, complex multi-file reasoning. The premium pays for itself in avoided rework
 
-The instinct to use the strongest model for everything wastes budget without improving results for routine tasks. A haiku agent scanning 20 files costs a fraction of an opus agent doing the same work at comparable accuracy.
+The right default depends on your team. Cost-sensitive workflows benefit from tiered selection. Quality-first teams often run opus for everything beyond scanning — and that's a valid choice.
 
 ---
 
@@ -320,7 +320,7 @@ Match enforcement level to the task. Investigation gets loose reins; production 
 
 ### Codex CLI
 
-OpenAI's terminal-based coding agent. Default model: GPT-5.3-Codex. Included with ChatGPT Plus ($20/mo) through Pro ($200/mo) — flat-rate, no per-token billing.
+OpenAI's terminal-based coding agent. Included with ChatGPT paid plans (flat-rate, no per-token billing). Check OpenAI's pricing page for current tiers.
 
 **Strengths**: Autonomous task delegation with approval gates, cost-predictable for heavy usage, good at batch operations.
 
@@ -330,7 +330,7 @@ OpenAI's terminal-based coding agent. Default model: GPT-5.3-Codex. Included wit
 
 Anthropic's terminal-based coding agent. Sub-agent ecosystem, skills/hooks/plugins for workflow customization, interactive tight-control workflow.
 
-**Strengths**: Rich extension points (skills, hooks, MCP), fine-grained control over behavior, strong multi-file reasoning with Opus.
+**Strengths**: Rich extension points (skills, hooks, MCP), fine-grained control over behavior, strong multi-file reasoning.
 
 **Workflow**: Interactive pair programming — you guide, it implements, you verify. More "collaborative" than "autonomous."
 
@@ -348,7 +348,7 @@ Anthropic's terminal-based coding agent. Sub-agent ecosystem, skills/hooks/plugi
 - Quick, hands-off delegation where approval gates are sufficient
 - Second-opinion reviews of Claude Code's output
 
-**Cross-review pattern**: Build in one tool, review in the other. Different models catch different classes of issues. Both score ~80% on SWE-bench Verified — comparable accuracy, different workflow philosophies.
+**Cross-review pattern**: Build in one tool, review in the other. Different workflow philosophies, comparable accuracy on standard benchmarks. The value is in catching different classes of issues, not in one tool being "better."
 
 **See**: [CODEX-SETUP.md](../setup-guides/CODEX-SETUP.md) for installation and dual-tool workflow.
 
@@ -362,7 +362,7 @@ Five themes that cut across every section of this guide:
 
 2. **Externalize state** — Write decisions, plans, and findings to files. Conversation memory is volatile; files are durable. The best context management is not needing context at all.
 
-3. **Choose models deliberately** — Not all tasks need the strongest model. Haiku for scanning, Sonnet for implementation, Opus for architecture. Default to the cheapest model that gets the job done.
+3. **Choose models deliberately** — Match the model to the stakes. Haiku for bulk scanning, top-tier models for everything that requires reasoning. The premium pays for itself in fewer iterations.
 
 4. **Engineer predictability** — Plans, hooks, compact rules, and scoped instructions stabilize behavior. Prompting alone is insufficient for repeatable workflows.
 

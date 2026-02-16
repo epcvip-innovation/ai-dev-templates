@@ -10,11 +10,14 @@ A practical guide to the daily development workflow using Claude Code, Codex, an
 
 ## Overview
 
-**Environment**: Windows 11 + WSL2 (Ubuntu) + Cursor IDE  
-**AI Tools**: Claude Code + Codex  
-**Primary IDE**: Cursor with Remote-WSL extension
+This guide shows one recommended workflow using our Windows+WSL power setup. Adapt to your platform — Claude Code and Codex work the same on Mac, Linux, or native Windows.
 
-**Why this setup?** See [Why WSL?](../decisions/why-wsl.md) for the full rationale.
+**Example environment**: Windows 11 + WSL2 (Ubuntu) + Cursor IDE
+**AI Tools**: Claude Code + Codex
+**Primary IDE**: Cursor with Remote-WSL extension (or any editor)
+
+**Using Mac or Linux?** Skip the WSL-specific steps — commands like `claude`, `codex`, and `cursor .` work the same.
+**Why WSL on Windows?** See [When to Use WSL](../decisions/why-wsl.md) for the tradeoffs.
 
 ---
 
@@ -258,7 +261,6 @@ See setup guides: [Claude Code](./CLAUDE-CODE-SETUP.md) | [Codex](./CODEX-SETUP.
 - [Claude Code Setup](./CLAUDE-CODE-SETUP.md) - Installing and configuring Claude Code
 - [Codex Setup](./CODEX-SETUP.md) - Installing and configuring Codex
 - [Cursor WSL Setup](./CURSOR-WSL-SETUP.md) - Setting up Cursor with WSL
-- [New PC Setup](./NEW-PC-SETUP.md) - Complete new machine setup
 
 **Reference**:
 - [WSL Paths Reference](../reference/WSL-PATHS.md) - Understanding WSL filesystem paths
@@ -292,9 +294,8 @@ See setup guides: [Claude Code](./CLAUDE-CODE-SETUP.md) | [Codex](./CODEX-SETUP.
 
 ---
 
-**Next Steps**: 
-1. Complete [New PC Setup](./NEW-PC-SETUP.md) if haven't already
-2. Set up [Claude Code](./CLAUDE-CODE-SETUP.md) and [Codex](./CODEX-SETUP.md)
-3. Configure [Cursor WSL](./CURSOR-WSL-SETUP.md)
-4. Start coding!
+**Next Steps**:
+1. Set up [Claude Code](./CLAUDE-CODE-SETUP.md) and [Codex](./CODEX-SETUP.md)
+2. Configure [Cursor WSL](./CURSOR-WSL-SETUP.md) (Windows users)
+3. Start coding!
 

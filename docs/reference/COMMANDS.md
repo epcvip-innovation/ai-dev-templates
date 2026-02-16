@@ -107,7 +107,7 @@ dev my-project claude +kb
 - Check for `[WSL: Ubuntu]` indicator in bottom-left corner
 - If missing, use Remote-WSL connection (see above)
 - Terminal profile should be "WSL Bash" (check with `Ctrl+Shift+P` → "Terminal: Select Default Profile")
-- See: [NEW-PC-SETUP.md](../setup-guides/NEW-PC-SETUP.md#cursor-terminal-shows-no-output-wsl) for full troubleshooting
+- See: [Cursor WSL Setup](../setup-guides/CURSOR-WSL-SETUP.md#troubleshooting) for full troubleshooting
 
 **Claude/Codex not found**:
 ```bash
@@ -259,5 +259,4 @@ ln -sf ~/repos/dev-setup/scripts/dev ~/bin/dev
 
 - **[CLAUDE.md](./CLAUDE.md)** - Quick reference and project context
 - **[README.md](./README.md)** - Main documentation with setup instructions
-- **[DEVELOPMENT-ENVIRONMENT.md](./DEVELOPMENT-ENVIRONMENT.md)** - Complete system architecture
-- **[NEW-PC-SETUP.md](./NEW-PC-SETUP.md)** - Setting up these scripts on a new machine
+- **[SETUP-GUIDE-2026.md](../getting-started/SETUP-GUIDE-2026.md)** - Platform-agnostic setup guide

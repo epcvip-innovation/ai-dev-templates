@@ -43,7 +43,7 @@ Both paths get you a fully working Claude Code setup. The difference is performa
 | **Matches production** | No (servers run Linux) | Yes |
 | **Best for** | Getting started fast, light usage | Heavy CLI, shell scripts, Docker |
 
-**Our recommendation**: Start with **Windows Native** below to get productive today. If you hit friction with slow git operations or shell compatibility, upgrade to WSL2 later — it's a one-time 90-minute setup: [New PC Setup](../setup-guides/NEW-PC-SETUP.md).
+**Our recommendation**: Start with **Windows Native** below to get productive today. If you hit friction with slow git operations or shell compatibility, upgrade to WSL2 later using the [Microsoft WSL install guide](https://learn.microsoft.com/en-us/windows/wsl/install).
 
 **Why we use WSL2**: [Architecture Decision Record](../decisions/why-wsl.md)
 
@@ -81,7 +81,7 @@ Inside your WSL terminal, use the Linux installer:
 curl -fsSL https://claude.ai/install.sh | bash
 ```
 
-For the full WSL2 development environment (Linux filesystem, Cursor IDE, performance tuning), see [New PC Setup](../setup-guides/NEW-PC-SETUP.md).
+For the full WSL2 development environment, see the [Microsoft WSL install guide](https://learn.microsoft.com/en-us/windows/wsl/install) and [Why WSL](../decisions/why-wsl.md) for configuration recommendations.
 
 #### npm (legacy, not recommended)
 
@@ -298,7 +298,7 @@ One writes, the other reviews. Swap roles as needed.
 | Set up a new project with Claude Code | [New Project Setup](./NEW-PROJECT-SETUP.md) |
 | Browse our template library | [Templates](../../templates/) |
 | Learn slash commands and workflows | [Slash Commands](../../templates/slash-commands/README.md) |
-| Set up the full WSL2 power environment | [New PC Setup](../setup-guides/NEW-PC-SETUP.md) |
+| Set up WSL2 on Windows | [Microsoft WSL install guide](https://learn.microsoft.com/en-us/windows/wsl/install) |
 | Deep-dive on Claude Code configuration | [Claude Code Setup](../setup-guides/CLAUDE-CODE-SETUP.md) |
 | Set up Playwright testing with Claude | [Testing Guide](../../templates/testing/PLAYWRIGHT_CLAUDE_GUIDE.md) |
 | Understand our code quality standards | [Anti-Slop Standards](../../templates/standards/ANTI_SLOP_STANDARDS.md) |

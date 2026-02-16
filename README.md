@@ -1,6 +1,6 @@
 ## AI-Assisted Development — Templates, Guides & Setup
 
-Evidence-based templates and setup guides for Claude Code, Codex, and AI-assisted development workflows.
+A library of battle-tested templates for AI-assisted development with Claude Code. Extracted from 6+ months of real production usage across 4 repositories — not theoretical best practices. Start with the templates; use the setup guides if you need them.
 
 ---
 
@@ -10,7 +10,7 @@ Evidence-based templates and setup guides for Claude Code, Codex, and AI-assiste
 |------------|-----------|------|
 | **New (Mac or Linux)** | [Getting Started](./docs/getting-started/SETUP-GUIDE-2026.md) | 10 min |
 | **New (Windows)** | [Getting Started](./docs/getting-started/SETUP-GUIDE-2026.md) — see the Windows setup path inside | 10 min |
-| **Windows + want full Linux dev environment** | [Getting Started](./docs/getting-started/SETUP-GUIDE-2026.md) → then [New PC Setup](./docs/setup-guides/NEW-PC-SETUP.md) | 10 + 90 min |
+| **Windows + want full Linux dev environment** | [Getting Started](./docs/getting-started/SETUP-GUIDE-2026.md) — see the WSL2 path inside | 10 min |
 | **Setting up Claude Code quickly** | [Quickstart](./docs/getting-started/CLAUDE-CODE-QUICKSTART.md) | 5 min |
 | **Starting a new project** | [New Project Setup](./docs/getting-started/NEW-PROJECT-SETUP.md) | 30 min |
 | **Experienced — here for templates** | [Templates](./templates/) | Browse |
@@ -26,7 +26,7 @@ Evidence-based templates and setup guides for Claude Code, Codex, and AI-assiste
 ## What This Repo Provides
 
 1. **Template Library** — 66 template files across 10 categories
-   - **9 active slash commands** (quality, design, git workflow)
+   - **21 active slash commands** (quality, design, git workflow)
    - **CLAUDE.md structures** — Lightweight, evidence-based project context templates
    - **Project organization** — `.projects/` 3-tier backlog system
    - **Anti-slop standards** — Automated quality gates preventing AI-generated bloat
@@ -39,9 +39,9 @@ Evidence-based templates and setup guides for Claude Code, Codex, and AI-assiste
    - [Codex CLI](./docs/setup-guides/CODEX-SETUP.md) — Dual-tool workflow setup
 
 3. **WSL2 Power Setup** (optional, Windows only) — Full Linux dev environment
-   - [New PC Setup](./docs/setup-guides/NEW-PC-SETUP.md) — 90-minute guided Windows 11 + WSL2 setup
    - [Why WSL?](./docs/decisions/why-wsl.md) — Architecture decision (it's a choice, not a requirement)
    - The [Getting Started](./docs/getting-started/SETUP-GUIDE-2026.md) guide explains when to choose WSL vs native Windows
+   - [Microsoft WSL install guide](https://learn.microsoft.com/en-us/windows/wsl/install) for initial WSL2 setup
 
 4. **Research & Evidence** — Extracted from real-world usage, not arbitrary
    - 4 repository audits (production FastAPI services, data processors, template projects)
@@ -118,7 +118,7 @@ dev my-project cursor         # Open in Cursor IDE
 
 ---
 
-## Architecture: Our WSL2 Setup (Windows)
+## Windows Power Setup: WSL2 (Optional)
 
 ```text
 Windows 11 Pro (Host)
@@ -141,9 +141,9 @@ This is our team's power-user setup on Windows. **Not required** — Claude Code
 | Issue | Solution |
 |-------|----------|
 | **Claude/Codex not found** | See [Getting Started](./docs/getting-started/SETUP-GUIDE-2026.md) for install instructions |
-| **Cursor won't open from WSL** | Use `cursor .` command or see [Cursor WSL Setup](./docs/setup-guides/CURSOR-WSL-SETUP.md) |
-| **Memory growing (WSL)** | Check with `perf`, restart: `wsl --shutdown` (PowerShell) |
-| **Slow performance (WSL)** | Ensure code is in `~/repos/`, not `/mnt/c/` |
+| **Cursor won't open from WSL** | *(Windows/WSL)* Use `cursor .` command or see [Cursor WSL Setup](./docs/setup-guides/CURSOR-WSL-SETUP.md) |
+| **Memory growing in WSL** | *(Windows/WSL)* Check with `perf`, restart: `wsl --shutdown` (PowerShell) |
+| **Slow performance in WSL** | *(Windows/WSL)* Ensure code is in `~/repos/`, not `/mnt/c/` |
 
 ---
 
@@ -152,13 +152,13 @@ This is our team's power-user setup on Windows. **Not required** — Claude Code
 This repo includes sample configuration files and scripts:
 
 - `scripts/dev` — Project launcher with AI assistant integration
-- `scripts/perf` — WSL2 performance monitoring
-- `scripts/obs` — Obsidian launcher for WSL
+- `scripts/perf` — WSL2 performance monitoring **(Windows)**
+- `scripts/obs` — Obsidian launcher **(Windows/WSL)**
 - `templates/` — Reusable templates for projects, slash commands, hooks
 - `docs/` — Setup guides and reference documentation
   - `docs/railway/` — [Railway deployment guides](./docs/railway/README.md) for cloud-hosted projects
 
-**Note**: System-specific configs (like `.bashrc`, actual project paths) live in `_private/personal/` (nested git repo, git-ignored).
+**Note**: System-specific configs (like `.bashrc`, actual project paths) should be git-ignored and kept separate from the template library.
 
 ---
 
@@ -191,7 +191,7 @@ These aren't theoretical best practices. They were extracted from real usage:
 
 ### Template Categories
 
-**Slash Commands** (13 commands, 7 categories)
+**Slash Commands** (21 commands across 7 phases)
 - Development workflow: `/start-feature`, `/resume`, `/feature-complete`
 - Analysis: `/plan-approaches`, `/performance-analysis`
 - Documentation: `/audit-claude-md`, `/sync-team-docs`
@@ -223,4 +223,4 @@ These aren't theoretical best practices. They were extracted from real usage:
 
 ---
 
-Last Updated: February 13, 2026
+Last Updated: February 16, 2026

@@ -16,9 +16,9 @@ When developing on Windows 11, there are multiple approaches for running Linux t
 4. **Virtual Machine** (VirtualBox, VMware)
 5. **Mixed Approach** (some tools in Windows, some in WSL)
 
-**Key Question**: What's the best approach for my workflow with Claude Code, Codex, Cursor IDE, and data analysis projects?
+**Key Question**: When does WSL2 make sense for AI-assisted development workflows with Claude Code, Codex, and Cursor IDE?
 
-**Important**: This is a **CHOICE, not a requirement**. All these tools work on Windows native. WSL is an optimization for my specific use case.
+**Important**: This is a **CHOICE, not a requirement**. All these tools work on Windows native. WSL is an optimization for teams that need Linux-speed file I/O on Windows.
 
 ---
 
@@ -256,7 +256,7 @@ Windows:
 - [Microsoft WSL Documentation](https://learn.microsoft.com/en-us/windows/wsl/)
 - [WSL Performance Best Practices](https://learn.microsoft.com/en-us/windows/wsl/compare-versions)
 - [Set up WSL development environment](https://learn.microsoft.com/en-us/windows/wsl/setup/environment)
-- Personal performance testing: `perf --disk` script results
+- Performance testing: `perf --disk` script (included in this repo)
 
 ---
 
