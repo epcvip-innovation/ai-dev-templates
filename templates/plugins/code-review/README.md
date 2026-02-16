@@ -1,35 +1,38 @@
 # Code Review Plugin
 
-Multi-agent adversarial code review for local git changes. Designed for pre-PR review of uncommitted or recently committed work.
+Unified multi-agent adversarial code review with built-in false-positive filtering and root-cause analysis. Designed for pre-PR review of uncommitted or recently committed work.
 
 ## Quick Start
 
 ```bash
-# Review uncommitted changes
+# Full review — 5 agents + evaluation + root-cause (default)
 /local-review
 
-# Lightweight review (3 agents, ~40% less tokens)
-/local-review-lite
+# Quick review — 3 agents, no root-cause (~40% less tokens)
+/local-review --quick
 ```
 
-## Versions
+## Pipeline
 
-| Version | Agents | Focus | Token Cost |
-|---------|--------|-------|------------|
-| **Full** | 5 | Complete coverage | ~100% |
-| **Lite** | 3 | Security, Bugs, Production | ~60% |
+```
+Phase 1: Gather Changes    → git diff, load review-context.md
+Phase 2: Run Review Agents → 5 (full) or 3 (quick) agents in parallel
+Phase 3: Evaluate Findings → false-positive filtering, verdict assignment
+Phase 4: Root-Cause         → categorize surviving bugs (skipped in --quick)
+Phase 5: Output            → consolidated report with verdicts + root causes
+```
 
-### Full Version Agents
-1. **Security Auditor** - Injection, auth bypass, secrets
-2. **Bug Hunter** - Null checks, race conditions, error handling
-3. **Architecture Critic** - Duplication, coupling, abstractions
-4. **Test Skeptic** - Coverage gaps, weak assertions
-5. **Production Pessimist** - Scale issues, resource leaks
+## Agents
 
-### Lite Version Agents
-1. **Security Auditor** - Critical vulnerabilities
-2. **Bug Hunter** - Production bugs
-3. **Production Pessimist** - Reliability issues
+| # | Agent | Focus | Mode |
+|---|-------|-------|------|
+| 1 | **Security Auditor** | Injection, auth bypass, secrets | Full + Quick |
+| 2 | **Bug Hunter** | Null checks, race conditions, error handling | Full + Quick |
+| 3 | **Architecture Critic** | Duplication, coupling, abstractions | Full only |
+| 4 | **Test Skeptic** | Coverage gaps, weak assertions | Full only |
+| 5 | **Production Pessimist** | Scale issues, resource leaks | Full + Quick |
+
+All agents include self-evaluation: read source files, trace execution paths, confidence scoring (>=70 to report).
 
 ## Scope Options
 
@@ -56,48 +59,27 @@ Default: Show 60+ only. Use `--min-score 80` for critical only.
 
 See [SKILL-INSTALLATION.md](./SKILL-INSTALLATION.md) for:
 - Global vs per-project installation
+- Migration from old 3-skill pipeline
 - Customizing patterns
-- Adding project-specific rules
 
 ## Documentation
 
 | Doc | Purpose |
 |-----|---------|
+| [SKILL.md](./SKILL.md) | Main skill definition (unified pipeline) |
 | [METHODOLOGY.md](./METHODOLOGY.md) | Why multi-agent review works |
-| [SKILL-INSTALLATION.md](./SKILL-INSTALLATION.md) | Installation and customization |
-| [references/agent-personas.md](./references/agent-personas.md) | Agent definitions and prompts |
+| [SKILL-INSTALLATION.md](./SKILL-INSTALLATION.md) | Installation and migration |
+| [references/agent-personas.md](./references/agent-personas.md) | Agent definitions with self-evaluation |
 | [references/severity-scoring.md](./references/severity-scoring.md) | Scoring guidelines |
 | [references/technology-patterns.md](./references/technology-patterns.md) | Language-specific patterns |
-
-## Output Format
-
-```markdown
-# Code Review: uncommitted changes
-
-## Summary
-- Files Changed: 12 | Lines: +234/-56
-- Critical: 1 | High: 3
-
-## Critical Issues (80+)
-
-### [SECURITY] SQL injection in search endpoint
-**File**: src/api/search.ts:45
-**Score**: 95
-**Agent**: Security Auditor
-
-**Problem**: User input directly interpolated into query.
-
-**Evidence**:
-[code block]
-
-**Fix**:
-[code block]
-```
+| [references/false-positive-patterns.md](./references/false-positive-patterns.md) | Evaluation framework |
+| [references/bug-categories.md](./references/bug-categories.md) | Root-cause categorization |
+| [review-context.md.template](./review-context.md.template) | Project context template |
 
 ## Best Practices
 
-1. **Use staged scope** - Review before commit, not after
-2. **Start with 80+** - Fix critical first, then high
-3. **2-3 passes max** - Diminishing returns after that
-4. **Trust your judgment** - Filter pedantic suggestions
-5. **Add project patterns** - Customize for your codebase
+1. **Use staged scope** — review before commit, not after
+2. **Start with 80+** — fix critical first, then high
+3. **2-3 passes max** — diminishing returns after that
+4. **Create review-context.md** — reduces false positives significantly
+5. **Trust verdicts** — the evaluation phase filters pedantic suggestions

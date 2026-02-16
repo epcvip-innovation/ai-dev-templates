@@ -30,8 +30,9 @@ Claude Code has four extension mechanisms. They serve different purposes:
 
 | Plugin | Agents | Purpose | Token Cost |
 |--------|--------|---------|------------|
-| [code-review](./code-review/) | 5 | Full multi-agent adversarial review | High |
-| [code-review-lite](./code-review/) | 3 | Security + Bugs + Production focus | Medium |
+| [code-review](./code-review/) | 5 (full) / 3 (quick) | Unified review: agents + evaluation + root-cause | High / Medium |
+
+**Note**: Backlog management skills have moved to [project-management/skills/](../project-management/skills/) as part of the unified project & task management templates.
 
 ---
 
@@ -39,21 +40,21 @@ Claude Code has four extension mechanisms. They serve different purposes:
 
 ```bash
 # Copy to global skills (available in all projects)
-cp -r templates/plugins/code-review ~/.claude/skills/local-code-review
+cp -r templates/plugins/code-review ~/.claude/skills/code-review
 ```
 
-Or see [SKILL-INSTALLATION.md](./code-review/SKILL-INSTALLATION.md) for detailed options (global vs per-project).
+Or see [SKILL-INSTALLATION.md](./code-review/SKILL-INSTALLATION.md) for detailed options (global vs per-project, migration from old pipeline).
 
 ---
 
 ## Quick Usage
 
 ```bash
-# Full 5-agent review
+# Full review — 5 agents + evaluation + root-cause
 /local-review
 
-# Lightweight 3-agent review
-/local-review-lite
+# Quick review — 3 agents, no root-cause
+/local-review --quick
 
 # Review staged changes only
 /local-review --scope staged
@@ -85,54 +86,29 @@ plugin-name/
 
 ## Creating New Plugins
 
-### 1. Create the directory
+Start with the **[SKILL-TEMPLATE.md](./SKILL-TEMPLATE.md)** — it has the full annotated template, directory structure, description checklist, and testing guide.
 
-```bash
-mkdir -p ~/.claude/skills/your-plugin
-```
+### Quick steps
 
-### 2. Write `SKILL.md`
+1. **Create directory**: `mkdir -p ~/.claude/skills/your-plugin`
+2. **Copy template**: Use [SKILL-TEMPLATE.md](./SKILL-TEMPLATE.md) as your starting point
+3. **Write the description** — this is the most critical field:
 
 ```yaml
 ---
 name: your-plugin
-description: What it does. Also controls auto-triggering — Claude matches
-  natural language against this description.
+description: |
+  [Action + outcome]. Use when [context/file types/problems].
+  Triggers on "/your-plugin", "[natural language phrase 1]",
+  "[natural language phrase 2]".
 ---
-
-# Your Plugin Name
-
-## When to Use
-Describe when Claude should activate this skill.
-
-## Workflow
-1. Step one...
-2. Step two...
-3. Step three...
-
-## Output Format
-Describe expected output structure.
 ```
 
-### 3. Add references (optional)
+4. **Add references/** (optional) — move content >50 lines to separate files for progressive disclosure
+5. **Add hooks/** (optional) — for deterministic enforcement beyond advisory guidance
+6. **Test** — try 5 trigger variations, check false positives, verify consistency
 
-Put supporting context in `references/` — patterns, checklists, or domain knowledge that the skill needs but that would bloat the main SKILL.md.
-
-### 4. Add hooks (optional)
-
-If your plugin needs deterministic enforcement (not just advisory guidance), add hook scripts and document the settings.json configuration in your SKILL.md.
-
-### 5. Test
-
-```bash
-# Trigger manually
-/your-plugin
-
-# Or test auto-triggering with natural language
-"review my code for security issues"
-```
-
-**Full example**: See [code-review/](./code-review/) for a production plugin with 5 agents, severity scoring, and project-specific context.
+**Full examples**: [code-review/](./code-review/) (multi-agent review), [../project-management/skills/](../project-management/skills/) (backlog management)
 
 ---
 

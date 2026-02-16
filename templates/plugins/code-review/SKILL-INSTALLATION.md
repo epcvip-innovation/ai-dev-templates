@@ -1,35 +1,28 @@
 # Skill Installation Guide
 
-How to install, configure, and customize code review skills.
+How to install, configure, and customize the unified code review skill.
 
 ## Skill File Structure
 
-A Claude Code skill is a folder containing:
-
 ```
-skill-name/
-├── SKILL.md              # Required: Main skill definition
-├── references/           # Optional: Supporting documentation
-│   ├── patterns.md       # Domain-specific patterns
-│   └── agent-prompts.md  # Agent persona definitions
-└── scripts/              # Optional: Helper scripts
-    └── gather-context.sh
+code-review/
+├── SKILL.md                          # Main skill definition (unified pipeline)
+├── review-context.md.template        # Project context template
+├── references/
+│   ├── agent-personas.md             # Agent definitions with self-evaluation
+│   ├── severity-scoring.md           # Scoring guidelines
+│   ├── technology-patterns.md        # Language-specific patterns
+│   ├── patterns-typescript.md        # TypeScript patterns
+│   ├── patterns-react.md             # React patterns
+│   ├── patterns-python.md            # Python patterns
+│   ├── false-positive-patterns.md    # Evaluation framework
+│   └── bug-categories.md             # Root-cause categorization
+├── scripts/
+│   └── gather-context.sh             # Context gathering helper
+├── README.md
+├── METHODOLOGY.md
+└── SKILL-INSTALLATION.md             # This file
 ```
-
-### SKILL.md Format
-
-```yaml
----
-name: skill-name
-description: What it does and trigger phrases
----
-
-# Skill Title
-
-Markdown documentation describing the workflow.
-```
-
-The `description` field tells Claude when to activate this skill.
 
 ## Installation Options
 
@@ -38,12 +31,8 @@ The `description` field tells Claude when to activate this skill.
 Available in all projects:
 
 ```bash
-# Create skills directory if needed
 mkdir -p ~/.claude/skills
-
-# Copy the skill
-cp -r local-code-review ~/.claude/skills/
-cp -r local-code-review-lite ~/.claude/skills/
+cp -r templates/plugins/code-review ~/.claude/skills/code-review
 ```
 
 ### Option 2: Per-Project Install
@@ -51,26 +40,24 @@ cp -r local-code-review-lite ~/.claude/skills/
 Available only in one project:
 
 ```bash
-# In your project root
 mkdir -p .claude/skills
-cp -r local-code-review .claude/skills/
+cp -r templates/plugins/code-review .claude/skills/code-review
 ```
 
 ### Option 3: From This Template Repo
 
 ```bash
-# Clone and copy
 git clone <ai-dev-templates-repo>
-cp -r templates/plugins/code-review ~/.claude/skills/local-code-review
+cp -r templates/plugins/code-review ~/.claude/skills/code-review
 ```
 
 ## Verification
 
-After installation, verify with:
+After installation:
 
 ```bash
-ls ~/.claude/skills/
-# Should show: local-code-review, local-code-review-lite, etc.
+ls ~/.claude/skills/code-review/SKILL.md
+# Should exist
 ```
 
 Then in Claude Code:
@@ -78,11 +65,47 @@ Then in Claude Code:
 /local-review
 ```
 
+---
+
+## Migration from Old 3-Skill Pipeline
+
+The unified skill replaces three separate skills that were run sequentially:
+
+| Old Skill | Old Command | Now Handled By |
+|-----------|-------------|----------------|
+| `local-code-review` | `/local-review` | Phase 2 (agents) of unified skill |
+| `evaluate-code-review` | `/evaluate-review` | Phase 3 (evaluation) of unified skill |
+| `root-cause-analysis` | `/root-cause` | Phase 4 (root-cause) of unified skill |
+
+### Migration steps
+
+1. **Install the unified skill** (see above)
+2. **Use `/local-review`** — it now runs all three phases automatically
+3. **Old skills are deprecated** — they still work but point to the unified skill
+4. **Remove old skills when ready**:
+   ```bash
+   rm -rf ~/.claude/skills/local-code-review
+   rm -rf ~/.claude/skills/local-code-review-lite
+   rm -rf ~/.claude/skills/evaluate-code-review
+   rm -rf ~/.claude/skills/root-cause-analysis
+   ```
+
+### What changed
+
+| Before (3 skills) | After (unified) |
+|-------------------|-----------------|
+| Run `/local-review`, copy findings, run `/evaluate-review`, copy valid findings, run `/root-cause` | Run `/local-review` — all phases run automatically |
+| ~90% false positive rate from agents | Agents self-evaluate (confidence >= 70), then evaluation phase filters further |
+| No root-cause unless you remember to run it | Root-cause built in for all surviving findings (skip with `--quick`) |
+| `--lite` flag for 3 agents | `--quick` flag for 3 agents + no root-cause |
+
+---
+
 ## Customization
 
 ### Adding Project-Specific Patterns
 
-Edit `references/patterns.md` to add patterns for your codebase:
+Edit `references/technology-patterns.md` or create new `references/patterns-*.md` files:
 
 ```markdown
 ## Your Framework
@@ -90,106 +113,51 @@ Edit `references/patterns.md` to add patterns for your codebase:
 ### Critical Patterns (80+)
 - Your ORM-specific anti-patterns
 - Your auth library gotchas
-- Your API convention violations
-
-### Examples
-**Bad:**
-\`\`\`typescript
-// Your specific anti-pattern
-\`\`\`
-
-**Good:**
-\`\`\`typescript
-// Correct pattern for your codebase
-\`\`\`
 ```
 
 ### Adjusting Severity Scoring
 
-Edit `references/agent-prompts.md` to adjust what scores high/low:
+Edit `references/severity-scoring.md`:
 
 ```markdown
-## Scoring Guidelines (Modified for Your Risk Tolerance)
-
 | Scenario | Score |
 |----------|-------|
 | Any auth issue | 95+ |  # Stricter for your org
-| Missing tests | 70 |    # Higher priority for you
+| Missing tests | 70 |    # Higher priority
 ```
 
 ### Adding/Removing Agents
 
-Edit `SKILL.md` to modify the agent list:
+Edit `SKILL.md` Phase 2 and `references/agent-personas.md` to add custom agents.
 
-```markdown
-### Step 3: Run N Parallel Review Agents
+### Project Context
 
-#### Agent 1: Security Auditor
-...
+Copy `review-context.md.template` to `.claude/review-context.md` in your project. Document:
+- Known exceptions (vendor requirements, intentional designs)
+- Trusted data sources
+- Completed work paths
+- App scale context
 
-#### Agent 2: Your Custom Agent
-**Mindset**: "Your domain-specific paranoia"
-
-Reviews for:
-- Your specific concerns
-- Your compliance requirements
-```
-
-### Creating a Specialized Version
-
-1. Copy the skill folder:
-   ```bash
-   cp -r ~/.claude/skills/local-code-review ~/.claude/skills/my-review
-   ```
-
-2. Edit `SKILL.md`:
-   ```yaml
-   ---
-   name: my-review
-   description: My team's specialized code review
-   ---
-   ```
-
-3. Customize agents and patterns for your needs
+---
 
 ## Troubleshooting
 
 ### Skill Not Triggering
 
-1. Check skill is in correct location:
-   ```bash
-   ls ~/.claude/skills/local-code-review/SKILL.md
-   ```
+1. Check skill location: `ls ~/.claude/skills/code-review/SKILL.md`
+2. Verify YAML frontmatter is valid
+3. Try explicit: `/local-review`
 
-2. Verify YAML frontmatter is valid:
-   ```yaml
-   ---
-   name: local-code-review
-   description: ...
-   ---
-   ```
+### Both Old and New Skills Triggering
 
-3. Try explicit command: `/local-review`
-
-### Wrong Patterns Being Applied
-
-Skills are matched by description keywords. If wrong skill triggers:
-1. Make descriptions more specific
-2. Use explicit `/skill-name` commands
+Remove the old skills:
+```bash
+rm -rf ~/.claude/skills/local-code-review
+rm -rf ~/.claude/skills/local-code-review-lite
+```
 
 ### Token Usage Too High
 
-1. Use lite version: `/local-review-lite`
-2. Use `--agents security,bugs` to run fewer agents
-3. Use `--min-score 80` to reduce output
-4. Use `--scope staged` to review smaller diffs
-
-## Uninstalling
-
-```bash
-# Remove global skill
-rm -rf ~/.claude/skills/local-code-review
-
-# Remove per-project skill
-rm -rf .claude/skills/local-code-review
-```
+1. Use quick mode: `/local-review --quick`
+2. Use `--min-score 80` to reduce output
+3. Use `--scope staged` to review smaller diffs

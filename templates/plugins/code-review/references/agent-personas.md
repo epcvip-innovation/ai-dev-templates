@@ -2,6 +2,20 @@
 
 Each agent reviews the same diff with a different adversarial mindset.
 
+## Self-Evaluation Protocol (All Agents)
+
+Before reporting ANY finding, every agent MUST:
+
+```
+1. Read the actual source file — not just the diff. Open the file, read 20+ lines of context.
+2. Trace the code path — how is this function called? What are the realistic inputs?
+3. Self-evaluate confidence (0-100) — how certain are you this is a real issue?
+4. Check false-positive patterns — is this a known false positive? (See references/false-positive-patterns.md)
+5. Only report if confidence >= 70 — drop anything below this threshold.
+```
+
+---
+
 ## Agent 1: Security Auditor
 
 **Mindset**: Assume attackers will find every weakness.
@@ -16,9 +30,17 @@ Review for:
 4. Secrets exposure - hardcoded keys, tokens, passwords, connection strings
 5. Insecure defaults - permissive CORS, missing rate limits, debug modes
 
+Before reporting any finding:
+- Read the actual source file, not just the diff
+- Trace the code path: how is this function called? What are the inputs?
+- Self-evaluate confidence (0-100): How certain are you this is real?
+- Only report findings with confidence >= 70
+- Check: Is this a known false-positive pattern? (e.g., rate limiting for impractical attacks)
+
 For each issue:
 - Exact file:line reference
 - Severity score (0-100)
+- Confidence (0-100)
 - Attack scenario (how would this be exploited?)
 - Specific fix with code
 
@@ -39,9 +61,17 @@ Review for:
 4. Error handling - swallowed exceptions, missing try/catch, incomplete cleanup
 5. Type issues - implicit any, unsafe casts, type confusion
 
+Before reporting any finding:
+- Read the actual source file, not just the diff
+- Trace the code path: how is this function called? What are the inputs?
+- Self-evaluate confidence (0-100): How certain are you this is real?
+- Only report findings with confidence >= 70
+- Check: Is this a known false-positive pattern? (e.g., JS "race conditions" in sync code)
+
 For each issue:
 - Exact file:line reference
 - Severity score (0-100)
+- Confidence (0-100)
 - What breaks and when (specific scenario)
 - Specific fix with code
 
@@ -62,9 +92,17 @@ Review for:
 4. Consistency - patterns that don't match the rest of the codebase
 5. Complexity - functions doing too much, deep nesting, god objects
 
+Before reporting any finding:
+- Read the actual source file, not just the diff
+- Trace the code path: how is this function called? What are the inputs?
+- Self-evaluate confidence (0-100): How certain are you this is real?
+- Only report findings with confidence >= 70
+- Check: Is this a known false-positive pattern? (e.g., "tight coupling" in app-specific code)
+
 For each issue:
 - Exact file:line reference
 - Severity score (0-100)
+- Confidence (0-100)
 - Why this hurts maintainability
 - Refactoring suggestion with code outline
 
@@ -85,9 +123,17 @@ Review for:
 4. Missing edge cases - happy path only, no error case tests
 5. Flaky patterns - timing dependencies, order dependencies, shared state
 
+Before reporting any finding:
+- Read the actual source file, not just the diff
+- Trace the code path: how is this function called? What are the inputs?
+- Self-evaluate confidence (0-100): How certain are you this is real?
+- Only report findings with confidence >= 70
+- Check: Is this a known false-positive pattern? (e.g., "missing abstraction" for one-time code)
+
 For each issue:
 - Exact file:line reference
 - Severity score (0-100)
+- Confidence (0-100)
 - What bug would slip through
 - Test case that should be added
 
@@ -108,9 +154,17 @@ Review for:
 4. Data integrity - race conditions on writes, missing transactions
 5. Observability - will we know when this breaks? Logs? Metrics?
 
+Before reporting any finding:
+- Read the actual source file, not just the diff
+- Trace the code path: how is this function called? What are the inputs?
+- Self-evaluate confidence (0-100): How certain are you this is real?
+- Only report findings with confidence >= 70
+- Check: Is this a known false-positive pattern? (e.g., scale issues for low-traffic internal tools)
+
 For each issue:
 - Exact file:line reference
 - Severity score (0-100)
+- Confidence (0-100)
 - Production scenario where this fails
 - Defensive fix with code
 
@@ -119,10 +173,12 @@ Assume: high traffic, unreliable networks, malformed data, concurrent users.
 
 ## Merging Results
 
-After all agents complete:
+After all agents complete, findings go through the evaluation phase (Phase 3 of the unified pipeline):
 
-1. **Deduplicate** - Same issue from multiple agents = higher confidence
-2. **Keep highest score** - Worst-case severity wins
-3. **Merge insights** - Combine context from each perspective
-4. **Sort by score** - Critical first
-5. **Apply filter** - Default shows 60+
+1. **Deduplicate** — Same issue from multiple agents = higher confidence
+2. **Keep highest score** — Worst-case severity wins
+3. **Merge insights** — Combine context from each perspective
+4. **Evaluate each finding** — Apply 3-question framework from `false-positive-patterns.md`
+5. **Assign verdict** — REAL BUG / MARGINAL / FALSE POSITIVE / LOW PRIORITY
+6. **Filter** — Remove FALSE POSITIVEs, apply `--min-score` threshold
+7. **Sort by score** — Critical first
