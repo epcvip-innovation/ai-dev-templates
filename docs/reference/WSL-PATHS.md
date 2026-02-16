@@ -293,7 +293,7 @@ wsl ls ~/repos
 type \\wsl.localhost\Ubuntu\home\YOUR_USERNAME\repos\file.txt
 
 # Copy from WSL to Windows
-copy \\wsl.localhost\Ubuntu\home\YOUR_USERNAME\repos\file.txt C:\Users\adams\
+copy \\wsl.localhost\Ubuntu\home\YOUR_USERNAME\repos\file.txt C:\Users\YOUR_USERNAME\
 ```
 
 ---

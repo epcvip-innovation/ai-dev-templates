@@ -2,7 +2,7 @@
 
 **Status**: Active
 **Date**: 2024-09
-**Deciders**: Personal development workflow
+**Deciders**: Development team
 **Last Updated**: 2026-01-21
 
 ---
@@ -98,7 +98,7 @@ All code repositories, Claude Code, Codex, and most development tooling run in W
 ### Negative
 
 - **Learning curve** for WSL-specific concepts:
-  - Windows paths: `\\wsl.localhost\Ubuntu\home\adams\repos`
+  - Windows paths: `\\wsl.localhost\Ubuntu\home\YOUR_USERNAME\repos`
   - WSL paths: `~/repos/` (Linux) vs `/mnt/c/` (Windows)
   - Which filesystem to use for what
 - **Two worlds** to understand (Windows host + Linux guest)
@@ -152,8 +152,8 @@ WSL (Linux FS - FAST):
   ~/knowledge-base/ # Docs
 
 Windows:
-  \\wsl.localhost\Ubuntu\home\adams\repos  # Access from Windows
-  C:\Users\adams\  # Windows-only files
+  \\wsl.localhost\Ubuntu\home\YOUR_USERNAME\repos  # Access from Windows
+  C:\Users\YOUR_USERNAME\  # Windows-only files
 ```
 
 **Tool Setup**:

@@ -85,11 +85,31 @@ This repo is a **general-purpose template library** — reusable patterns for AI
 
 **Verification**: `git status` shows no `_private/` files. `_private/` has independent git history with all 37 files committed and pushed to private remote.
 
+### Pass 7 — Content Polish for Team Sharing
+**Date**: February 15, 2026
+**Scope**: 11 files (content quality, broken links, stale metadata, personal references)
+
+**What**: Final content polish fixing ~25 issues that would confuse a first-time team reader.
+
+| Category | Count | Details |
+|----------|-------|---------|
+| **Broken links** | 3 | Removed references to non-existent `context-management/` directory (README.md x2, permissions/README.md x1) |
+| **Stale counts** | 2 | Fixed slash command count (13→9 active), deprecated count (7→8) |
+| **Personal username** | 10 | Replaced `adams` with `YOUR_USERNAME` across 5 files (why-wsl, DAILY-WORKFLOW, NEW-PC-SETUP, WSL-PATHS, CLAUDE-CODE-STORAGE) |
+| **Personal metadata** | 4 | Removed "Created: September 2024", "Your September 2024 setup", personal plan file path, "Personal development workflow" |
+| **Org-specific refs** | 2 | Changed `DOIS` grep pattern to `APP`, replaced `utilities/ping-tree-compare/` reference with `templates/auth/` |
+
+**Files modified**: README.md, CLAUDE.md, templates/permissions/README.md, docs/decisions/why-wsl.md, docs/setup-guides/DAILY-WORKFLOW.md, docs/setup-guides/NEW-PC-SETUP.md, docs/reference/WSL-PATHS.md, docs/reference/CLAUDE-CODE-STORAGE.md, docs/railway/RAILWAY_WORKFLOWS.md, docs/setup-guides/LOCAL-NETWORK-SHARING.md, _BACKLOG.md
+
+**Verification**: `grep -ri "adams" docs/ templates/` returns zero results. `grep -r "context-management" .` returns zero results outside `_deprecated/`.
+
 ---
 
 ## Remaining Work
 
-The genericization effort is substantially complete. Remaining organizational references are limited to:
+The genericization and content polish effort is complete. The repo is ready for team sharing.
+
+Remaining organizational references are limited to:
 
 - **AUDIT_LOG.md** (this file) — intentionally retains org name for historical context
 - **Repo-root CLAUDE.md** — guides Claude Code within this specific repo (repo-specific by nature)

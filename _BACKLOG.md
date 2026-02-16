@@ -122,4 +122,4 @@ Added from TheDecipherist/claude-code-mastery:
 External guides evaluated:
 - [TheDecipherist/claude-code-mastery](https://github.com/TheDecipherist/claude-code-mastery) - Security hooks, MCP decision trees, research citations
 
-Comparative analysis: `/home/adams/.claude/plans/polymorphic-humming-panda.md`
+Comparative analysis: See `_private/research/` for methodology and findings

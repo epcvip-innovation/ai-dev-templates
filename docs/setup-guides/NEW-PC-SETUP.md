@@ -415,7 +415,7 @@ SSH is already running in your WSL (started Nov 12). To connect:
 
 1. In Cursor: Install "Remote - SSH" extension (if needed)
 2. `Ctrl+Shift+P` → `Remote-SSH: Connect to Host`
-3. Enter: `adams@localhost`
+3. Enter: `yourusername@localhost`
 4. Enter WSL password when prompted
 
 **Verification:**
@@ -461,7 +461,7 @@ claude                          # Start
 
 ## What's Different from Your Old Setup?
 
-✅ **Nothing major!** Your September 2024 setup is still current.
+✅ **Nothing major!** The setup documented here remains current.
 
 **New in 2025:**
 - Permission modes: Try `/permission-mode acceptEdits` for auto-accepting file edits

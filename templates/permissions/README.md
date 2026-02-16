@@ -690,7 +690,7 @@ Before finalizing `.claude/settings.local.json`:
 **Slash commands that need permissions**:
 - [start-feature](../slash-commands/feature-workflow/start-feature.md) - Needs `Bash(mkdir:*)`, `Bash(touch:*)`
 - [feature-complete](../slash-commands/completion/feature-complete.md) - Needs `Bash(git:*)`, test commands
-- [align-project-docs](../slash-commands/context-management/align-project-docs.md) - Needs `Bash(find:*)`, `Bash(grep:*)`
+- [align-project-docs](../slash-commands/ai-dev-workflow/commands/align-project-docs.md) - Needs `Bash(find:*)`, `Bash(grep:*)`
 
 **Other templates**:
 - [CLAUDE.md Guidelines](../claude-md/CLAUDE-MD-GUIDELINES.md) - File length enforcement

@@ -236,5 +236,5 @@ kill -9 <PID>
 
 - **Deploy permanently**: See [Railway Deployment Guide](../railway/README.md)
 - **Access from anywhere**: See [Multi-Device Workspace](./MULTI-DEVICE-WORKSPACE.md) (Tailscale VPN)
-- **Add authentication**: See existing patterns in `utilities/ping-tree-compare/`
+- **Add authentication**: See the Supabase auth templates in `templates/auth/`
 

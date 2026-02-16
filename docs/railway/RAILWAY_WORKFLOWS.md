@@ -230,7 +230,7 @@ railway variables
 # Filter specific variables
 railway variables | grep JWT
 railway variables | grep AWS
-railway variables | grep -E "^(DATABASE|JWT|AWS|DOIS)"
+railway variables | grep -E "^(DATABASE|JWT|AWS|APP)"
 
 # Check if required variables are set
 required_vars=("DATABASE_PATH" "JWT_SECRET_KEY" "ENVIRONMENT")

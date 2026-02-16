@@ -85,7 +85,7 @@ cursor .
 
 **Verify Connection**:
 - Check for `[WSL: Ubuntu]` indicator in bottom-left corner
-- Terminal should show `adams@DESKTOP-...` (Linux prompt)
+- Terminal should show `yourusername@HOSTNAME` (Linux prompt)
 
 **Setup Required**: See [Cursor WSL Setup](./CURSOR-WSL-SETUP.md)
 
@@ -95,7 +95,7 @@ cursor .
 
 **From Windows Explorer**:
 ```
-\\wsl.localhost\Ubuntu\home\adams\repos
+\\wsl.localhost\Ubuntu\home\YOUR_USERNAME\repos
 ```
 
 **From WSL**:

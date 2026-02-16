@@ -63,8 +63,7 @@ Evidence-based templates and setup guides for Claude Code, Codex, and AI-assiste
 - [Why WSL?](./docs/decisions/why-wsl.md) — Architecture decision: why we use WSL (it's a choice, not a requirement)
 
 ### Browse Templates
-- [**Slash Commands**](./templates/slash-commands/) — 13 commands across 7 categories
-  - [Context Management](./templates/slash-commands/context-management/) — Replace `/compact` with explicit control
+- [**Slash Commands**](./templates/slash-commands/) — 9 active commands
 - [**CLAUDE.md Structures**](./templates/claude-md/) — Lightweight project context templates
 - [**Project Organization**](./templates/projects/) — `.projects/` 3-tier backlog system
 - [**Anti-Slop Standards**](./templates/standards/) — Automated quality enforcement
@@ -80,7 +79,6 @@ Evidence-based templates and setup guides for Claude Code, Codex, and AI-assiste
 - **Set up new project** → [**New Project Setup Guide**](./docs/getting-started/NEW-PROJECT-SETUP.md)
 - **Work from iPad/phone** → [Multi-Device Workspace](./docs/setup-guides/MULTI-DEVICE-WORKSPACE.md)
 - **Browser automation/testing** → [Playwright MCP](./docs/reference/PLAYWRIGHT-MCP.md)
-- **Replace `/compact`** → [Context Management Commands](./templates/slash-commands/context-management/)
 - **Enforce query validation** → [Query Validation Hook](./templates/hooks/query-validation/)
 - **Copy a slash command** → [templates/slash-commands/](./templates/slash-commands/)
 - **Set up backlog system** → [templates/features-backlog/](./templates/features-backlog/)
@@ -229,5 +227,4 @@ These aren't theoretical best practices. They were extracted from real usage:
 
 ---
 
-Created: September 2024
 Last Updated: February 13, 2026

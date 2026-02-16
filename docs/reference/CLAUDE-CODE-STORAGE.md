@@ -74,7 +74,7 @@ Project paths are encoded by replacing `/` with `-`:
 
 | Actual Path | Encoded Folder Name |
 |-------------|---------------------|
-| `/home/adams/repos/myproject` | `-home-adams-repos-myproject` |
+| `/home/YOUR_USERNAME/repos/myproject` | `-home-YOUR_USERNAME-repos-myproject` |
 | `/mnt/c/Users/yourname/Documents/Foo` | `-mnt-c-Users-yourname-Documents-Foo` |
 
 ### File Types
@@ -179,7 +179,7 @@ grep -rl "search term" ~/.claude/projects/
 grep -r -C 2 "error message" ~/.claude/projects/
 
 # Search specific project only
-grep -r "API key" ~/.claude/projects/-home-adams-repos-myproject/
+grep -r "API key" ~/.claude/projects/-home-YOUR_USERNAME-repos-myproject/
 
 # Search recent sessions only (last 7 days)
 find ~/.claude/projects/ -name "*.jsonl" -mtime -7 -exec grep -l "search" {} \;
@@ -205,7 +205,7 @@ When searching for a specific past conversation, use this workflow:
 **Step 1: List recent main sessions (exclude subagents)**
 ```bash
 # Get project folder, list main sessions by date
-PROJECT=~/.claude/projects/-home-adams-repos-myproject
+PROJECT=~/.claude/projects/-home-YOUR_USERNAME-repos-myproject
 ls -lt "$PROJECT"/*.jsonl | grep -v agent- | head -10
 ```
 

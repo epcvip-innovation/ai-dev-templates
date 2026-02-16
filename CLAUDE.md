@@ -22,7 +22,7 @@ The core value of this repository. **Browse before using** - these are patterns 
 ### 10 Template Categories
 
 **1. Slash Commands** (`templates/slash-commands/`)
-- 9 active commands (7 deprecated, moved to `_deprecated/`)
+- 9 active commands (8 deprecated, moved to `_deprecated/`)
 - Categories: quality (`/audit-feature`, `/ai-review`), design (`/plan-approaches`), git (`/push`), debugging (`/debug-failure`)
 - Examples: `/audit-feature`, `/push`, `/plan-approaches`, `/ai-review`, `/debug-failure`
 - **See**: [templates/slash-commands/README.md](./templates/slash-commands/README.md)
