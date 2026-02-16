@@ -103,16 +103,64 @@ This repo is a **general-purpose template library** — reusable patterns for AI
 
 **Verification**: `grep -ri "adams" docs/ templates/` returns zero results. `grep -r "context-management" .` returns zero results outside `_deprecated/`.
 
+### Pass 8 — Content Audit (see _private/research/)
+**Date**: February 15, 2026
+**Scope**: Research and content quality review
+**What**: Deep content audit of template quality, accuracy, and completeness. Findings documented in `_private/research/audit-findings/`.
+
+### Pass 9 — File Inventory + Quality Audit
+**Date**: February 15, 2026
+**Scope**: All 135 public .md files (repo-wide)
+
+**What**: Created an auto-generated file inventory tool, then used it to surface and fix staleness, orphan, and bloat issues.
+
+**Tooling created**:
+- `scripts/generate-inventory.sh` — Scans all public `.md` files and generates `_FILE_INVENTORY.md` with per-file metadata (path, lines, title, git date, commit message), per-directory tables, summary stats, and audit flags (large/stale/no-heading)
+- `_FILE_INVENTORY.md` — Auto-generated output (gitignored, local audit tool)
+
+**Inventory stats**: 135 files, 41,961 total lines across 28 directories
+
+| Category | Findings | Action |
+|----------|----------|--------|
+| **Staleness** | Railway CLI version hardcoded as "4.5.5" (2 locations) | Replaced with `railway --version` instruction |
+| **Orphans fixed** | 5 files not linked from any navigation surface | Added links to appropriate READMEs/CLAUDE.md |
+| **Orphans relocated** | 1 operational file (BACKLOG_MIGRATION_PLAN.md, 611 lines) | Moved to `_private/workflow/` (org-specific migration plan) |
+
+**Orphan links added**:
+- `docs/auth/SUPABASE-CODE-PATTERNS.md` → added to `docs/auth/README.md`
+- `docs/setup-guides/LOCAL-NETWORK-SHARING.md` → added to root `CLAUDE.md`
+- `templates/ci/DECISION_FRAMEWORK.md` → added to `templates/ci/README.md`
+- `templates/ci/STATUS.md` → added to `templates/ci/README.md`
+- `templates/features-backlog/FEATURES_BACKLOG.md` → added to `templates/features-backlog/README.md`
+
+**Bloat assessment** (35 files >400 lines):
+- 4 files appropriately long (reference docs): HOOKS_REFERENCE.md (1,240), RAILWAY_AUTOMATION.md (776), RAILWAY_WORKFLOWS.md (735), RAILWAY_CONFIG_REFERENCE.md (676)
+- 5 files flagged for future trimming: standards/README.md (867), hooks/README.md (832), projects/README.md (775), permissions/README.md (702), RAILWAY_TROUBLESHOOTING.md (879)
+- Remaining 26 are deprecated commands, setup guides, or config references where length is justified
+
+**Files modified**: RAILWAY_CLI_REFERENCE.md, docs/auth/README.md, templates/ci/README.md, templates/features-backlog/README.md, CLAUDE.md, .gitignore
+
+**Files created**: scripts/generate-inventory.sh, _FILE_INVENTORY.md (gitignored)
+
+**Files relocated**: BACKLOG_MIGRATION_PLAN.md → `_private/workflow/`
+
 ---
 
 ## Remaining Work
 
-The genericization and content polish effort is complete. The repo is ready for team sharing.
+Genericization is complete. Ongoing quality maintenance:
 
-Remaining organizational references are limited to:
+### Bloat candidates (future trimming)
 
-- **AUDIT_LOG.md** (this file) — intentionally retains org name for historical context
-- **Repo-root CLAUDE.md** — guides Claude Code within this specific repo (repo-specific by nature)
+These files exceed 700 lines and have identified redundancy. Run `bash scripts/generate-inventory.sh` to refresh the full inventory.
+
+| File | Lines | Issue |
+|------|------:|-------|
+| standards/README.md | 867 | Mixes meta-docs with template walkthrough |
+| hooks/README.md | 832 | Duplicate examples across quick-overview and detailed sections |
+| RAILWAY_TROUBLESHOOTING.md | 879 | Port mismatch + health check content duplicated |
+| projects/README.md | 775 | Location options over-explained (could be table) |
+| permissions/README.md | 702 | Language-specific examples repeat similar patterns |
 
 ### What stays org-specific (intentionally)
 

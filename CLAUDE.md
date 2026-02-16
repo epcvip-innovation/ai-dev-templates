@@ -144,6 +144,7 @@ All templates extracted from real production usage, not theoretical best practic
 - **[docs/setup-guides/CLAUDE-CODE-SETUP.md](./docs/setup-guides/CLAUDE-CODE-SETUP.md)** - Claude Code deep-dive
 - **[docs/setup-guides/CODEX-SETUP.md](./docs/setup-guides/CODEX-SETUP.md)** - Codex CLI + dual-tool workflow
 - **[docs/setup-guides/CURSOR-WSL-SETUP.md](./docs/setup-guides/CURSOR-WSL-SETUP.md)** - Cursor + WSL integration
+- **[docs/setup-guides/LOCAL-NETWORK-SHARING.md](./docs/setup-guides/LOCAL-NETWORK-SHARING.md)** - Share dev servers across devices
 
 **Reference**:
 - **[docs/reference/WSL-PATHS.md](./docs/reference/WSL-PATHS.md)** - Understanding Windows ↔ WSL paths

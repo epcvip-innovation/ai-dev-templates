@@ -220,6 +220,7 @@ Manual edit _BACKLOG.md → Create feature dir → Work → Update status
 |------|---------|
 | `_BACKLOG.md` | Simple: Main backlog index |
 | `_TEMPLATE.md` | Simple: Feature plan template |
+| `FEATURES_BACKLOG.md` | Tier-based backlog template (prioritized) |
 | `folder-based/` | Advanced: Complete folder-based system |
 
 ---

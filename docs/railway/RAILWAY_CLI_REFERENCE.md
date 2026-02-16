@@ -4,7 +4,7 @@ Comprehensive Railway CLI command reference with Claude Code compatibility notes
 
 ## CLI Version
 
-Current version: 4.5.5 (as of documentation date)
+Check your installed version:
 
 ```bash
 railway --version
@@ -663,4 +663,4 @@ railway --version
 - Railway CLI GitHub: https://github.com/railwayapp/cli
 - Railway Docs: https://docs.railway.com/guides/cli
 - Your CLI Location: `~/.npm-global/bin/railway`
-- Your Version: 4.5.5
+- Check version: `railway --version`

@@ -11,6 +11,8 @@ GitHub Actions workflows for AI-assisted development using official Anthropic ac
 | [claude-qa-workflow.yml.template](./claude-qa-workflow.yml.template) | Browser-based QA with Claude + Playwright MCP |
 | [security-review.yml.template](./security-review.yml.template) | Automated security scanning on all PRs |
 | [qa-persona.md.template](./qa-persona.md.template) | QA engineer persona prompt |
+| [DECISION_FRAMEWORK.md](./DECISION_FRAMEWORK.md) | Choose the right CI template for your project |
+| [STATUS.md](./STATUS.md) | Template verification status |
 
 ## Official Actions
 

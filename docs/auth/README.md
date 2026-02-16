@@ -17,6 +17,7 @@ These docs contain setup guides specific to your environment:
 | Guide | Description |
 |-------|-------------|
 | [SUPABASE-SETUP-GUIDE.md](SUPABASE-SETUP-GUIDE.md) | How to set up a new Supabase project |
+| [SUPABASE-CODE-PATTERNS.md](SUPABASE-CODE-PATTERNS.md) | Framework-specific auth code patterns |
 | [AUTH-TROUBLESHOOTING.md](AUTH-TROUBLESHOOTING.md) | Common issues and solutions |
 
 ## Quick Start Checklist
