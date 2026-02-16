@@ -335,11 +335,86 @@ Detailed brief for merging 3 skills (local-code-review + evaluate-code-review + 
 
 ---
 
+### Pass 14 — ADVANCED-WORKFLOWS Expansion
+**Date**: February 16, 2026
+**Scope**: 3 files (ADVANCED-WORKFLOWS.md, CLAUDE.md, README.md)
+
+**What**: Expanded the power-user conceptual guide from 4 sections (272 lines) to 7 sections (386 lines), then removed volatile specifics in a follow-up sub-pass.
+
+**Phase 1: Content expansion** (ADVANCED-WORKFLOWS.md):
+
+| Section | Status | Key Additions |
+|---------|--------|---------------|
+| 1. Context Management | Expanded | MCP context costs, skill description budget, avoid list, compact-by-work-type, official 95% compaction trigger |
+| 2. Planning | **NEW** | Temporary vs durable plans, good plan elements, mandatory cleanup phases |
+| 3. Agents | Expanded | Sub-agent nesting limitation, cost awareness, model selection guidance |
+| 4. Extension Points | **NEW** | Conceptual overview of skills, hooks, MCP (hidden context costs), plugins |
+| 5. Predictability | Expanded | Scoped diffs, structured output expectations |
+| 6. Claude Code vs Codex | Expanded | Strategic comparison with current data (was 3 bullets) |
+| 7. Meta-Level Principles | **NEW** | 5 crystallized takeaways distilled from guide |
+
+**Phase 2: Volatile specifics removal** (Pass 14b):
+
+| Removed | Reason |
+|---------|--------|
+| Model versions (GPT-5.3-Codex) | Outdated within months |
+| Dollar pricing ($20-200/mo) | Changes frequently |
+| SWE-bench scores | Benchmark-specific, changes per release |
+
+Reframed model selection from cost-first ("default to cheapest") to stakes-based ("match model to stakes"). Kept durable tier names (haiku/sonnet/opus).
+
+**Files modified**: ADVANCED-WORKFLOWS.md, CLAUDE.md, README.md
+
+---
+
+### Pass 15 — README Orientation & Platform Framing
+**Date**: February 16, 2026
+**Scope**: 2 files (README.md, CLAUDE.md)
+
+**What**: Improved first-impression clarity for new readers and reduced platform-specific assumptions.
+
+| Change | Details |
+|--------|---------|
+| **Value prop opening** | README.md now opens with what the repo is and why it matters |
+| **Slash command counts** | Fixed 3 conflicting counts (9, 13 → all now 21) |
+| **WSL framing** | Renamed architecture header to "Windows Power Setup: WSL2 (Optional)" |
+| **Platform annotations** | Common Issues table rows labeled with (Windows/WSL) where applicable |
+| **Utility scripts** | Platform-annotated (perf, obs labeled as Windows-only) |
+| **CLAUDE.md** | Clarified secondary purpose: platform-agnostic first, WSL optional |
+
+**Files modified**: README.md, CLAUDE.md
+
+---
+
+### Pass 16 — Shareability Cleanup
+**Date**: February 16, 2026
+**Scope**: 12 files (1 relocated, 11 modified)
+
+**What**: Final pass addressing personal content, prescriptive framing, and broken links that would confuse team readers or external users.
+
+| Category | Count | Details |
+|----------|-------|---------|
+| **Personal content relocated** | 1 | NEW-PC-SETUP.md → `_private/personal/` (Dell Precision specs, personal RAM allocation) |
+| **`_private/` references removed** | 5 | Repository Layers section, 2× `_private/research/` refs, README note — all from CLAUDE.md and README.md |
+| **Org-specific names generalized** | 1 | "ping-tree-compare, dois-processor" → "production FastAPI services, data processors" in CLAUDE.md |
+| **Personal → team language** | 3 | why-wsl.md: "my workflow" → "when WSL makes sense", "my specific use case" → "teams that need Linux-speed file I/O" |
+| **Prescriptive framing softened** | 2 | DAILY-WORKFLOW.md: added platform-agnostic intro. MULTI-DEVICE-WORKSPACE.md: added alternatives note, simplified architecture diagram |
+| **Broken links fixed** | 2 | COMMANDS.md → DEVELOPMENT-ENVIRONMENT.md (removed). MULTI-DEVICE-WORKSPACE.md → JOURNAL.md (replaced with generic text) |
+| **Incoming links updated** | 12 | All references to removed NEW-PC-SETUP.md redirected to SETUP-GUIDE-2026.md or Microsoft WSL docs |
+
+**Files modified**: CLAUDE.md, README.md, _BACKLOG.md, why-wsl.md, CLAUDE-CODE-QUICKSTART.md, SETUP-GUIDE-2026.md, COMMANDS.md, CURSOR-WSL-SETUP.md, DAILY-WORKFLOW.md, MULTI-DEVICE-WORKSPACE.md, _FILE_INVENTORY.md (gitignored)
+
+**File relocated**: docs/setup-guides/NEW-PC-SETUP.md → `_private/personal/`
+
+**Verification**: Zero `NEW-PC-SETUP` references in public docs (outside AUDIT_LOG.md). Zero `_private/` references in CLAUDE.md. Zero "my workflow"/"my specific" in why-wsl.md. Zero broken links to DEVELOPMENT-ENVIRONMENT.md or JOURNAL.md.
+
+---
+
 ## Remaining Work
 
-### Pass 14 — Dev Server Genericization
+### Dev Server Skill Genericization
 
-Genericize the dev-server skill for the template library.
+Genericize the dev-server skill for the template library. Currently has hardcoded repo-specific startup sequences. See `_BACKLOG.md` P1 item.
 
 ### Future improvements (lower priority)
 
@@ -347,12 +422,12 @@ Genericize the dev-server skill for the template library.
 - Add `backlog-start` to template library (exists in fwaptile-wordle only)
 - Enhance descriptions on remaining non-flagship skills
 - Evaluate `allowed-tools` frontmatter for sensitive skills
+- Remaining `ping-tree-compare` references in template case studies (4 files) — acceptable as concrete examples but could be genericized in a future pass
 
 Run `bash scripts/generate-inventory.sh` to refresh the full file inventory.
 
 ### What stays org-specific (intentionally)
 
-- Repo-root `CLAUDE.md` — guides Claude Code within this specific repo
 - `AUDIT_LOG.md` — historical record of the audit process
 
 ---
