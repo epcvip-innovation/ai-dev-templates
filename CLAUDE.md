@@ -183,7 +183,7 @@ cursor .            # Open Cursor (Remote-WSL)
 - Research methodology and audit findings in `_private/research/` (separate repo)
 
 **Reference**:
-- [docs/reference/ADVANCED-WORKFLOWS.md](./docs/reference/ADVANCED-WORKFLOWS.md) - Context management, agents, predictability, model strategy
+- [docs/reference/ADVANCED-WORKFLOWS.md](./docs/reference/ADVANCED-WORKFLOWS.md) - 7-section power-user guide: context, planning, agents, extensions, predictability, tool strategy, meta-principles
 
 **Environment Setup** (Secondary):
 - [README.md](./README.md) - Main hub for all documentation

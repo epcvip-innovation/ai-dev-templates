@@ -1,8 +1,8 @@
-# Advanced Workflows: Context, Agents, Predictability & Strategy
+# Advanced Workflows: Power-User Guide
 
 [← Back to Main README](../../README.md)
 
-Power-user guide for working effectively with Claude Code at scale. Covers the conceptual foundations that setup guides don't: how context windows actually work, when to use sub-agents, how to engineer predictable outputs, and how to choose models strategically.
+Power-user guide for working effectively with Claude Code at scale. Covers conceptual foundations that setup guides don't: how context windows actually work, planning systems, sub-agents, extension points, engineering predictable outputs, tool strategy, and meta-level principles.
 
 **Audience**: Developers already comfortable with Claude Code who want to work more effectively on complex, multi-session projects.
 
@@ -17,13 +17,24 @@ Claude Code's 200k token context window fills from multiple sources simultaneous
 | Source | Typical Size | Notes |
 |--------|-------------|-------|
 | CLAUDE.md (all levels) | 1-3k tokens | Loaded every session |
+| Skill descriptions | Up to 2% of context | Always present when skills are configured (fallback: 16k chars) |
+| MCP tool definitions | 0.5-2k per server | Fixed overhead; auto tool-search enables at 10% of context |
 | Files read with Read tool | 1-10k per file | Accumulates fast during exploration |
 | Tool output (Bash, Grep, etc.) | 0.5-5k per call | Large outputs get truncated |
-| MCP server definitions | 0.5-2k per server | Fixed overhead per configured server |
 | Sub-agent results | 1-5k per agent | Summarized, not raw |
-| Conversation history | Grows continuously | The biggest consumer |
+| Conversation history | Grows continuously | The biggest consumer over time |
 
 **Key insight**: Performance degrades *before* you hit the ceiling. Research suggests quality drops noticeably past ~120k tokens due to attention diffusion — the model has more to attend to, so each piece gets less focus.
+
+### What to Avoid
+
+These are the most common context wasters:
+
+- **Dumping entire log files** — Pipe through `tail -50` or grep for the error first
+- **Reading files you already read** — Claude remembers file contents within the session
+- **Redundant instructions** — If it's in CLAUDE.md, don't repeat it in prompts
+- **Unbounded searches** — `Grep` across the entire repo when you know the directory
+- **Large MCP outputs** — MCP responses warn at 10k tokens and cap at 25k (configurable via `MAX_MCP_OUTPUT_TOKENS`)
 
 ### Treat Context as a Budget, Not a Container
 
@@ -52,7 +63,7 @@ The most important context management technique: **write things down in files in
 
 ### Auto-Compact: What Survives and What Doesn't
 
-When context fills, Claude Code automatically compacts the conversation. Understanding what survives helps you work with it:
+Auto-compaction triggers at approximately **95% of context capacity**. When it fires, Claude Code summarizes the conversation to free space.
 
 **Survives well**:
 - Recent messages and tool calls
@@ -66,7 +77,7 @@ When context fills, Claude Code automatically compacts the conversation. Underst
 - The "why" behind rejected approaches
 - Intermediate reasoning steps
 
-**Compact instructions in CLAUDE.md**: You can add a section to CLAUDE.md telling Claude what to preserve during compaction:
+**Compact instructions in CLAUDE.md**: You can add a section telling Claude what to preserve during compaction:
 
 ```markdown
 ## On Context Compaction
@@ -81,14 +92,60 @@ When compacting, preserve:
 
 Use `/compact` proactively at natural breakpoints:
 
-- **After investigation, before implementation** — You've explored the codebase, found the issue, now clear the investigation debris before writing code
+- **After investigation, before implementation** — Clear exploration debris before writing code
 - **Before large test runs** — Test output can flood context; start clean
 - **Between phases** — Finished the API? Compact before starting the UI
 - **After resolving tangents** — Got sidetracked debugging a dependency? Compact to refocus
 
+### Compact Rules by Work Type
+
+Different tasks need different information preserved. Add these to your compact instructions:
+
+| Work Type | Preserve | Summarize |
+|-----------|----------|-----------|
+| **Refactors** | File list, naming conventions, patterns applied | Individual file diffs |
+| **Bug hunts** | Reproduction steps, hypotheses tested, stack traces | Exploration dead-ends |
+| **Release workflows** | Checklist, version numbers, deployment targets | Build logs, test output |
+| **Multi-file features** | Architecture decisions, interface contracts, file dependency order | Individual implementation details |
+
 ---
 
-## 2. Agents and Sub-Agents
+## 2. Planning Systems
+
+### Temporary vs Durable Plans
+
+Not every task needs a plan file. Match the planning mechanism to the task:
+
+| Task Scope | Planning Method | When |
+|-----------|----------------|------|
+| Single-file fix, <30 min | In-chat discussion | Quick tasks with clear scope |
+| Multi-file, single session | `plan.md` in project root | Needs structure but won't span sessions |
+| Multi-session or multi-person | `.claude/plans/feature-name.md` | Must survive restarts, handoffs |
+
+### What Good Plans Contain
+
+1. **Goal** — One sentence: what does "done" look like?
+2. **Constraints** — What can't change? (API contracts, DB schema, performance budgets)
+3. **Ordered steps** — Numbered, with dependencies explicit
+4. **Verification** — How to confirm each step worked (test commands, expected output)
+5. **Human checkpoints** — Where to pause for review before continuing
+
+**See**: [PLAN_QUALITY_RUBRIC.md](../../templates/standards/PLAN_QUALITY_RUBRIC.md) for the full scoring framework.
+
+### Mandatory Cleanup Phases
+
+Plans that end at "feature works" accumulate debt. Every non-trivial plan should include:
+
+1. **Code cleanup** — Remove dead code, debug statements, commented-out experiments
+2. **Comment cleanup** — Delete resolved TODOs, update stale comments, remove obvious narration
+3. **Lint/format pass** — Run the project's formatter and linter
+4. **Final verification** — Tests pass, no regressions, `git diff` review for accidental changes
+
+These aren't optional polish — they're the difference between "it works" and "it's shippable."
+
+---
+
+## 3. Agents and Sub-Agents
 
 ### Why Sub-Agents Exist
 
@@ -140,11 +197,11 @@ Main conversation                    Sub-agent
 
 ### Model Selection for Agents
 
-| Agent Task | Recommended Model | Cost (Input/MTok) | Rationale |
-|-----------|-------------------|-------------------|-----------|
-| File scanning, pattern finding | haiku | $1.00 | Speed and cost; accuracy sufficient for search |
-| Code review, bug hunting | sonnet | $3.00 | Needs reasoning but not deep architecture insight |
-| Architecture decisions, complex refactors | opus | $5.00 | Worth the cost for critical decisions |
+| Agent Task | Recommended Model | Rationale |
+|-----------|-------------------|-----------|
+| File scanning, pattern finding | haiku | Speed and cost; accuracy sufficient for search |
+| Code review, bug hunting | sonnet | Needs reasoning but not deep architecture insight |
+| Architecture decisions, complex refactors | opus | Worth the premium for critical decisions |
 
 ### Downsides to Know
 
@@ -152,10 +209,69 @@ Main conversation                    Sub-agent
 - **Divergent edits** — Two agents modifying the same file will conflict. Assign non-overlapping scopes
 - **No shared context** — Agent A doesn't know what Agent B found. You're the coordinator
 - **Overhead** — For a 3-second Grep, spawning an agent adds 10-30 seconds of startup overhead
+- **No nesting** — Sub-agents cannot spawn their own sub-agents. Design workflows with one level of delegation
+
+### Cost Awareness
+
+Default to the cheapest model that gets the job done:
+
+- **Haiku for scanning/exploration** — Searching files, pattern matching, summarizing. Fast, cheap, sufficient
+- **Sonnet for standard implementation** — Writing code, reviewing changes, moderate reasoning
+- **Opus for architecture/critical debugging** — Complex multi-file reasoning, security reviews, design decisions
+
+The instinct to use the strongest model for everything wastes budget without improving results for routine tasks. A haiku agent scanning 20 files costs a fraction of an opus agent doing the same work at comparable accuracy.
 
 ---
 
-## 3. Engineering Predictability
+## 4. Extension Points: Skills, Hooks, MCP
+
+Claude Code's behavior can be extended through four mechanisms. This section covers the conceptual model — see linked READMEs for implementation details.
+
+### Skills
+
+Reusable instruction bundles that teach Claude new capabilities. Skills use progressive disclosure to manage context cost:
+
+1. **Description** (always loaded) — Short summary, ~2% of context budget. Determines when the skill activates
+2. **Full instructions** (on invocation) — Complete prompt with steps, examples, guardrails. Only loaded when triggered
+3. **References** (on demand) — Supporting files read during execution. Loaded only if the skill needs them
+
+**Key implication**: Skill descriptions are always in context. Keep them short. A 500-word description permanently consumes tokens every session.
+
+**See**: [SKILL-TEMPLATE.md](../../templates/plugins/SKILL-TEMPLATE.md) for the creation pattern.
+
+### Hooks
+
+Shell commands that run at workflow events. The **determinism lever** — unlike prompt instructions (which Claude *might* follow), hooks enforce behavior through exit codes:
+
+- **Exit 0**: Allow the operation
+- **Exit 2**: Block the operation (Claude sees the error message and must adapt)
+
+This is deterministic. No amount of prompt drift can bypass an exit code 2.
+
+**Use hooks for**: query validation, secret detection, format enforcement, commit message standards.
+
+**See**: [Hooks README](../../templates/hooks/README.md) for event types and implementation patterns.
+
+### MCP (Model Context Protocol)
+
+MCP servers give Claude access to external tools (databases, browsers, APIs). They work well but have hidden context costs:
+
+- **Tool definitions consume context** — Each MCP server's tool schemas are loaded into context. More servers = less room for conversation
+- **Auto tool-search** — When MCP tool definitions exceed 10% of context, Claude Code enables tool-search mode (tools are looked up on demand instead of all being present)
+- **Output limits** — MCP responses warn at 10k tokens and hard-cap at 25k tokens by default
+- **Monitor with** `MAX_MCP_OUTPUT_TOKENS` env var to adjust the cap when needed
+
+**Practical advice**: Only enable the MCP servers you actually need for the current project. A Supabase + Playwright + Railway + GitHub setup may consume 5-10% of context before you type anything.
+
+### Plugins (Team Distribution)
+
+Plugins package skills + hooks + references into distributable bundles for team use. They're the delivery mechanism, not a separate concept.
+
+**See**: [Plugins README](../../templates/plugins/README.md) for the full taxonomy (skills vs commands vs hooks vs plugins).
+
+---
+
+## 5. Engineering Predictability
 
 ### The Core Problem
 
@@ -177,19 +293,6 @@ CLAUDE.md guidance   ← Weak-Medium (read every session, but advisory)
 Prompt instructions  ← Weakest (can be forgotten mid-session)
 ```
 
-### Hooks as the Primary Determinism Lever
-
-Hooks are shell commands that run at workflow events. Unlike prompt instructions (which Claude *might* follow), hooks enforce behavior through exit codes:
-
-- **Exit 0**: Allow the operation
-- **Exit 2**: Block the operation (Claude sees the error message)
-
-**This is deterministic**. No amount of prompt drift can bypass an exit code 2.
-
-**Example**: Query validation hook ensures every database query is validated before execution. Claude can't "forget" this step — the hook physically blocks unvalidated queries.
-
-**See**: [templates/hooks/README.md](../../templates/hooks/README.md) for implementation patterns.
-
 ### Reproducibility Techniques
 
 Beyond hooks, these patterns improve consistency:
@@ -198,6 +301,8 @@ Beyond hooks, these patterns improve consistency:
 2. **Explicit success criteria** — "Done when all 3 tests pass and the type error on line 47 is resolved"
 3. **Verify before proceeding** — "Run the tests, show me the output, then move to the next file"
 4. **Plan files as contracts** — Write the plan, get approval, execute against it. Drift is visible because the plan is written down
+5. **Scoped diffs** — "Only modify files in `src/auth/` — don't touch anything else"
+6. **Structured output expectations** — "Return a table with columns: file, change, reason" reduces ambiguity in responses
 
 ### When NOT to Enforce Predictability
 
@@ -211,62 +316,71 @@ Match enforcement level to the task. Investigation gets loose reins; production 
 
 ---
 
-## 4. Strategic Model and Tool Usage
+## 6. Claude Code vs Codex CLI
 
-### Not All Models for All Tasks
+### Codex CLI
 
-The instinct to always use the most powerful model wastes money and sometimes speed:
+OpenAI's terminal-based coding agent. Default model: GPT-5.3-Codex. Included with ChatGPT Plus ($20/mo) through Pro ($200/mo) — flat-rate, no per-token billing.
 
-| Task Type | Best Model | Why |
-|-----------|-----------|-----|
-| File scanning, simple searches | Haiku ($1/MTok in) | Speed matters, reasoning depth doesn't |
-| Standard implementation | Sonnet ($3/MTok in) | Good balance of speed, quality, cost |
-| Architecture, complex debugging | Opus ($5/MTok in) | Worth the premium for critical decisions |
-| Browser automation (CI) | Haiku ($1/MTok in) | Same accuracy as Sonnet for browser tasks (61% OSWorld) |
+**Strengths**: Autonomous task delegation with approval gates, cost-predictable for heavy usage, good at batch operations.
 
-**See**: [COST_OPTIMIZATION_GUIDE.md](../../templates/testing/COST_OPTIMIZATION_GUIDE.md) for detailed pricing and benchmarks.
+**Workflow**: Give it a task, it proposes changes, you approve or reject. More "autonomous agent" than "pair programmer."
 
-### Context is Your Scarcest Resource
+### Claude Code
 
-More valuable than tokens or money: **attention quality**. A clean 50k-token context outperforms a cluttered 150k-token context.
+Anthropic's terminal-based coding agent. Sub-agent ecosystem, skills/hooks/plugins for workflow customization, interactive tight-control workflow.
 
-**Practical rules**:
-- Start complex tasks with a fresh session (or `/compact`)
-- Read only what you need, not "everything that might be relevant"
-- Close investigative threads before opening new ones
-- Externalize findings to files as you go
+**Strengths**: Rich extension points (skills, hooks, MCP), fine-grained control over behavior, strong multi-file reasoning with Opus.
 
-### The Dual-Tool Pattern
+**Workflow**: Interactive pair programming — you guide, it implements, you verify. More "collaborative" than "autonomous."
 
-Running Claude Code and a second AI tool (Codex CLI, Cursor) simultaneously:
+### Strategic Usage
 
-1. **Write in one, review in the other** — Different models catch different issues
-2. **Competing approaches** — Ask both the same architecture question, compare answers
-3. **Verification** — One tool implements, the other verifies the approach
+**Choose Claude Code for**:
+- Interactive debugging where you need to steer the investigation
+- Complex multi-step workflows requiring tight control at each stage
+- Projects with custom skills, hooks, or MCP integrations
+- Architecture decisions requiring deep reasoning (Opus)
 
-**See**: [CODEX-SETUP.md](../setup-guides/CODEX-SETUP.md) for dual-tool workflow setup.
+**Choose Codex for**:
+- Autonomous batch tasks ("update all test files to use new pattern")
+- Cost-sensitive workflows with high token volume (flat-rate pricing)
+- Quick, hands-off delegation where approval gates are sufficient
+- Second-opinion reviews of Claude Code's output
 
-### Human Checkpoints Still Matter
+**Cross-review pattern**: Build in one tool, review in the other. Different models catch different classes of issues. Both score ~80% on SWE-bench Verified — comparable accuracy, different workflow philosophies.
 
-AI accelerates development; it doesn't replace judgment. Insert human review at:
+**See**: [CODEX-SETUP.md](../setup-guides/CODEX-SETUP.md) for installation and dual-tool workflow.
 
-- **Architecture boundaries** — Before committing to a pattern that will propagate
-- **Security-sensitive changes** — Auth, permissions, data access
-- **Irreversible operations** — Database migrations, deployments, data deletions
-- **Cross-system integration** — Where your code meets external systems
+---
 
-The cost of pausing to review is minutes. The cost of an unreviewed mistake can be hours or days.
+## 7. Meta-Level Principles
+
+Five themes that cut across every section of this guide:
+
+1. **Context is scarce** — Treat it like memory in a constrained system. Every token spent on noise is unavailable for signal. Budget context deliberately.
+
+2. **Externalize state** — Write decisions, plans, and findings to files. Conversation memory is volatile; files are durable. The best context management is not needing context at all.
+
+3. **Choose models deliberately** — Not all tasks need the strongest model. Haiku for scanning, Sonnet for implementation, Opus for architecture. Default to the cheapest model that gets the job done.
+
+4. **Engineer predictability** — Plans, hooks, compact rules, and scoped instructions stabilize behavior. Prompting alone is insufficient for repeatable workflows.
+
+5. **Human checkpoints matter** — AI accelerates development; it doesn't replace architectural judgment. Insert review at security boundaries, irreversible operations, and cross-system integrations. The cost of pausing to review is minutes; the cost of an unreviewed mistake can be hours.
 
 ---
 
 ## See Also
 
 - [CLAUDE-MD-GUIDELINES.md](../../templates/claude-md/CLAUDE-MD-GUIDELINES.md) — Keeping CLAUDE.md lightweight
+- [PLAN_QUALITY_RUBRIC.md](../../templates/standards/PLAN_QUALITY_RUBRIC.md) — Scoring framework for implementation plans
 - [Hooks README](../../templates/hooks/README.md) — Workflow automation and enforcement
-- [COST_OPTIMIZATION_GUIDE.md](../../templates/testing/COST_OPTIMIZATION_GUIDE.md) — Model pricing and testing costs
-- [BUILTIN_VS_CUSTOM.md](../decisions/BUILTIN_VS_CUSTOM.md) — When to use built-in vs custom tooling
 - [Plugins README](../../templates/plugins/README.md) — Skills, commands, and plugin taxonomy
+- [SKILL-TEMPLATE.md](../../templates/plugins/SKILL-TEMPLATE.md) — Creating new skills
+- [COST_OPTIMIZATION_GUIDE.md](../../templates/testing/COST_OPTIMIZATION_GUIDE.md) — Model pricing and testing costs
+- [CODEX-SETUP.md](../setup-guides/CODEX-SETUP.md) — Codex installation and dual-tool workflow
+- [BUILTIN_VS_CUSTOM.md](../decisions/BUILTIN_VS_CUSTOM.md) — When to use built-in vs custom tooling
 
 ---
 
-**Last Updated**: 2026-02-15
+**Last Updated**: 2026-02-16

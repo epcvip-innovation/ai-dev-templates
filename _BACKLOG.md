@@ -13,7 +13,7 @@
 
 ## P1 - High Priority
 
-### Pass 14: Dev Server Skill Genericization
+### Pass 15: Dev Server Skill Genericization
 **Priority:** P1
 **Added:** 2026-02-15
 **Source:** Pass 11 skills audit — flagship skill #3
@@ -43,12 +43,13 @@
 **Priority:** P2
 **Added:** 2026-02-15
 **Source:** Gap analysis during content audit
+**Partially addressed:** Pass 14 added strategic comparison to ADVANCED-WORKFLOWS.md Section 6
 
-**Problem:** Current CODEX-SETUP.md covers installation but lacks capability comparison, quality benchmarks, and integration patterns.
+**Problem:** CODEX-SETUP.md covers installation but lacks detailed capability comparison and integration patterns beyond what's in ADVANCED-WORKFLOWS.
 
-**Blocked by:** Needs real dual-tool usage data to be evidence-based (not speculative).
+**Blocked by:** Needs more real dual-tool usage data to be evidence-based (not speculative).
 
-**Action:** After accumulating more dual-tool workflow experience, add capability comparison and quality benchmarks.
+**Action:** After accumulating more dual-tool workflow experience, add detailed capability comparison and quality benchmarks to CODEX-SETUP.md.
 
 ---
 
@@ -163,6 +164,17 @@
 ---
 
 ## Completed
+
+### 2026-02-16: Pass 14 — Expand ADVANCED-WORKFLOWS to 7-Section Power-User Guide
+- Expanded from 4 sections (272 lines) to 7 sections (386 lines)
+- Section 1 (Context): Added MCP context costs, skill description budget, avoid list, compact-by-work-type, official 95% compaction trigger
+- Section 2 (Planning): NEW — temporary vs durable plans, good plan elements, mandatory cleanup phases. Links to PLAN_QUALITY_RUBRIC
+- Section 3 (Agents): Added sub-agent nesting limitation, cost awareness subsection with model selection guidance
+- Section 4 (Extension Points): NEW — conceptual overview of skills, hooks, MCP (hidden context costs), plugins. Links to implementation READMEs
+- Section 5 (Predictability): Added scoped diffs, structured output expectations to reproducibility techniques
+- Section 6 (Claude Code vs Codex): Expanded from 3 bullets to proper strategic comparison with current data
+- Section 7 (Meta-Level Principles): NEW — 5 crystallized takeaways distilled from the guide
+- Updated cross-references in CLAUDE.md, README.md
 
 ### 2026-02-16: Pass 13 — Backlog Management Consolidation
 - Consolidated 3 overlapping categories (features-backlog, projects, plugins/backlog-management) into `templates/project-management/`
