@@ -38,29 +38,25 @@ This workflow has evolved through several iterations, incorporating lessons lear
 - **`template/` folder:** Contains the clean, copy-paste-ready commands for bootstrapping a new project.
 - **`design/` folder:** Contains this document—the history, philosophy, and rationale that is essential for the template's maintainer but is unnecessary clutter for a project using the template.
 
-### V4: Streamlined Commands (January 2026)
-- **Key Change:** After 6+ months of real-world usage (esp. fwaptile-wordle project), we identified which commands provide genuine value vs. those superseded by Claude Code built-in features.
+### V4: Built-in Alternatives Documented (January 2026)
+- **Key Change:** After 6+ months of real-world usage, we identified built-in Claude Code features that overlap with custom commands. Rather than deprecate, we documented tradeoffs so users can choose the right tool.
 
-**Deprecation decisions:**
-| Command | Real-world finding | Action |
-|---------|-------------------|--------|
-| `start-feature` | Claude's built-in `/plan` mode does this better | Deprecated |
-| `resume-feature` | Built-in plan files + session management | Deprecated |
-| `session-handoff` | Auto-compact improvements reduce need | Deprecated |
-| `add-task` | TodoWrite tool is more flexible | Deprecated |
-| `check-drift` | Not used in practice | Deprecated |
-| `audit/*` sub-commands | Better as plugin agents with sub-tasks | Deprecated |
+**Alternatives identified:**
+| Command | Built-in Alternative | Tradeoff |
+|---------|---------------------|----------|
+| `start-feature` | `/plan` mode | Custom adds backlog integration + YAML frontmatter |
+| `resume-feature` | Session restore | Custom uses HANDOFF.md for explicit, structured context |
+| `session-handoff` | Auto-compact | Custom provides 100% reliable, reviewable context preservation |
+| `add-task` | TodoWrite tool | Custom persists in plan.md with frontmatter (cross-session) |
+| `check-drift` | Manual review | Custom automates plan-vs-implementation comparison |
+| `audit/*` sub-commands | code-review plugin | Custom for one-off audits; plugin for auto-triggered reviews |
 
-**New insight: Plugins > Slash Commands**
-- Plugins support auto-triggers based on natural language
-- Plugin sub-tasks can't be ignored (unlike optional slash commands)
-- Plugin hooks provide lifecycle control
+**Complementary tools — Plugins + Slash Commands:**
+- Plugins support auto-triggers based on natural language — best for workflows that should always run
+- Slash commands are explicit and user-controlled — best for on-demand audits and utilities
+- Both approaches are valid; choose based on whether you want opt-in or always-on behavior
 
-**Commands retained:**
-- `/audit-feature` - Still valuable for comprehensive quality checks
-- `/push` - Critical for safe commit workflows (added in V4)
-- `/debug-failure` - Unique Socratic debugging approach
-- `/plan-approaches` - Useful for early design exploration
+**All 21 commands retained as active examples.** See `README.md` for the full command reference with tradeoff guidance.
 
 ---
 

@@ -144,23 +144,46 @@ This repo is a **general-purpose template library** — reusable patterns for AI
 
 **Files relocated**: BACKLOG_MIGRATION_PLAN.md → `_private/workflow/`
 
+### Pass 10 — Un-deprecate Slash Commands + Bloat Trimming
+**Date**: February 15, 2026
+**Scope**: 12 file moves, 7 files modified, 2 minor fixes
+
+**What**: Reversed incorrect deprecation of 12 slash commands (7 general + 5 audit lenses) and condensed 5 bloated README files. The repo's purpose is to demonstrate BOTH custom commands and built-in alternatives with tradeoff documentation.
+
+**Phase 1: Un-deprecate slash commands**:
+
+| Action | Details |
+|--------|---------|
+| **Moved** | 7 files from `commands/_deprecated/` → `commands/` |
+| **Moved** | 5 files from `commands/_deprecated/audit/` → `commands/audit/` (new directory) |
+| **Deleted** | Empty `_deprecated/` and `_deprecated/audit/` directories |
+| **Rewrote** | `templates/slash-commands/README.md` — unified 21-command listing by workflow phase, added Custom Commands vs Built-in Features comparison table, removed "Plugins > Slash Commands" framing |
+| **Reframed** | `templates/slash-commands/DESIGN_RATIONALE.md` V4 section — changed from "deprecation decisions" to "alternatives identified" with tradeoffs |
+
+**Phase 2: Trim 5 bloated files** (verbose multi-option explanations → comparison tables):
+
+| File | Before | After | Savings | Key Changes |
+|------|-------:|------:|--------:|-------------|
+| templates/standards/README.md | 867 | 183 | 684 | Template walkthrough → table reference, 3 language examples → table + 1, troubleshooting → table |
+| templates/hooks/README.md | 832 | 248 | 584 | Hook examples → table, 3 installation patterns → table + 1 example, 5 practices → table + 1 canonical example, troubleshooting → table |
+| docs/railway/RAILWAY_TROUBLESHOOTING.md | 879 | 249 | 630 | Merged health check + port mismatch, deployment/database/cron issues → tables + 1 example each |
+| templates/projects/README.md | 775 | 206 | 569 | 3 storage options → comparison table, AI patterns → table + 1 example, 3 real-world examples → 1 detailed |
+| templates/permissions/README.md | 702 | 168 | 534 | 7 categories → table, 3 strategies → table + 1 example, 4 language examples → table |
+| **Total** | **4,055** | **1,054** | **3,001** | |
+
+**Phase 3: Minor fixes**:
+- Moved "Enhanced Security Hooks" from "In Progress" to "Completed" in `_BACKLOG.md`
+- Updated CLAUDE.md: fixed slash command count (9 → 21), removed deprecated framing
+
+**Verification**: `ls commands/_deprecated/` fails (gone). `commands/` has 16 files + `audit/` directory with 5 files. Zero "deprecated" references in slash-commands README. ~3,001 lines trimmed across 5 files (4,055 → 1,054).
+
 ---
 
 ## Remaining Work
 
-Genericization is complete. Ongoing quality maintenance:
+Genericization is complete. Bloat trimming complete (Pass 10). Ongoing quality maintenance only.
 
-### Bloat candidates (future trimming)
-
-These files exceed 700 lines and have identified redundancy. Run `bash scripts/generate-inventory.sh` to refresh the full inventory.
-
-| File | Lines | Issue |
-|------|------:|-------|
-| standards/README.md | 867 | Mixes meta-docs with template walkthrough |
-| hooks/README.md | 832 | Duplicate examples across quick-overview and detailed sections |
-| RAILWAY_TROUBLESHOOTING.md | 879 | Port mismatch + health check content duplicated |
-| projects/README.md | 775 | Location options over-explained (could be table) |
-| permissions/README.md | 702 | Language-specific examples repeat similar patterns |
+Run `bash scripts/generate-inventory.sh` to refresh the full file inventory.
 
 ### What stays org-specific (intentionally)
 

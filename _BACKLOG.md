@@ -7,13 +7,7 @@
 
 ## In Progress
 
-### Enhanced Security Hooks
-**Status:** Completed
-**Added:** 2026-01-15
-
-Added from TheDecipherist/claude-code-mastery:
-- `sensitive-file-blocker-enhanced.py` - Multi-strategy secrets detection
-- `dangerous-commands-blocker.py` - Destructive command prevention
+*(None currently)*
 
 ---
 
@@ -162,6 +156,13 @@ Added from TheDecipherist/claude-code-mastery:
 ---
 
 ## Completed
+
+### Enhanced Security Hooks
+**Completed:** 2026-01-15
+
+Added from TheDecipherist/claude-code-mastery:
+- `sensitive-file-blocker-enhanced.py` - Multi-strategy secrets detection
+- `dangerous-commands-blocker.py` - Destructive command prevention
 
 ### 2026-02-15: Content Audit & Conceptual Guide
 - Created `docs/reference/ADVANCED-WORKFLOWS.md` (context management, agents, predictability, model strategy)

@@ -22,7 +22,7 @@ The core value of this repository. **Browse before using** - these are patterns 
 ### 10 Template Categories
 
 **1. Slash Commands** (`templates/slash-commands/`)
-- 9 active commands (8 deprecated, moved to `_deprecated/`)
+- 21 active commands (16 general + 5 audit lenses)
 - Categories: quality (`/audit-feature`, `/ai-review`), design (`/plan-approaches`), git (`/push`), debugging (`/debug-failure`)
 - Examples: `/audit-feature`, `/push`, `/plan-approaches`, `/ai-review`, `/debug-failure`
 - **See**: [templates/slash-commands/README.md](./templates/slash-commands/README.md)
@@ -176,7 +176,7 @@ cursor .            # Open Cursor (Remote-WSL)
 
 **Template Library** (Primary):
 - [templates/README.md](./templates/README.md) - Complete template library overview
-- [templates/slash-commands/](./templates/slash-commands/) - 9 active workflow commands
+- [templates/slash-commands/](./templates/slash-commands/) - 21 workflow commands
 - [templates/plugins/](./templates/plugins/) - Claude Code skills (code-review, backlog)
 - [templates/features-backlog/](./templates/features-backlog/) - Simple & folder-based backlog systems
 - [templates/claude-md/](./templates/claude-md/) - CLAUDE.md structure templates
