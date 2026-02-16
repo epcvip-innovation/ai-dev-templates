@@ -1,0 +1,8 @@
+#!/bin/bash
+# Safety net: block any staged files under _private/
+if git diff --cached --name-only | grep -q '^_private/'; then
+  echo "ERROR: Attempted to commit files from _private/"
+  echo "These files belong to the private nested repo."
+  echo "cd _private && git add/commit there instead."
+  exit 1
+fi

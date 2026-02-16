@@ -6,7 +6,7 @@ This file provides guidance to Claude Code when working with this repository.
 
 ## Repository Purpose
 
-This is an **AI workflow template library and personal documentation hub**, built from 6+ months of real-world AI-assisted development experience.
+This is an **AI workflow template library**, built from 6+ months of real-world AI-assisted development experience.
 
 **Primary Purpose**: 66 template files across 10 categories for AI-assisted development
 - Evidence-based approach: 239+ commits analyzed across 4 production repositories
@@ -85,6 +85,20 @@ The core value of this repository. **Browse before using** - these are patterns 
 - Severity scoring, technology-specific patterns
 - **See**: [templates/plugins/README.md](./templates/plugins/README.md)
 
+## Repository Layers
+
+This repo has three layers of content:
+
+| Layer | Location | Visibility | Purpose |
+|-------|----------|-----------|---------|
+| Private | `_private/` | Gitignored (own repo) | Personal configs, research intake, workflow preferences |
+| Templates | `templates/` | Public | Reusable AI dev patterns (10 categories) |
+| Docs | `docs/` | Public | Setup guides, reference, decisions |
+
+`_private/` is a nested git repo — it's version-controlled separately and structurally invisible to this repo's git. See `_private/README.md` for setup instructions.
+
+**Safety**: `.gitignore` excludes `_private/`, and a pre-commit hook (`scripts/hooks/pre-commit`) blocks accidental staging. Install with: `cp scripts/hooks/pre-commit .git/hooks/pre-commit`
+
 ## Research & Evidence
 
 ### Evidence-Based Approach
@@ -96,7 +110,7 @@ All templates extracted from real production usage, not theoretical best practic
 2. **Validation**: 239+ commits analyzed for recurring patterns
 3. **Refinement**: Tested in new projects, iterated based on feedback
 
-**Note**: Research methodology and audit findings (PATTERNS-SUMMARY.md, EXTRACTION-ROADMAP.md, audit-findings/) are excluded from this repository for brevity. Templates are production-validated and ready for use.
+**Note**: Research methodology and audit findings live in `_private/research/` (separate repo). Templates are production-validated and ready for use.
 
 ## Using This Repository
 
@@ -169,7 +183,7 @@ cursor .            # Open Cursor (Remote-WSL)
 - [templates/testing/](./templates/testing/) - Playwright + Claude Code testing patterns
 
 **Research & Evidence**:
-- Research methodology and audit findings excluded from repository for brevity
+- Research methodology and audit findings in `_private/research/` (separate repo)
 
 **Environment Setup** (Secondary):
 - [README.md](./README.md) - Main hub for all documentation

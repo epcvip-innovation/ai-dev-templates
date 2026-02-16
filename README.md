@@ -158,7 +158,7 @@ This repo includes sample configuration files and scripts:
 - `docs/` — Setup guides and reference documentation
   - `docs/railway/` — [Railway deployment guides](./docs/railway/README.md) for cloud-hosted projects
 
-**Note**: System-specific configs (like `.bashrc`, actual project paths) live in `personal/` (git-ignored).
+**Note**: System-specific configs (like `.bashrc`, actual project paths) live in `_private/personal/` (nested git repo, git-ignored).
 
 ---
 

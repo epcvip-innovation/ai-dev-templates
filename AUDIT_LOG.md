@@ -64,6 +64,27 @@ This repo is a **general-purpose template library** — reusable patterns for AI
 
 **Verification**: Near-zero EPCVIP references remaining in template content. Only AUDIT_LOG.md (this file) retains references for historical context.
 
+### Pass 6 — Three-Layer Restructuring
+**Date**: February 15, 2026
+**Scope**: Entire repo structure
+
+**What**: Separated the repo into three distinct layers — private (personal configs, research), templates (public patterns), and docs (public guides). Created a nested git repo (`_private/`) that's structurally invisible to the parent repo.
+
+| Action | Details |
+|--------|---------|
+| **Created** | `_private/` as nested git repo (`ahhhdum/ai-dev-private`) |
+| **Moved** | `personal/` (19 files) → `_private/personal/` |
+| **Moved** | `research/` (11 files) → `_private/research/{methodology,audit-findings,audit-research}/` |
+| **Created** | `_private/research/SOURCES.md` — master source registry |
+| **Created** | `_private/research/intake/` — chronological research intake log |
+| **Created** | `_private/workflow/` — personal AI workflow preferences (4 stubs) |
+| **Updated** | `.gitignore` — replaced `personal/` + `research/` entries with `_private/` |
+| **Added** | Pre-commit hook (`scripts/hooks/pre-commit`) blocking `_private/` staging |
+| **Deleted** | `.projects/fresh-repo-deployment/` (empty) |
+| **Updated** | `CLAUDE.md`, `README.md` — documented three-layer system |
+
+**Verification**: `git status` shows no `_private/` files. `_private/` has independent git history with all 37 files committed and pushed to private remote.
+
 ---
 
 ## Remaining Work

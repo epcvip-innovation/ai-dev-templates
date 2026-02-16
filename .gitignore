@@ -1,5 +1,2 @@
-# Personal setup files (not for public repo)
-personal/
-
-# Research methodology and audit findings (excluded for brevity)
-research/
+# Private content (nested git repo — version controlled separately)
+_private/
