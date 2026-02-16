@@ -2,6 +2,8 @@
 
 A comprehensive guide to cost-effective testing strategies combining traditional tests with AI-powered QA.
 
+**For model selection strategy beyond testing**, see [ADVANCED-WORKFLOWS.md](../../docs/reference/ADVANCED-WORKFLOWS.md).
+
 ---
 
 ## Testing Pyramid with Cost Analysis

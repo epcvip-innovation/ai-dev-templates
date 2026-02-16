@@ -185,6 +185,9 @@ cursor .            # Open Cursor (Remote-WSL)
 **Research & Evidence**:
 - Research methodology and audit findings in `_private/research/` (separate repo)
 
+**Reference**:
+- [docs/reference/ADVANCED-WORKFLOWS.md](./docs/reference/ADVANCED-WORKFLOWS.md) - Context management, agents, predictability, model strategy
+
 **Environment Setup** (Secondary):
 - [README.md](./README.md) - Main hub for all documentation
 - [docs/setup-guides/DAILY-WORKFLOW.md](./docs/setup-guides/DAILY-WORKFLOW.md) - Daily workflow guide

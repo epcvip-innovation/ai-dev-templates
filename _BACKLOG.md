@@ -1,6 +1,6 @@
 # ai-dev-templates Backlog
 
-**Last Updated:** 2026-01-15
+**Last Updated:** 2026-02-15
 **Purpose**: Track improvements to the template library itself
 
 ---
@@ -24,6 +24,32 @@ Added from TheDecipherist/claude-code-mastery:
 ---
 
 ## P2 - Medium Priority
+
+### MCP Consolidation Guide
+**Priority:** P2
+**Added:** 2026-02-15
+**Source:** Gap analysis during content audit
+
+**Problem:** MCP guidance is scattered across CLAUDE-CODE-CONFIG, PLAYWRIGHT-MCP, RAILWAY_MCP_GUIDE, and MCP-DECISION-TREES (draft). No single reference explains MCP types, cost implications, and when to use which server.
+
+**Blocked by:** MCP-DECISION-TREES.md still has unvalidated TODOs. Needs real usage data before consolidation.
+
+**Action:** Create a single "MCP Patterns" reference in `docs/reference/` that consolidates the scattered content.
+
+---
+
+### Codex Comparison Depth
+**Priority:** P2
+**Added:** 2026-02-15
+**Source:** Gap analysis during content audit
+
+**Problem:** Current CODEX-SETUP.md covers installation but lacks capability comparison, quality benchmarks, and integration patterns.
+
+**Blocked by:** Needs real dual-tool usage data to be evidence-based (not speculative).
+
+**Action:** After accumulating more dual-tool workflow experience, add capability comparison and quality benchmarks.
+
+---
 
 ### Research Citations for Context Management
 **Priority:** P2
@@ -72,6 +98,33 @@ Added from TheDecipherist/claude-code-mastery:
 
 ## P3 - Low Priority
 
+### Context Management Research Citations
+**Priority:** P3 (promoted from P2 research item)
+**Added:** 2026-02-15
+**Source:** ADVANCED-WORKFLOWS.md creation
+
+**Action:** Validate and add citations to ADVANCED-WORKFLOWS.md Section 1:
+- "39% performance drop" when mixing topics — find original source
+- "Lost-in-the-middle" effect — LLMs recall beginning/end better than middle
+- Attention diffusion past ~120k tokens — quantify with research
+
+**Blocked by:** Citations need verified sources (arXiv, official docs, blog with methodology)
+
+---
+
+### Agent Orchestration Patterns
+**Priority:** P3
+**Added:** 2026-02-15
+**Source:** ADVANCED-WORKFLOWS.md creation
+
+**Problem:** ADVANCED-WORKFLOWS.md covers basic agent patterns but doesn't document failure modes, context sharing workarounds, or cost projections for multi-agent workflows.
+
+**Blocked by:** Needs more production usage data to be evidence-based.
+
+**Action:** Document failure modes, cost projections, and context sharing patterns after accumulating real multi-agent usage.
+
+---
+
 ### Global CLAUDE.md Pattern
 **Priority:** P3
 **Added:** 2026-01-15
@@ -109,6 +162,12 @@ Added from TheDecipherist/claude-code-mastery:
 ---
 
 ## Completed
+
+### 2026-02-15: Content Audit & Conceptual Guide
+- Created `docs/reference/ADVANCED-WORKFLOWS.md` (context management, agents, predictability, model strategy)
+- Rewrote `templates/plugins/README.md` with proper taxonomy (skills vs commands vs hooks vs plugins)
+- Trimmed redundancy in CLAUDE-MD-GUIDELINES, hooks/README, PLAYWRIGHT_CLAUDE_GUIDE, NEW-PROJECT-SETUP
+- Added cross-links between related docs
 
 ### 2026-01-15: Security Hooks from TheDecipherist
 - Added `sensitive-file-blocker-enhanced.py`

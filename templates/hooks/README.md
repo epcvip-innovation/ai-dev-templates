@@ -71,25 +71,16 @@ Claude Code hooks are shell commands that execute at specific workflow events:
 
 ---
 
-### 3b. Enhanced Sensitive File Blocker (Example) - NEW
+### 3b. Enhanced Sensitive File Blocker (Example)
 **Path**: [`examples/sensitive-file-blocker/sensitive-file-blocker-enhanced.py`](./examples/sensitive-file-blocker/sensitive-file-blocker-enhanced.py)
-**Use case**: Comprehensive secrets/credentials protection
-**Features**:
-- Multi-strategy detection: exact filenames, extensions, path patterns
-- 30+ blocked filenames (vs 4 in basic version)
-- Extension blocking (.pem, .key, .p12, .jks, .crt)
-- Regex path patterns (/secrets/, /credentials/, etc.)
-- SSH key protection (id_rsa, id_ed25519, known_hosts)
-- Cloud credentials (.aws/credentials, .gcloud/, .azure/)
-- Optional Read blocking
 
-**When to use**: Any project handling credentials or sensitive data
+Extends the basic blocker above with: multi-strategy detection (exact names, extensions, regex path patterns), 30+ blocked filenames, SSH/cloud credential protection, and optional Read blocking. Use this version for projects handling credentials or sensitive data.
 
 **Attribution**: Based on [TheDecipherist/claude-code-mastery](https://github.com/TheDecipherist/claude-code-mastery)
 
 ---
 
-### 5. Dangerous Commands Blocker (Example) - NEW
+### 5. Dangerous Commands Blocker (Example)
 **Path**: [`examples/dangerous-commands-blocker/`](./examples/dangerous-commands-blocker/)
 **Use case**: Prevent destructive Bash commands
 **Features**:
@@ -832,6 +823,10 @@ For comprehensive hook documentation including:
 
 ---
 
-**Last Updated**: 2025-11-03
+**For the determinism philosophy behind hooks** (why hooks are the strongest enforcement lever, the predictability stack): see [ADVANCED-WORKFLOWS.md](../../docs/reference/ADVANCED-WORKFLOWS.md).
+
+---
+
+**Last Updated**: 2026-02-15
 **Maintained By**: dev-setup template library
 **Evidence**: Extracted from implementing global query validation hook across 4 repositories

@@ -260,52 +260,9 @@ test('two users can chat', async ({ twoUsers }) => {
 
 ## What Scripted Tests Actually Check
 
-**Critical understanding**: Tests only verify what you explicitly assert.
+Tests only verify what you explicitly assert — they won't catch CSS issues, broken images, or console errors unless you add assertions for them.
 
-```typescript
-// This test checks:
-await page.click('[data-testid="submit"]');
-await expect(page).toHaveURL('/success');  // ✅ URL changed
-await expect(page.locator('h1')).toHaveText('Welcome');  // ✅ Heading text
-
-// It does NOT check:
-// ❌ CSS styling (colors, fonts, layout)
-// ❌ Image loading
-// ❌ Other text on page
-// ❌ Console errors
-// ❌ Performance
-// ❌ Accessibility
-```
-
-### Adding More Coverage
-
-**Console error checking**:
-```typescript
-test.beforeEach(async ({ page }) => {
-  page.on('console', msg => {
-    if (msg.type() === 'error') {
-      console.error('Browser console error:', msg.text());
-    }
-  });
-});
-```
-
-**Visual regression**:
-```typescript
-await expect(page).toHaveScreenshot('homepage.png');
-// Fails if screenshot differs from baseline
-```
-
-**Accessibility**:
-```typescript
-import AxeBuilder from '@axe-core/playwright';
-
-test('should pass accessibility checks', async ({ page }) => {
-  await page.goto('/');
-  const results = await new AxeBuilder({ page }).analyze();
-  expect(results.violations).toHaveLength(0);
-});
-```
+**Extend coverage** with: `page.on('console', ...)` for console errors, `toHaveScreenshot()` for visual regression, and `@axe-core/playwright` for accessibility. See [Playwright docs](https://playwright.dev/docs/test-assertions) for full assertion reference.
 
 ## Debugging & Artifacts
 

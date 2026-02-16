@@ -75,6 +75,9 @@ Evidence-based templates and setup guides for Claude Code, Codex, and AI-assiste
 - [**Plugins**](./templates/plugins/) — Claude Code skills (code review, backlog)
 - [**All Templates →**](./templates/)
 
+### Concepts & Reference
+- **[Advanced Workflows](./docs/reference/ADVANCED-WORKFLOWS.md)** — Context management, agents, predictability, model strategy
+
 ### Common Tasks
 - **Set up new project** → [**New Project Setup Guide**](./docs/getting-started/NEW-PROJECT-SETUP.md)
 - **Work from iPad/phone** → [Multi-Device Workspace](./docs/setup-guides/MULTI-DEVICE-WORKSPACE.md)

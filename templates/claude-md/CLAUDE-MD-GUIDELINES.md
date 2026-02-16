@@ -226,63 +226,11 @@ Run `/audit-claude-md` quarterly to detect these:
 
 ## Good vs Bad Examples
 
-### ✅ GOOD: claude-dev-template (178 lines)
+**✅ GOOD** (178 lines): Sections 5-15 lines each, references 4 external docs, framework-specific warnings only, no embedded standards.
 
-**Why it's good**:
-- Stays under 200 lines ✅
-- Critical Tailwind v4 warnings (Claude trained on v3) ✅
-- References 4 other docs (README, QUICK_REF, SETUP, CLAUDE.md) ✅
-- Most sections 5-15 lines ✅
-- Heavy warnings for template protection (appropriate) ✅
-- No embedded coding standards ✅
+**❌ BAD** (512 lines): 89 lines of embedded coding standards, 51 lines of statistical formulas, no modular references. Fix: extract to CODING_STANDARDS.md + STATISTICAL_REFERENCE.md + DEVELOPMENT_GUIDE.md → 178 lines.
 
-**Structure**:
-```markdown
-## Project Purpose (8 lines)
-## Tech Stack (6 lines)
-## Key Configuration (40 lines) - Tailwind v4 critical warnings
-## Commands (8 lines)
-## Artifact Workflow (12 lines)
-## Troubleshooting (15 lines)
-## Development Notes (15 lines)
-## Documentation Map (5 lines)
-## Testing (18 lines)
-## Common Requests (18 lines)
-```
-
-**Total**: 178 lines, modular, appropriate detail for template protection
-
----
-
-### ❌ BAD: dois-test-capacity-planner (512 lines) - **BLOAT**
-
-**Why it's bloated**:
-- 156% over guidance (512 vs 200 line target) ❌
-- Embedded 89 lines of coding standards ❌
-- Embedded 51 lines of statistical formulas ❌
-- No modular references (embedded instead) ❌
-- Many sections >30 lines ❌
-
-**What should be extracted**:
-1. **CODING_STANDARDS.md** (164 lines):
-   - Code Quality Standards (89 lines)
-   - Component Guidelines (30 lines)
-   - Error Handling Philosophy (25 lines)
-   - Common Pitfalls (20 lines)
-
-2. **STATISTICAL_REFERENCE.md** (67 lines):
-   - Key Domain Concepts (16 lines)
-   - Working with Calculations (51 lines)
-
-3. **DEVELOPMENT_GUIDE.md** (95 lines):
-   - Project Structure (30 lines)
-   - Typical Workflow (10 lines)
-   - Understanding Data Model (25 lines)
-   - Resources (30 lines)
-
-**After refactoring**: 512 → 178 lines (same as template!)
-
-**See**: [example-refactored.md](./example-refactored.md) for detailed before/after
+**See**: [example-refactored.md](./example-refactored.md) for detailed before/after with full extraction walkthrough.
 
 ---
 
@@ -419,7 +367,9 @@ Add to CLAUDE.md itself:
 
 **If any answer is "no"**: Create separate doc, add 1-line reference.
 
+**For broader context management strategy** (why size matters, how compaction works, externalizing state): see [ADVANCED-WORKFLOWS.md](../../docs/reference/ADVANCED-WORKFLOWS.md).
+
 ---
 
-**Maintained**: 2025-11-01
-**Next Review**: 2026-02-01 (quarterly)
+**Maintained**: 2026-02-15
+**Next Review**: 2026-05-15 (quarterly)

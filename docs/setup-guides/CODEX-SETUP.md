@@ -189,6 +189,7 @@ codex
 
 **Reference**:
 - [Commands Reference](../reference/COMMANDS.md) — All available commands
+- [Advanced Workflows](../reference/ADVANCED-WORKFLOWS.md) — Model selection strategy, dual-tool patterns
 
 **Official**:
 - [OpenAI Codex CLI (GitHub)](https://github.com/openai/codex)

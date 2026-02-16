@@ -215,98 +215,14 @@ cp templates/ci/security-review.yml .github/workflows/
 
 ## Built-in Plugins Reference
 
-### /feature-dev:feature-dev
+| Plugin | Trigger | Purpose |
+|--------|---------|---------|
+| `/feature-dev` | "implement X", `/feature-dev` | Guided feature development with architecture focus |
+| `/local-review` | "review changes", `/local-review` | 5-agent adversarial code review |
+| `/local-review-lite` | "quick review", `/local-review-lite` | 3-agent fast review (lower token cost) |
+| `/code-review [URL]` | `/code-review 123` | Review existing pull requests |
 
-**Purpose**: Guided feature development with codebase understanding and architecture focus.
-
-**When to use**:
-- Starting new features
-- Need architecture guidance
-- Unfamiliar with codebase patterns
-
-**Triggers**:
-- `/feature-dev`
-- "help me implement [feature]"
-- "add [feature] to the project"
-
-**What it does**:
-1. Analyzes existing codebase patterns
-2. Proposes implementation approach
-3. Guides through implementation steps
-4. Suggests tests and documentation
-
-**Setup**: None - built into Claude Code
-
----
-
-### /local-code-review
-
-**Purpose**: 5-agent adversarial code review for thorough analysis.
-
-**Agents**:
-| Agent | Focus |
-|-------|-------|
-| Security Auditor | Vulnerabilities, injection, auth issues |
-| Bug Hunter | Logic errors, edge cases, race conditions |
-| Code Quality Analyst | Maintainability, patterns, complexity |
-| Performance Pessimist | Bottlenecks, memory leaks, N+1 queries |
-| Production Pessimist | Deployment risks, config issues, monitoring |
-
-**When to use**:
-- Before creating PRs
-- Reviewing significant changes
-- Security-sensitive code
-
-**Triggers**:
-- `/local-review`
-- "review my changes"
-- "code review"
-- "what did I break"
-
-**Output**: Severity-scored findings with actionable fixes
-
-**Setup**: None - built into Claude Code
-
----
-
-### /local-code-review-lite
-
-**Purpose**: 3-agent fast code review with lower token usage.
-
-**Agents**:
-| Agent | Focus |
-|-------|-------|
-| Security Auditor | Vulnerabilities, injection, auth issues |
-| Bug Hunter | Logic errors, edge cases |
-| Production Pessimist | Deployment risks, monitoring |
-
-**When to use**:
-- Quick reviews during development
-- WIP changes
-- Lower-stakes code
-
-**Triggers**:
-- `/local-review-lite`
-- "quick review"
-- "lite review"
-
-**Setup**: None - built into Claude Code
-
----
-
-### /code-review:code-review
-
-**Purpose**: Review existing pull requests.
-
-**When to use**:
-- Reviewing others' PRs
-- Getting second opinion on PR
-
-**Triggers**:
-- `/code-review [PR-URL]`
-- `/code-review 123` (PR number)
-
-**Setup**: None - built into Claude Code (requires GitHub access)
+All built-in — no setup required. For detailed agent descriptions, trigger patterns, and customization options, see [templates/plugins/README.md](../../templates/plugins/README.md).
 
 ---
 
