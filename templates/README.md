@@ -2,7 +2,7 @@
 
 Production-validated patterns for AI-assisted development.
 
-**Updated**: January 2026
+**Updated**: February 2026
 
 ---
 
@@ -12,47 +12,37 @@ Production-validated patterns for AI-assisted development.
 |------|-------|
 | **New project setup** | [Getting Started Guide](../docs/getting-started/NEW-PROJECT-SETUP.md) |
 | **Built-in vs custom?** | [Decision Guide](../docs/decisions/BUILTIN_VS_CUSTOM.md) |
-| **Backlog management** | [Features Backlog](./features-backlog/README.md) |
+| **Task/backlog management** | [Project Management](./project-management/README.md) |
 | **Code review** | [Plugins](./plugins/README.md) |
 
 ---
 
-## 11 Template Categories
+## 9 Template Categories
 
 | Category | Purpose | Entry Point |
 |----------|---------|-------------|
-| **slash-commands** | CLI command templates (9 active) | [README](./slash-commands/README.md) |
+| **slash-commands** | CLI command templates (21 active) | [README](./slash-commands/README.md) |
 | **claude-md** | CLAUDE.md structure patterns | [README](./claude-md/README.md) |
-| **plugins** | Claude Code skills (code-review, backlog) | [README](./plugins/README.md) |
-| **features-backlog** | Simple & folder-based backlog systems | [README](./features-backlog/README.md) |
+| **plugins** | Claude Code skills (code-review) | [README](./plugins/README.md) |
+| **project-management** | Tasks, backlogs, .projects/ cross-session | [README](./project-management/README.md) |
 | **standards** | Anti-slop quality standards | [ANTI_SLOP_STANDARDS.md](./standards/ANTI_SLOP_STANDARDS.md) |
 | **hooks** | Workflow automation hooks | [README](./hooks/README.md) |
-| **projects** | Project organization patterns | [README](./projects/README.md) |
 | **permissions** | Tool access configuration | [README](./permissions/README.md) |
 | **testing** | Playwright + Claude Code patterns | [PLAYWRIGHT_CLAUDE_GUIDE.md](./testing/PLAYWRIGHT_CLAUDE_GUIDE.md) |
 | **ci** | GitHub Actions workflows | [README](./ci/README.md) |
-| **auth** | Supabase Auth & access control patterns | [README](./auth/README.md) |
 
 ---
 
-## Key Insight: Plugins > Slash Commands
+## Extension Mechanisms
 
-Based on real-world usage:
+Claude Code has four extension mechanisms — each serves a different purpose:
 
-- **Plugins** auto-trigger, support hooks, and sub-tasks can't be ignored
-- **Slash commands** are good for utilities (`/push`, `/audit`)
-- **Python utilities** are valuable for data operations (backlog indexing)
+- **Skills** auto-trigger on natural language, best for complex multi-step workflows
+- **Slash commands** are explicit and reliable, best for utilities (`/push`, `/audit`)
+- **Hooks** are deterministic (shell scripts), best for validation and formatting
+- **Python utilities** are best for data operations (backlog indexing, search)
 
 See [BUILTIN_VS_CUSTOM.md](../docs/decisions/BUILTIN_VS_CUSTOM.md) for detailed guidance.
-
----
-
-## Template Counts
-
-- **66 template files** across 10 categories
-- **9 active slash commands** (7 deprecated, moved to `_deprecated/`)
-- **5 plugin skills** (code-review agents, backlog management)
-- **3 Python utilities** for backlog enforcement
 
 ---
 
@@ -64,4 +54,4 @@ These templates were extracted from real production usage across 239+ commits in
 
 ---
 
-**Last Updated**: 2026-01-15
+**Last Updated**: 2026-02-16

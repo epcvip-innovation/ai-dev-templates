@@ -8,7 +8,7 @@ This file provides guidance to Claude Code when working with this repository.
 
 This is an **AI workflow template library**, built from 6+ months of real-world AI-assisted development experience.
 
-**Primary Purpose**: 66 template files across 10 categories for AI-assisted development
+**Primary Purpose**: 66 template files across 9 categories for AI-assisted development
 - Evidence-based approach: 239+ commits analyzed across 4 production repositories
 - 10 template categories: slash commands, CLAUDE.md structures, anti-slop standards, hooks, project organization, features backlog, permissions, testing, CI/CD, plugins
 - Ready for personal use, team adoption, and future public sharing
@@ -51,38 +51,34 @@ The core value of this repository. **Browse before using** - these are patterns 
 - Latest addition (Nov 2025)
 - **See**: [templates/hooks/README.md](./templates/hooks/README.md)
 
-**5. Project Organization** (`templates/projects/`)
-- `.projects/` 3-tier backlog system (active, backlog, icebox)
-- Prevents "forgotten feature" syndrome
-- Integrates with slash commands
-- **See**: [templates/projects/README.md](./templates/projects/README.md)
+**5. Project & Task Management** (`templates/project-management/`)
+- Unified guide: native Tasks, `.projects/` cross-session pattern, single-file and folder-based backlogs
+- YAML frontmatter for tracking status, priority, effort calibration
+- Python utilities for indexing, validation, duplicate detection
+- Optional backlog skills (experimental auto-trigger)
+- **See**: [templates/project-management/README.md](./templates/project-management/README.md)
 
-**6. Features Backlog** (`templates/features-backlog/`)
-- Two approaches: Simple (single-file) or Folder-based (with Python utilities)
-- YAML frontmatter for tracking status, priority, effort
-- **See**: [templates/features-backlog/README.md](./templates/features-backlog/README.md)
-
-**7. Permissions** (`templates/permissions/`)
+**6. Permissions** (`templates/permissions/`)
 - Environment-based tool access configuration
 - Reduces approval prompts
 - **See**: [templates/permissions/README.md](./templates/permissions/README.md)
 
-**8. Testing** (`templates/testing/`)
+**7. Testing** (`templates/testing/`)
 - Playwright E2E testing patterns for Claude Code projects
 - Two modes: scripted tests (CI/regression) vs MCP (Claude-driven exploration)
 - Page Object Model and multi-user fixture patterns
 - **See**: [templates/testing/PLAYWRIGHT_CLAUDE_GUIDE.md](./templates/testing/PLAYWRIGHT_CLAUDE_GUIDE.md)
 
-**9. CI/CD** (`templates/ci/`)
+**8. CI/CD** (`templates/ci/`)
 - GitHub Actions workflows for AI-assisted development
 - Claude QA: Automated PR verification with Claude + Playwright MCP
 - QA persona prompting for consistent, thorough reviews
 - **See**: [templates/ci/README.md](./templates/ci/README.md)
 
-**10. Plugins** (`templates/plugins/`)
-- Claude Code skills for common workflows
-- Multi-agent adversarial code review (5-agent and 3-agent lite versions)
-- Severity scoring, technology-specific patterns
+**9. Plugins** (`templates/plugins/`)
+- Claude Code skills for common workflows (code-review)
+- Unified code review: 5-phase pipeline (agents → evaluation → root-cause), `--quick` for 3-agent mode
+- Includes [SKILL-TEMPLATE.md](./templates/plugins/SKILL-TEMPLATE.md) for creating new skills
 - **See**: [templates/plugins/README.md](./templates/plugins/README.md)
 
 ## Repository Layers
@@ -92,7 +88,7 @@ This repo has three layers of content:
 | Layer | Location | Visibility | Purpose |
 |-------|----------|-----------|---------|
 | Private | `_private/` | Gitignored (own repo) | Personal configs, research intake, workflow preferences |
-| Templates | `templates/` | Public | Reusable AI dev patterns (10 categories) |
+| Templates | `templates/` | Public | Reusable AI dev patterns (9 categories) |
 | Docs | `docs/` | Public | Setup guides, reference, decisions |
 
 `_private/` is a nested git repo — it's version-controlled separately and structurally invisible to this repo's git. See `_private/README.md` for setup instructions.
@@ -177,8 +173,8 @@ cursor .            # Open Cursor (Remote-WSL)
 **Template Library** (Primary):
 - [templates/README.md](./templates/README.md) - Complete template library overview
 - [templates/slash-commands/](./templates/slash-commands/) - 21 workflow commands
-- [templates/plugins/](./templates/plugins/) - Claude Code skills (code-review, backlog)
-- [templates/features-backlog/](./templates/features-backlog/) - Simple & folder-based backlog systems
+- [templates/plugins/](./templates/plugins/) - Claude Code skills (code-review)
+- [templates/project-management/](./templates/project-management/) - Task tracking, backlogs, .projects/
 - [templates/claude-md/](./templates/claude-md/) - CLAUDE.md structure templates
 - [templates/standards/](./templates/standards/) - Anti-slop standards & documentation strategy
 - [templates/testing/](./templates/testing/) - Playwright + Claude Code testing patterns

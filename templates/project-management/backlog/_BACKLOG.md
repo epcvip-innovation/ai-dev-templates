@@ -63,10 +63,13 @@
 ## Notes
 
 **Priority Levels:**
-- P1: High value, do this sprint
-- P2: Medium value, next 2-4 weeks  
-- P3: Low priority, when time permits
-- P4: Blocked or on hold
+
+| Priority | Criteria | Effort | Response |
+|----------|----------|--------|----------|
+| P1 | High value, core functionality | 1-4h | This sprint |
+| P2 | Important but not urgent | 4-8h | Next 2-4 weeks |
+| P3 | Nice-to-have, polish | 1-3h | When time permits |
+| P4 | Blocked, uncertain value, or needs research | 6h+ | Wait for resolution |
 
 **Effort:** Always in hours (1h, 4h, 8h, 16h)
 

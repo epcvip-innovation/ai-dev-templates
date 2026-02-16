@@ -63,16 +63,15 @@ Evidence-based templates and setup guides for Claude Code, Codex, and AI-assiste
 - [Why WSL?](./docs/decisions/why-wsl.md) — Architecture decision: why we use WSL (it's a choice, not a requirement)
 
 ### Browse Templates
-- [**Slash Commands**](./templates/slash-commands/) — 9 active commands
+- [**Slash Commands**](./templates/slash-commands/) — 21 active commands
 - [**CLAUDE.md Structures**](./templates/claude-md/) — Lightweight project context templates
-- [**Project Organization**](./templates/projects/) — `.projects/` 3-tier backlog system
+- [**Project & Task Management**](./templates/project-management/) — Tasks, backlogs, `.projects/` cross-session
 - [**Anti-Slop Standards**](./templates/standards/) — Automated quality enforcement
-- [**Features Backlog**](./templates/features-backlog/) — Tier-based prioritization
 - [**Permissions**](./templates/permissions/) — Tool access configuration
 - [**Hooks**](./templates/hooks/) — Workflow automation and validation hooks
 - [**Testing**](./templates/testing/) — Playwright + Claude Code testing patterns
 - [**CI/CD**](./templates/ci/) — GitHub Actions for AI-assisted development
-- [**Plugins**](./templates/plugins/) — Claude Code skills (code review, backlog)
+- [**Plugins**](./templates/plugins/) — Claude Code skills (code review)
 - [**All Templates →**](./templates/)
 
 ### Concepts & Reference
@@ -84,7 +83,7 @@ Evidence-based templates and setup guides for Claude Code, Codex, and AI-assiste
 - **Browser automation/testing** → [Playwright MCP](./docs/reference/PLAYWRIGHT-MCP.md)
 - **Enforce query validation** → [Query Validation Hook](./templates/hooks/query-validation/)
 - **Copy a slash command** → [templates/slash-commands/](./templates/slash-commands/)
-- **Set up backlog system** → [templates/features-backlog/](./templates/features-backlog/)
+- **Set up backlog system** → [templates/project-management/](./templates/project-management/)
 - **Learn anti-slop principles** → [templates/standards/ANTI_SLOP_STANDARDS.md](./templates/standards/ANTI_SLOP_STANDARDS.md)
 - **Browse documentation patterns** → [templates/standards/DOCUMENTATION_STRATEGY.md](./templates/standards/DOCUMENTATION_STRATEGY.md)
 
@@ -204,23 +203,17 @@ These aren't theoretical best practices. They were extracted from real usage:
 - Evidence from 4 repo audits
 - [See templates →](./templates/claude-md/)
 
-**Project Organization**
-- `.projects/` 3-tier backlog system (active, backlog, icebox)
-- Prevents "forgotten feature" syndrome
-- Integrates with slash commands
-- [Learn more →](./templates/projects/)
+**Project & Task Management**
+- Unified guide: native Tasks, `.projects/` cross-session, backlogs
+- Effort calibration, YAML frontmatter, duplicate detection
+- `.projects/` for multi-week features, `_BACKLOG.md` for simple tracking
+- [Learn more →](./templates/project-management/)
 
 **Anti-Slop Standards**
 - 7 universal standards (functions <50 lines, nesting <3, etc.)
 - Automated enforcement (grep patterns, pre-commit hooks)
 - Recognition patterns for AI-generated bloat
 - [Full standards →](./templates/standards/)
-
-**Features Backlog**
-- Tier-based prioritization (Tier 1: critical, Tier 2: important, Tier 3: nice-to-have)
-- Prevents over-engineering ("Tier 1 only" mindset)
-- Works with .projects/ system
-- [See template →](./templates/features-backlog/)
 
 **Permissions**
 - Environment-based tool access (home repo, work repo, demo mode)

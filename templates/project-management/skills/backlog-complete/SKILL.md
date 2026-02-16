@@ -1,17 +1,18 @@
 ---
 name: backlog-complete
-description: Mark backlog items as complete with effort tracking. Triggers on "finished with", "done with", "completed", or "/backlog complete [id]".
+description: |
+  Mark backlog items as complete with effort tracking and archival.
+  Use when the user has finished a backlog item and wants to record
+  actual effort, archive the item, and check for unblocked work.
+  Triggers on "finished with", "done with", "completed",
+  "mark complete", or "/backlog complete [id]".
 ---
 
 # Complete Backlog Item
 
 Mark items as complete, record actual effort, and archive.
 
-## Trigger Phrases
-
-- "finished with [id]", "done with [id]"
-- "completed [id]", "mark [id] complete"
-- "/backlog complete", "/backlog complete [id]"
+**Note**: The effort calibration (estimate vs actual) is the unique value of this skill. It helps improve future estimates over time.
 
 ## Process
 
@@ -36,7 +37,7 @@ git status --porcelain
 
 If uncommitted changes exist:
 - Warn user
-- Suggest running `/push` first
+- Suggest committing first
 - Ask to continue anyway or abort
 
 **Check acceptance criteria:**
@@ -122,11 +123,19 @@ Completed: `auth-feature` - User Authentication Flow
 - Depends on auth (just completed)
 - High priority
 
-Start with `/backlog start protected-routes`?
+Start working on `protected-routes`?
 ```
 
-## Notes
+## Troubleshooting
 
-- Always regenerate index after completion
-- Archive provides historical record and effort calibration data
-- Unblocked check prevents forgotten dependencies
+**Problem**: "Nothing to complete" but an item is in progress
+**Cause**: The item's frontmatter `status` field may not be set to `in_progress`
+**Solution**: Check `plan.md` frontmatter — the status field must be exactly `in_progress` (not "In Progress" or "active")
+
+**Problem**: _ARCHIVE.md doesn't exist
+**Cause**: Archive file is created on first completion
+**Solution**: The skill will create it automatically. If it doesn't, create an empty file: `touch backlog/_ARCHIVE.md`
+
+**Problem**: Effort calibration shows wildly different estimates vs actuals
+**Cause**: Normal for the first few items — calibration improves over time
+**Solution**: Review archived items periodically to identify patterns (e.g., "I consistently underestimate database tasks by 2x")

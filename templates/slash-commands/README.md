@@ -46,7 +46,7 @@ This repo demonstrates **both** custom slash commands and built-in Claude Code f
 | Resume work | `/resume-feature` | Session restore | HANDOFF.md structured context with explicit scope boundaries |
 | Session handoff | `/session-handoff` | Auto-compact | Explicit, reviewable context preservation (100% reliable restoration) |
 | Validate plan | `/validate-plan` | `/plan` mode | Enforces a PLAN_QUALITY_RUBRIC with scored criteria |
-| Add task | `/add-task` | TodoWrite | Persists in plan.md with frontmatter metadata (cross-session) |
+| Add task | `/add-task` | Native Tasks (TaskCreate) | Persists in plan.md with frontmatter metadata (cross-session) |
 | Check drift | `/check-drift` | Manual review | Automated plan-vs-implementation diff comparison |
 | Code review | `/audit-feature` | code-review plugin | Slash command for one-off audits; plugin for auto-triggered reviews |
 

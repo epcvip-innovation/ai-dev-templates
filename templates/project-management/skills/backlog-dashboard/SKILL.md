@@ -1,17 +1,20 @@
 ---
 name: backlog-dashboard
-description: Shows current backlog status and recommends next item to work on. Triggers on "what's in backlog", "show backlog", "backlog status", "what should I work on", "next task", or "/backlog".
+description: |
+  Shows current backlog status and recommends next item to work on.
+  Use when the user wants to see their backlog, decide what to work on,
+  or check project status. Triggers on "show backlog", "backlog status",
+  "what should I work on", "next task", or "/backlog".
+  Do NOT use for basic in-session task tracking — use native Tasks
+  (TaskCreate/TaskList) for that. This skill is for persistent,
+  cross-session backlogs with YAML frontmatter.
 ---
 
 # Backlog Dashboard
 
 Shows current backlog status and recommends what to work on next.
 
-## Trigger Phrases
-
-- "what's in backlog", "show backlog", "backlog status"
-- "what should I work on", "next task", "what's next"
-- "/backlog"
+**Note**: For basic in-session task tracking, consider native Tasks (TaskCreate/TaskList) first. This skill adds value for persistent backlogs with effort tracking, priority tiers, and dependency management.
 
 ## Process
 
@@ -82,16 +85,16 @@ Current acceptance criteria:
 Would you like to continue, or pick a different item?
 ```
 
-## Integration
+## Troubleshooting
 
-This skill is the entry point for the backlog workflow:
+**Problem**: `backlog_index.py` exits with "backlog/ not found"
+**Cause**: Script looks for `backlog/` in the current directory or parent directories
+**Solution**: Run from the project root, or ensure `backlog/` directory exists with type subdirectories
 
-```
-/backlog → /backlog start [id] → [work] → /push → /backlog complete [id]
-```
+**Problem**: Dashboard shows 0 items but files exist
+**Cause**: Items must be in `backlog/{type}/{name}/plan.md` with valid YAML frontmatter
+**Solution**: Run `python3 .claude/utils/backlog_validate.py` to diagnose frontmatter issues
 
-## Notes
-
-- Always run the Python utility for accurate data (don't parse files manually)
-- If utility fails, suggest running `backlog_validate.py` to check for issues
-- Link to plan.md files so user can easily open them
+**Problem**: Skill doesn't auto-trigger
+**Cause**: Skills auto-triggering can be inconsistent. The skill may not activate on every phrasing
+**Solution**: Use `/backlog` explicitly, or invoke the skill directly from the skills list

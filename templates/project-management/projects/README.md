@@ -1,6 +1,6 @@
 # .projects/ Folder Structure Templates
 
-[← Back to Main README](../../README.md)
+[← Back to Project Management](../README.md) | [← Main README](../../../README.md)
 
 **Purpose**: Preserve context from complex brainstorming sessions and multi-session projects for future work when ready to execute.
 
@@ -26,7 +26,7 @@
 
 ### For New Projects
 
-1. **Copy template**: `cp -r templates/projects/_TEMPLATE .projects/[feature-name]`
+1. **Copy template**: `cp -r templates/project-management/projects/_TEMPLATE .projects/[feature-name]`
 2. **Fill in README.md**: Update status, document map, current focus
 3. **Create plan.md**: Problem statement, goals, non-goals, architecture
 4. **Create tasks.md**: Break down into granular, testable tasks
@@ -135,7 +135,7 @@ curl http://localhost:3000/api/auth/login -X POST -d "email=test@test.com&passwo
 | `/start-feature` | Creates `.projects/[name]/` structure for complex features (>3hrs) |
 | `/resume-feature` | Checks `.projects/`, `backlog/`, `features/` for HANDOFF.md |
 | `/feature-complete` | Archives to `.projects/archive/[name]/` |
-| **TodoWrite vs tasks.md** | TodoWrite = ephemeral in-session list. tasks.md = persistent cross-session. Both valid, complementary. |
+| **Native Tasks vs tasks.md** | Native Tasks (TaskCreate/TaskList) = in-session tracking. tasks.md = persistent cross-session with richer context. Both valid, complementary. |
 
 ---
 
@@ -194,13 +194,12 @@ curl http://localhost:3000/api/auth/login -X POST -d "email=test@test.com&passwo
 
 ## Templates Location
 
-**Essential Templates**: `templates/projects/_TEMPLATE/` (README.md, plan.md, tasks.md, HANDOFF.md)
+**Essential Templates**: `templates/project-management/projects/_TEMPLATE/` (README.md, plan.md, tasks.md, HANDOFF.md)
 
 ```bash
-cp -r templates/projects/_TEMPLATE .projects/[your-feature-name]
+cp -r templates/project-management/projects/_TEMPLATE .projects/[your-feature-name]
 ```
 
 ---
 
-**Last Updated**: 2026-02-15
-**Maintained By**: dev-setup template library
+**Last Updated**: 2026-02-16

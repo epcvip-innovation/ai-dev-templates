@@ -179,9 +179,174 @@ This repo is a **general-purpose template library** — reusable patterns for AI
 
 ---
 
+### Pass 11 — Skills Audit + Research
+**Date**: February 15, 2026
+**Scope**: All 34 SKILL.md files across repos (22 unique skills), article research on Skills open standard
+
+**What**: Comprehensive audit of all Claude Code skills against the new Skills open standard (Anthropic Oct 2025). Stored article research, built complete inventory, interviewed user on workflow and priorities, audited each skill against 8 criteria, applied fixes, and documented a major redesign brief.
+
+**Phase 1: Research stored** (3 files in `_private/research/`):
+
+| File | Purpose |
+|------|---------|
+| `intake/2026-02-15-skills-standard-article.md` | Article intake log (key takeaways, verdict: Adopt) |
+| `audit-research/skills-standard-best-practices.md` | Deep-dive reference: skill anatomy, progressive disclosure, description best practices, advanced patterns, gap analysis |
+| `SOURCES.md` | Added skills.sh CLI + vercel-labs/agent-skills to source registry |
+
+**Phase 2: User interview** — classified all 22 skills into priority tiers:
+
+| Tier | Skills | Decision |
+|------|--------|----------|
+| **Flagship** | code-review pipeline, backlog-management, dev-server | Ship to coworkers as templates |
+| **Active personal** | A/B testing suite (8 skills), image, porting-artifacts, sync-team-docs | Improve later, domain-specific |
+| **Stale** | data-platform-assistant-fix-init-crash copies | Ignore |
+
+**Phase 3: Inventory** — `_private/research/audit-findings/skills-inventory-2026-02.md`:
+- 34 SKILL.md files across 4 layers (global, per-repo, template library, stale)
+- 22 unique skills (12 global, 10 per-repo)
+- Backlog skills duplicated across 4 repos (potential drift)
+
+**Phase 4: Audit** — `_private/research/audit-findings/skills-audit-2026-02.md`:
+
+8 criteria from the article (frontmatter, trigger phrases, outcome, instructions, examples, troubleshooting, progressive disclosure, no org-specific):
+
+| Finding | Count | Action |
+|---------|-------|--------|
+| Missing YAML frontmatter | 4 skills | Fixed |
+| No troubleshooting section | 22/22 skills | Noted, add to flagships in future pass |
+| Thin descriptions (no triggers) | ~8 skills | Fixed for 4 missing-frontmatter skills |
+| Progressive disclosure underused | 17/22 skills | Noted for future improvement |
+
+**Phase 5: Fixes applied**:
+
+| Action | Details |
+|--------|---------|
+| **Frontmatter added** | 4 skills: `database-review`, `mockup` (global), `format-test-readme`, `check-readme-standards` — all now have name + rich description with trigger phrases |
+| **Template created** | `templates/plugins/SKILL-TEMPLATE.md` — canonical template with description checklist, progressive disclosure guide, testing instructions |
+| **README updated** | `templates/plugins/README.md` — added backlog-management to available plugins, rewrote "Creating New Plugins" to reference SKILL-TEMPLATE.md |
+
+**Phase 6: Code review redesign brief** — `_private/research/audit-findings/code-review-redesign-brief.md`:
+
+Detailed brief for merging 3 skills (local-code-review + evaluate-code-review + root-cause-analysis) into a unified skill. Captures user's pain points (90% false positive rate, 3-skill sequential workflow, shallow analysis), proposed architecture, artifacts to preserve, and success criteria. Deferred to dedicated session.
+
+---
+
+### Pass 12 — Unified Code Review Skill
+**Date**: February 15, 2026
+**Scope**: 8 template files (2 created, 4 rewritten, 2 updated), 4 global skills modified, 1 global skill created
+
+**What**: Merged 3 sequential skills (local-code-review + evaluate-code-review + root-cause-analysis) into a single unified `code-review` skill with a 5-phase pipeline: gather changes → run agents → evaluate findings → root-cause analysis → output.
+
+**Problem**: The old 3-skill pipeline required running `/local-review` → `/evaluate-review` → `/root-cause` manually in sequence, with a ~90% false positive rate from the agent phase because agents reported findings without reading source files or tracing execution paths.
+
+**Solution**: Unified skill with guardrails (NEVER/ALWAYS rules), agent self-evaluation (confidence >= 70 to report), built-in false-positive filtering (Phase 3), and automatic root-cause categorization (Phase 4).
+
+**Phase 1: New reference files created**:
+
+| File | Source | Purpose |
+|------|--------|---------|
+| `references/false-positive-patterns.md` | Extracted from `evaluate-code-review` SKILL.md | 3-question evaluation framework, common false positives by category, verdict definitions |
+| `references/bug-categories.md` | Extracted from `root-cause-analysis` SKILL.md | 6 bug categories, root-cause heuristics, simple vs complex output templates, don't-over-engineer guardrails |
+
+**Phase 2: Template files rewritten/updated**:
+
+| File | Action | Key Changes |
+|------|--------|-------------|
+| `SKILL.md` | **Rewritten** | 5-phase pipeline, guardrails section, `--quick`/`--full` modes, evaluation + root-cause built in |
+| `references/agent-personas.md` | **Updated** | Added self-evaluation protocol (all agents), per-agent pre-reporting checklist, confidence scoring, updated merging to include evaluation phase |
+| `README.md` | **Rewritten** | Pipeline diagram, unified agent table, updated docs table |
+| `METHODOLOGY.md` | **Rewritten** | Added self-evaluation protocol, built-in evaluation phase, root-cause integration, quick vs full comparison |
+| `SKILL-INSTALLATION.md` | **Rewritten** | Migration guide from old 3-skill pipeline, before/after comparison, removal instructions |
+| `plugins/README.md` | **Updated** | Unified plugin entry, updated install command, replaced `/local-review-lite` with `--quick` |
+
+**Phase 3: Global skills**:
+
+| Action | Location | Details |
+|--------|----------|---------|
+| **Created** | `~/.claude/skills/code-review/` | Full unified skill with all references |
+| **Deprecated** | `~/.claude/skills/local-code-review/` | Deprecation notice pointing to unified skill |
+| **Deprecated** | `~/.claude/skills/local-code-review-lite/` | Deprecation notice pointing to `--quick` flag |
+| **Deprecated** | `~/.claude/skills/evaluate-code-review/` | Deprecation notice pointing to Phase 3 |
+| **Deprecated** | `~/.claude/skills/root-cause-analysis/` | Deprecation notice pointing to Phase 4 |
+
+**Key design decisions**:
+- Kept `/local-review` as trigger name (avoids conflict with `pr-review-toolkit` plugin)
+- Guardrails pattern from skillmaxxer-3000 (NEVER/ALWAYS rules) over hooks — enforces depth without build-time tooling
+- `--quick` replaces `--lite` for consistency with `--full`
+- Did not add `model: opus` to frontmatter (not a supported field) — guardrails force deeper analysis regardless
+- Deprecated old skills with pointers rather than deleting — allows gradual migration
+
+**Verification**: Unified `code-review` skill visible in Claude Code skills list. Old skills show "DEPRECATED" in description. All reference files present in both template and global locations.
+
+---
+
+### Pass 13 — Backlog Management Consolidation
+**Date**: February 16, 2026
+**Scope**: 17 files moved/created, 10 files updated, 3 directories removed, 2 files retired
+
+**What**: Evaluated the backlog management ecosystem (~3,300 lines across 3 overlapping categories) against Claude Code's native Tasks (v2.1, Jan 2025) and Session Memory (v2.1.30+, Feb 2026). Consolidated three separate template categories into one unified `project-management/` directory with an honest comparison to built-in features.
+
+**Key finding**: Native Tasks (TaskCreate/TaskList/TaskGet/TaskUpdate) replaces basic task tracking. Custom system's unique value is effort calibration, YAML frontmatter schema, `.projects/` cross-session pattern, and Python utilities for duplicate detection and indexing. The 3 backlog skills are the weakest component — they duplicate functionality native Tasks now handles and have auto-trigger reliability issues.
+
+**Phase 1: Directory consolidation**:
+
+| Old Location | New Location | Action |
+|-------------|-------------|--------|
+| `templates/features-backlog/` | `templates/project-management/backlog/` | Moved |
+| `templates/projects/` | `templates/project-management/projects/` | Moved |
+| `templates/plugins/backlog-management/` | `templates/project-management/skills/` | Moved |
+
+**Phase 2: Files retired**:
+
+| File | Lines | Reason |
+|------|-------|--------|
+| `FEATURES_BACKLOG.md` | 247 | Overlapped with `_BACKLOG.md` — tier definitions merged in |
+| `folder-based/WORKFLOW.md` | 176 | Content duplicated across 3 other files |
+
+**Phase 3: New content created**:
+
+| File | Lines | Purpose |
+|------|-------|---------|
+| `templates/project-management/README.md` | ~200 | Unified entry point with decision table, 4 patterns, migration paths |
+
+**Phase 4: Skills updated per Skills open standard**:
+- All 3 backlog skills: rich multi-line `description` with trigger phrases, `## Troubleshooting` sections (2-3 entries each), native Tasks comparison note
+- Skills README: rewritten with honest positioning ("Do you need these?"), auto-trigger reliability note, unique-value framing
+
+**Phase 5: BUILTIN_VS_CUSTOM.md overhauled**:
+- Replaced all `TodoWrite` references with native Tasks (TaskCreate/TaskList/TaskGet/TaskUpdate)
+- Added "Native Tasks vs Custom Backlog" comparison table
+- Added Session Memory (v2.1.30+) for cross-session context
+- Reframed "Plugins > Slash Commands" to "Skills vs Slash Commands" (each has strengths)
+- Updated date from January to February 2026
+
+**Phase 6: Cross-references updated** (10 files):
+- `CLAUDE.md` — consolidated categories 5+6 → "5. Project & Task Management", renumbered 7-9, count 10→9
+- `templates/README.md` — rewritten category table (11→9), updated Quick Start links
+- `templates/plugins/README.md` — removed backlog-management entry, added redirect note
+- `README.md` (root) — updated Browse Templates and Common Tasks sections
+- `docs/getting-started/NEW-PROJECT-SETUP.md` — updated copy paths and See Also
+- `docs/decisions/BUILTIN_VS_CUSTOM.md` — updated all See Also links
+- `docs/reference/CLAUDE-CODE-STORAGE.md` — TodoWrite → Task
+- `templates/slash-commands/README.md` — TodoWrite → Native Tasks
+- `templates/slash-commands/DESIGN_RATIONALE.md` — TodoWrite → Native Tasks
+
+**Verification**: `templates/features-backlog/`, `templates/projects/`, `templates/plugins/backlog-management/` no longer exist. All cross-references point to new `templates/project-management/` locations. Zero TodoWrite references in decision/template docs.
+
+---
+
 ## Remaining Work
 
-Genericization is complete. Bloat trimming complete (Pass 10). Ongoing quality maintenance only.
+### Pass 14 — Dev Server Genericization
+
+Genericize the dev-server skill for the template library.
+
+### Future improvements (lower priority)
+
+- Add `## Troubleshooting` sections to remaining non-flagship skills
+- Add `backlog-start` to template library (exists in fwaptile-wordle only)
+- Enhance descriptions on remaining non-flagship skills
+- Evaluate `allowed-tools` frontmatter for sensitive skills
 
 Run `bash scripts/generate-inventory.sh` to refresh the full file inventory.
 

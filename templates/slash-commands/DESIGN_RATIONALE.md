@@ -47,7 +47,7 @@ This workflow has evolved through several iterations, incorporating lessons lear
 | `start-feature` | `/plan` mode | Custom adds backlog integration + YAML frontmatter |
 | `resume-feature` | Session restore | Custom uses HANDOFF.md for explicit, structured context |
 | `session-handoff` | Auto-compact | Custom provides 100% reliable, reviewable context preservation |
-| `add-task` | TodoWrite tool | Custom persists in plan.md with frontmatter (cross-session) |
+| `add-task` | Native Tasks (TaskCreate) | Custom persists in plan.md with frontmatter (cross-session) |
 | `check-drift` | Manual review | Custom automates plan-vs-implementation comparison |
 | `audit/*` sub-commands | code-review plugin | Custom for one-off audits; plugin for auto-triggered reviews |
 

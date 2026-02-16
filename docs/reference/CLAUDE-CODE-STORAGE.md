@@ -33,7 +33,7 @@ Claude Code stores all application data in `~/.claude/` (not `~/.config/claude/`
 ~/.claude/                    # Main directory (NOT ~/.config/claude/)
 ├── projects/                # Session transcripts (largest)
 ├── file-history/            # File edit undo history
-├── todos/                   # TodoWrite task state
+├── todos/                   # Task task state
 ├── plans/                   # Plan mode markdown files
 ├── debug/                   # Debug logs
 ├── hooks/                   # User hook scripts
@@ -55,7 +55,7 @@ Claude Code stores all application data in `~/.claude/` (not `~/.config/claude/`
 |-----------|-------------|---------|----------------|
 | `projects/` | 100-300MB | Session transcripts | ⚠️ Lose history & resume |
 | `file-history/` | 10-50MB | File edit undo | ⚠️ Lose undo ability |
-| `todos/` | 1-5MB | TodoWrite state | ✅ Yes |
+| `todos/` | 1-5MB | Task state | ✅ Yes |
 | `plans/` | <1MB | Plan mode files | ✅ Yes (if done) |
 | `debug/` | 1-10MB | Debug logs | ✅ Yes |
 | `hooks/` | <1MB | User hook scripts | ❌ Custom code |
@@ -117,7 +117,7 @@ file-history/{session-uuid}/
 
 ### todos/ - Task State
 
-One JSON file per session storing TodoWrite state:
+One JSON file per session storing Task state:
 
 ```json
 [{"content": "Fix bug", "status": "completed", "activeForm": "Fixing bug"}]

@@ -2,7 +2,7 @@
 
 Decision guide for choosing between Claude Code's built-in features and custom templates.
 
-**Updated:** January 2026 (Claude Code v2.1.x)
+**Updated:** February 2026 (Claude Code v2.1.x)
 
 ---
 
@@ -11,8 +11,8 @@ Decision guide for choosing between Claude Code's built-in features and custom t
 | Task | Built-in | Custom | Recommendation |
 |------|----------|--------|----------------|
 | Feature planning | `/plan` mode | `/start-feature` | Built-in (plan files are persistent) |
-| Session continuity | Auto-compact | `/session-handoff` | Built-in (auto-compact improved significantly) |
-| Task tracking | TodoWrite tool | Custom backlog | Built-in for simple, Custom for complex |
+| Session continuity | Session Memory (v2.1.30+) | HANDOFF.md in `.projects/` | Built-in for simple, custom for multi-day |
+| Task tracking | Native Tasks (TaskCreate/TaskList) | Custom backlog | Built-in for simple, custom for effort tracking |
 | Code review | `/local-review` skill | Custom review plugin | Custom (for project-specific patterns) |
 | Commits | Built-in git tools | `/push` command | Custom (for quality gates) |
 | Feature workflow | `/feature-dev:feature-dev` | Custom skills | Built-in + augment |
@@ -38,39 +38,56 @@ Decision guide for choosing between Claude Code's built-in features and custom t
 - Want effort tracking
 - Team visibility required
 
-### Session Memory (Auto-Compact)
+### Session Memory
 
 **What it does:**
-- Automatically summarizes conversation when context fills
-- Preserves important context
-- Session teleportation (resume anywhere)
+- Automatically summarizes conversation when context fills (auto-compact)
+- Session Memory (v2.1.30+, Feb 2026) provides automatic cross-session context
+- Preserves important context across conversations
 
 **When to use built-in:**
 - Most cases (significantly improved in 2025-2026)
 - Solo development
 
-**When to use custom (`/session-handoff`):**
-- Multi-day complex features
-- Team handoffs
+**When to use custom (HANDOFF.md):**
+- Multi-day complex features with specific scope boundaries
+- Team handoffs where another person picks up the work
 - Audit trail required
 
-### TodoWrite Tool
+### Native Tasks
 
 **What it does:**
-- In-conversation task tracking
-- Progress visualization
-- Automatic status updates
+- Persistent task tracking via TaskCreate, TaskList, TaskGet, TaskUpdate
+- DAG dependency tracking with addBlockedBy/addBlocks
+- Filesystem persistence (`~/.claude/tasks/`)
+- Status workflow: pending → in_progress → completed
+- Metadata fields for custom data
 
 **When to use built-in:**
-- Session-scoped tasks
-- <10 items
-- No persistence needed
+- In-session and short-term task tracking
+- <10 items, no effort tracking needed
+- Zero setup required
 
 **When to use custom (backlog system):**
-- Cross-session tracking
-- 10+ items
-- Dependency management
-- Effort calibration
+- Cross-session tracking with version-controlled history
+- 10+ items with type categorization
+- Effort calibration (estimate vs actual)
+- Duplicate detection
+- Team-visible dashboards
+
+### Native Tasks vs Custom Backlog
+
+| Capability | Native Tasks | Custom Backlog |
+|------------|-------------|----------------|
+| Setup cost | Zero | 30 minutes |
+| Reliability | High (built-in) | Medium (skills may not auto-trigger) |
+| Persistence | `~/.claude/tasks/` | Git-tracked YAML files |
+| Dependencies | DAG (addBlockedBy) | `blocked_by: []` in frontmatter |
+| Effort tracking | Not built-in | Estimate vs actual with calibration |
+| Type categorization | Not built-in | feature/bug/tech-debt/research |
+| Duplicate detection | Not built-in | 85% similarity via Python utility |
+| Shareable dashboard | Text only (TaskList) | _INDEX.md (auto-generated, committed) |
+| Priority tiers | Metadata (unstructured) | P0-P3 with documented criteria |
 
 ### `/feature-dev:feature-dev` Plugin
 
@@ -107,8 +124,8 @@ Decision guide for choosing between Claude Code's built-in features and custom t
 |----------|-------------|
 | "Plan this feature" | `/plan` mode |
 | "Review my changes" | `/local-review` (if installed) |
-| "What should I work on?" | TodoWrite |
-| "Continue from yesterday" | Auto-compact handles it |
+| "What should I work on?" | Native Tasks (TaskList) |
+| "Continue from yesterday" | Session Memory handles it |
 
 ---
 
@@ -178,6 +195,8 @@ CLAUDE.md → Project context
 **Customization:** Full workflow automation
 **Best for:** Complex projects, teams
 
+**Note on reliability:** Skills auto-trigger via natural language matching, which can be inconsistent. Test your trigger phrases and have explicit `/command` fallbacks.
+
 ### Level 5: Full Custom Workflow (Heavy Setup)
 
 ```
@@ -193,19 +212,17 @@ CI/CD integration
 
 ---
 
-## Key Insight: Plugins > Slash Commands
+## Skills vs Slash Commands
 
-Based on real-world usage (fwaptile-wordle project):
+Both have their place. Choose based on the task:
 
-### Why Plugins Win
-
-| Feature | Slash Commands | Plugins |
-|---------|---------------|---------|
-| Trigger | Manual (`/command`) | Auto (natural language) |
-| Sub-tasks | Can be skipped | Can't be ignored |
+| Feature | Slash Commands | Skills |
+|---------|---------------|--------|
+| Trigger | Manual (`/command`) | Auto (natural language) or manual |
+| Reliability | High (explicit invocation) | Variable (auto-trigger can miss) |
 | Hooks | No | Yes (PreToolUse, PostToolUse, Stop) |
 | Context | Limited | Full skill context |
-| Enforcement | Suggestions | Programmatic |
+| Best for | Utilities (`/push`, `/audit`) | Complex workflows (code-review, backlog) |
 
 ### Why Python Utilities Still Matter
 
@@ -247,7 +264,7 @@ When built-in isn't enough:
 ## Recommendations Summary
 
 1. **Start with built-in** → Add custom only when needed
-2. **Plugins > slash commands** (auto-trigger, hooks, sub-tasks can't be ignored)
+2. **Skills for complex workflows, commands for utilities** — each has strengths
 3. **Python utilities for data operations** (backlog indexing, validation, search)
 4. **Combine approaches** - Skills call Python utilities for best of both
 5. **Review quarterly** - Built-in features improve; reassess custom value
@@ -256,7 +273,6 @@ When built-in isn't enough:
 
 ## See Also
 
-- [../slash-commands/README.md](../../templates/slash-commands/README.md) - Command templates
-- [../plugins/](../../templates/plugins/) - Skill templates
-- [../features-backlog/folder-based/](../../templates/features-backlog/folder-based/) - Backlog system
-- [RELIABLE_SOURCES.md](../../templates/resources/RELIABLE_SOURCES.md) - Where to track updates
+- [../../templates/slash-commands/README.md](../../templates/slash-commands/README.md) - Command templates
+- [../../templates/plugins/](../../templates/plugins/) - Skill templates
+- [../../templates/project-management/](../../templates/project-management/) - Project & task management

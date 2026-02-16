@@ -1,6 +1,6 @@
 # ai-dev-templates Backlog
 
-**Last Updated:** 2026-02-15
+**Last Updated:** 2026-02-16
 **Purpose**: Track improvements to the template library itself
 
 ---
@@ -13,7 +13,14 @@
 
 ## P1 - High Priority
 
-*(None currently)*
+### Pass 14: Dev Server Skill Genericization
+**Priority:** P1
+**Added:** 2026-02-15
+**Source:** Pass 11 skills audit — flagship skill #3
+
+**Problem:** The dev-server skill currently has hardcoded repo-specific startup sequences (epcvip repos). Needs genericization to work as a template pattern.
+
+**Action:** Extract the pattern (auto-detect framework, apply correct startup) from the org-specific implementation. Create a template version in `templates/plugins/`.
 
 ---
 
@@ -157,6 +164,14 @@
 
 ## Completed
 
+### 2026-02-16: Pass 13 — Backlog Management Consolidation
+- Consolidated 3 overlapping categories (features-backlog, projects, plugins/backlog-management) into `templates/project-management/`
+- Created unified README with decision table and honest comparison to native Tasks
+- Updated 3 backlog skills: rich descriptions, troubleshooting sections, native Tasks notes
+- Overhauled BUILTIN_VS_CUSTOM.md (TodoWrite → native Tasks, Session Memory added)
+- Updated 10 files with cross-reference fixes, removed 423 lines of overlap
+- See AUDIT_LOG.md Pass 13 for full details
+
 ### Enhanced Security Hooks
 **Completed:** 2026-01-15
 
@@ -169,6 +184,14 @@ Added from TheDecipherist/claude-code-mastery:
 - Rewrote `templates/plugins/README.md` with proper taxonomy (skills vs commands vs hooks vs plugins)
 - Trimmed redundancy in CLAUDE-MD-GUIDELINES, hooks/README, PLAYWRIGHT_CLAUDE_GUIDE, NEW-PROJECT-SETUP
 - Added cross-links between related docs
+
+### 2026-02-15: Pass 12 — Unified Code Review Skill
+- Merged 3 sequential skills (local-code-review + evaluate-code-review + root-cause-analysis) into unified `code-review` skill
+- 5-phase pipeline: gather → agents → evaluate → root-cause → output
+- Added guardrails (NEVER/ALWAYS), agent self-evaluation (confidence >= 70), false-positive filtering
+- Created `references/false-positive-patterns.md` and `references/bug-categories.md`
+- Installed to `~/.claude/skills/code-review/`, deprecated 4 old skills
+- See AUDIT_LOG.md Pass 12 for full details
 
 ### 2026-01-15: Security Hooks from TheDecipherist
 - Added `sensitive-file-blocker-enhanced.py`

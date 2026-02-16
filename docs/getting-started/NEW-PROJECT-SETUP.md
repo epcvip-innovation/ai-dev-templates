@@ -179,19 +179,19 @@ Choose your approach:
 **Simple (5 min):**
 ```bash
 mkdir -p backlog
-cp templates/features-backlog/_BACKLOG.md backlog/
-cp templates/features-backlog/_TEMPLATE.md backlog/
+cp templates/project-management/backlog/_BACKLOG.md backlog/
+cp templates/project-management/backlog/_TEMPLATE.md backlog/
 ```
 
 **Folder-based (30 min):**
 ```bash
 mkdir -p backlog/{feature,bug,tech-debt,research}
 mkdir -p .claude/utils
-cp -r templates/features-backlog/folder-based/* backlog/
-cp templates/features-backlog/folder-based/utils/* .claude/utils/
+cp -r templates/project-management/backlog/folder-based/* backlog/
+cp templates/project-management/backlog/folder-based/utils/* .claude/utils/
 ```
 
-**Template**: [templates/features-backlog/](../../templates/features-backlog/)
+**Template**: [templates/project-management/](../../templates/project-management/)
 
 ---
 
@@ -333,7 +333,7 @@ your-project/
 - [templates/claude-md/](../../templates/claude-md/) - CLAUDE.md templates
 - [templates/slash-commands/](../../templates/slash-commands/) - Command templates
 - [templates/plugins/](../../templates/plugins/) - Skill templates
-- [templates/features-backlog/](../../templates/features-backlog/) - Backlog system
+- [templates/project-management/](../../templates/project-management/) - Task & backlog management
 - [templates/permissions/](../../templates/permissions/) - Permission templates
 - [docs/decisions/BUILTIN_VS_CUSTOM.md](../decisions/BUILTIN_VS_CUSTOM.md) - When to customize
 

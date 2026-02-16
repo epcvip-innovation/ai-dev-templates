@@ -1,18 +1,19 @@
 ---
 name: add-backlog
-description: Add new items to the backlog with duplicate detection. Triggers on "add to backlog", "new feature", "new bug", "feature request", "bug report", or "/add-backlog".
+description: |
+  Add new items to the backlog with duplicate detection and standardized
+  formatting. Use when the user wants to add a feature, bug, or tech-debt
+  item to the project backlog. Triggers on "add to backlog", "new feature",
+  "new bug", "feature request", "bug report", or "/add-backlog".
+  Do NOT use for quick in-session tasks — use native Tasks (TaskCreate)
+  for that.
 ---
 
 # Add to Backlog
 
 Add new items to the backlog with duplicate detection and standardized formatting.
 
-## Trigger Phrases
-
-- "add to backlog", "add to backlog: [title]"
-- "new feature", "new bug", "new tech debt"
-- "feature request", "bug report"
-- "/add-backlog", "/add-backlog [title]"
+**Note**: For quick in-session task tracking, use native Tasks (TaskCreate) instead. This skill is for persistent backlog items with effort estimates, type categorization, and duplicate detection.
 
 ## Process
 
@@ -109,9 +110,18 @@ Report to user:
 - Created: `backlog/{type}/{id}/plan.md`
 - Priority: {priority}
 - Effort: {effort}
-- Next: "Edit plan.md to add details, or start with `/backlog start {id}`"
+- Next: "Edit plan.md to add details, or start working on it"
 
-## Example Interaction
+## Troubleshooting
 
-```
-User: add to backlog: dark mode support
+**Problem**: `backlog_search.py` fails with import error
+**Cause**: Script requires Python 3.6+ with standard library only
+**Solution**: Verify `python3 --version` is 3.6+. The utilities have no pip dependencies.
+
+**Problem**: Duplicate detection too sensitive / not sensitive enough
+**Cause**: 85% similarity threshold may not suit all projects
+**Solution**: Edit the threshold in `backlog_search.py` (search for `SIMILARITY_THRESHOLD`)
+
+**Problem**: Skill doesn't auto-trigger on "new feature" phrases
+**Cause**: Broad trigger phrases like "new feature" may conflict with other skills or not activate consistently
+**Solution**: Use "/add-backlog" explicitly for reliable invocation

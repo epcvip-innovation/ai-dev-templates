@@ -28,7 +28,6 @@ backlog/
 ├── _INDEX.md          # Auto-generated dashboard
 ├── _TEMPLATE.md       # Template for new items
 ├── _ARCHIVE.md        # Completed items log
-├── WORKFLOW.md        # Development workflow guide
 ├── feature/           # New functionality
 │   └── {feature-name}/
 │       └── plan.md
@@ -122,16 +121,9 @@ python3 .claude/utils/backlog_search.py --check-duplicate "New Feature Title"
 
 ## Workflow Integration
 
-### With Skills (Recommended)
+### With Skills (Optional)
 
-Skills in `backlog-management/` provide natural language triggers:
-
-```
-"show backlog" → backlog-dashboard skill
-"add to backlog" → add-backlog skill
-"start working on X" → backlog-start skill
-"finished with X" → backlog-complete skill
-```
+Backlog skills provide natural language triggers. See [../../skills/README.md](../skills/README.md) for details and honest notes about auto-trigger reliability.
 
 ### Manual Commands
 
@@ -181,5 +173,5 @@ If you have an existing `_BACKLOG.md`:
 ## See Also
 
 - [_TEMPLATE.md](./_TEMPLATE.md) - Full plan template
-- [WORKFLOW.md](./WORKFLOW.md) - Development workflow
-- [../../plugins/backlog-management/](../../plugins/backlog-management/) - Skills for automation
+- [../README.md](../../README.md) - Project & Task Management overview
+- [../../skills/README.md](../../skills/README.md) - Backlog management skills
