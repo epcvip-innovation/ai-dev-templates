@@ -1,0 +1,47 @@
+# Railway Configuration for Cron Service (NIXPACKS)
+# Based on: production cron service configuration
+#
+# This is for a SEPARATE Railway service that handles scheduled tasks
+#
+# Setup Instructions:
+# 1. Create a new Railway service in your project
+# 2. Connect it to the same GitHub repository
+# 3. Copy this configuration to the service (save as railway.cron.toml)
+# 4. Configure service to use this file (railway.cron.toml) instead of railway.toml
+# 5. Set the same environment variables as the main service
+# 6. Deploy the service
+
+[build]
+builder = "nixpacks"
+
+[deploy]
+# Cron schedule: runs every 30 minutes
+# Format: minute hour day month weekday
+# Use https://crontab.guru/ to test schedules
+cronSchedule = "0,30 * * * *"
+
+# Command to run on schedule
+# Update this to match your script path
+startCommand = "python -m utils.sync_runner --type smart"
+
+# Note: Cron services don't need health checks
+# Railway runs the command and exits
+
+[environment]
+# Python 3.11 (or change to your required version)
+NIXPACKS_PYTHON_VERSION = "3.11"
+
+# Required Environment Variables (set in Railway dashboard or CLI):
+# Same variables as your main service, plus any cron-specific ones
+# Example:
+# DATABASE_PATH=/data/your_db.db
+# API_KEY=your-api-key
+# etc.
+
+# Common Cron Schedules:
+# "*/15 * * * *"     - Every 15 minutes
+# "0,30 * * * *"     - Every 30 minutes (0 and 30)
+# "0 * * * *"        - Every hour
+# "0 */6 * * *"      - Every 6 hours
+# "0 2 * * *"        - Daily at 2 AM
+# "0 9-17 * * 1-5"   - Every hour from 9 AM to 5 PM, Mon-Fri

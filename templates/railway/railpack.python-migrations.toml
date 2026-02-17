@@ -1,0 +1,35 @@
+# Railway Configuration - Python with Pre-Deploy Migrations (RAILPACK)
+# Automatically runs database migrations before starting the app
+#
+# Usage:
+# 1. Copy to your project root as railway.toml
+# 2. Update preDeployCommand to match your migration command
+# 3. Set DATABASE_PATH env var if using SQLite
+# 4. Commit and push to deploy
+
+[build]
+builder = "RAILPACK"
+
+[deploy]
+# Run migrations before starting app
+preDeployCommand = ["python", "manage.py", "migrate"]
+
+# Start command (single worker for SQLite)
+startCommand = "uvicorn main:app --host 0.0.0.0 --port $PORT --workers 1"
+
+# Health check endpoint
+healthcheckPath = "/health"
+healthcheckTimeout = 120
+
+# Restart policy
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3
+
+# Persistent volume for database
+[[deploy.volumeMounts]]
+mountPath = "/app/data"
+
+# Alternative migration commands:
+# preDeployCommand = ["alembic", "upgrade", "head"]  # Alembic
+# preDeployCommand = ["flask", "db", "upgrade"]      # Flask-Migrate
+# preDeployCommand = ["python", "migrations/run.py"] # Custom script

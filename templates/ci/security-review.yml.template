@@ -1,0 +1,71 @@
+# Security Review Workflow
+#
+# Automated security analysis on all PRs using Claude.
+# Uses anthropics/claude-code-security-review for vulnerability detection.
+#
+# Features:
+# - Automatic on all PRs (lightweight, fast)
+# - Posts findings as line comments on specific code
+# - Filters false positives automatically
+#
+# Setup:
+# 1. Add ANTHROPIC_API_KEY secret to repository
+# 2. Copy this file to .github/workflows/security.yml
+#
+# Cost: ~$0.05 per run (fast, lightweight)
+# Duration: ~30-45 seconds
+#
+# Docs: https://github.com/anthropics/claude-code-security-review
+# VERIFIED: 2026-01-08 (production deployment)
+
+name: Security Review
+
+on:
+  # Uncomment to run on pushes to main
+  # push:
+  #   branches: [main]
+
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+  # Manual trigger for testing
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 2
+
+      - name: Claude Security Review
+        uses: anthropics/claude-code-security-review@main
+        with:
+          claude-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
+          comment-pr: true
+          upload-results: true
+          # CUSTOMIZE: Directories to exclude from scanning
+          exclude-directories: 'node_modules,dist,build,.next,coverage,playwright-report,test-results'
+          # Optional: Specify model (defaults to claude-opus-4-1-20250805)
+          # claude-model: 'claude-sonnet-4-20250514'
+          # Optional: Timeout in minutes (default: 20)
+          # claudecode-timeout: '15'
+
+# What it checks:
+# - Injection attacks (SQL, command, XSS, XXE)
+# - Authentication & authorization issues
+# - Hardcoded secrets and sensitive data exposure
+# - Cryptographic weaknesses
+# - Business logic flaws (race conditions, TOCTOU)
+# - Input validation gaps
+# - Insecure configurations
+#
+# Note: Not hardened against prompt injection - only use on trusted PRs.
+# Enable "Require approval for external contributors" in repo settings.

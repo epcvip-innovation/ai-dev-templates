@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+echo -e "${GREEN}=== WSL2 Performance Monitor ===${NC}"
+echo "Timestamp: $(date)"
+echo ""
+
+# Memory
+echo -e "${YELLOW}Memory Status:${NC}"
+free -h | grep -E "Mem|Swap" | while read line; do
+    echo "  $line"
+done
+
+# CPU
+echo -e "\n${YELLOW}CPU Information:${NC}"
+echo "  Available cores: $(nproc)"
+echo "  Load average: $(uptime | awk -F'load average:' '{print $2}')"
+
+# Disk Performance Test (optional)
+if [[ "$1" == "--disk" ]]; then
+    echo -e "\n${YELLOW}Disk Speed Test:${NC}"
+    
+    echo "  Testing Linux FS (/home)..."
+    dd if=/dev/zero of=~/testfile bs=1M count=500 2>&1 | grep -E "copied" | sed 's/^/    /'
+    rm -f ~/testfile
+    
+    echo "  Testing Windows FS (/mnt/c)..."
+    dd if=/dev/zero of=/mnt/c/testfile bs=1M count=100 2>&1 | grep -E "copied" | sed 's/^/    /'
+    rm -f /mnt/c/testfile
+fi
+
+# AI Processes
+echo -e "\n${YELLOW}AI Process Status:${NC}"
+claude_proc=$(pgrep -fa "claude" | grep -v grep | wc -l)
+codex_proc=$(pgrep -fa "codex" | grep -v grep | wc -l)
+echo "  Claude instances: $claude_proc"
+echo "  Codex instances: $codex_proc"
+
+# Quick health check
+echo -e "\n${YELLOW}Health Status:${NC}"
+mem_percent=$(free | grep Mem | awk '{printf "%.1f", $3/$2 * 100}')
+if (( $(echo "$mem_percent < 80" | bc -l) )); then
+    echo -e "  Memory: ${GREEN}Healthy${NC} (${mem_percent}% used)"
+else
+    echo -e "  Memory: ${RED}High${NC} (${mem_percent}% used)"
+fi

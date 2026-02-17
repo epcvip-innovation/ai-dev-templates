@@ -1,0 +1,70 @@
+# CI Templates - Verification Status
+
+**Last Updated:** 2026-02-16
+
+> **Note:** "Deployed To" references are example deployments from the author's projects used to verify these templates work in production.
+
+## Quick Status
+
+| Template | Status | Deployed To | Tested |
+|----------|--------|-------------|--------|
+| `claude-qa-workflow.yml.template` | **VERIFIED** | example-project | YES |
+| `security-review.yml.template` | **VERIFIED** | example-project | YES |
+| `qa-persona.md.template` | SPECULATIVE | - | NO |
+| `risk-preflight.yml.template` | RESEARCH-BASED | - | NO |
+| `risk-policy.json.template` | RESEARCH-BASED | - | NO |
+| `evidence-manifest.json.template` | RESEARCH-BASED | - | NO |
+| `scripts/classify-pr.sh` | RESEARCH-BASED | - | NO |
+| `RISK-GATING.md` | RESEARCH-BASED | - | NO |
+| `INCIDENT-MEMORY.md` | RESEARCH-BASED | - | NO |
+
+---
+
+## Verification Results (2026-01-08)
+
+### Security Review Workflow
+- **Run ID:** 20800666122
+- **Duration:** 36s
+- **Result:** SUCCESS - 0 vulnerabilities found
+- **Notes:** Works out of the box, minimal config
+
+### Claude QA Workflow (Playwright MCP)
+- **Run ID:** 20800668844
+- **Duration:** 4m 36s total (219s Claude processing)
+- **Turns:** 39 browser interactions
+- **Cost:** $0.62 (Sonnet 4.5)
+- **Result:** SUCCESS - All tests passed
+- **Notes:** Required `id-token: write` permission for OIDC auth
+
+### Key Learnings
+
+1. **OIDC Auth Required:** `id-token: write` permission is required for claude-code-action
+2. **workflow_dispatch:** Add for manual testing during development
+3. **Push triggers:** For path-based workflows, include `push` trigger on main branch
+4. **Missing tools:** Claude tried `browser_fill_form` and `browser_evaluate` - consider adding
+5. **Model selection:** Sonnet works well; Haiku/Opus trade-offs need research
+
+---
+
+## Template Updates Applied
+
+| Change | Reason |
+|--------|--------|
+| Added `id-token: write` | Required for OIDC authentication |
+| Added `workflow_dispatch` | Manual triggering for testing |
+| Added push trigger on main | Catch issues before PRs |
+| Cost estimate in comments | Set expectations (~$0.60/run) |
+
+---
+
+## Confidence Level
+
+**Security Review:** HIGH confidence (VERIFIED)
+- Simple action, minimal config
+- 36s execution, zero issues
+- Official Anthropic action
+
+**QA with Playwright MCP:** HIGH confidence (VERIFIED)
+- Works in CI with headless mode
+- Server startup reliable
+- All 9 Playwright tools functional

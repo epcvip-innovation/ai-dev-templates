@@ -1,0 +1,104 @@
+import { test as base, Browser, BrowserContext, Page } from '@playwright/test';
+
+/**
+ * Custom Playwright fixtures template.
+ *
+ * Copy to test/e2e/fixtures.ts and customize for your app.
+ *
+ * Key insight: Each user/player/session gets their own browser context
+ * to prevent session conflicts (cookies, localStorage, etc.).
+ */
+
+// Import your Page Object Models
+// import { AppPage } from './helpers/AppPage';
+
+// Define your custom fixture types
+type CustomFixtures = {
+  /**
+   * Factory for creating isolated user contexts on demand.
+   * Use when you need dynamic number of users.
+   */
+  createUserContext: (name: string) => Promise<{ page: Page; context: BrowserContext }>;
+
+  /**
+   * Pre-configured two-user setup.
+   * Use for common two-user scenarios.
+   */
+  twoUsers: {
+    userA: { page: Page; context: BrowserContext };
+    userB: { page: Page; context: BrowserContext };
+  };
+
+  /**
+   * Authenticated user (logged in).
+   * Customize with your auth flow.
+   */
+  authenticatedPage: Page;
+};
+
+/**
+ * Extended test with custom fixtures.
+ */
+export const test = base.extend<CustomFixtures>({
+  // Factory fixture: creates isolated user contexts on demand
+  createUserContext: async ({ browser }, use) => {
+    const contexts: BrowserContext[] = [];
+
+    const factory = async (name: string) => {
+      const context = await browser.newContext();
+      const page = await context.newPage();
+      contexts.push(context);
+      return { page, context };
+    };
+
+    await use(factory);
+
+    // Cleanup all created contexts
+    for (const context of contexts) {
+      await context.close();
+    }
+  },
+
+  // Two users in isolated contexts
+  twoUsers: async ({ browser }, use) => {
+    const ctxA = await browser.newContext();
+    const ctxB = await browser.newContext();
+
+    const pageA = await ctxA.newPage();
+    const pageB = await ctxB.newPage();
+
+    await use({
+      userA: { page: pageA, context: ctxA },
+      userB: { page: pageB, context: ctxB },
+    });
+
+    await ctxA.close();
+    await ctxB.close();
+  },
+
+  // Authenticated user - customize for your auth flow
+  authenticatedPage: async ({ browser }, use) => {
+    const context = await browser.newContext();
+    const page = await context.newPage();
+
+    // TODO: Replace with your auth flow
+    // Option 1: Login via UI
+    // await page.goto('/login');
+    // await page.fill('[data-testid="email"]', 'test@example.com');
+    // await page.fill('[data-testid="password"]', 'password');
+    // await page.click('[data-testid="submit"]');
+    // await page.waitForURL('/dashboard');
+
+    // Option 2: Set auth state directly (faster)
+    // await context.addCookies([{ name: 'session', value: 'test-token', domain: 'localhost', path: '/' }]);
+
+    // Option 3: Use storageState from file
+    // const context = await browser.newContext({ storageState: 'playwright/.auth/user.json' });
+
+    await use(page);
+
+    await context.close();
+  },
+});
+
+export { expect } from '@playwright/test';

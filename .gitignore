@@ -1,0 +1,5 @@
+# Private content (nested git repo — version controlled separately)
+_private/
+
+# Auto-generated inventory (local audit tool)
+_FILE_INVENTORY.md

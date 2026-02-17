@@ -1,0 +1,30 @@
+# Railway Configuration - Node.js Application (RAILPACK)
+# Modern builder with 38% smaller images and better caching
+#
+# Usage:
+# 1. Copy to your project root as railway.toml
+# 2. Update startCommand to match your app
+# 3. Add buildCommand if you need to compile/build
+# 4. Commit and push to deploy
+
+[build]
+builder = "RAILPACK"
+# Optional: Add build step (e.g., TypeScript compilation, webpack)
+# buildCommand = "npm run build"
+
+[deploy]
+# Update to match your start script
+startCommand = "node index.js"
+
+# Health check endpoint (must return 200 OK)
+healthcheckPath = "/health"
+healthcheckTimeout = 120
+
+# Restart policy
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3
+
+# Node version auto-detected from:
+# - .nvmrc
+# - .node-version
+# - package.json engines field

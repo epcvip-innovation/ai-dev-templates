@@ -1,0 +1,255 @@
+# CLAUDE.md
+
+<!-- This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository. -->
+
+<!--
+TARGET LENGTH: 150-200 lines maximum (official guidance: 100-200)
+PHILOSOPHY: Reference, don't embed. Keep lightweight, link to detailed docs.
+RULE: No section should exceed 30 lines. If it does, extract to separate doc.
+-->
+
+## Project Purpose
+
+<!--
+WHAT BELONGS: 5-15 lines answering "What is this project? Why does it exist?"
+WHEN TO EXPAND: Never. If you need more, create PROJECT_OVERVIEW.md
+EXAMPLE: "This is a [type] for [purpose]. It's designed to [key value prop]."
+-->
+
+[Replace with 2-3 sentence description of your project]
+
+---
+
+## Tech Stack
+
+<!--
+WHAT BELONGS: List only (5-10 lines). Brief explanation if framework is unusual.
+DON'T INCLUDE: Installation instructions, detailed setup (goes in README or SETUP.md)
+EXAMPLE: "- React 19 - UI framework with TypeScript"
+-->
+
+- **[Framework/Language]** - [One-line description]
+- **[Key Tool]** - [One-line description]
+- **[Library]** - [One-line description]
+
+---
+
+## Critical Warnings & Gotchas
+
+<!--
+WHAT BELONGS: Project-specific quirks that Claude frequently gets wrong.
+CRITERIA: Does Claude make this mistake without explicit guidance? Include it.
+EXAMPLES:
+  - Tailwind v4 vs v3 (new tech, Claude trained on old version)
+  - Deprecated patterns that look correct but break
+  - Environment-specific requirements
+WHEN TO SKIP: Standard best practices Claude already knows
+MAX LENGTH: 30 lines. If more, extract to CONFIGURATION_GUIDE.md
+-->
+
+### [Critical Configuration or Pattern]
+
+**DO:**
+- ✅ [Correct approach]
+- ✅ [What works in this project]
+
+**DON'T:**
+- ❌ [Common mistake Claude makes]
+- ❌ [Deprecated pattern that looks right]
+
+<!--
+If you have 3+ critical warnings, create separate CONFIGURATION_GUIDE.md
+Keep only the top 1-2 most frequent mistakes here.
+-->
+
+---
+
+## Common Development Commands
+
+<!--
+WHAT BELONGS: 5-10 essential commands used in 80%+ of sessions
+FORMAT: Command + one-line description
+DON'T INCLUDE:
+  - Rarely-used commands (put in DEVELOPMENT_GUIDE.md)
+  - Deployment commands (unless you deploy multiple times per day)
+  - Setup/installation (goes in README)
+-->
+
+```bash
+[command]  # Description
+[command]  # Description
+[command]  # Description
+```
+
+---
+
+## Code Patterns & Conventions
+
+<!--
+WHAT BELONGS: Project-specific patterns Claude needs to follow
+CRITERIA:
+  - Used in 80%+ of files
+  - Unique to this project (not general best practices)
+  - Claude gets it wrong without guidance
+MAX LENGTH: 20 lines
+IF LONGER: Create CODING_STANDARDS.md, link to it here
+-->
+
+### [Pattern Category]
+
+**Example:**
+```[language]
+// Good - project pattern
+[code example]
+
+// Bad - what Claude might suggest instead
+[code example]
+```
+
+**Reference**: See [CODING_STANDARDS.md](./CODING_STANDARDS.md) for complete guidelines
+
+<!--
+IMPORTANT: Do NOT embed full coding standards here.
+3-5 lines showing most critical pattern + link to full standards doc.
+-->
+
+---
+
+## Domain Knowledge (Optional)
+
+<!--
+INCLUDE ONLY IF: Your project has domain-specific concepts that Claude can't infer
+CRITERIA: Would a new developer need to learn this to contribute?
+MAX LENGTH: 15 lines (brief summary only)
+IF DOMAIN IS COMPLEX: Create DOMAIN_GUIDE.md, put 3-line summary here
+EXAMPLE: "This project works with statistical testing. Key terms: EPL, redirect rate, sample size."
+-->
+
+**Key Concepts** (brief):
+- **[Term]**: [One-sentence definition]
+- **[Term]**: [One-sentence definition]
+
+**Reference**: See [DOMAIN_GUIDE.md](./docs/DOMAIN_GUIDE.md) for detailed explanations
+
+<!--
+If you find yourself writing formulas, long explanations, or tutorials: STOP.
+Move to separate doc, keep only 2-3 line summary here.
+-->
+
+---
+
+## Environment & Configuration (Optional)
+
+<!--
+INCLUDE ONLY IF: You have environment-specific requirements Claude needs for EVERY session
+WHAT BELONGS: Critical env vars, deployment context, database connections
+DON'T INCLUDE: Full setup instructions (goes in README or SETUP.md)
+MAX LENGTH: 15 lines
+-->
+
+**Essential Environment Variables:**
+```bash
+[VAR_NAME]  # Required for [purpose]
+[VAR_NAME]  # Required for [purpose]
+```
+
+**Reference**: See [SETUP.md](./SETUP.md) for complete environment setup
+
+---
+
+## File Organization
+
+<!--
+INCLUDE ONLY IF: Your project structure is non-standard or confusing
+WHAT BELONGS: 5-10 line directory tree of key locations
+DON'T INCLUDE: Full file tree (Claude can explore with glob/grep)
+EXAMPLE: "src/ contains components, utils/ contains helpers"
+-->
+
+```
+key-directory/   # [Purpose]
+another-dir/     # [Purpose]
+```
+
+---
+
+## Documentation Map
+
+<!--
+ALWAYS INCLUDE: This is how you keep CLAUDE.md lightweight
+PURPOSE: Guide Claude to the right detailed doc for specific needs
+FORMAT: Category → File → When to use it
+-->
+
+**For coding standards**: [CODING_STANDARDS.md](./CODING_STANDARDS.md)
+**For setup/installation**: [README.md](./README.md) or [SETUP.md](./SETUP.md)
+**For domain knowledge**: [DOMAIN_GUIDE.md](./docs/DOMAIN_GUIDE.md)
+**For deployment**: [DEPLOYMENT.md](./docs/DEPLOYMENT.md)
+**For project planning**: [backlog/](./backlog/)
+
+<!--
+This is the most important section for keeping CLAUDE.md lean.
+Every time you're tempted to add 50 lines of detail, ask:
+"Could this be a separate doc with a 1-line reference instead?"
+-->
+
+---
+
+## Development Notes (Optional)
+
+<!--
+WHAT BELONGS: High-level principles, workflow tips
+MAX LENGTH: 15 lines
+EXAMPLES: "This is a template, keep it lightweight" or "HMR is fast, no need to refresh"
+-->
+
+### [Development Principle or Note]
+
+[2-3 sentences about how to work effectively in this project]
+
+---
+
+## Quality Checklist (Optional)
+
+<!--
+INCLUDE ONLY IF: You have a short checklist that should run before commits/PRs
+MAX LENGTH: 10 lines
+IF LONGER: Create QUALITY_CHECKLIST.md or use /ai-review slash command instead
+-->
+
+Before committing:
+- [ ] [Essential check]
+- [ ] [Essential check]
+- [ ] [Essential check]
+
+---
+
+<!--
+==============================================================================
+FINAL REMINDERS FOR KEEPING THIS FILE LIGHTWEIGHT
+==============================================================================
+
+1. TARGET: 150-200 lines total (you're reading guidance comments, final should be much shorter)
+2. EACH SECTION: Maximum 30 lines. If longer, extract to separate doc.
+3. REFERENCE > EMBED: Always prefer linking to detailed docs over including detail here
+4. QUARTERLY AUDIT: Run /audit-claude-md to detect bloat accumulation
+5. ASK: "Is this needed in 80%+ of sessions?" If no, move to separate doc.
+
+COMMON BLOAT SOURCES TO AVOID:
+❌ Embedding full coding standards (use 3-line summary + link)
+❌ Long lists of commands (keep 5-10 essential, link to full list)
+❌ Domain tutorials (brief summary + link to guide)
+❌ Setup instructions (belongs in README)
+❌ Deployment procedures (belongs in DEPLOYMENT.md)
+❌ File trees (Claude can explore, only list key 3-5 directories)
+❌ "Just in case" information (if it's not used regularly, delete it)
+
+GOOD SIGNS:
+✅ Most sections are 5-15 lines
+✅ Multiple "Reference: [doc]" links
+✅ Concrete examples (not prose explanations)
+✅ You can read the entire file in 2-3 minutes
+✅ It answers "what is this?" and "what do I need to know?" without bloat
+
+==============================================================================
+-->
