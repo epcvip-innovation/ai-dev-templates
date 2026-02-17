@@ -114,11 +114,11 @@ Hub = things Claude needs ALWAYS. Spokes = things Claude needs SOMETIMES.
 
 ---
 
-## Related Templates
+## See Also
 
-- [Slash Commands](../slash-commands/) — 21 workflow commands including `/audit-claude-md`
-- [Anti-Slop Standards](../standards/) — Code quality with grep patterns
-- [Project Management](../project-management/) — Task tracking and backlogs
+- [Slash Commands](../slash-commands/README.md) — 21 workflow commands including `/audit-claude-md`
+- [Anti-Slop Standards](../standards/ANTI_SLOP_STANDARDS.md) — Code quality with grep patterns
+- [Project Management](../project-management/README.md) — Task tracking and backlogs
 
 ---
 

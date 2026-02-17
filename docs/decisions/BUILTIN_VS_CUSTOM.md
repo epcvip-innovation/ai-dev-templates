@@ -274,5 +274,5 @@ When built-in isn't enough:
 ## See Also
 
 - [../../templates/slash-commands/README.md](../../templates/slash-commands/README.md) - Command templates
-- [../../templates/plugins/](../../templates/plugins/) - Skill templates
-- [../../templates/project-management/](../../templates/project-management/) - Project & task management
+- [../../templates/plugins/](../../templates/plugins/README.md) - Skill templates
+- [../../templates/project-management/](../../templates/project-management/README.md) - Project & task management

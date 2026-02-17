@@ -8,7 +8,7 @@ This file provides guidance to Claude Code when working with this repository.
 
 This is an **AI workflow template library**, built from 6+ months of real-world AI-assisted development experience.
 
-**Primary Purpose**: 66 template files across 9 categories for AI-assisted development
+**Primary Purpose**: 66 template files across 10 categories for AI-assisted development
 - Evidence-based approach: 239+ commits analyzed across 4 production repositories
 - 10 template categories: slash commands, CLAUDE.md structures, anti-slop standards, hooks, project organization, features backlog, permissions, testing, CI/CD, plugins
 - Ready for personal use, team adoption, and future public sharing
@@ -107,6 +107,11 @@ All templates extracted from real production usage, not theoretical best practic
 **For Context & Learning**:
 - See [README.md](./README.md) for complete navigation
 
+**Key References**:
+- [New Project Setup](./docs/getting-started/NEW-PROJECT-SETUP.md) - Complete project setup guide
+- [Built-in vs Custom](./docs/decisions/BUILTIN_VS_CUSTOM.md) - When to use built-in vs custom
+- [Advanced Workflows](./docs/reference/ADVANCED-WORKFLOWS.md) - Power-user guide: context, planning, agents, extensions
+
 **Don't**:
 - Don't copy templates blindly without understanding context
 - Don't treat these as rigid requirements
@@ -148,31 +153,6 @@ cursor .            # Open Cursor (Remote-WSL)
 **Common tasks**:
 - Browse templates: `ls templates/`
 - Check performance: `perf`
-
-## Documentation Map
-
-**Getting Started** (New Projects):
-- [docs/getting-started/NEW-PROJECT-SETUP.md](./docs/getting-started/NEW-PROJECT-SETUP.md) - Complete project setup guide
-- [docs/decisions/BUILTIN_VS_CUSTOM.md](./docs/decisions/BUILTIN_VS_CUSTOM.md) - When to use built-in vs custom
-
-**Template Library** (Primary):
-- [templates/README.md](./templates/README.md) - Complete template library overview
-- [templates/slash-commands/](./templates/slash-commands/) - 21 workflow commands
-- [templates/plugins/](./templates/plugins/) - Claude Code skills (code-review)
-- [templates/project-management/](./templates/project-management/) - Task tracking, backlogs, .projects/
-- [templates/claude-md/](./templates/claude-md/) - CLAUDE.md structure templates
-- [templates/standards/](./templates/standards/) - Anti-slop standards & documentation strategy
-- [templates/testing/](./templates/testing/) - Playwright + Claude Code testing patterns
-
-**Reference**:
-- [docs/reference/ADVANCED-WORKFLOWS.md](./docs/reference/ADVANCED-WORKFLOWS.md) - 7-section power-user guide: context, planning, agents, extensions, predictability, tool strategy, meta-principles
-
-**Environment Setup** (Secondary):
-- [README.md](./README.md) - Main hub for all documentation
-- [docs/setup-guides/DAILY-WORKFLOW.md](./docs/setup-guides/DAILY-WORKFLOW.md) - Daily workflow guide
-- [docs/decisions/why-wsl.md](./docs/decisions/why-wsl.md) - Architectural decisions
-- [docs/setup-guides/](./docs/setup-guides/) - Setup and architecture guides
-- [docs/reference/](./docs/reference/) - Commands, paths, and configuration reference
 
 ## Important Notes
 

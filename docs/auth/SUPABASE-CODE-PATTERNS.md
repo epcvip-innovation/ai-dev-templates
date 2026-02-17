@@ -378,4 +378,4 @@ ENVIRONMENT=production
 
 ## Note
 
-For comprehensive auth templates, see [templates/auth/](../../templates/auth/).
+For comprehensive auth templates, see [templates/auth/](../../templates/auth/README.md).

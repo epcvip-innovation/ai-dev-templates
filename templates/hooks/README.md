@@ -243,6 +243,15 @@ For comprehensive documentation (all events, exit codes, input formats, environm
 
 ---
 
+## See Also
+
+- [Slash Commands](../slash-commands/README.md) — Commands that integrate with hooks
+- [Permissions](../permissions/README.md) — Coarse-grained access control (hooks add fine-grained)
+- [Anti-Slop Standards](../standards/ANTI_SLOP_STANDARDS.md) — Quality standards hooks can enforce
+- [All Templates](../README.md)
+
+---
+
 **Last Updated**: 2026-02-15
 **Maintained By**: dev-setup template library
 **Evidence**: Extracted from implementing global query validation hook across 4 repositories

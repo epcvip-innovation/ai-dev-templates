@@ -152,5 +152,5 @@ Copy this file to your project's `docs/` or `.claude/` directory and customize:
 ## See Also
 
 - [BUILTIN_VS_CUSTOM.md](../docs/decisions/BUILTIN_VS_CUSTOM.md) - When to use built-in vs custom workflows
-- [../plugins/code-review/](../plugins/code-review/) - Code review plugin with latest patterns
+- [../plugins/code-review/](../plugins/code-review/README.md) - Code review plugin with latest patterns
 - [CLAUDE-MD-GUIDELINES.md](../claude-md/CLAUDE-MD-GUIDELINES.md) - Keeping CLAUDE.md lean

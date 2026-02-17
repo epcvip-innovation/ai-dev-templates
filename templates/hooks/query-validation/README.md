@@ -315,7 +315,7 @@ Optional: Add Python `logging` to the hook to record ALLOWED/BLOCKED decisions t
 - [**CUSTOMIZATION.md**](./CUSTOMIZATION.md) - Per-database patterns, custom runners, extension points
 - [**Hooks README**](../README.md) - Hook category overview
 - [**Hooks Technical Reference**](../HOOKS_REFERENCE.md) - Complete hooks documentation
-- [**Slash Commands**](../../slash-commands/) - `/validate-query` command integration
+- [**Slash Commands**](../../slash-commands/README.md) - `/validate-query` command integration
 
 ---
 

@@ -336,4 +336,4 @@ permissions:
 - [claude-qa-workflow.yml.template](./claude-qa-workflow.yml.template)
 - [security-review.yml.template](./security-review.yml.template)
 - [qa-persona.md.template](./qa-persona.md.template)
-- [../plugins/code-review/](../plugins/code-review/) - Local review before PR
+- [../plugins/code-review/](../plugins/code-review/README.md) - Local review before PR

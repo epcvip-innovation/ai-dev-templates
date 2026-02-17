@@ -25,7 +25,7 @@ These docs contain setup guides specific to your environment:
 ### New Project Setup
 - [ ] Get Supabase credentials (create project or reuse existing)
 - [ ] Add env vars: `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_JWT_SECRET`
-- [ ] Copy code pattern from [templates/auth/](../../templates/auth/)
+- [ ] Copy code pattern from [templates/auth/](../../templates/auth/README.md)
 - [ ] Add production URL to Supabase Redirect URLs
 - [ ] Configure `ALLOWED_USERS` or `ALLOWED_DOMAIN`
 - [ ] Deploy
