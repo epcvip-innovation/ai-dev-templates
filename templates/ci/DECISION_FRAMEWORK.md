@@ -11,13 +11,20 @@ Is this a personal/hobby project?
 ├── Yes → Security Review Only
 └── No → Continue...
     │
-    Does it have a web UI?
-    ├── Yes → Add QA Review (path-triggered)
-    └── No → Security Review Only
+    Does it have auth/payments/sensitive data paths?
+    ├── Yes → Add Risk Preflight (risk-gated CI)
+    │         └── Does it have a web UI?
+    │             ├── Yes → Risk Preflight + QA (evidence-gated)
+    │             └── No → Risk Preflight (security only on critical paths)
+    └── No → Continue...
         │
-        Is it an enterprise/team project?
-        ├── Yes → Full Suite + Label-Based QA
-        └── No → Security Review + Selective QA
+        Does it have a web UI?
+        ├── Yes → Add QA Review (path-triggered)
+        └── No → Security Review Only
+            │
+            Is it an enterprise/team project?
+            ├── Yes → Full Suite + Label-Based QA
+            └── No → Security Review + Selective QA
 ```
 
 ---
@@ -30,11 +37,31 @@ Is this a personal/hobby project?
 | Personal CLI/utility | `security-review.yml` | $0.10-0.30 |
 | Personal web app | `security-review.yml` + `claude-qa-workflow.yml` (path-triggered) | $0.30-0.80 |
 | Team web app | Full suite with path triggers | $0.50-1.50 |
+| Team app with sensitive paths | `risk-preflight.yml` + path-gated security + evidence-gated QA | $0-1.50 (tier-dependent) |
 | Enterprise | Full suite + label-based QA + manual triggers | Variable |
 
 ---
 
 ## Available Templates
+
+### 0. Risk Preflight (`risk-preflight.yml.template`)
+
+**Purpose:** Classify PR risk by changed files, then gate security and QA checks by tier
+
+**When to use:**
+- Team projects with distinct sensitive code areas (auth, payments, PII)
+- When you want docs-only PRs to skip expensive reviews
+- When critical paths need QA evidence artifacts, not just PR comments
+
+**Requires:**
+- `risk-policy.json` — path → tier mapping (customize from template)
+- `scripts/classify-pr.sh` — standalone classifier
+
+**Cost:** $0 for low-tier PRs, up to ~$1.50 for critical-tier (security + QA + evidence)
+
+**See:** [RISK-GATING.md](./RISK-GATING.md) for full setup guide
+
+---
 
 ### 1. Security Review (`security-review.yml.template`)
 
@@ -336,4 +363,7 @@ permissions:
 - [claude-qa-workflow.yml.template](./claude-qa-workflow.yml.template)
 - [security-review.yml.template](./security-review.yml.template)
 - [qa-persona.md.template](./qa-persona.md.template)
+- [risk-preflight.yml.template](./risk-preflight.yml.template) — Risk-gated CI workflow
+- [RISK-GATING.md](./RISK-GATING.md) — Risk-based CI guide
+- [INCIDENT-MEMORY.md](./INCIDENT-MEMORY.md) — Post-mortem and harness-gap templates
 - [../plugins/code-review/](../plugins/code-review/README.md) - Local review before PR

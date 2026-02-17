@@ -12,9 +12,16 @@ GitHub Actions workflows for AI-assisted development using official Anthropic ac
 |------|---------|
 | [claude-qa-workflow.yml.template](./claude-qa-workflow.yml.template) | Browser-based QA with Claude + Playwright MCP |
 | [security-review.yml.template](./security-review.yml.template) | Automated security scanning on all PRs |
-| [qa-persona.md.template](./qa-persona.md.template) | QA engineer persona prompt |
+| [qa-persona.md.template](./qa-persona.md.template) | QA engineer persona prompt (with evidence manifest) |
 | [DECISION_FRAMEWORK.md](./DECISION_FRAMEWORK.md) | Choose the right CI template for your project |
 | [STATUS.md](./STATUS.md) | Template verification status |
+| **Risk-Based Gating** | |
+| [risk-preflight.yml.template](./risk-preflight.yml.template) | Gated CI workflow — classifies PR risk, routes checks |
+| [risk-policy.json.template](./risk-policy.json.template) | Machine-readable risk contract (paths → tiers) |
+| [scripts/classify-pr.sh](./scripts/classify-pr.sh) | Standalone risk classifier script |
+| [evidence-manifest.json.template](./evidence-manifest.json.template) | Structured QA evidence artifact schema |
+| [RISK-GATING.md](./RISK-GATING.md) | Guide: risk-based CI setup, SHA discipline, guardrails |
+| [INCIDENT-MEMORY.md](./INCIDENT-MEMORY.md) | Post-mortem and harness-gap templates |
 
 ## Official Actions
 
@@ -52,15 +59,23 @@ Customize:
 
 ## How It Works
 
-### Security Review
+### Flat CI (Security + QA)
 ```
 PR opened → Action runs → Scans diff → Posts findings as line comments
 ```
-
-### QA Review
 ```
 Files changed → Server starts → Claude navigates app → Posts report as PR comment
 ```
+
+### Risk-Gated CI (Recommended for Team Projects)
+```
+PR opened → Classify changed files → Route by risk tier:
+  ├── low (docs/config)     → skip expensive checks
+  ├── standard (app code)   → security review only
+  └── critical/high (auth)  → security + QA + evidence artifact
+```
+
+See [RISK-GATING.md](./RISK-GATING.md) for the full guide.
 
 ## Path-Specific Triggering
 
@@ -171,3 +186,4 @@ From [Anthropic's security guidance](https://www.stepsecurity.io/blog/anthropics
 - [Testing Templates](../testing/README.md) - E2E testing patterns
 - [Playwright MCP Guide](../../docs/mcp/playwright/README.md) — Claude + browser automation
 - [Research Archive](../testing/RESEARCH_ARCHIVE.md) - 2026 research findings
+- [Code Review Plugin](../plugins/code-review/README.md) - Local review before PR

@@ -1,0 +1,132 @@
+# risk-preflight.yml — Risk-gated CI workflow
+#
+# Runs FIRST on every PR. Classifies changed files by risk tier,
+# then conditionally triggers security review and QA based on tier.
+#
+# Prerequisites:
+#   1. Copy risk-policy.json.template → .github/risk-policy.json (customize paths)
+#   2. Copy scripts/classify-pr.sh → .github/scripts/classify-pr.sh
+#   3. Set ANTHROPIC_API_KEY secret
+#
+# See RISK-GATING.md for full guide.
+
+name: Risk Preflight
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  # ── Job 1: Classify PR risk tier ──────────────────────────────
+  classify:
+    runs-on: ubuntu-latest
+    outputs:
+      tier: ${{ steps.classify.outputs.tier }}
+      checks: ${{ steps.classify.outputs.checks }}
+      evidence_required: ${{ steps.classify.outputs.evidence_required }}
+      head_sha: ${{ steps.sha.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Capture head SHA
+        id: sha
+        run: echo "sha=${{ github.event.pull_request.head.sha }}" >> "$GITHUB_OUTPUT"
+
+      - name: Get changed files
+        id: files
+        run: |
+          FILES=$(gh pr diff ${{ github.event.pull_request.number }} --name-only)
+          echo "files<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$FILES" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Classify risk tier
+        id: classify
+        run: |
+          RESULT=$(echo "${{ steps.files.outputs.files }}" | \
+            bash .github/scripts/classify-pr.sh .github/risk-policy.json)
+
+          echo "tier=$(echo "$RESULT" | jq -r '.tier')" >> "$GITHUB_OUTPUT"
+          echo "checks=$(echo "$RESULT" | jq -c '.checks')" >> "$GITHUB_OUTPUT"
+          echo "evidence_required=$(echo "$RESULT" | jq -r '.evidence_required')" >> "$GITHUB_OUTPUT"
+
+          echo "### Risk Classification" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **Tier**: $(echo "$RESULT" | jq -r '.tier')" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **Required checks**: $(echo "$RESULT" | jq -r '.checks | join(", ")')" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **Evidence required**: $(echo "$RESULT" | jq -r '.evidence_required')" >> "$GITHUB_STEP_SUMMARY"
+
+  # ── Job 2: Security review (skip for low-tier) ───────────────
+  security-review:
+    needs: classify
+    if: contains(needs.classify.outputs.checks, 'security-review')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.classify.outputs.head_sha }}
+
+      - uses: anthropics/claude-code-security-review@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+
+  # ── Job 3: QA review (critical/high with evidence) ───────────
+  qa-review:
+    needs: classify
+    if: |
+      contains(needs.classify.outputs.checks, 'qa-review') &&
+      needs.classify.outputs.evidence_required == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.classify.outputs.head_sha }}
+
+      # CUSTOMIZE: Add your server start command
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Start server
+        run: npm run dev &
+        env:
+          PORT: 3000
+
+      - name: Wait for server
+        run: npx wait-on http://localhost:3000 --timeout 30000
+
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt_file: .github/prompts/qa-persona.md
+          # Playwright MCP for browser testing
+          mcp_config: |
+            {
+              "mcpServers": {
+                "playwright": {
+                  "command": "npx",
+                  "args": ["@playwright/mcp@latest", "--headless"]
+                }
+              }
+            }
+          allowed_tools: |
+            mcp__playwright__browser_navigate
+            mcp__playwright__browser_click
+            mcp__playwright__browser_type
+            mcp__playwright__browser_snapshot
+            mcp__playwright__browser_take_screenshot
+            mcp__playwright__browser_console_messages
+            mcp__playwright__browser_resize
+
+      # Upload evidence manifest as artifact
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-evidence-${{ needs.classify.outputs.head_sha }}
+          path: evidence/
+          retention-days: 30

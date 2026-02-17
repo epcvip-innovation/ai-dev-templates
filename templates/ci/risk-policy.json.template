@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$comment": "Risk policy contract. Copy to .github/risk-policy.json and customize paths for your repo.",
+
+  "tiers": {
+    "critical": {
+      "description": "Auth, payments, PII, infrastructure — requires full review suite",
+      "required_checks": ["security-review", "qa-review"],
+      "evidence_required": true,
+      "auto_merge_allowed": false
+    },
+    "high": {
+      "description": "Core business logic, API routes, database migrations",
+      "required_checks": ["security-review", "qa-review"],
+      "evidence_required": true,
+      "auto_merge_allowed": false
+    },
+    "standard": {
+      "description": "Application code, components, utilities",
+      "required_checks": ["security-review"],
+      "evidence_required": false,
+      "auto_merge_allowed": false
+    },
+    "low": {
+      "description": "Docs, config, tests, CI — minimal review needed",
+      "required_checks": [],
+      "evidence_required": false,
+      "auto_merge_allowed": true
+    }
+  },
+
+  "path_rules": [
+    { "pattern": "src/auth/**",            "tier": "critical" },
+    { "pattern": "src/payments/**",        "tier": "critical" },
+    { "pattern": "server/api/auth/**",     "tier": "critical" },
+    { "pattern": ".env*",                  "tier": "critical" },
+    { "pattern": "**/*secret*",            "tier": "critical" },
+    { "pattern": "infrastructure/**",      "tier": "critical" },
+
+    { "pattern": "src/api/**",             "tier": "high" },
+    { "pattern": "server/**",             "tier": "high" },
+    { "pattern": "prisma/migrations/**",   "tier": "high" },
+    { "pattern": "supabase/migrations/**", "tier": "high" },
+    { "pattern": "src/services/**",        "tier": "high" },
+
+    { "pattern": "src/**",                "tier": "standard" },
+    { "pattern": "public/**",             "tier": "standard" },
+
+    { "pattern": "docs/**",               "tier": "low" },
+    { "pattern": "*.md",                  "tier": "low" },
+    { "pattern": "tests/**",             "tier": "low" },
+    { "pattern": ".github/**",           "tier": "low" },
+    { "pattern": "package-lock.json",    "tier": "low" },
+    { "pattern": "*.config.*",           "tier": "low" }
+  ],
+
+  "default_tier": "standard",
+
+  "docs_drift": {
+    "$comment": "Optional: flag PRs that change code without updating docs",
+    "enabled": false,
+    "code_paths": ["src/**"],
+    "doc_paths": ["docs/**", "*.md"],
+    "label": "needs-docs"
+  }
+}
