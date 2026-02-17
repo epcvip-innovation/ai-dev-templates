@@ -36,6 +36,9 @@
     { "pattern": ".env*",                  "tier": "critical" },
     { "pattern": "**/*secret*",            "tier": "critical" },
     { "pattern": "infrastructure/**",      "tier": "critical" },
+    { "pattern": ".github/workflows/**",     "tier": "critical" },
+    { "pattern": ".github/scripts/**",       "tier": "critical" },
+    { "pattern": ".github/risk-policy.json", "tier": "critical" },
 
     { "pattern": "src/api/**",             "tier": "high" },
     { "pattern": "server/**",             "tier": "high" },
@@ -49,7 +52,6 @@
     { "pattern": "docs/**",               "tier": "low" },
     { "pattern": "*.md",                  "tier": "low" },
     { "pattern": "tests/**",             "tier": "low" },
-    { "pattern": ".github/**",           "tier": "low" },
     { "pattern": "package-lock.json",    "tier": "low" },
     { "pattern": "*.config.*",           "tier": "low" }
   ],

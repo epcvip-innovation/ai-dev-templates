@@ -73,6 +73,7 @@ The core value of this repository. **Browse before using** - these are patterns 
 - GitHub Actions workflows for AI-assisted development
 - Claude QA: Automated PR verification with Claude + Playwright MCP
 - QA persona prompting for consistent, thorough reviews
+- Risk-gated CI: classify PRs by tier, gate security + QA on sensitive paths (optional advanced pattern)
 - **See**: [templates/ci/README.md](./templates/ci/README.md)
 
 **9. Plugins** (`templates/plugins/`)

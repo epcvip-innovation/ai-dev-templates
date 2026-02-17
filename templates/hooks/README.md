@@ -192,6 +192,7 @@ except Exception as e:
 | **Slash Commands** | `/validate-query` creates marker file → hook checks marker before allowing execution |
 | **Permissions** | Permissions = "Can this tool run?" → Hooks = "Should this specific operation run?" |
 | **Anti-Slop Standards** | Hook enforces CLAUDE.md size limit on Write tool (`line_count > 200` → block) |
+| **CI Risk Gating** | SHA-marker pattern used for CI comment deduplication — see [RISK-GATING.md](../ci/RISK-GATING.md) Rerun Deduplication section |
 
 ---
 

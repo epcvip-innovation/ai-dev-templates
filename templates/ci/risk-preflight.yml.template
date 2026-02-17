@@ -46,11 +46,34 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Fetch trusted policy from base branch
+        id: trusted
+        run: |
+          BASE_REF="${{ github.event.pull_request.base.ref || github.ref_name }}"
+          git fetch origin "$BASE_REF" --depth=1
+
+          # Use base-branch policy/script if they exist (tamper resistance)
+          # Fall back to PR copies for bootstrap case (first PR adding risk gating)
+          if git show "origin/$BASE_REF:.github/risk-policy.json" > /tmp/trusted-policy.json 2>/dev/null; then
+            echo "policy=/tmp/trusted-policy.json" >> "$GITHUB_OUTPUT"
+          else
+            echo "policy=.github/risk-policy.json" >> "$GITHUB_OUTPUT"
+          fi
+
+          if git show "origin/$BASE_REF:.github/scripts/classify-pr.sh" > /tmp/trusted-classify.sh 2>/dev/null; then
+            chmod +x /tmp/trusted-classify.sh
+            echo "classifier=/tmp/trusted-classify.sh" >> "$GITHUB_OUTPUT"
+          else
+            echo "classifier=.github/scripts/classify-pr.sh" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Classify risk tier
         id: classify
+        env:
+          SKIP_RISK_GATE: ${{ vars.SKIP_RISK_GATE || '0' }}
         run: |
           RESULT=$(echo "${{ steps.files.outputs.files }}" | \
-            bash .github/scripts/classify-pr.sh .github/risk-policy.json)
+            bash ${{ steps.trusted.outputs.classifier }} ${{ steps.trusted.outputs.policy }})
 
           echo "tier=$(echo "$RESULT" | jq -r '.tier')" >> "$GITHUB_OUTPUT"
           echo "checks=$(echo "$RESULT" | jq -c '.checks')" >> "$GITHUB_OUTPUT"

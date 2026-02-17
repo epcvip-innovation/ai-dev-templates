@@ -4,7 +4,7 @@
 #
 # Usage:
 #   classify-pr.sh <policy-file> <changed-files...>
-#   echo "src/auth/login.ts src/utils/format.ts" | classify-pr.sh <policy-file>
+#   printf "src/auth/login.ts\nsrc/utils/format.ts\n" | classify-pr.sh <policy-file>
 #
 # Output (JSON):
 #   { "tier": "critical", "checks": ["security-review", "qa-review"], "evidence_required": true }
@@ -36,15 +36,45 @@ if ! command -v jq &>/dev/null; then
   exit 1
 fi
 
+# --- Validate policy ---
+validate_policy() {
+  local policy="$1"
+
+  # Check default_tier exists in tiers
+  local default_tier
+  default_tier=$(jq -r '.default_tier // empty' "$policy")
+  if [[ -z "$default_tier" ]]; then
+    echo "Error: Policy missing default_tier" >&2
+    exit 1
+  fi
+  if [[ $(jq --arg t "$default_tier" '.tiers | has($t)' "$policy") != "true" ]]; then
+    echo "Error: default_tier '$default_tier' not found in tiers" >&2
+    exit 1
+  fi
+
+  # Check every path_rules[].tier exists in tiers
+  local bad_tiers
+  bad_tiers=$(jq -r '.path_rules[].tier' "$policy" | sort -u | while read -r t; do
+    if [[ $(jq --arg t "$t" '.tiers | has($t)' "$policy") != "true" ]]; then
+      echo "$t"
+    fi
+  done)
+  if [[ -n "$bad_tiers" ]]; then
+    echo "Error: path_rules reference undefined tiers: $bad_tiers" >&2
+    exit 1
+  fi
+}
+
+validate_policy "$POLICY_FILE"
+
 # Collect changed files from args or stdin
 CHANGED_FILES=()
 if [[ $# -gt 0 ]]; then
   CHANGED_FILES=("$@")
 else
   while IFS= read -r line; do
-    for f in $line; do
-      CHANGED_FILES+=("$f")
-    done
+    [[ -z "$line" ]] && continue
+    CHANGED_FILES+=("$line")
   done
 fi
 

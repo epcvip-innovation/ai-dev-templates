@@ -56,7 +56,14 @@ Three files work together:
    # Customize: server start command, port, dependencies
    ```
 
-4. **Add secrets**: `ANTHROPIC_API_KEY` in repo settings.
+4. **Copy QA assets** (needed for high/critical tier reviews):
+   ```bash
+   mkdir -p .github/prompts
+   cp qa-persona.md.template .github/prompts/qa-persona.md
+   cp evidence-manifest.json.template .github/evidence-manifest.json
+   ```
+
+5. **Add secrets**: `ANTHROPIC_API_KEY` in repo settings.
 
 ## Risk Policy Schema
 
@@ -128,7 +135,7 @@ SKIP_RISK_GATE=1 ./scripts/classify-pr.sh .github/risk-policy.json src/auth/logi
 # {"tier":"low","checks":[],"evidence_required":false,"skipped":true}
 ```
 
-In the workflow, set `SKIP_RISK_GATE` as a repository variable or pass it via the `workflow_dispatch` input.
+In the workflow, set the `SKIP_RISK_GATE` repository variable to `1` to bypass classification. This is intended for urgent hotfixes — remove it after the emergency.
 
 ## SHA Discipline
 
@@ -143,6 +150,14 @@ The preflight workflow captures `github.event.pull_request.head.sha` in the clas
 **Why this matters**: Between when the classify job reads the diff and when the security/QA jobs run, the PR head can advance if the author pushes. Without SHA pinning, the review runs against code that wasn't classified — a merge safety gap.
 
 The `synchronize` trigger ensures a new classification run starts whenever the PR head changes.
+
+## Tamper Resistance
+
+The classify job fetches the policy file and classifier script from the **base branch**, not the PR branch. This prevents a PR from modifying the gate to downgrade its own classification.
+
+If the base branch doesn't have these files yet (bootstrapping — first PR that adds risk gating), the workflow falls back to the PR's own copies.
+
+The template policy also classifies `.github/workflows/**`, `.github/scripts/**`, and `.github/risk-policy.json` as `critical`, ensuring that any change to the gate itself gets full review.
 
 ## Rerun Deduplication
 
@@ -179,6 +194,10 @@ We deliberately don't provide a remediation workflow template — the coding age
 | Critical path PR | ~$0.40 | ~$0.80 | -100% (more thorough) |
 
 The savings compound: in a typical repo, 30-50% of PRs touch only docs, tests, or config.
+
+## Where to Start
+
+Best suited for repos with distinct auth/permissions code AND a web UI: **epcvip-admin** (RBAC matrix), **docs-site** (per-doc access control), **experiments-dashboard** (role-based test visibility). These have the highest ratio of mixed-risk PRs — a single sprint typically includes both docs-only and auth-touching changes, so risk gating saves the most CI spend there.
 
 ## See Also
 

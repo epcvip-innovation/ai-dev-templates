@@ -83,3 +83,7 @@ See [SKILL-INSTALLATION.md](./SKILL-INSTALLATION.md) for:
 3. **2-3 passes max** — diminishing returns after that
 4. **Create review-context.md** — reduces false positives significantly
 5. **Trust verdicts** — the evaluation phase filters pedantic suggestions
+
+## See Also
+
+- [INCIDENT-MEMORY.md](../../ci/INCIDENT-MEMORY.md) — Post-mortem templates for when bugs escape review

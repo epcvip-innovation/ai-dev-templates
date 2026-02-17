@@ -1,6 +1,6 @@
 # CI Templates - Verification Status
 
-**Last Updated:** 2026-01-08 00:15 PST
+**Last Updated:** 2026-02-16
 
 > **Note:** "Deployed To" references are example deployments from the author's projects used to verify these templates work in production.
 
@@ -11,6 +11,12 @@
 | `claude-qa-workflow.yml.template` | **VERIFIED** | example-project | YES |
 | `security-review.yml.template` | **VERIFIED** | example-project | YES |
 | `qa-persona.md.template` | SPECULATIVE | - | NO |
+| `risk-preflight.yml.template` | RESEARCH-BASED | - | NO |
+| `risk-policy.json.template` | RESEARCH-BASED | - | NO |
+| `evidence-manifest.json.template` | RESEARCH-BASED | - | NO |
+| `scripts/classify-pr.sh` | RESEARCH-BASED | - | NO |
+| `RISK-GATING.md` | RESEARCH-BASED | - | NO |
+| `INCIDENT-MEMORY.md` | RESEARCH-BASED | - | NO |
 
 ---
 
