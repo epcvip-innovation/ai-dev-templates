@@ -57,6 +57,30 @@ Customize:
 2. Server start command
 3. Test instructions in the prompt
 
+### Option 3: Risk-Gated CI (team projects with sensitive paths)
+
+> Best for repos where PRs mix docs-only and auth-touching changes.
+> Classifies files by risk tier so low-risk PRs skip expensive reviews.
+> **Status: research-based — not yet validated in CI.** See [STATUS.md](./STATUS.md).
+
+1. Copy and customize the policy:
+   ```bash
+   cp templates/ci/risk-policy.json.template .github/risk-policy.json
+   ```
+2. Copy the classifier script:
+   ```bash
+   mkdir -p .github/scripts
+   cp templates/ci/scripts/classify-pr.sh .github/scripts/classify-pr.sh
+   chmod +x .github/scripts/classify-pr.sh
+   ```
+3. Copy the workflow:
+   ```bash
+   cp templates/ci/risk-preflight.yml.template .github/workflows/risk-preflight.yml
+   ```
+4. Add `ANTHROPIC_API_KEY` secret in repo settings.
+
+See [RISK-GATING.md](./RISK-GATING.md) for full guide (SHA discipline, tamper resistance, escape hatch).
+
 ## How It Works
 
 ### Flat CI (Security + QA)

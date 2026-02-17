@@ -209,6 +209,9 @@ cp templates/ci/security-review.yml .github/workflows/
 |----------|---------|--------------|
 | `security-review.yml` | Every PR | $0.10-0.30 |
 | `claude-qa-workflow.yml` | Path-specific | $0.50-1.50 |
+| `risk-preflight.yml` | PR risk tier | $0.10-1.50 (varies by tier) |
+
+For team projects with sensitive code paths (auth, payments, PII), `risk-preflight.yml` classifies PRs by risk tier so docs-only changes skip expensive reviews. See [RISK-GATING.md](../../templates/ci/RISK-GATING.md).
 
 **Framework**: [templates/ci/DECISION_FRAMEWORK.md](../../templates/ci/DECISION_FRAMEWORK.md)
 
@@ -249,6 +252,7 @@ All built-in — no setup required. For detailed agent descriptions, trigger pat
 - [ ] Set up folder-based backlog with Python utilities
 - [ ] Install custom skills (backlog-dashboard, add-backlog, backlog-complete)
 - [ ] Configure CI/CD with GitHub Actions
+- [ ] (Team) Configure risk-gated CI (see [RISK-GATING.md](../../templates/ci/RISK-GATING.md))
 - [ ] Document architecture in spoke files
 
 ---
@@ -299,7 +303,8 @@ your-project/
 │   └── research/
 ├── .github/
 │   └── workflows/               # CI/CD
-│       └── security-review.yml
+│       ├── security-review.yml
+│       └── # risk-preflight.yml  (team projects — see RISK-GATING.md)
 └── docs/
     └── ARCHITECTURE.md          # Spoke document
 ```

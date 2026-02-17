@@ -29,7 +29,7 @@ Battle-tested templates for AI-assisted development with Claude Code, extracted 
 | **Hooks** | Workflow automation and validation hooks | [README](./templates/hooks/README.md) |
 | **Permissions** | Tool access configuration | [README](./templates/permissions/README.md) |
 | **Testing** | Playwright + Claude Code E2E patterns | [README](./templates/testing/README.md) |
-| **CI/CD** | GitHub Actions for AI-assisted development | [README](./templates/ci/README.md) |
+| **CI/CD** | Security review, QA workflows, risk-based gating | [README](./templates/ci/README.md) |
 
 ---
 

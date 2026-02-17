@@ -32,7 +32,8 @@ Production-validated patterns for AI-assisted development.
 | **hooks** | Workflow automation hooks | [README](./hooks/README.md) |
 | **permissions** | Tool access configuration | [README](./permissions/README.md) |
 | **testing** | Playwright + Claude Code patterns | [README](./testing/README.md) |
-| **ci** | GitHub Actions workflows | [README](./ci/README.md) |
+| **ci** (flat) | Security review + Claude QA on every PR | [README](./ci/README.md) |
+| **ci** (risk-gated) | Classify PRs by risk tier, skip reviews for docs-only | [README](./ci/README.md) |
 
 ---
 
