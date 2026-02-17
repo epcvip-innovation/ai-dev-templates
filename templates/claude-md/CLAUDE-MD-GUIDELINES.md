@@ -371,5 +371,64 @@ Add to CLAUDE.md itself:
 
 ---
 
-**Maintained**: 2026-02-15
-**Next Review**: 2026-05-15 (quarterly)
+## Maintenance
+
+### Team Agreement Template
+
+Add to your project's README.md:
+
+```markdown
+## CLAUDE.md Maintenance
+
+**Target**: 150-200 lines (enforced)
+**Audit**: Run `/audit-claude-md` quarterly
+**Guidelines**: See [templates/claude-md/CLAUDE-MD-GUIDELINES.md](./templates/claude-md/CLAUDE-MD-GUIDELINES.md)
+```
+
+And add an audit comment to the top of CLAUDE.md itself:
+
+```markdown
+<!-- AUDIT: Run /audit-claude-md quarterly. Last audit: YYYY-MM-DD. Next: YYYY-MM-DD -->
+```
+
+### Quarterly Review Checklist
+
+Every 3 months (or after major features):
+1. Run `/audit-claude-md` — check for length bloat, embedded standards, missing references
+2. Extract any section >30 lines to a separate doc
+3. Verify all reference links still work
+4. Update the audit comment date
+
+### Pre-Commit Hook (Optional)
+
+```bash
+# .git/hooks/pre-commit
+if [ -f "CLAUDE.md" ]; then
+  LINES=$(wc -l < CLAUDE.md)
+  if [ $LINES -gt 250 ]; then
+    echo "CLAUDE.md is $LINES lines (max 250). Run: /audit-claude-md"
+    exit 1
+  fi
+fi
+```
+
+---
+
+## FAQ
+
+**Q: Why 100-200 lines? Seems arbitrary.**
+CLAUDE.md is prepended to every prompt. Longer files consume context window, introduce noise, and reduce effectiveness. This target comes from Anthropic's official guidance and community consensus.
+
+**Q: My project is complex. Can't I have 300+ lines?**
+Complexity doesn't require a longer CLAUDE.md — it requires better modular docs. Our case study went from 512 → 178 lines without losing any information. The secret: reference separate docs instead of embedding detail.
+
+**Q: Won't separate docs make it harder for Claude to find information?**
+No. Claude reads referenced docs on demand. The advantage of a lean CLAUDE.md: every session starts with clear context instead of 500 lines of noise.
+
+**Q: Can I use these principles for non-Claude Code tools?**
+Yes. The core principle — keep high-frequency context lightweight, reference detailed docs — applies to Cursor, Copilot, or any LLM-based coding assistant.
+
+---
+
+**Maintained**: 2026-02-16
+**Next Review**: 2026-05-16 (quarterly)

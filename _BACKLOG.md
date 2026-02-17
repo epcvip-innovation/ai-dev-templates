@@ -165,6 +165,13 @@
 
 ## Completed
 
+### 2026-02-16: Pass 17 — Trim Bloated Hub READMEs
+- Rewrote `templates/claude-md/README.md` from 488 → ~130 lines (hub that points to GUIDELINES)
+- Appended Maintenance + FAQ sections to `templates/claude-md/CLAUDE-MD-GUIDELINES.md`
+- Trimmed `templates/hooks/query-validation/README.md` from 632 → ~290 lines
+- Extracted per-database customization patterns to new `CUSTOMIZATION.md`
+- Merged FAQ items into Troubleshooting, condensed Installation and Integration sections
+
 ### 2026-02-16: Pass 16 — Shareability Cleanup
 - Moved NEW-PC-SETUP.md to _private/ (personal machine bootstrap, not a template)
 - Removed all _private/ references from CLAUDE.md (5 occurrences)

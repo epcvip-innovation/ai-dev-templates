@@ -410,6 +410,48 @@ Reframed model selection from cost-first ("default to cheapest") to stakes-based
 
 ---
 
+### Pass 17 — Trim Bloated Hub READMEs
+**Date**: February 16, 2026
+**Scope**: 4 files modified, 1 file created
+
+**What**: Trimmed two hub documents that exceeded the repo's own 150-200 line recommendation. The CLAUDE.md guidelines README was 2.4x the target; the query validation README was 3.2x.
+
+**Phase 1: claude-md/README.md** (488 → ~130 lines):
+
+| Section | Action | Savings |
+|---------|--------|--------:|
+| Files in Template Library | 89-line descriptions → 4-row table | ~74 |
+| The Bloat Problem | 23 lines → 3-line summary + link | ~18 |
+| Lightweight Philosophy | 20 lines → 2-line summary + link | ~16 |
+| What Belongs vs What Doesn't | Removed (duplicates GUIDELINES) | ~27 |
+| Code Quality + Examples | 54 lines → hub-and-spoke pattern | ~40 |
+| Refactoring Workflow | 46 lines → 5-line overview + link | ~40 |
+| Enforcement & Maintenance | 24 lines → 5 lines + link | ~17 |
+| Common Questions | 63 lines → 1-line link to GUIDELINES FAQ | ~60 |
+| Evidence & Sources | 18 lines → 5 lines | ~13 |
+
+**Phase 2: CLAUDE-MD-GUIDELINES.md** (appended ~50 lines):
+- Added `## Maintenance` section: team agreement template, quarterly checklist, pre-commit hook
+- Added `## FAQ` section: 4 condensed Q&As (line limits, complex projects, separate docs, cross-tool)
+
+**Phase 3: hooks/query-validation/README.md** (632 → ~290 lines):
+
+| Section | Action | Savings |
+|---------|--------|--------:|
+| Installation Steps 3-5 | Condensed to single "Reload and Verify" section | ~40 |
+| Customization | Extracted to CUSTOMIZATION.md | ~89 |
+| FAQ (92 lines) | Merged relevant items into Troubleshooting, removed rest | ~80 |
+| Integration with Other Tools | Condensed | ~15 |
+
+**New file**: `templates/hooks/query-validation/CUSTOMIZATION.md` (~100 lines) — per-database patterns, custom runners, whitelist commands, marker location, content-based validation
+
+**Files modified**: `templates/claude-md/README.md`, `templates/claude-md/CLAUDE-MD-GUIDELINES.md`, `templates/hooks/query-validation/README.md`, `_BACKLOG.md`, `AUDIT_LOG.md`
+**Files created**: `templates/hooks/query-validation/CUSTOMIZATION.md`
+
+**Verification**: `wc -l` shows README targets met. All internal links valid. No content lost — everything condensed in place or linked to new location.
+
+---
+
 ## Remaining Work
 
 ### Dev Server Skill Genericization
