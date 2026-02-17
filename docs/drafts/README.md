@@ -14,7 +14,7 @@ Work-in-progress documentation that isn't ready for "production" workflows yet.
 
 | Draft | Status | Target Location |
 |-------|--------|-----------------|
-| [MCP-DECISION-TREES.md](./MCP-DECISION-TREES.md) | In Progress | `docs/reference/` or `templates/` |
+| *(none currently)* | | |
 
 ## Draft Status Definitions
 

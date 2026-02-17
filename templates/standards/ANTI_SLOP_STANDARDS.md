@@ -786,4 +786,4 @@ These standards **adapt** timeless principles for AI collaboration.
 ---
 
 **Maintained**: 2025-11-02
-**Next Review**: 2026-02-02 (quarterly)
+**Next Review**: 2026-05-16 (quarterly)

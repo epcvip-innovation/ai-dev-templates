@@ -489,7 +489,7 @@ Create `.mcp.json` in your project root to enable Railway MCP only for specific 
 - [RAILWAY_SETUP_GUIDE.md](./RAILWAY_SETUP_GUIDE.md) — First-time setup and authentication
 - [RAILWAY_WORKFLOWS.md](./RAILWAY_WORKFLOWS.md) — Step-by-step deployment workflows
 - [RAILWAY_TROUBLESHOOTING.md](./RAILWAY_TROUBLESHOOTING.md) — General troubleshooting (beyond MCP)
-- [Playwright MCP Guide](../reference/PLAYWRIGHT-MCP.md) — Similar MCP guide for browser automation
+- [Playwright MCP Guide](../mcp/playwright/README.md) — Similar MCP guide for browser automation
 
 ## External Resources
 

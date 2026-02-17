@@ -1,3 +1,5 @@
+[← Back to Main README](../README.md)
+
 # Template Library
 
 Production-validated patterns for AI-assisted development.
@@ -17,7 +19,7 @@ Production-validated patterns for AI-assisted development.
 
 ---
 
-## 9 Template Categories
+## 10 Template Categories
 
 | Category | Purpose | Entry Point |
 |----------|---------|-------------|
@@ -26,9 +28,10 @@ Production-validated patterns for AI-assisted development.
 | **plugins** | Claude Code skills (code-review) | [README](./plugins/README.md) |
 | **project-management** | Tasks, backlogs, .projects/ cross-session | [README](./project-management/README.md) |
 | **standards** | Anti-slop quality standards | [ANTI_SLOP_STANDARDS.md](./standards/ANTI_SLOP_STANDARDS.md) |
+| **standards** | Frontend CSS/JS interaction patterns | [FRONTEND_STANDARDS.md](./standards/FRONTEND_STANDARDS.md) |
 | **hooks** | Workflow automation hooks | [README](./hooks/README.md) |
 | **permissions** | Tool access configuration | [README](./permissions/README.md) |
-| **testing** | Playwright + Claude Code patterns | [PLAYWRIGHT_CLAUDE_GUIDE.md](./testing/PLAYWRIGHT_CLAUDE_GUIDE.md) |
+| **testing** | Playwright + Claude Code patterns | [README](./testing/README.md) |
 | **ci** | GitHub Actions workflows | [README](./ci/README.md) |
 
 ---
@@ -51,6 +54,14 @@ See [BUILTIN_VS_CUSTOM.md](../docs/decisions/BUILTIN_VS_CUSTOM.md) for detailed 
 > "Evidence-based patterns you can copy and adapt, not rules you must follow."
 
 These templates were extracted from real production usage across 239+ commits in 4 repositories, not theoretical best practices.
+
+---
+
+## See Also
+
+- [Advanced Workflows](../docs/reference/ADVANCED-WORKFLOWS.md) — Power-user guide: context, planning, agents, extensions
+- [MCP Patterns](../docs/mcp/README.md) — Context efficiency, version pinning, decision trees
+- [New Project Setup](../docs/getting-started/NEW-PROJECT-SETUP.md) — Complete project setup guide
 
 ---
 

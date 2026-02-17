@@ -1,12 +1,12 @@
-# Playwright MCP Setup Guide
+# Playwright MCP Guide
 
-[← Back to Main README](../../README.md) | [Claude Code Config →](./CLAUDE-CODE-CONFIG.md)
+[← Back to MCP Hub](../README.md) | [← Back to Main README](../../../README.md)
 
 **Last Updated**: February 2026 | **MCP Version**: v0.0.64
 
 Comprehensive guide to setting up Playwright MCP for browser automation with Claude Code.
 
-> **February 2026:** MCP v0.0.64 uses in-memory profiles by default. New tools: `browser_run_code`, `browser_handle_dialog`, `browser_fill_form`. See [BROWSER_AUTOMATION_LANDSCAPE_2026.md](../../templates/testing/BROWSER_AUTOMATION_LANDSCAPE_2026.md) for alternatives (CLI, Chrome beta).
+> **February 2026:** MCP v0.0.64 uses in-memory profiles by default. New tools: `browser_run_code`, `browser_handle_dialog`, `browser_fill_form`. See [BROWSER_AUTOMATION_LANDSCAPE_2026.md](../../../templates/testing/BROWSER_AUTOMATION_LANDSCAPE_2026.md) for alternatives (CLI, Chrome beta).
 
 ---
 
@@ -22,6 +22,41 @@ Playwright MCP is a Model Context Protocol server that gives Claude browser auto
 
 **Official Package:** [@playwright/mcp](https://www.npmjs.com/package/@playwright/mcp)
 **GitHub:** [microsoft/playwright-mcp](https://github.com/microsoft/playwright-mcp)
+
+---
+
+## The MCP Cycle
+
+When Claude uses Playwright MCP, it follows a navigate-observe-decide-act loop:
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  1. NAVIGATE                                             │
+│     browser_navigate({ url: '...' })                    │
+│                    ↓                                     │
+│  2. OBSERVE                                              │
+│     browser_snapshot() → Returns accessibility tree      │
+│     + screenshot that Claude SEES                        │
+│                    ↓                                     │
+│  3. DECIDE                                               │
+│     Claude analyzes page, plans next action              │
+│                    ↓                                     │
+│  4. ACT                                                  │
+│     browser_click(), browser_type(), etc.               │
+│                    ↓                                     │
+│  5. REPEAT                                               │
+│     Back to step 2 for verification                      │
+└─────────────────────────────────────────────────────────┘
+```
+
+### Key Difference from Scripted Tests
+
+| Scripted Tests | MCP |
+|----------------|-----|
+| Pre-written assertions | Claude decides what to check |
+| Fast, deterministic | Slower, intelligent |
+| Catches what you specify | Catches what Claude notices |
+| Runs in CI | Interactive exploration |
 
 ---
 
@@ -327,6 +362,20 @@ Since Playwright runs a visible browser:
 3. Tell Claude: "I've logged in, now navigate to the dashboard"
 4. Session cookies persist for the remainder of the session
 
+#### Persisting Auth State
+
+For repeated testing, save auth state:
+
+```typescript
+// In a setup test
+await page.context().storageState({ path: 'playwright/.auth/user.json' });
+```
+
+Then tell Claude:
+```
+Use the saved auth state from playwright/.auth/user.json
+```
+
 ### Form Testing
 
 ```
@@ -348,6 +397,67 @@ Resize the browser to mobile width (375px) and take a screenshot of the homepage
 ```
 Navigate to localhost:3000, check the console for errors, and show me any network request failures
 ```
+
+### Workflow Pattern: Exploratory Testing
+
+**Prompt:**
+```
+Navigate to http://localhost:3000 and explore the checkout flow.
+Try to find bugs, edge cases, or confusing UX.
+Take screenshots of any issues you find.
+```
+
+Claude will navigate to the app, explore like a real user, try edge cases (empty cart, invalid input), and report issues with evidence.
+
+### Workflow Pattern: Visual Verification
+
+**Prompt:**
+```
+Navigate to http://localhost:3000/dashboard and verify:
+1. The header shows the user's name
+2. The stats cards show numbers (not loading spinners)
+3. The sidebar has 5 menu items
+4. No console errors
+```
+
+Claude will navigate, snapshot, verify each item, and report pass/fail with details.
+
+### Workflow Pattern: Test Generation
+
+**Prompt:**
+```
+Navigate to http://localhost:3000/login and understand the login flow.
+Then write a Playwright test that verifies:
+- Valid login succeeds
+- Invalid password shows error
+- Empty fields show validation
+```
+
+Claude will explore the login page, test different scenarios, and generate test code based on observations.
+
+### Workflow Pattern: Failure Investigation
+
+**Prompt:**
+```
+A test is failing with "element not found: [data-testid='submit']".
+Navigate to http://localhost:3000/checkout and investigate.
+Find where the submit button is and why the selector might fail.
+```
+
+Claude will navigate, search for submit-related elements, compare actual DOM to expected selector, and suggest fixes.
+
+### Workflow Pattern: Competitor Analysis
+
+**Prompt:**
+```
+Navigate to https://competitor.com/pricing and extract:
+1. Pricing tiers and costs
+2. Feature list for each tier
+3. Any promotional offers
+Take screenshots for reference.
+```
+
+Claude will navigate, extract structured data, save screenshots, and summarize findings.
 
 ---
 
@@ -425,6 +535,8 @@ Navigate to localhost:3000, check the console for errors, and show me any networ
 }
 ```
 
+See [examples/mcp.json.template](./examples/mcp.json.template) for platform-specific variants.
+
 ---
 
 ## Frontend Development Workflow
@@ -468,6 +580,36 @@ After clicking submit, wait for the success message and verify the item appears 
 ```
 Navigate through the app and report any console errors or warnings
 ```
+
+---
+
+## When to Use MCP vs Alternatives
+
+| Aspect | MCP | CLI | Scripted Tests |
+|--------|-----|-----|---------------|
+| **Best for** | Interactive exploration, visual bugs, competitor analysis | Scripted automation, CI, batch jobs | Regression, CI/CD pipelines |
+| **Tokens per flow** | ~3,330 | ~890 | N/A (no AI tokens) |
+| **Setup** | `.mcp.json` config | `npm i -g @anthropic-ai/playwright-cli` + `playwright-cli install` | `npm init playwright@latest` |
+| **Deterministic** | No (AI-driven) | Partially (AI interprets shell output) | Yes |
+| **Catches** | What Claude notices | What Claude notices | Only what you assert |
+
+**Good uses for MCP:**
+- Visual verification and exploratory testing
+- Competitor analysis and data extraction
+- Understanding unfamiliar UIs
+- Debugging test failures interactively
+- Generating test code from observations
+
+**Use scripted tests instead for:**
+- Regression testing in CI/CD
+- Repetitive checks that run every commit
+- Deterministic pass/fail assertions
+
+**Use Playwright CLI instead for:**
+- Token-sensitive CI workflows (2-4x fewer tokens)
+- Batch automation scripts
+
+See [BROWSER_AUTOMATION_LANDSCAPE_2026.md](../../../templates/testing/BROWSER_AUTOMATION_LANDSCAPE_2026.md) for full comparison.
 
 ---
 
@@ -519,6 +661,30 @@ npm install -g @playwright/mcp
 }
 ```
 
+### Slow performance / high token usage
+
+**Option 1: Playwright CLI (recommended for token savings)**
+
+The new Playwright CLI uses 2-4x fewer tokens than MCP. See [BROWSER_AUTOMATION_LANDSCAPE_2026.md](../../../templates/testing/BROWSER_AUTOMATION_LANDSCAPE_2026.md#3-playwright-cli-vs-mcp-comparison) for setup and comparison.
+
+**Option 2: `@tontoko/fast-playwright-mcp` fork**
+
+Third-party fork that optimizes MCP tokens. The official CLI is now the better alternative, but this exists:
+```json
+{
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@tontoko/fast-playwright-mcp"]
+    }
+  }
+}
+```
+
+### Model selection for MCP workflows
+
+Use **Haiku 4.5** for MCP-driven QA to reduce costs — same browser automation accuracy as Sonnet (61% OSWorld) at 3x lower cost. See [COST_OPTIMIZATION_GUIDE.md](../../../templates/testing/COST_OPTIMIZATION_GUIDE.md#model-selection-for-browser-automation) for full analysis.
+
 ### Connection issues
 
 Verify MCP is configured:
@@ -530,7 +696,28 @@ claude mcp get playwright
 
 ---
 
+## CI Integration
+
+While MCP is primarily for interactive use, you can trigger Claude-driven testing in CI:
+
+```yaml
+# GitHub Actions example (experimental)
+- name: Claude QA Check
+  uses: anthropic/claude-code-action@v1
+  with:
+    prompt: |
+      Navigate to ${{ env.PREVIEW_URL }}
+      Verify the deployment is working correctly
+      Report any issues found
+```
+
+See [Alex Op's AI QA Engineer](https://alexop.dev/posts/building_ai_qa_engineer_claude_code_playwright/) for a full implementation. For CI workflow templates, see [templates/ci/](../../../templates/ci/README.md).
+
+---
+
 ## Security Considerations
+
+**See also**: [MCP Safety Guide](../MCP-SAFETY.md) for general MCP security (version pinning, supply chain, prompt injection).
 
 - **MCP servers run with your user permissions** - they can access anything you can
 - **Use `--blocked-origins`** to prevent requests to sensitive domains
@@ -547,9 +734,7 @@ Playwright MCP adds tool definitions to Claude's context. This is generally smal
 **Strategy:**
 - Only enable in projects that need browser automation
 - Use project-level `.mcp.json` instead of global config
-- Consider a plugin to toggle on/off (see [Claude Code Config](./CLAUDE-CODE-CONFIG.md#plugins))
-
----
+- Consider a plugin to toggle on/off (see [Claude Code Config](../../reference/CLAUDE-CODE-CONFIG.md#plugins))
 
 ---
 
@@ -572,10 +757,12 @@ Claude Code now includes a built-in browser (Claude Code Chrome) that provides b
 
 ## See Also
 
-- [BROWSER_AUTOMATION_LANDSCAPE_2026.md](../../templates/testing/BROWSER_AUTOMATION_LANDSCAPE_2026.md) — Full landscape analysis, CLI vs MCP, model selection
-- [Claude Code Config Reference](./CLAUDE-CODE-CONFIG.md) — MCP management, plugins, hooks
-- [Claude Code Setup Guide](../setup-guides/CLAUDE-CODE-SETUP.md) — Basic Claude Code setup
-- [Daily Workflow](../setup-guides/DAILY-WORKFLOW.md) — Development workflow patterns
+- [BROWSER_AUTOMATION_LANDSCAPE_2026.md](../../../templates/testing/BROWSER_AUTOMATION_LANDSCAPE_2026.md) — Full landscape analysis, CLI vs MCP, model selection
+- [COST_OPTIMIZATION_GUIDE.md](../../../templates/testing/COST_OPTIMIZATION_GUIDE.md) — Model pricing and optimization
+- [PLAYWRIGHT_CLAUDE_GUIDE.md](../../../templates/testing/PLAYWRIGHT_CLAUDE_GUIDE.md) — Testing patterns (scripted + MCP)
+- [Claude Code Config Reference](../../reference/CLAUDE-CODE-CONFIG.md) — MCP management, plugins, hooks
+- [Claude Code Setup Guide](../../setup-guides/CLAUDE-CODE-SETUP.md) — Basic Claude Code setup
+- [Daily Workflow](../../setup-guides/DAILY-WORKFLOW.md) — Development workflow patterns
 
 ## External Resources
 
@@ -583,6 +770,8 @@ Claude Code now includes a built-in browser (Claude Code Chrome) that provides b
 - [Simon Willison's Playwright MCP Guide](https://til.simonwillison.net/claude-code/playwright-mcp-claude-code)
 - [Playwright Documentation](https://playwright.dev/docs/intro)
 - [MCP Specification](https://modelcontextprotocol.io/specification/2025-06-18)
+- [TestLeaf 2026 Guide](https://www.testleaf.com/blog/playwright-mcp-ai-test-automation-2026/)
+- [Building AI QA Engineer](https://alexop.dev/posts/building_ai_qa_engineer_claude_code_playwright/)
 
 ---
 

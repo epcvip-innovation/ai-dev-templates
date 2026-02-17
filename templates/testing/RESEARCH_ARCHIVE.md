@@ -327,5 +327,5 @@ await expect(page).toHaveScreenshot('chart.png', {
 ## Further Reading
 
 - [PLAYWRIGHT_CLAUDE_GUIDE.md](./PLAYWRIGHT_CLAUDE_GUIDE.md) - Comprehensive testing guide
-- [MCP_WORKFLOW_GUIDE.md](./MCP_WORKFLOW_GUIDE.md) - MCP-specific patterns
+- [Playwright MCP Guide](../../docs/mcp/playwright/README.md) - MCP-specific patterns
 - [COMPETITOR_ANALYSIS.md](./COMPETITOR_ANALYSIS.md) - Market research automation

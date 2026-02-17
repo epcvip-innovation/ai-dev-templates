@@ -1,5 +1,7 @@
 # AI-Assisted Development Slash Command Templates
 
+[← Back to Main README](../../README.md)
+
 **Purpose:** Reusable, battle-tested slash command templates to bootstrap structured AI workflows.
 
 **Updated:** February 2026 - Un-deprecated custom commands; documented tradeoffs vs built-in features.
@@ -96,3 +98,12 @@ The design documentation explains the "why" behind these workflows.
 **For query-focused projects:**
 - Use query-building-workflow as your starting point
 - Add specific ai-dev-workflow commands as needed
+
+---
+
+## See Also
+
+- [Plugins](../plugins/README.md) — Auto-triggered alternative to slash commands
+- [Hooks](../hooks/README.md) — Deterministic enforcement (shell scripts)
+- [Anti-Slop Standards](../standards/ANTI_SLOP_STANDARDS.md) — Quality gates used by `/plan-approaches`
+- [All Templates](../README.md)

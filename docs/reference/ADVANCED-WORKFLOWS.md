@@ -254,14 +254,15 @@ This is deterministic. No amount of prompt drift can bypass an exit code 2.
 
 ### MCP (Model Context Protocol)
 
-MCP servers give Claude access to external tools (databases, browsers, APIs). They work well but have hidden context costs:
+MCP servers give Claude access to external tools (databases, browsers, APIs). They work well but have context costs and security implications.
 
-- **Tool definitions consume context** — Each MCP server's tool schemas are loaded into context. More servers = less room for conversation
-- **Auto tool-search** — When MCP tool definitions exceed 10% of context, Claude Code enables tool-search mode (tools are looked up on demand instead of all being present)
-- **Output limits** — MCP responses warn at 10k tokens and hard-cap at 25k tokens by default
-- **Monitor with** `MAX_MCP_OUTPUT_TOKENS` env var to adjust the cap when needed
+**Tool Search** (lazy loading): Claude Code builds a lightweight index and loads MCP tool schemas on-demand instead of all at session start. This reduced a 77k-token overhead to ~8.7k in Anthropic's benchmarks (~89% reduction). Enabled by default when MCP tools exceed 10% of context.
 
-**Practical advice**: Only enable the MCP servers you actually need for the current project. A Supabase + Playwright + Railway + GitHub setup may consume 5-10% of context before you type anything.
+**Context costs**: Each server consumes 0.5-2k tokens with Tool Search (much more without). MCP responses warn at 10k and cap at 25k tokens (configurable via `MAX_MCP_OUTPUT_TOKENS`).
+
+**Safety**: MCP servers execute arbitrary code and their outputs are untrusted. Pin versions, apply least privilege, and treat MCP output as untrusted input.
+
+**See**: [MCP Hub](../mcp/README.md) for the complete guide (safety, context efficiency, decision trees).
 
 ### Plugins (Team Distribution)
 

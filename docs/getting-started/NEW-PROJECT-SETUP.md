@@ -42,7 +42,7 @@ Brief description of what this project does.
 - [Backlog](backlog/_INDEX.md)
 ```
 
-**Template**: [templates/claude-md/](../../templates/claude-md/)
+**Template**: [templates/claude-md/](../../templates/claude-md/README.md)
 
 ---
 
@@ -66,7 +66,7 @@ Create `.claude/settings.json` for auto-approvals:
 }
 ```
 
-**Template**: [templates/permissions/](../../templates/permissions/)
+**Template**: [templates/permissions/](../../templates/permissions/README.md)
 
 ---
 
@@ -78,8 +78,9 @@ Create `.mcp.json` for project-specific tools:
 {
   "mcpServers": {
     "playwright": {
+      "type": "stdio",
       "command": "npx",
-      "args": ["@anthropic-ai/mcp-server-playwright"]
+      "args": ["-y", "@playwright/mcp@latest", "--no-sandbox"]
     }
   }
 }
@@ -90,7 +91,7 @@ Common MCP servers:
 - **Fetch** - HTTP requests
 - **Filesystem** - Extended file operations
 
-**Reference**: [docs/reference/PLAYWRIGHT-MCP.md](../reference/PLAYWRIGHT-MCP.md)
+**Reference**: [Playwright MCP Guide](../mcp/playwright/README.md)
 
 ---
 
@@ -130,7 +131,7 @@ cp templates/slash-commands/ai-dev-workflow/commands/audit.md .claude/commands/
 - `/push` - Safe commit with quality checks
 - `/audit` - Project health check
 
-**Template**: [templates/slash-commands/](../../templates/slash-commands/)
+**Template**: [templates/slash-commands/](../../templates/slash-commands/README.md)
 
 ---
 
@@ -163,7 +164,7 @@ Create `.claude/review-context.md` to reduce false positives:
 - `lib/legacy/*.ts` - Legacy code, lower priority
 ```
 
-**Template**: [templates/plugins/](../../templates/plugins/)
+**Template**: [templates/plugins/](../../templates/plugins/README.md)
 
 ---
 
@@ -191,7 +192,7 @@ cp -r templates/project-management/backlog/folder-based/* backlog/
 cp templates/project-management/backlog/folder-based/utils/* .claude/utils/
 ```
 
-**Template**: [templates/project-management/](../../templates/project-management/)
+**Template**: [templates/project-management/](../../templates/project-management/README.md)
 
 ---
 
@@ -330,11 +331,11 @@ your-project/
 ## See Also
 
 - [TECH_STACK_DEFAULTS.md](./TECH_STACK_DEFAULTS.md) - Preferred tech choices for new projects
-- [templates/claude-md/](../../templates/claude-md/) - CLAUDE.md templates
-- [templates/slash-commands/](../../templates/slash-commands/) - Command templates
-- [templates/plugins/](../../templates/plugins/) - Skill templates
-- [templates/project-management/](../../templates/project-management/) - Task & backlog management
-- [templates/permissions/](../../templates/permissions/) - Permission templates
+- [templates/claude-md/](../../templates/claude-md/README.md) - CLAUDE.md templates
+- [templates/slash-commands/](../../templates/slash-commands/README.md) - Command templates
+- [templates/plugins/](../../templates/plugins/README.md) - Skill templates
+- [templates/project-management/](../../templates/project-management/README.md) - Task & backlog management
+- [templates/permissions/](../../templates/permissions/README.md) - Permission templates
 - [docs/decisions/BUILTIN_VS_CUSTOM.md](../decisions/BUILTIN_VS_CUSTOM.md) - When to customize
 
 ---

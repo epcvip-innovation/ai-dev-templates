@@ -378,7 +378,7 @@ When resuming a feature in a new session (via `/resume-feature`), evaluate drift
 - Caching tasks significantly overestimated (simple implementation)
 - First feature in new domain: Add 50% buffer (learning curve)
 
-**Next review:** 2026-02-15 (or after 5 more features completed)
+**Next review:** 2026-05-16 (or after 5 more features completed)
 
 ---
 

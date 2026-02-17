@@ -1,5 +1,7 @@
 # Railway Configuration Templates
 
+[← Back to Main README](../../README.md)
+
 Ready-to-use `railway.toml` templates for common project types.
 
 **Quick Reference**: See [../docs/railway/CLAUDE.md](../docs/railway/CLAUDE.md) for Claude Code integration guide.
@@ -146,3 +148,9 @@ See `scripts/` directory for automation scripts:
 ---
 
 **Note**: All templates are based on working production deployments.
+
+## See Also
+
+- [Railway Documentation](../../docs/railway/README.md) — Setup, configuration, and workflow guides
+- [CI/CD Templates](../ci/README.md) — GitHub Actions for deployment
+- [All Templates](../README.md)

@@ -376,7 +376,7 @@ For GitHub Actions / CI environments:
 ## See Also
 
 - [PLAYWRIGHT_CLAUDE_GUIDE.md](./PLAYWRIGHT_CLAUDE_GUIDE.md) — Get started with the 5 approaches covered here
-- [MCP_WORKFLOW_GUIDE.md](./MCP_WORKFLOW_GUIDE.md) — Deep dive into MCP patterns and workflows
+- [Playwright MCP Guide](../../docs/mcp/playwright/README.md) — Deep dive into MCP patterns and workflows
 - [COST_OPTIMIZATION_GUIDE.md](./COST_OPTIMIZATION_GUIDE.md) — Cost projections and optimization strategies
 - [PLAYWRIGHT_CLI_EVALUATION.md](./PLAYWRIGHT_CLI_EVALUATION.md) — Hands-on CLI vs MCP token measurements
 

@@ -401,7 +401,7 @@ Files are timestamped. No auto-cleanup — accumulates over sessions.
 ## See Also
 
 - [BROWSER_AUTOMATION_LANDSCAPE_2026.md](./BROWSER_AUTOMATION_LANDSCAPE_2026.md) — Full landscape comparison (CLI is Approach 2)
-- [MCP_WORKFLOW_GUIDE.md](./MCP_WORKFLOW_GUIDE.md) — The MCP alternative evaluated here
+- [Playwright MCP Guide](../../docs/mcp/playwright/README.md) — The MCP alternative evaluated here
 - [COST_OPTIMIZATION_GUIDE.md](./COST_OPTIMIZATION_GUIDE.md) — Cost context and optimization strategies
 
 ---

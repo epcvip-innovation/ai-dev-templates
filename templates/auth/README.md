@@ -1,5 +1,7 @@
 # Authentication Templates
 
+[← Back to Main README](../../README.md)
+
 Reusable authentication patterns for internal tools.
 
 ## Two Recommended Options
@@ -140,3 +142,10 @@ For React/JS apps with great UX needs, **Clerk is excellent**.
 - [ ] OAuth redirect URLs are explicit (no wildcards)
 - [ ] Dev bypass uses TCP peer IP (`request.client.host`), not forwarded headers
 - [ ] Dev bypass requires BOTH `ENVIRONMENT=development` AND localhost/private IP
+
+---
+
+## See Also
+
+- [Testing Templates](../testing/README.md) — E2E testing with auth bypass
+- [All Templates](../README.md)

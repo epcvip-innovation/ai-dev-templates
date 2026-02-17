@@ -179,5 +179,13 @@ Anti-slop adds what YAGNI/KISS lack: **measurable standards** (grep patterns, li
 
 ---
 
+## See Also
+
+- [Hooks](../hooks/README.md) — Automated enforcement of standards
+- [Slash Commands](../slash-commands/README.md) — `/plan-approaches` uses anti-slop scoring
+- [All Templates](../README.md)
+
+---
+
 **Last Updated**: 2026-02-15
 **Maintained By**: dev-setup template library

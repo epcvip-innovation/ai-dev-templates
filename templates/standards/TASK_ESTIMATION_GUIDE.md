@@ -471,5 +471,5 @@ Actual time: 10 hours (+25% drift)
 
 ---
 
-**Next Review:** 2026-02-15 (or after 10 features completed)
+**Next Review:** 2026-05-16 (or after 10 features completed)
 

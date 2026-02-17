@@ -1,5 +1,7 @@
 # Claude Code Plugins
 
+[← Back to Main README](../../README.md)
+
 Reusable Claude Code skills for common development workflows.
 
 ---
@@ -115,7 +117,7 @@ description: |
 ## See Also
 
 - [Hooks README](../hooks/README.md) — Deterministic workflow enforcement
-- [Slash Commands](../slash-commands/) — Simple prompt templates
+- [Slash Commands](../slash-commands/README.md) — Simple prompt templates
 - [BUILTIN_VS_CUSTOM.md](../../docs/decisions/BUILTIN_VS_CUSTOM.md) — When to customize vs use built-in
 - [ADVANCED-WORKFLOWS.md](../../docs/reference/ADVANCED-WORKFLOWS.md) — Agent patterns and model selection
 

@@ -1,5 +1,7 @@
 # CI Templates
 
+[← Back to Main README](../../README.md)
+
 GitHub Actions workflows for AI-assisted development using official Anthropic actions.
 
 > **Status:** These templates are RESEARCH-BASED, not yet tested in production. Verify in your own environment before relying on them.
@@ -167,5 +169,5 @@ From [Anthropic's security guidance](https://www.stepsecurity.io/blog/anthropics
 ## See Also
 
 - [Testing Templates](../testing/README.md) - E2E testing patterns
-- [MCP Workflow Guide](../testing/MCP_WORKFLOW_GUIDE.md) - Claude + browser automation
+- [Playwright MCP Guide](../../docs/mcp/playwright/README.md) — Claude + browser automation
 - [Research Archive](../testing/RESEARCH_ARCHIVE.md) - 2026 research findings

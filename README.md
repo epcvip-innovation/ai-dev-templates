@@ -1,225 +1,73 @@
 ## AI-Assisted Development — Templates, Guides & Setup
 
-A library of battle-tested templates for AI-assisted development with Claude Code. Extracted from 6+ months of real production usage across 4 repositories — not theoretical best practices. Start with the templates; use the setup guides if you need them.
+Battle-tested templates for AI-assisted development with Claude Code, extracted from 6+ months of production usage across 4 repositories.
 
 ---
 
-### Where Should I Start?
+### Start Here
 
-| You Are... | Start Here | Time |
-|------------|-----------|------|
-| **New (Mac or Linux)** | [Getting Started](./docs/getting-started/SETUP-GUIDE-2026.md) | 10 min |
-| **New (Windows)** | [Getting Started](./docs/getting-started/SETUP-GUIDE-2026.md) — see the Windows setup path inside | 10 min |
-| **Windows + want full Linux dev environment** | [Getting Started](./docs/getting-started/SETUP-GUIDE-2026.md) — see the WSL2 path inside | 10 min |
-| **Setting up Claude Code quickly** | [Quickstart](./docs/getting-started/CLAUDE-CODE-QUICKSTART.md) | 5 min |
-| **Starting a new project** | [New Project Setup](./docs/getting-started/NEW-PROJECT-SETUP.md) | 30 min |
-| **Experienced — here for templates** | [Templates](./templates/) | Browse |
-
-> **What is Claude Code?** An AI coding assistant that runs in your terminal (or VS Code). It reads your codebase, writes code, runs commands, and helps you build software faster. We also recommend **Codex CLI** as a secondary tool — one writes code, the other reviews it.
-
----
-
-**Daily users**: See [Daily Workflow Guide](./docs/setup-guides/DAILY-WORKFLOW.md) for everyday usage.
-
-> **Note**: This repository contains templates and examples. Replace paths, usernames, and repository URLs with your own before use.
-
-## What This Repo Provides
-
-1. **Template Library** — 66 template files across 10 categories
-   - **21 active slash commands** (quality, design, git workflow)
-   - **CLAUDE.md structures** — Lightweight, evidence-based project context templates
-   - **Project organization** — `.projects/` 3-tier backlog system
-   - **Anti-slop standards** — Automated quality gates preventing AI-generated bloat
-   - **Hooks, permissions, testing, CI/CD, plugins** — Full workflow automation
-
-2. **Setup Guides** — Get running on Mac, Windows, or Linux
-   - [Getting Started](./docs/getting-started/SETUP-GUIDE-2026.md) — Platform-agnostic setup for Claude Code + Codex
-   - [Quickstart](./docs/getting-started/CLAUDE-CODE-QUICKSTART.md) — 5-minute Claude Code install
-   - [Claude Code deep-dive](./docs/setup-guides/CLAUDE-CODE-SETUP.md) — Configuration, troubleshooting, best practices
-   - [Codex CLI](./docs/setup-guides/CODEX-SETUP.md) — Dual-tool workflow setup
-
-3. **WSL2 Power Setup** (optional, Windows only) — Full Linux dev environment
-   - [Why WSL?](./docs/decisions/why-wsl.md) — Architecture decision (it's a choice, not a requirement)
-   - The [Getting Started](./docs/getting-started/SETUP-GUIDE-2026.md) guide explains when to choose WSL vs native Windows
-   - [Microsoft WSL install guide](https://learn.microsoft.com/en-us/windows/wsl/install) for initial WSL2 setup
-
-4. **Research & Evidence** — Extracted from real-world usage, not arbitrary
-   - 4 repository audits (production FastAPI services, data processors, template projects)
-   - 239+ commits analyzed for pattern validation
-   - 13 patterns tested across multiple projects before extraction
-
----
-
-## Quick Navigation
-
-### Setup Guides
-- **[Getting Started](./docs/getting-started/SETUP-GUIDE-2026.md)** — Platform-agnostic Claude Code + Codex setup (Mac, Windows, Linux)
-- [Quickstart](./docs/getting-started/CLAUDE-CODE-QUICKSTART.md) — 5-minute Claude Code install
-- [Claude Code Setup](./docs/setup-guides/CLAUDE-CODE-SETUP.md) — Full installation and configuration
-- [Codex Setup](./docs/setup-guides/CODEX-SETUP.md) — Dual-tool workflow with Codex CLI
-- [Daily Workflow Guide](./docs/setup-guides/DAILY-WORKFLOW.md) — Everyday usage patterns
-- [Multi-Device Workspace](./docs/setup-guides/MULTI-DEVICE-WORKSPACE.md) — Access Claude Code from iPad/phone/laptop
-- [Cursor + WSL Setup](./docs/setup-guides/CURSOR-WSL-SETUP.md) — IDE with WSL integration (Windows)
-- [Why WSL?](./docs/decisions/why-wsl.md) — Architecture decision: why we use WSL (it's a choice, not a requirement)
-
-### Browse Templates
-- [**Slash Commands**](./templates/slash-commands/) — 21 active commands
-- [**CLAUDE.md Structures**](./templates/claude-md/) — Lightweight project context templates
-- [**Project & Task Management**](./templates/project-management/) — Tasks, backlogs, `.projects/` cross-session
-- [**Anti-Slop Standards**](./templates/standards/) — Automated quality enforcement
-- [**Permissions**](./templates/permissions/) — Tool access configuration
-- [**Hooks**](./templates/hooks/) — Workflow automation and validation hooks
-- [**Testing**](./templates/testing/) — Playwright + Claude Code testing patterns
-- [**CI/CD**](./templates/ci/) — GitHub Actions for AI-assisted development
-- [**Plugins**](./templates/plugins/) — Claude Code skills (code review)
-- [**All Templates →**](./templates/)
-
-### Concepts & Reference
-- **[Advanced Workflows](./docs/reference/ADVANCED-WORKFLOWS.md)** — 7-section power-user guide: context, planning, agents, extensions, predictability, tool strategy, meta-principles
-
-### Common Tasks
-- **Set up new project** → [**New Project Setup Guide**](./docs/getting-started/NEW-PROJECT-SETUP.md)
-- **Work from iPad/phone** → [Multi-Device Workspace](./docs/setup-guides/MULTI-DEVICE-WORKSPACE.md)
-- **Browser automation/testing** → [Playwright MCP](./docs/reference/PLAYWRIGHT-MCP.md)
-- **Enforce query validation** → [Query Validation Hook](./templates/hooks/query-validation/)
-- **Copy a slash command** → [templates/slash-commands/](./templates/slash-commands/)
-- **Set up backlog system** → [templates/project-management/](./templates/project-management/)
-- **Learn anti-slop principles** → [templates/standards/ANTI_SLOP_STANDARDS.md](./templates/standards/ANTI_SLOP_STANDARDS.md)
-- **Browse documentation patterns** → [templates/standards/DOCUMENTATION_STRATEGY.md](./templates/standards/DOCUMENTATION_STRATEGY.md)
-
----
-
-## Environment Quick Start
-
-### Launch a Project
-```bash
-dev <project-name> [mode]    # Launch AI tools or IDE
-```
-
-**Common modes**: `claude`, `codex`, `cursor`
-
-**Examples**:
-```bash
-dev my-project claude         # Start Claude Code
-dev my-project codex          # Start Codex
-dev my-project cursor         # Open in Cursor IDE
-```
-
-### Essential Commands
-
-| Task | Command |
-|------|---------|
-| Start Claude | `claude` |
-| Start Codex | `codex` |
-| Open Cursor | `cursor .` |
-| Check performance | `perf` or `perf --disk` |
-
-**Full command reference**: [docs/reference/COMMANDS.md](./docs/reference/COMMANDS.md)
-
----
-
-## Windows Power Setup: WSL2 (Optional)
-
-```text
-Windows 11 Pro (Host)
-├── Cursor IDE (Windows) → Remote-WSL → WSL2
-└── WSL2 Ubuntu
-    ├── ~/repos/ (all projects - Linux FS, fast I/O)
-    ├── Claude Code (AI pair programming)
-    ├── Codex CLI (secondary AI, cross-review)
-    └── VS Code / Cursor (via Remote-WSL)
-```
-
-This is our team's power-user setup on Windows. **Not required** — Claude Code and Codex work natively on Mac, Windows, and Linux without WSL. See [Getting Started](./docs/getting-started/SETUP-GUIDE-2026.md) for platform-agnostic installation.
-
-**Why WSL?**: Linux filesystem is 10x faster than Windows FS for development. See [Why WSL?](./docs/decisions/why-wsl.md) for full rationale.
-
----
-
-## Common Issues
-
-| Issue | Solution |
-|-------|----------|
-| **Claude/Codex not found** | See [Getting Started](./docs/getting-started/SETUP-GUIDE-2026.md) for install instructions |
-| **Cursor won't open from WSL** | *(Windows/WSL)* Use `cursor .` command or see [Cursor WSL Setup](./docs/setup-guides/CURSOR-WSL-SETUP.md) |
-| **Memory growing in WSL** | *(Windows/WSL)* Check with `perf`, restart: `wsl --shutdown` (PowerShell) |
-| **Slow performance in WSL** | *(Windows/WSL)* Ensure code is in `~/repos/`, not `/mnt/c/` |
-
----
-
-## Configuration Files
-
-This repo includes sample configuration files and scripts:
-
-- `scripts/dev` — Project launcher with AI assistant integration
-- `scripts/perf` — WSL2 performance monitoring **(Windows)**
-- `scripts/obs` — Obsidian launcher **(Windows/WSL)**
-- `templates/` — Reusable templates for projects, slash commands, hooks
-- `docs/` — Setup guides and reference documentation
-  - `docs/railway/` — [Railway deployment guides](./docs/railway/README.md) for cloud-hosted projects
-
-**Note**: System-specific configs (like `.bashrc`, actual project paths) should be git-ignored and kept separate from the template library.
+| You Are... | Go To |
+|------------|-------|
+| **Experienced — here for templates** | **[Template Library](./templates/README.md)** |
+| **Starting a new project** | [New Project Setup](./docs/getting-started/NEW-PROJECT-SETUP.md) |
+| **New to Claude Code** | [Getting Started](./docs/getting-started/SETUP-GUIDE-2026.md) |
 
 ---
 
 ## Template Library
 
-### How These Templates Were Built
+10 categories of production-validated patterns. Also: [Auth patterns](./templates/auth/README.md) | [Railway configs](./templates/railway/README.md)
 
-**Evidence-Based, Not Arbitrary**
-
-These aren't theoretical best practices. They were extracted from real usage:
-
-1. **Pattern Discovery** (4 repositories audited)
-   - Production FastAPI services (6+ months, 130+ commits)
-   - Data processing pipelines (3 months, 60+ commits)
-   - Template projects (2 months, 49+ commits)
-
-2. **Validation** (239+ commits analyzed)
-   - Which patterns appeared in 3+ projects?
-   - Which solved recurring problems?
-   - Which were abandoned? (those were excluded)
-
-3. **Refinement** (Tested in new projects)
-   - Applied templates to new codebases
-   - Measured effectiveness (time saved, bugs prevented)
-   - Iterated based on real-world feedback
-
-**Result**: 13 Tier 1 patterns validated for extraction, organized into 27 template files.
+| Category | Purpose | Entry Point |
+|----------|---------|-------------|
+| **Slash Commands** | 21 CLI command templates (quality, design, git) | [README](./templates/slash-commands/README.md) |
+| **CLAUDE.md Structures** | Lightweight project context (hub-and-spoke) | [README](./templates/claude-md/README.md) |
+| **Plugins** | Claude Code skills (code-review) | [README](./templates/plugins/README.md) |
+| **Project Management** | Tasks, backlogs, `.projects/` cross-session | [README](./templates/project-management/README.md) |
+| **Anti-Slop Standards** | 7 universal quality gates with grep patterns | [ANTI_SLOP_STANDARDS.md](./templates/standards/ANTI_SLOP_STANDARDS.md) |
+| **Frontend Standards** | CSS/JS interaction patterns, class-based visibility | [FRONTEND_STANDARDS.md](./templates/standards/FRONTEND_STANDARDS.md) |
+| **Hooks** | Workflow automation and validation hooks | [README](./templates/hooks/README.md) |
+| **Permissions** | Tool access configuration | [README](./templates/permissions/README.md) |
+| **Testing** | Playwright + Claude Code E2E patterns | [README](./templates/testing/README.md) |
+| **CI/CD** | GitHub Actions for AI-assisted development | [README](./templates/ci/README.md) |
 
 ---
 
-### Template Categories
+## Guides & Reference
 
-**Slash Commands** (21 commands across 7 phases)
-- Development workflow: `/start-feature`, `/resume`, `/feature-complete`
-- Analysis: `/plan-approaches`, `/performance-analysis`
-- Documentation: `/audit-claude-md`, `/sync-team-docs`
-- [Browse all commands →](./templates/slash-commands/)
+| Document | Purpose |
+|----------|---------|
+| [Advanced Workflows](./docs/reference/ADVANCED-WORKFLOWS.md) | 7-section power-user guide: context, planning, agents, extensions, predictability |
+| [MCP Patterns](./docs/mcp/README.md) | Context efficiency, version pinning, decision trees |
+| [Playwright MCP](./docs/mcp/playwright/README.md) | Claude-driven browser automation |
+| [Railway Docs](./docs/railway/README.md) | Deployment guides and configuration |
+| [Daily Workflow](./docs/setup-guides/DAILY-WORKFLOW.md) | Everyday usage patterns |
+| [Claude Code Config](./docs/reference/CLAUDE-CODE-CONFIG.md) | MCP and settings configuration |
+| [Built-in vs Custom](./docs/decisions/BUILTIN_VS_CUSTOM.md) | When to use built-in features vs custom templates |
 
-**CLAUDE.md Structures**
-- Lightweight project context (150-200 lines recommended)
-- Hub-and-spoke pattern (main CLAUDE.md → category docs)
-- Evidence from 4 repo audits
-- [See templates →](./templates/claude-md/)
+---
 
-**Project & Task Management**
-- Unified guide: native Tasks, `.projects/` cross-session, backlogs
-- Effort calibration, YAML frontmatter, duplicate detection
-- `.projects/` for multi-week features, `_BACKLOG.md` for simple tracking
-- [Learn more →](./templates/project-management/)
+## Environment Setup
 
-**Anti-Slop Standards**
-- 7 universal standards (functions <50 lines, nesting <3, etc.)
-- Automated enforcement (grep patterns, pre-commit hooks)
-- Recognition patterns for AI-generated bloat
-- [Full standards →](./templates/standards/)
+Platform-agnostic guides for Mac, Windows, and Linux. WSL2 is optional for Windows power users — see [Why WSL?](./docs/decisions/why-wsl.md).
 
-**Permissions**
-- Environment-based tool access (home repo, work repo, demo mode)
-- Security patterns for AI tools
-- Pre-configured permission sets
-- [See patterns →](./templates/permissions/)
+| Guide | Purpose |
+|-------|---------|
+| [Getting Started](./docs/getting-started/SETUP-GUIDE-2026.md) | Platform-agnostic Claude Code + Codex setup |
+| [Quickstart](./docs/getting-started/CLAUDE-CODE-QUICKSTART.md) | 5-minute Claude Code install |
+| [Claude Code Setup](./docs/setup-guides/CLAUDE-CODE-SETUP.md) | Full installation and configuration |
+| [Codex Setup](./docs/setup-guides/CODEX-SETUP.md) | Dual-tool workflow with Codex CLI |
+| [Multi-Device Workspace](./docs/setup-guides/MULTI-DEVICE-WORKSPACE.md) | Access Claude Code from iPad/phone/laptop |
+| [Cursor + WSL](./docs/setup-guides/CURSOR-WSL-SETUP.md) | IDE with WSL integration (Windows) |
+| [Commands Reference](./docs/reference/COMMANDS.md) | Full command reference |
+
+> **Note**: This repository contains templates and examples. Replace paths, usernames, and repository URLs with your own before use.
+
+---
+
+## Evidence
+
+All templates extracted from real production usage — 4 repositories audited, 239+ commits analyzed, 13 patterns validated across multiple projects before extraction. Not theoretical best practices.
 
 ---
 

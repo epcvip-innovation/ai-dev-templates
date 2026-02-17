@@ -296,7 +296,7 @@ For large-scale or ongoing monitoring, consider dedicated tools:
 
 ## Related Guides
 
-- [MCP_WORKFLOW_GUIDE.md](./MCP_WORKFLOW_GUIDE.md) — Competitor analysis is Pattern 5 in the MCP workflow guide
+- [Playwright MCP Guide](../../docs/mcp/playwright/README.md) — Competitor analysis is a workflow pattern in the Playwright MCP guide
 - [PLAYWRIGHT_CLAUDE_GUIDE.md](./PLAYWRIGHT_CLAUDE_GUIDE.md) — MCP setup and all 5 Playwright approaches
 - [COST_OPTIMIZATION_GUIDE.md](./COST_OPTIMIZATION_GUIDE.md) — Model selection for cost-effective analysis
 

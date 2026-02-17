@@ -32,6 +32,8 @@ We recommend running Claude Code and Codex CLI simultaneously as a dual-tool wor
 - **Split terminals** — Run both side-by-side on the same project
 - **MCP integration** — Can run Codex as an MCP server inside Claude Code, or vice versa
 
+> **Note**: Claude Code and Codex handle MCPs differently — crucially, Claude Code uses Tool Search (lazy loading) for ~89% context savings. See [MCP Context & Efficiency](../mcp/MCP-CONTEXT.md) for the comparison.
+
 **Claude Code is our primary tool.** Codex is the secondary tool for cross-review and comparison. If you only want one tool, start with Claude Code.
 
 ---

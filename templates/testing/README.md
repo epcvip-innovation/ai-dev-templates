@@ -1,5 +1,7 @@
 # Testing Templates
 
+[← Back to Main README](../../README.md)
+
 E2E testing patterns for Claude Code projects using Playwright.
 
 > **2026 Insight**: "2026 is the year testers move from 'writing scripts' to orchestrating AI-powered automation workflows."
@@ -13,7 +15,7 @@ E2E testing patterns for Claude Code projects using Playwright.
 | Goal | Read |
 |------|------|
 | Reduce token costs / pick the right model | [COST_OPTIMIZATION_GUIDE.md](./COST_OPTIMIZATION_GUIDE.md) |
-| Use MCP for browser exploration | [MCP_WORKFLOW_GUIDE.md](./MCP_WORKFLOW_GUIDE.md) |
+| Use MCP for browser exploration | [Playwright MCP Guide](../../docs/mcp/playwright/README.md) |
 | CLI vs MCP vs Chrome — full comparison | [BROWSER_AUTOMATION_LANDSCAPE_2026.md](./BROWSER_AUTOMATION_LANDSCAPE_2026.md) |
 
 **Want the full picture?** [BROWSER_AUTOMATION_LANDSCAPE_2026.md](./BROWSER_AUTOMATION_LANDSCAPE_2026.md) covers every approach, model benchmark, and platform compatibility matrix.
@@ -23,7 +25,7 @@ E2E testing patterns for Claude Code projects using Playwright.
 | File | Type | Purpose |
 |------|------|---------|
 | [PLAYWRIGHT_CLAUDE_GUIDE.md](./PLAYWRIGHT_CLAUDE_GUIDE.md) | Guide | Comprehensive guide: 5 approaches, setup, patterns |
-| [MCP_WORKFLOW_GUIDE.md](./MCP_WORKFLOW_GUIDE.md) | Guide | Claude-driven browser control workflows |
+| [Playwright MCP Guide](../../docs/mcp/playwright/README.md) | Guide | Claude-driven browser control (moved to docs/mcp/) |
 | [COST_OPTIMIZATION_GUIDE.md](./COST_OPTIMIZATION_GUIDE.md) | Reference | Cost analysis, model pricing, optimization strategies |
 | [BROWSER_AUTOMATION_LANDSCAPE_2026.md](./BROWSER_AUTOMATION_LANDSCAPE_2026.md) | Reference | Full landscape: 5 approaches, model selection, platform compatibility |
 | [PLAYWRIGHT_CLI_EVALUATION.md](./PLAYWRIGHT_CLI_EVALUATION.md) | Reference | CLI vs MCP token measurements and comparison |
@@ -133,8 +135,8 @@ Ready-to-use configuration with:
 - Auto-start dev server, trace/video on failure
 - Chrome + Firefox + mobile projects
 
-### `examples/mcp.json.template`
-Standardized MCP configs for:
+### [`mcp.json.template`](../../docs/mcp/playwright/examples/mcp.json.template)
+Standardized MCP configs (moved to `docs/mcp/playwright/examples/`):
 - WSL2/Linux (with `--no-sandbox`)
 - macOS (minimal flags)
 - CI/Headless (with `--headless`)
@@ -159,11 +161,14 @@ Page Object Model with:
 PLAYWRIGHT_CLAUDE_GUIDE          ← start here
     │           │           │
     ▼           ▼           ▼
-MCP_WORKFLOW   COST_OPT   BROWSER_LANDSCAPE
-    │                          │
-    ▼                          ▼
-COMPETITOR                 CLI_EVALUATION
+PLAYWRIGHT   COST_OPT   BROWSER_LANDSCAPE
+MCP GUIDE*                     │
+    │                          ▼
+    ▼                    CLI_EVALUATION
+COMPETITOR
 ANALYSIS
+
+* docs/mcp/playwright/
 ```
 
 **Background reading**: [RESEARCH_ARCHIVE](./RESEARCH_ARCHIVE.md)
@@ -173,3 +178,11 @@ ANALYSIS
 - [Playwright Docs](https://playwright.dev/docs/intro)
 - [Microsoft Playwright MCP](https://github.com/microsoft/playwright-mcp)
 - [Playwright Agents](https://playwright.dev/docs/test-agents) — AI-powered test generation (v1.56+, experimental)
+
+---
+
+## See Also
+
+- [CI/CD Templates](../ci/README.md) — GitHub Actions with Playwright
+- [Playwright MCP Guide](../../docs/mcp/playwright/README.md) — Claude-driven browser control
+- [All Templates](../README.md)

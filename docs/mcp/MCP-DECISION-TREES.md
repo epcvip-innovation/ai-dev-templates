@@ -1,8 +1,9 @@
 # MCP Server Decision Trees (DRAFT)
 
+[← Back to MCP Hub](./README.md) | [← Back to Main README](../../README.md)
+
 **Status**: In Progress
 **Source**: Patterns from [TheDecipherist/claude-code-mastery](https://github.com/TheDecipherist/claude-code-mastery)
-**Target**: `docs/reference/MCP-GUIDE.md` or `templates/mcp/`
 
 ---
 

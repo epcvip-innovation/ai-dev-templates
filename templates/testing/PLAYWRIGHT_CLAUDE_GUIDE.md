@@ -419,7 +419,7 @@ Or configure manually in `.mcp.json` (project-level, recommended):
 }
 ```
 
-> **WSL2/Linux:** Always include `--no-sandbox`. See [examples/mcp.json.template](./examples/mcp.json.template) for platform-specific configs.
+> **WSL2/Linux:** Always include `--no-sandbox`. See [mcp.json.template](../../docs/mcp/playwright/examples/mcp.json.template) for platform-specific configs.
 
 > **v0.0.64 note:** In-memory profiles are now the default (`--isolated` behavior). Use `--user-data-dir` for persistent profiles.
 

@@ -1,6 +1,6 @@
 # Claude Code Quick Reference
 
-[← Back to Main README](../../README.md) | [Storage Reference →](./CLAUDE-CODE-STORAGE.md) | [Playwright MCP →](./PLAYWRIGHT-MCP.md) | [Basic Setup Guide →](../setup-guides/CLAUDE-CODE-SETUP.md)
+[← Back to Main README](../../README.md) | [Storage Reference →](./CLAUDE-CODE-STORAGE.md) | [Playwright MCP →](../mcp/playwright/README.md) | [Basic Setup Guide →](../setup-guides/CLAUDE-CODE-SETUP.md)
 
 Practical guide for managing Claude Code configuration, MCPs, and plugins.
 
@@ -120,7 +120,7 @@ Then add as custom-command widget to show most recent plan file name.
 
 ### What Are MCPs?
 MCPs give Claude access to external tools and data sources:
-- **Playwright**: Browser automation for frontend testing (see [Playwright MCP Guide](./PLAYWRIGHT-MCP.md))
+- **Playwright**: Browser automation for frontend testing (see [Playwright MCP Guide](../mcp/playwright/README.md))
 - **Notion**: Search/update Notion workspace
 - **Filesystem**: Read/write local files
 - **Database**: Query databases
@@ -167,7 +167,11 @@ MCPs give Claude access to external tools and data sources:
 - Enables Claude to control a browser
 - Uses accessibility snapshots (faster/more reliable than screenshots)
 - Great for frontend testing and web automation
-- See [full Playwright MCP guide](./PLAYWRIGHT-MCP.md) for all options
+- See [full Playwright MCP guide](../mcp/playwright/README.md) for all options
+
+> **Pin versions in team configurations.** Use `@playwright/mcp@0.0.64` instead of `@latest`.
+> The `@latest` tag re-downloads on every npx invocation and exposes you to supply chain attacks.
+> See [MCP Safety Guide](../mcp/MCP-SAFETY.md) for details.
 
 ### Managing MCPs
 
@@ -195,13 +199,19 @@ claude mcp remove notion -s global   # Remove globally
 - **Local**: Only in current project (stored in `.claude.json`)
 - **Project**: Via `.mcp.json` file in project root
 
-### Token Cost
+### Token Cost & Tool Search
 
 ⚠️ **MCPs consume tokens!** Each MCP loads tool definitions into context.
 
-Example: Notion MCP = ~30k tokens
+**Tool Search** (default) dramatically reduces this: instead of loading all tool schemas upfront, Claude Code builds a lightweight index and loads schemas on-demand. This reduced a 77k-token overhead to ~8.7k in Anthropic's benchmarks.
 
-**Strategy**: Use plugins to toggle MCPs on/off as needed.
+Example without Tool Search: Notion MCP = ~30k tokens. With Tool Search: schemas loaded only when relevant.
+
+Configure via `ENABLE_TOOL_SEARCH`: `auto` (default, activates at 10% of context), `true` (always on), `false` (disabled).
+
+**Strategy**: Rely on Tool Search (default) + use plugins to toggle MCPs for additional savings.
+
+**Full guide**: See [MCP Context & Efficiency](../mcp/MCP-CONTEXT.md) for benchmarks, model requirements, and Claude Code vs Codex comparison.
 
 ## Plugins
 
@@ -395,7 +405,7 @@ SKIP_QUERY_VALIDATION=1 python run_query.py query.sql
 
 ### Hook Templates
 
-See [templates/hooks/](./templates/hooks/) for:
+See [templates/hooks/](../../templates/hooks/README.md) for:
 - **Query validation** (production-ready) - Enforce query validation before execution
 - **Pre-commit formatting** (example) - Auto-format code before git commits
 - **Sensitive file blocker** (example) - Block edits to production config files

@@ -164,5 +164,13 @@ Before finalizing `.claude/settings.local.json`:
 
 ---
 
+## See Also
+
+- [Hooks](../hooks/README.md) — Runtime enforcement (complements permissions)
+- [Slash Commands](../slash-commands/README.md) — Commands that need specific permissions
+- [All Templates](../README.md)
+
+---
+
 **Last Updated**: 2026-02-15
 **Maintained By**: dev-setup template library

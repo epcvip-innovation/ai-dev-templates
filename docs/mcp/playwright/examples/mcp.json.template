@@ -93,5 +93,5 @@
 // See also:
 //   - BROWSER_AUTOMATION_LANDSCAPE_2026.md - Full landscape comparison
 //   - PLAYWRIGHT_CLAUDE_GUIDE.md - Testing patterns and workflows
-//   - docs/reference/PLAYWRIGHT-MCP.md - Complete CLI flag reference
+//   - docs/mcp/playwright/README.md - Complete CLI flag reference
 // =============================================================================
