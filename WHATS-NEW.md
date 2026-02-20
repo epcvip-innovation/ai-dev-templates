@@ -12,7 +12,8 @@ Team-facing updates log. Tracks template changes and the Claude Code platform ch
 - **UPDATED**: Skills frontmatter — added `memory`, `background`, `isolation`, `skills`, `mcpServers` fields (SKILL-TEMPLATE.md + frontmatter-reference.md)
 - **UPDATED**: Permissions README — added permission modes section (acceptEdits, dontAsk, bypassPermissions, plan), expanded sandbox documentation
 - **UPDATED**: Security guide — heredoc smuggling prevention, ConfigChange hook for security auditing, sandbox skill injection note
-- **UPDATED**: Advanced Workflows — background agents, worktree isolation, agent teams (experimental) sections added
+- **UPDATED**: Advanced Workflows — background agents, worktree isolation, agent teams (experimental), session customization sections added
+- **UPDATED**: Git Worktrees guide — autonomous workflow recipes (`--tmux` + `--append-system-prompt`), CLI flags table, branch base pitfall, zen orchestrator reference
 - **UPDATED**: Template categories 11 → 12 (agents added)
 - **NEW**: This file (WHATS-NEW.md)
 
@@ -21,6 +22,9 @@ Team-facing updates log. Tracks template changes and the Claude Code platform ch
 - **Custom agents**: `.claude/agents/` with full YAML frontmatter, `/agents` management command
 - **Agent teams**: Experimental multi-session coordination (`CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`)
 - **`--worktree` / `-w` flag**: Start sessions in isolated git worktrees
+- **`--tmux` flag**: Run worktree sessions in detached tmux windows (requires `--worktree`); `--tmux=classic` forces traditional tmux over iTerm2 panes
+- **`--append-system-prompt`**: Inject additional system prompt text at launch — worker specialization for parallel sessions
+- **`--fork-session`**: Branch a conversation into a new session ID (use with `--resume` or `--continue`)
 - **`isolation: "worktree"`**: Run agents in temporary worktrees with auto-cleanup
 - **`background: true`**: Always-background agents; Ctrl+B to background running tasks, Ctrl+F to kill
 - **`memory: user|project|local`**: Persistent agent memory across sessions (MEMORY.md auto-loaded)

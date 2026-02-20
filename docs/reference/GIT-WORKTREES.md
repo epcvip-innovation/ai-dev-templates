@@ -145,6 +145,15 @@ Claude Code has a native `EnterWorktree` tool that creates worktrees in `.claude
 
 For more control, create worktrees manually (Section 3) for explicit naming and placement.
 
+### CLI Flags for Worktrees
+
+| Flag | Purpose |
+|------|---------|
+| `--worktree` / `-w` | Start session in a new isolated worktree (branches from HEAD) |
+| `--tmux` | Auto-create a detached tmux session for the worktree (requires `--worktree`). Uses iTerm2 native panes when available; `--tmux=classic` forces traditional tmux |
+| `--append-system-prompt` | Inject additional system prompt text — useful for giving each parallel worker different instructions |
+| `--fork-session` | When combined with `--resume` or `--continue`, creates a new session ID instead of reusing the original — branch a conversation without losing the parent |
+
 ### Manual Worktree Setup for Claude Code Sessions
 
 ```bash
@@ -160,6 +169,38 @@ claude                    # Session B — isolated to API work
 ```
 
 Each Claude Code instance gets its own working directory, Git HEAD/index, session storage, build artifacts, and dev server ports.
+
+### Autonomous Worktree Recipes
+
+Combine `--worktree` with `--tmux` for fire-and-forget parallel work. Each session runs in a detached tmux window — no terminal babysitting required.
+
+**Single autonomous task**:
+```bash
+claude -w --tmux -p "implement user authentication with JWT, write tests, create a PR"
+```
+
+**Multiple parallel workers with specialized instructions**:
+```bash
+# Worker 1: Backend API
+claude -w --tmux --append-system-prompt "Focus on the backend API layer. Implement REST endpoints for user management."
+
+# Worker 2: Frontend components
+claude -w --tmux --append-system-prompt "Focus on the frontend. Build React components for the user profile page."
+
+# Worker 3: Test suite
+claude -w --tmux --append-system-prompt "Write comprehensive tests for the auth module. Cover edge cases."
+```
+
+**Monitor or reconnect**:
+```bash
+tmux ls                   # List active sessions
+tmux attach -t <name>     # Watch a worker in progress
+```
+
+**Fork a conversation to explore an alternative**:
+```bash
+claude --resume <session-id> --fork-session   # Branch from an existing session
+```
 
 ### Session Isolation
 
@@ -315,6 +356,7 @@ fi
 | `fatal: '<branch>' is already checked out` | Create a new branch: `git worktree add -b new-name <path> <commit>` |
 | Editing in wrong worktree — changes on wrong branch | Check `pwd` before committing |
 | 5 worktrees x 1GB `node_modules` = 5GB | Use `pnpm` (shared store) or clean up unused worktrees |
+| `claude -w` branches from HEAD (often main), not your feature branch | Use manual `git worktree add` from the branch you want, then `cd` + `claude` |
 
 ---
 
@@ -355,3 +397,4 @@ Do you need to work on two things at the same time?
 | uv docs | https://docs.astral.sh/uv/ |
 | pnpm docs | https://pnpm.io/ |
 | Claude Code docs | https://docs.anthropic.com/en/docs/claude-code |
+| zen (worktree orchestrator) | https://github.com/mgreau/zen — Automates worktree lifecycle for PR reviews: polls GitHub, creates worktrees per PR, injects context via `CLAUDE.local.md`, auto-cleans merged PRs |

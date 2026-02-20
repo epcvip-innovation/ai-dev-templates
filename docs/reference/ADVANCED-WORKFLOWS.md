@@ -235,12 +235,21 @@ Run sessions or agents in isolated git worktrees so changes happen on a separate
 
 - **Session-level**: `claude --worktree` (or `-w`) starts the entire session in a new worktree
 - **Agent-level**: `isolation: "worktree"` in agent frontmatter gives each agent its own worktree
+- **Detached**: Add `--tmux` to run the worktree session in a detached tmux window — fire and forget, reconnect with `tmux attach`
 - If the agent makes no changes, the worktree is auto-cleaned up
 - Custom agents and skills from the main repo's `.claude/` directory are still discovered
 
 **Best for**: Experimental changes, parallel implementation attempts, agents that modify many files.
 
-**See**: [GIT-WORKTREES.md](GIT-WORKTREES.md) for worktree setup and workflow patterns.
+**See**: [GIT-WORKTREES.md](GIT-WORKTREES.md) for worktree setup, autonomous recipes, and workflow patterns.
+
+### Session Customization
+
+Flags for tailoring sessions at launch — especially useful when running multiple parallel workers:
+
+- **`--append-system-prompt <text>`** — Add instructions to the default system prompt without replacing it. Give each parallel worker a different focus area
+- **`--system-prompt <text>`** — Replace the entire system prompt (use sparingly — loses default capabilities)
+- **`--fork-session`** — When combined with `--resume` or `--continue`, creates a new session ID branching from an existing conversation. Explore an alternative approach without losing the original session
 
 ### Agent Teams (Experimental)
 
