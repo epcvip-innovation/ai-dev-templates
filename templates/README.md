@@ -19,13 +19,14 @@ Production-validated patterns for AI-assisted development.
 
 ---
 
-## 11 Template Categories
+## 12 Template Categories
 
 | Category | Purpose | Entry Point |
 |----------|---------|-------------|
 | **slash-commands** | CLI command templates (21 active) | [README](./slash-commands/README.md) |
 | **claude-md** | CLAUDE.md structure patterns | [README](./claude-md/README.md) |
 | **skills** | Claude Code skills (code-review, skill-creator) | [README](./skills/README.md) |
+| **agents** | Custom subagent definitions | [README](./agents/README.md) |
 | **project-management** | Tasks, backlogs, .projects/ cross-session | [README](./project-management/README.md) |
 | **standards** | Anti-slop quality standards | [ANTI_SLOP_STANDARDS.md](./standards/ANTI_SLOP_STANDARDS.md) |
 | **standards** | Frontend CSS/JS interaction patterns | [FRONTEND_STANDARDS.md](./standards/FRONTEND_STANDARDS.md) |
@@ -40,9 +41,10 @@ Production-validated patterns for AI-assisted development.
 
 ## Extension Mechanisms
 
-Claude Code has four extension mechanisms — each serves a different purpose:
+Claude Code has five extension mechanisms — each serves a different purpose:
 
 - **Skills** auto-trigger on natural language, best for complex multi-step workflows
+- **Agents** are isolated subagent instances, best for parallel or specialized work with independent context
 - **Slash commands** are explicit and reliable, best for utilities (`/push`, `/audit`)
 - **Hooks** are deterministic (shell scripts), best for validation and formatting
 - **Python utilities** are best for data operations (backlog indexing, search)

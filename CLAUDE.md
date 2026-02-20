@@ -17,7 +17,7 @@ This is an **AI workflow template library**, built from 6+ months of real-world 
 
 The core value of this repository. **Browse before using** - these are patterns to adapt, not rules to follow.
 
-### 11 Template Categories
+### 12 Template Categories
 
 **1. Slash Commands** (`templates/slash-commands/`)
 - 21 active commands (16 general + 5 audit lenses)
@@ -86,6 +86,11 @@ The core value of this repository. **Browse before using** - these are patterns 
 - Guided skill scaffolding: discovery interview → archetype → scaffold → quality validation
 - Includes [SKILL-TEMPLATE.md](./templates/skills/SKILL-TEMPLATE.md) for creating new skills
 - **See**: [templates/skills/README.md](./templates/skills/README.md)
+
+**11. Custom Agents** (`templates/agents/`)
+- Subagent definitions with frontmatter: model, tools, memory, isolation, permissions
+- Agent teams (experimental), background agents, worktree isolation
+- **See**: [templates/agents/README.md](./templates/agents/README.md)
 
 ## Research & Evidence
 

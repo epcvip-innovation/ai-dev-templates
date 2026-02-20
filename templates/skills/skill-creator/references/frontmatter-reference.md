@@ -130,6 +130,28 @@ hooks:
 
 **When to use:** When the skill needs deterministic enforcement (validation, logging, formatting) beyond advisory instructions. Most skills don't need hooks.
 
+### Advanced Fields (Subagent Mode)
+
+These fields apply only when a skill uses `context: fork` to run in a subagent. For the full subagent frontmatter reference, see [Custom Agents](../../agents/README.md).
+
+| Field | Type | Default | Purpose |
+|-------|------|---------|---------|
+| `memory` | string | none | Persistent memory scope: `user` (global), `project` (shared), or `local` (personal). Agent's `MEMORY.md` (first 200 lines) auto-loaded into system prompt. |
+| `background` | boolean | `false` | Always run the forked agent as a background task. MCP tools unavailable; permissions must be pre-approved. |
+| `isolation` | string | none | Set to `worktree` for git worktree isolation. Auto-cleaned if no changes made. |
+| `skills` | list | none | Skills to preload into the subagent's context at startup (by name). |
+| `mcpServers` | list | none | MCP servers available to this subagent (by server name from config). |
+
+**When to use:**
+
+| Situation | Fields to Add |
+|-----------|--------------|
+| Skill needs cross-session learning | `memory: user` or `memory: project` |
+| Skill should run without blocking | `background: true` (requires `context: fork`) |
+| Skill modifies many files safely | `isolation: worktree` (requires `context: fork`) |
+| Skill needs domain knowledge from other skills | `skills` list (requires `context: fork`) |
+| Skill needs external service access | `mcpServers` list (requires `context: fork`) |
+
 ---
 
 ## String Substitutions
@@ -175,4 +197,7 @@ description: |
 | Needs complex reasoning | `model: opus` |
 | Produces large intermediate output | `context: fork` |
 | Needs deterministic validation | `hooks` |
+| Needs cross-session learning | `memory: user` or `memory: project` (with `context: fork`) |
+| Should run without blocking | `background: true` (with `context: fork`) |
+| Modifies many files safely | `isolation: worktree` (with `context: fork`) |
 | Most skills | **None** — only `name` and `description` |

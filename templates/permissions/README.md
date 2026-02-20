@@ -50,6 +50,22 @@ For existing projects, merge permissions from template into your existing `.clau
 
 Rules are evaluated: **deny first, then ask, then allow**. The first matching rule wins. Higher-priority settings sources (managed > local > project > user) take precedence for deny rules.
 
+### Permission Modes
+
+Sessions and agents can operate in different permission modes, controlling how prompts are handled:
+
+| Mode | Behavior | Use Case |
+|------|----------|----------|
+| `default` | Standard permission checking with prompts | Normal interactive development |
+| `acceptEdits` | Auto-approve file edits, prompt for everything else | Trusted refactoring agents |
+| `dontAsk` | Auto-deny all prompts (allowed tools still work) | Read-only analysis agents |
+| `bypassPermissions` | Skip all permission checks | Fully trusted automation (use with caution) |
+| `plan` | Read-only exploration mode | Planning and research agents |
+
+Set via `--permission-mode` flag, `/permission-mode` command, or `permissionMode` in [agent definitions](../agents/README.md).
+
+**Note**: `bypassPermissions` propagates to all subagents and cannot be overridden by child agents.
+
 ---
 
 ## Common Permission Categories
@@ -158,7 +174,7 @@ All should include: `Bash(git *)`, `Read`, `WebSearch`.
 | Need to restart after changing? | Settings are snapshotted at startup. For hooks especially, mid-session changes require review in `/hooks` menu or restart. Use `/config` to reload settings. |
 | Environment variables in permissions? | No. Use wildcards instead: `Bash(export DATABASE_PATH=*)` |
 | Settings isolation for teams? | Use `claude --setting-sources project` to ensure personal settings can't override project controls. |
-| Sandbox mode? | `"sandbox": { "enabled": true }` in settings restricts filesystem/network access for Bash commands. |
+| Sandbox mode? | `"sandbox": { "enabled": true }` restricts filesystem/network access for Bash. Use `sandbox.excludedCommands` to whitelist specific commands. `autoAllowBashIfSandboxed` auto-approves Bash when sandbox is on — but excluded commands bypass ask rules, so audit carefully (fixed in v2.1.34). |
 
 ---
 

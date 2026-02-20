@@ -1,0 +1,64 @@
+# What's New
+
+Team-facing updates log. Tracks template changes and the Claude Code platform changes they reflect. Reverse chronological — entries older than 6 months are removed.
+
+---
+
+## February 2026 — Custom Agents, Agent Teams, Worktree Isolation
+
+### Template Changes
+
+- **NEW**: Custom agents template (`templates/agents/README.md`) — full frontmatter reference, common patterns, memory, worktree isolation, agent teams
+- **UPDATED**: Skills frontmatter — added `memory`, `background`, `isolation`, `skills`, `mcpServers` fields (SKILL-TEMPLATE.md + frontmatter-reference.md)
+- **UPDATED**: Permissions README — added permission modes section (acceptEdits, dontAsk, bypassPermissions, plan), expanded sandbox documentation
+- **UPDATED**: Security guide — heredoc smuggling prevention, ConfigChange hook for security auditing, sandbox skill injection note
+- **UPDATED**: Advanced Workflows — background agents, worktree isolation, agent teams (experimental) sections added
+- **UPDATED**: Template categories 11 → 12 (agents added)
+- **NEW**: This file (WHATS-NEW.md)
+
+### Claude Code Platform Changes (v2.1.34–v2.1.49)
+
+- **Custom agents**: `.claude/agents/` with full YAML frontmatter, `/agents` management command
+- **Agent teams**: Experimental multi-session coordination (`CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`)
+- **`--worktree` / `-w` flag**: Start sessions in isolated git worktrees
+- **`isolation: "worktree"`**: Run agents in temporary worktrees with auto-cleanup
+- **`background: true`**: Always-background agents; Ctrl+B to background running tasks, Ctrl+F to kill
+- **`memory: user|project|local`**: Persistent agent memory across sessions (MEMORY.md auto-loaded)
+- **Permission modes**: `acceptEdits`, `dontAsk`, `bypassPermissions`, `plan` for agents and sessions
+- **ConfigChange hook**: Monitor/block mid-session config modifications
+- **TeammateIdle / TaskCompleted hooks**: Quality gates for agent teams
+- **Heredoc smuggling prevention**: Improved delimiter parsing (v2.1.38+)
+- **Sandbox hardening**: `.claude/skills` write blocking, `autoAllowBashIfSandboxed` security fix
+- **Sonnet 4.6**: Replaced Sonnet 4.5 with 1M context
+- **Opus 4.6**: Adaptive thinking, effort controls (low/medium/high/max), 1M context beta
+- **`claude auth login/status/logout`**: CLI auth management subcommands
+- **50+ stability fixes**: Memory management, WSL2, Unicode handling, concurrent agents
+
+---
+
+## January 2026 — Initial Release
+
+### Template Changes
+
+- 11 template categories: slash commands, CLAUDE.md structures, skills, project management, standards, security, hooks, permissions, testing, CI/CD, frontend standards
+- 21 slash command templates
+- 3-tier AI agent security (baseline → team → strict)
+- Unified code review skill (5-phase pipeline)
+- Skill creator skill (guided scaffolding)
+- Hooks system with 15 events and 5 working examples
+- Playwright E2E testing patterns
+- CI/CD workflows (security review, Claude QA, risk-gated)
+
+### Claude Code Platform Changes (v2.1.x baseline)
+
+- Skills system with YAML frontmatter
+- Hooks with command/prompt/agent handler types
+- Native Tasks (TaskCreate, TaskList, TaskGet, TaskUpdate)
+- MCP tool integration
+- Plan mode
+- Context compaction
+
+---
+
+**Maintained by**: Innovation team
+**Last updated**: 2026-02-20

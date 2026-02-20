@@ -209,7 +209,62 @@ Main conversation                    Sub-agent
 - **Divergent edits** — Two agents modifying the same file will conflict. Assign non-overlapping scopes
 - **No shared context** — Agent A doesn't know what Agent B found. You're the coordinator
 - **Overhead** — For a 3-second Grep, spawning an agent adds 10-30 seconds of startup overhead
-- **No nesting** — Sub-agents cannot spawn their own sub-agents. Design workflows with one level of delegation
+- **No nesting** — Sub-agents cannot spawn their own sub-agents. However, the `tools: Task(worker, researcher)` syntax can restrict which agent types a parent can spawn
+
+### Custom Agent Definitions
+
+Beyond the built-in Task tool agent types, you can define reusable agents in `.claude/agents/` with YAML frontmatter. These support persistent memory, worktree isolation, background execution, custom permission modes, and more.
+
+**See**: [Custom Agents template](../../templates/agents/README.md) for the full reference.
+
+### Background Agents
+
+Agents can run in the background while you continue working in the main conversation:
+
+- **`background: true`** in agent frontmatter — always runs as a background task
+- **Ctrl+B** — background a running foreground agent mid-execution
+- **Ctrl+F** — kill all background agents (two-press confirmation)
+
+Background agents must have all needed permissions pre-approved before launch. Unapproved permissions auto-deny. MCP tools are not available in background mode.
+
+**Best for**: Long-running research, code scanning, parallel review — tasks that don't need your attention until complete.
+
+### Worktree Isolation
+
+Run sessions or agents in isolated git worktrees so changes happen on a separate branch:
+
+- **Session-level**: `claude --worktree` (or `-w`) starts the entire session in a new worktree
+- **Agent-level**: `isolation: "worktree"` in agent frontmatter gives each agent its own worktree
+- If the agent makes no changes, the worktree is auto-cleaned up
+- Custom agents and skills from the main repo's `.claude/` directory are still discovered
+
+**Best for**: Experimental changes, parallel implementation attempts, agents that modify many files.
+
+**See**: [GIT-WORKTREES.md](GIT-WORKTREES.md) for worktree setup and workflow patterns.
+
+### Agent Teams (Experimental)
+
+Multi-agent collaboration where a lead coordinates independent teammates:
+
+```bash
+export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
+```
+
+**Architecture**: One session is the lead. Teammates run in independent context windows with a shared task list and inter-agent mailbox. Teammates self-claim tasks; dependencies are managed automatically.
+
+**Key difference from sub-agents**: Teammates communicate directly with each other (not just back to the parent). They have independent context and can work truly in parallel.
+
+**Display modes**:
+- In-process: all teammates in your terminal (cycle with Shift+Down)
+- Split-pane: each in a tmux/iTerm2 pane
+
+**Quality gate hooks**:
+- `TeammateIdle` — fires when a teammate is about to idle. Exit 2 = keep working
+- `TaskCompleted` — fires when a task is marked complete. Exit 2 = reject completion
+
+**When to use**: Parallel research with different perspectives, cross-layer feature development (frontend + backend + tests simultaneously), competing implementation approaches.
+
+**When NOT to use**: Sequential tasks, small changes, tasks with heavy inter-dependencies. ~3-4x token cost vs single session. No session resumption, one team per session, no nested teams.
 
 ### Model Selection Philosophy
 
@@ -377,6 +432,7 @@ Five themes that cut across every section of this guide:
 - [PLAN_QUALITY_RUBRIC.md](../../templates/standards/PLAN_QUALITY_RUBRIC.md) — Scoring framework for implementation plans
 - [Hooks README](../../templates/hooks/README.md) — Workflow automation and enforcement
 - [Skills README](../../templates/skills/README.md) — Skills, commands, and plugin taxonomy
+- [Custom Agents](../../templates/agents/README.md) — Agent definitions, memory, worktree isolation, agent teams
 - [SKILL-TEMPLATE.md](../../templates/skills/SKILL-TEMPLATE.md) — Creating new skills
 - [COST_OPTIMIZATION_GUIDE.md](../../templates/testing/COST_OPTIMIZATION_GUIDE.md) — Model pricing and testing costs
 - [CODEX-SETUP.md](../setup-guides/CODEX-SETUP.md) — Codex installation and dual-tool workflow
@@ -384,4 +440,4 @@ Five themes that cut across every section of this guide:
 
 ---
 
-**Last Updated**: 2026-02-16
+**Last Updated**: 2026-02-20

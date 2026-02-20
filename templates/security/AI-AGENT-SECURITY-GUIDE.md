@@ -54,6 +54,12 @@ The right model: treat AI agents as **untrusted but powerful interns** (Backslas
 - **`Bash()` wrapper format** in conf files — same syntax as settings.json, self-documenting
 - **Dual entries** for each denied command: `Bash(cmd)` (exact) + `Bash(cmd *)` (with args)
 - **Bypass prevention**: Block `eval`, `exec`, `command`, `bash`, `sh`, `env`, `xargs`, `nohup`, `nice`, `time`, `timeout`, `watch` — these execute denied commands indirectly
+- **Heredoc delimiter validation**: Block command smuggling via heredoc syntax (e.g., `cat <<EOF | bash`). Claude Code improved heredoc parsing in v2.1.38, but validate heredoc-heavy Bash commands in hooks as defense-in-depth
+- **ConfigChange hook**: Monitor for runtime settings modifications. Block unauthorized changes:
+  ```json
+  "ConfigChange": [{ "hooks": [{ "type": "command", "command": "exit 2" }] }]
+  ```
+  Use matchers (`user_settings`, `project_settings`, `skills`) to allow specific changes while blocking others.
 - **`--setting-sources project`** — prevents personal settings from weakening controls
 
 **How the hook decides**:
@@ -88,6 +94,7 @@ echo '{"tool_name":"Bash","tool_input":{"command":"printenv HOME"}}' | \
 - **Audit logging** (JSONL), **curl denied** (use WebFetch with domain restrictions)
 - **CWD-independent patterns**: `*/scripts/deploy.sh *`
 - **Managed settings** (`allowManagedPermissionRulesOnly`, `allowManagedHooksOnly`) for enterprise lockdown
+- **Sandbox mode** (`sandbox.enabled: true`): Restricts Bash filesystem/network access. Blocks `.claude/skills` writes to prevent skill injection. Use `sandbox.excludedCommands` sparingly — excluded commands bypass ask rules
 
 **Scoped denies**: Deny `python3 -c *` (arbitrary execution) while allowing `python3 -m compileall *` (specific safe subcommand).
 

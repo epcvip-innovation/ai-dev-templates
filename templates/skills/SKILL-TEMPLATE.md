@@ -25,6 +25,13 @@ description: |
 #     - matcher: Write
 #       hooks:
 #         - command: "echo 'Writing file'"
+# memory: user                       # Persistent memory: user, project, or local (with context: fork)
+# background: true                   # Always run as background task (with context: fork)
+# isolation: worktree                # Run in isolated git worktree (with context: fork)
+# skills:                            # Preload skills into subagent (with context: fork)
+#   - api-conventions
+# mcpServers:                        # MCP servers for the subagent (with context: fork)
+#   - slack
 ---
 
 # Skill Name
