@@ -12,12 +12,16 @@
 
 ### Understanding Hooks
 
-Claude Code hooks are shell commands that execute at specific workflow events:
+Claude Code hooks are shell commands (or LLM prompts) that execute at specific workflow events. There are **14 events** — the most common:
 - **PreToolUse** - Before tool calls (can block them) — Most common
-- **PostToolUse** - After tool calls complete
-- **UserPromptSubmit** - When users submit prompts
-- **SessionStart** - On new or resumed sessions
-- **Stop** - When Claude finishes responding
+- **PostToolUse** / **PostToolUseFailure** - After tool calls succeed or fail
+- **UserPromptSubmit** - When users submit prompts (can block)
+- **PermissionRequest** - When a permission dialog appears (can auto-approve/deny)
+- **SessionStart** / **SessionEnd** - Session lifecycle
+- **Stop** - When Claude finishes responding (can force continuation)
+- **SubagentStart** / **SubagentStop** - Subagent lifecycle
+- **TeammateIdle** / **TaskCompleted** - Agent team quality gates
+- **Notification** / **PreCompact** - Notifications and context compaction
 
 **Key Benefit**: Deterministic control over Claude's actions (vs hoping the LLM does it)
 
@@ -48,13 +52,16 @@ Claude Code hooks are shell commands that execute at specific workflow events:
 
 ## Settings Hierarchy
 
-Hooks follow Claude Code's settings priority (higher overrides lower):
+Hooks from multiple levels are **combined** (all run). For settings conflicts, higher-priority sources win:
 
-1. **Enterprise settings** (managed by organization)
-2. **CLI arguments** (`--config` flag)
-3. **Project local** (`.claude/settings.local.json`) — Gitignored, personal
-4. **Project shared** (`.claude/settings.json`) — Checked in, team
-5. **User global** (`~/.claude/settings.json`) — Applies to all projects
+1. **Managed policy** (organization) — highest priority
+2. **Project local** (`.claude/settings.local.json`) — Gitignored, personal
+3. **Project shared** (`.claude/settings.json`) — Checked in, team
+4. **User global** (`~/.claude/settings.json`) — Applies to all projects — lowest priority
+
+Additional hook locations: plugin `hooks/hooks.json`, skill/agent frontmatter.
+
+**Important**: Hooks are snapshotted at startup. Mid-session edits require review in `/hooks` menu. Set `"disableAllHooks": true` to temporarily disable all hooks.
 
 ---
 
@@ -82,17 +89,28 @@ Hooks follow Claude Code's settings priority (higher overrides lower):
 
 ### Matcher Patterns
 
-- `"Bash"` - Only Bash tool
-- `"Edit|Write"` - Multiple tools (pipe syntax)
-- `"*"` - All tools
+Matchers are **regex strings** (not simple strings):
 
-**Note**: Matchers are tool names, not command content. To filter by command content, do it in your hook script.
+- `"Bash"` - Only Bash tool (exact match)
+- `"Edit|Write"` - Multiple tools (regex alternation)
+- `"mcp__.*"` - All MCP tools (regex wildcard)
+- `"Notebook.*"` - Tools starting with Notebook
+- `"*"` or `""` or omitted - All tools
+
+**Note**: Matchers filter by tool name (or event-specific field), not command content. To filter by command content, do it in your hook script. Matchers are case-sensitive.
 
 ### Exit Codes
 
-- **0** = Allow operation
-- **2** = Block operation (stderr shown to Claude)
-- **1** = Error (logged, doesn't block)
+- **0** = Allow operation (stdout parsed for JSON output)
+- **2** = Block operation (stderr fed to Claude as feedback). Only works for blocking events: PreToolUse, PermissionRequest, UserPromptSubmit, Stop, SubagentStop, TeammateIdle, TaskCompleted
+- **Any other** = Non-blocking error (stderr shown in verbose mode, execution continues)
+
+### Hook Handler Types
+
+Three types available:
+- `"type": "command"` — Shell command (receives JSON on stdin). Supports `"async": true` for background execution
+- `"type": "prompt"` — Single-turn LLM evaluation (returns `{ "ok": true/false }`)
+- `"type": "agent"` — Multi-turn subagent with tool access (Read, Grep, Glob)
 
 ---
 
@@ -218,7 +236,7 @@ echo '{"tool_name":"Bash","tool_input":{"command":"test"}}' | python3 ~/.claude/
 |----------|--------|
 | Multiple hooks for same event? | Yes — configure in array. Execute in order. If any blocks (exit 2), subsequent hooks don't run. |
 | Hooks in background sessions? | Yes — PreToolUse applies to all tool uses including background sessions. |
-| Can hooks modify tool input? | Yes — read `$CLAUDE_TOOL_INPUT`, modify JSON, output to stdout with exit 0. |
+| Can hooks modify tool input? | Yes — use `updatedInput` field in `hookSpecificOutput` JSON (exit 0 with JSON to stdout). |
 | Performance impact? | Minimal with early exit. Typical: <5ms. With whitelist: <1ms. |
 | Disable temporarily? | Escape hatch (`SKIP_HOOK=1`), remove from settings.json, or restart without hook. |
 | Work for subagents? | Yes — hooks apply to all tool uses including Task tool subagents. |
@@ -234,9 +252,9 @@ For comprehensive documentation (all events, exit codes, input formats, environm
 
 ## Official Claude Code Documentation
 
-- **Hooks Guide**: https://docs.claude.com/en/docs/claude-code/hooks-guide
-- **Settings Reference**: https://docs.claude.com/en/docs/claude-code/settings
-- **Plugin Reference**: https://docs.claude.com/en/docs/claude-code/plugins-reference
+- **Hooks reference**: https://code.claude.com/docs/en/hooks
+- **Hooks guide (examples)**: https://code.claude.com/docs/en/hooks-guide
+- **Settings reference**: https://code.claude.com/docs/en/settings
 
 ---
 
@@ -246,6 +264,7 @@ For comprehensive documentation (all events, exit codes, input formats, environm
 
 ## See Also
 
+- [Security Guide](../security/AI-AGENT-SECURITY-GUIDE.md) — Tiered security best practices using hooks + permissions
 - [Slash Commands](../slash-commands/README.md) — Commands that integrate with hooks
 - [Permissions](../permissions/README.md) — Coarse-grained access control (hooks add fine-grained)
 - [Anti-Slop Standards](../standards/ANTI_SLOP_STANDARDS.md) — Quality standards hooks can enforce
@@ -253,6 +272,6 @@ For comprehensive documentation (all events, exit codes, input formats, environm
 
 ---
 
-**Last Updated**: 2026-02-15
+**Last Updated**: 2026-02-19
 **Maintained By**: dev-setup template library
 **Evidence**: Extracted from implementing global query validation hook across 4 repositories

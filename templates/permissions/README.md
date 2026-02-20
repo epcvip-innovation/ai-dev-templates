@@ -28,19 +28,27 @@ For existing projects, merge permissions from template into your existing `.clau
 
 | List | Behavior | Example |
 |------|----------|---------|
-| **`allow`** | Auto-approve (no prompt) | `Bash(git add:*)`, `Read(///**)` |
-| **`deny`** | Always block | `Bash(rm -rf:*)`, `Bash(sudo:*)` |
+| **`allow`** | Auto-approve (no prompt) | `Bash(git add *)`, `Read` |
+| **`deny`** | Always block | `Bash(rm -rf *)`, `Bash(sudo *)` |
 | **`ask`** | Prompt for approval | `Bash(git push origin main)` |
 
 ### Permission Syntax
 
-```json
-"Bash(command:*)"              // Any arguments
-"Bash(command)"                // Exact match only
-"Read(///**)"                  // Read everything
-"WebSearch"                    // Allow web search
-"WebFetch(domain:github.com)"  // Specific domain
 ```
+"Bash(npm run *)"              // Matches commands starting with "npm run" (space-separated)
+"Bash(git commit *)"           // Any git commit arguments
+"Bash"                         // Matches ALL Bash commands
+"Read"                         // Allow all reads
+"WebSearch"                    // Allow web search
+"WebFetch(domain:github.com)"  // Specific domain (colon only for domain specifiers)
+"MCP"                          // All MCP tools
+```
+
+**Important**: Bash rules use **spaces** between the command prefix and `*`: `Bash(git add *)` not ~~`Bash(git add:*)`~~. The colon syntax is only for domain specifiers like `WebFetch(domain:example.com)`.
+
+### Evaluation Order
+
+Rules are evaluated: **deny first, then ask, then allow**. The first matching rule wins. Higher-priority settings sources (managed > local > project > user) take precedence for deny rules.
 
 ---
 
@@ -48,13 +56,14 @@ For existing projects, merge permissions from template into your existing `.clau
 
 | Category | Permissions | Notes |
 |----------|------------|-------|
-| **File Read** | `Read(///**)` (permissive) or `Read(/home/[user]/**)` (restricted) | Permissive for solo; restricted for shared machines |
-| **Git** | `Bash(git add:*)`, `Bash(git commit:*)`, `Bash(git push:*)`, `Bash(git branch:*)`, `Bash(git log:*)` | Non-destructive, reversible. Consider `ask` for `git push origin main` and `deny` for `--force`. |
-| **Python** | `Bash(python:*)`, `Bash(pip install:*)`, `Bash(pytest:*)`, `Bash(black:*)`, `Bash(uvicorn:*)` | `pip install:*` is permissive — remove if concerned |
-| **TypeScript/Node** | `Bash(npm run build:*)`, `Bash(npm run test:*)`, `Bash(npm install:*)`, `Bash(npx tsc:*)` | `npm install:*` can install packages — consider restricting |
-| **File Management** | `Bash(mkdir:*)`, `Bash(mv:*)`, `Bash(touch:*)`, `Bash(find:*)`, `Bash(ls:*)` | Read-only or create/move operations |
-| **Dev Server** | `Bash(curl:*)`, `Bash(pkill:*)`, `Bash(lsof:*)` | `pkill` can terminate processes — ensure trust |
-| **Web** | `WebSearch`, `WebFetch(domain:github.com)` | Don't use `WebFetch(domain:*)` — restrict to specific domains |
+| **File Read** | `Read` (permissive) or `Read(/home/[user]/**)` (restricted) | Permissive for solo; restricted for shared machines |
+| **Git** | `Bash(git add *)`, `Bash(git commit *)`, `Bash(git push *)`, `Bash(git branch *)`, `Bash(git log *)` | Non-destructive, reversible. Consider `ask` for `git push origin main` and `deny` for `--force`. |
+| **Python** | `Bash(python *)`, `Bash(pip install *)`, `Bash(pytest *)`, `Bash(black *)`, `Bash(uvicorn *)` | `pip install *` is permissive — remove if concerned |
+| **TypeScript/Node** | `Bash(npm run build *)`, `Bash(npm run test *)`, `Bash(npm install *)`, `Bash(npx tsc *)` | `npm install *` can install packages — consider restricting |
+| **File Management** | `Bash(mkdir *)`, `Bash(mv *)`, `Bash(touch *)`, `Bash(find *)`, `Bash(ls *)` | Read-only or create/move operations |
+| **Dev Server** | `Bash(curl *)`, `Bash(pkill *)`, `Bash(lsof *)` | `pkill` can terminate processes — ensure trust |
+| **Web** | `WebSearch`, `WebFetch(domain:github.com)` | Don't use `WebFetch` without domain specifier — restrict to specific domains |
+| **MCP** | `MCP(server:github)`, `MCP(tool:github/search_issues)` | Explicitly approve only needed MCP servers |
 
 ---
 
@@ -75,27 +84,27 @@ For existing projects, merge permissions from template into your existing `.clau
 
 | Strategy | Philosophy | Key Differences |
 |----------|-----------|-----------------|
-| **Solo Personal** | Trust Claude with most operations | `allow: [Bash(git:*), Bash(python:*), Bash(npm:*)]`. Only deny catastrophic commands. |
-| **Team Project** | Require approval for operations affecting others | `ask: [Bash(git push:*), Bash(npm install:*)]`. Deny `rm` and force push. |
-| **Production Service** | Minimal auto-approval | `allow: [Read, git status/log/diff]`. Ask for commits and tests. Deny push, rm, deploy. |
+| **Solo Personal** | Trust Claude with most operations | `allow: [Bash(git *), Bash(python *), Bash(npm *)]`. Only deny catastrophic commands. |
+| **Team Project** | Require approval for operations affecting others | `ask: [Bash(git push *), Bash(npm install *)]`. Deny `rm` and force push. |
+| **Production Service** | Minimal auto-approval | `allow: [Read, Bash(git status *)]`. Ask for commits and tests. Deny push, rm, deploy. |
 
 **Example** (Solo Personal — permissive):
 ```json
 {
   "permissions": {
     "allow": [
-      "Read(///**)",
-      "Bash(git:*)",
-      "Bash(python:*)",
-      "Bash(npm:*)",
-      "Bash(mkdir:*)",
-      "Bash(mv:*)",
-      "Bash(find:*)",
+      "Read",
+      "Bash(git *)",
+      "Bash(python *)",
+      "Bash(npm *)",
+      "Bash(mkdir *)",
+      "Bash(mv *)",
+      "Bash(find *)",
       "WebSearch"
     ],
     "deny": [
-      "Bash(rm -rf:*)",
-      "Bash(sudo:*)"
+      "Bash(rm -rf *)",
+      "Bash(sudo *)"
     ]
   }
 }
@@ -107,12 +116,12 @@ For existing projects, merge permissions from template into your existing `.clau
 
 | Language | Key Permissions |
 |----------|----------------|
-| **Python (FastAPI)** | `python:*`, `pip install:*`, `pytest:*`, `black:*`, `ruff:*`, `uvicorn:*`, `source venv/bin/activate` |
-| **TypeScript (React)** | `npm:*`, `npx:*`, `node:*`, `WebFetch(domain:nodejs.org)` |
-| **Go** | `go build:*`, `go test:*`, `go run:*`, `go mod:*`, `WebFetch(domain:golang.org)` |
-| **Rust** | `cargo build:*`, `cargo test:*`, `cargo run:*`, `cargo clippy:*`, `cargo fmt:*` |
+| **Python (FastAPI)** | `Bash(python *)`, `Bash(pip install *)`, `Bash(pytest *)`, `Bash(black *)`, `Bash(ruff *)`, `Bash(uvicorn *)`, `Bash(source venv/bin/activate)` |
+| **TypeScript (React)** | `Bash(npm *)`, `Bash(npx *)`, `Bash(node *)`, `WebFetch(domain:nodejs.org)` |
+| **Go** | `Bash(go build *)`, `Bash(go test *)`, `Bash(go run *)`, `Bash(go mod *)`, `WebFetch(domain:golang.org)` |
+| **Rust** | `Bash(cargo build *)`, `Bash(cargo test *)`, `Bash(cargo run *)`, `Bash(cargo clippy *)`, `Bash(cargo fmt *)` |
 
-All should include: `Bash(git:*)`, `Read(/home/user/project/**)`, `WebSearch`.
+All should include: `Bash(git *)`, `Read`, `WebSearch`.
 
 ---
 
@@ -120,12 +129,12 @@ All should include: `Bash(git:*)`, `Read(/home/user/project/**)`, `WebSearch`.
 
 | Slash Command | Required Permissions |
 |---------------|----------------------|
-| /start-feature | `Bash(mkdir:*)`, `Bash(touch:*)` |
-| /resume-feature | `Read(//path/to/project/**)` |
-| /ai-review | `Bash(git diff:*)`, `Bash(git log:*)` |
-| /feature-complete | `Bash(find:*)`, `Bash(grep:*)`, `Bash(pytest:*)` or `Bash(npm test:*)` |
-| /align-project-docs | `Bash(mkdir:*)`, `Bash(mv:*)` |
-| /plan-approaches | `Bash(find:*)`, `Bash(grep:*)` |
+| /start-feature | `Bash(mkdir *)`, `Bash(touch *)` |
+| /resume-feature | `Read(/path/to/project/**)` |
+| /ai-review | `Bash(git diff *)`, `Bash(git log *)` |
+| /feature-complete | `Bash(find *)`, `Bash(grep *)`, `Bash(pytest *)` or `Bash(npm test *)` |
+| /align-project-docs | `Bash(mkdir *)`, `Bash(mv *)` |
+| /plan-approaches | `Bash(find *)`, `Bash(grep *)` |
 
 ---
 
@@ -146,8 +155,10 @@ All should include: `Bash(git:*)`, `Read(/home/user/project/**)`, `WebSearch`.
 | Where does settings.local.json live? | Project root: `your-project/.claude/settings.local.json` |
 | Difference between settings.json and settings.local.json? | `settings.json` = checked into git (team). `settings.local.json` = gitignored (personal). |
 | Different permissions per subdirectory? | No. Permissions are per-project. Workaround: nested `.claude/` folders. |
-| Need to restart after changing? | Usually no — Claude reloads automatically. Restart if not working. |
-| Environment variables in permissions? | No. Use wildcards instead: `Bash(export DATABASE_PATH:*)` |
+| Need to restart after changing? | Settings are snapshotted at startup. For hooks especially, mid-session changes require review in `/hooks` menu or restart. Use `/config` to reload settings. |
+| Environment variables in permissions? | No. Use wildcards instead: `Bash(export DATABASE_PATH=*)` |
+| Settings isolation for teams? | Use `claude --setting-sources project` to ensure personal settings can't override project controls. |
+| Sandbox mode? | `"sandbox": { "enabled": true }` in settings restricts filesystem/network access for Bash commands. |
 
 ---
 
@@ -166,11 +177,12 @@ Before finalizing `.claude/settings.local.json`:
 
 ## See Also
 
+- [Security Guide](../security/AI-AGENT-SECURITY-GUIDE.md) — Tiered security best practices using permissions + hooks
 - [Hooks](../hooks/README.md) — Runtime enforcement (complements permissions)
 - [Slash Commands](../slash-commands/README.md) — Commands that need specific permissions
 - [All Templates](../README.md)
 
 ---
 
-**Last Updated**: 2026-02-15
+**Last Updated**: 2026-02-19
 **Maintained By**: dev-setup template library

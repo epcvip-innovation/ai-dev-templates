@@ -178,7 +178,7 @@ Skills can bundle scripts that generate interactive HTML files (e.g., codebase v
 
 ### What We Do Well
 
-1. **Folder structure** - Our `templates/plugins/` follows the recommended `SKILL.md` + `references/` pattern
+1. **Folder structure** - Our `templates/skills/` follows the recommended `SKILL.md` + `references/` pattern
 2. **Progressive disclosure** - Our code-review skill uses `references/` for agent-personas, severity-scoring, technology-patterns
 3. **Trigger phrases in description** - Our SKILL.md descriptions include explicit trigger phrases
 4. **Multi-agent patterns** - Our code-review is a sophisticated multi-agent workflow

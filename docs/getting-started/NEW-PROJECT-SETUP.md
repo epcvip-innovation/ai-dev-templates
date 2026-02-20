@@ -46,9 +46,9 @@ Brief description of what this project does.
 
 ---
 
-### Step 2: Permissions (5 min)
+### Step 2: Permissions & Security (5 min)
 
-Create `.claude/settings.json` for auto-approvals:
+Create `.claude/settings.json` for auto-approvals and safety deny rules:
 
 ```json
 {
@@ -58,15 +58,24 @@ Create `.claude/settings.json` for auto-approvals:
       "Bash(git status)",
       "Bash(git diff *)",
       "Bash(git log *)",
-      "Read(*)",
-      "Glob(*)",
-      "Grep(*)"
+      "Read",
+      "Glob",
+      "Grep"
+    ],
+    "deny": [
+      "Bash(rm -rf *)",
+      "Bash(sudo *)",
+      "Bash(git push --force *)",
+      "Read(.env)",
+      "Read(.env.*)"
     ]
   }
 }
 ```
 
-**Template**: [templates/permissions/](../../templates/permissions/README.md)
+For team projects, consider adding hooks for runtime command validation and bypass prevention. See the [security templates](../../templates/security/README.md) for three tiers of protection.
+
+**Templates**: [Permissions](../../templates/permissions/README.md) | [Security](../../templates/security/README.md)
 
 ---
 
@@ -95,15 +104,14 @@ Common MCP servers:
 
 ---
 
-### Step 4: Built-in Plugins (10 min)
+### Step 4: Built-in Skills (10 min)
 
 These are available immediately - no setup required. Just know they exist:
 
-| Plugin | Trigger | Purpose |
+| Skill | Trigger | Purpose |
 |--------|---------|---------|
 | `/feature-dev:feature-dev` | `/feature-dev`, "implement X" | Guided feature development |
-| `/local-code-review` | `/local-review`, "review changes" | 5-agent adversarial review |
-| `/local-code-review-lite` | `/local-review-lite`, "quick review" | 3-agent fast review |
+| `/local-review` | `/local-review`, "review changes" | 5-agent adversarial review (`--quick` for 3-agent fast mode) |
 | `/code-review:code-review` | `/code-review [URL]` | PR code review |
 
 **That's it for Quick Start!** Your project is now ready for AI-assisted development.
@@ -142,7 +150,7 @@ Skills auto-trigger on natural language. Copy to `.claude/skills/`:
 ```bash
 mkdir -p .claude/skills
 # Copy code review skill with project context
-cp -r templates/plugins/code-review .claude/skills/
+cp -r templates/skills/code-review .claude/skills/
 ```
 
 **Essential skill:** Code review with `review-context.md`
@@ -164,7 +172,7 @@ Create `.claude/review-context.md` to reduce false positives:
 - `lib/legacy/*.ts` - Legacy code, lower priority
 ```
 
-**Template**: [templates/plugins/](../../templates/plugins/README.md)
+**Template**: [templates/skills/](../../templates/skills/README.md)
 
 ---
 
@@ -217,16 +225,15 @@ For team projects with sensitive code paths (auth, payments, PII), `risk-preflig
 
 ---
 
-## Built-in Plugins Reference
+## Built-in Skills Reference
 
-| Plugin | Trigger | Purpose |
+| Skill | Trigger | Purpose |
 |--------|---------|---------|
 | `/feature-dev` | "implement X", `/feature-dev` | Guided feature development with architecture focus |
-| `/local-review` | "review changes", `/local-review` | 5-agent adversarial code review |
-| `/local-review-lite` | "quick review", `/local-review-lite` | 3-agent fast review (lower token cost) |
+| `/local-review` | "review changes", `/local-review` | 5-agent adversarial code review (`--quick` for 3-agent fast mode) |
 | `/code-review [URL]` | `/code-review 123` | Review existing pull requests |
 
-All built-in — no setup required. For detailed agent descriptions, trigger patterns, and customization options, see [templates/plugins/README.md](../../templates/plugins/README.md).
+All built-in — no setup required. For detailed agent descriptions, trigger patterns, and customization options, see [templates/skills/README.md](../../templates/skills/README.md).
 
 ---
 
@@ -235,8 +242,8 @@ All built-in — no setup required. For detailed agent descriptions, trigger pat
 ### Minimal (30 min) - Recommended Start
 
 - [ ] Create CLAUDE.md with project purpose and tech stack
-- [ ] Create `.claude/settings.json` with basic permissions
-- [ ] Verify built-in plugins work (`/local-review-lite`)
+- [ ] Create `.claude/settings.json` with permissions + deny rules (Tier 1 security)
+- [ ] Verify built-in skills work (`/local-review --quick`)
 
 ### Standard (1-2 hours) - Production Projects
 
@@ -252,6 +259,7 @@ All built-in — no setup required. For detailed agent descriptions, trigger pat
 - [ ] Set up folder-based backlog with Python utilities
 - [ ] Install custom skills (backlog-dashboard, add-backlog, backlog-complete)
 - [ ] Configure CI/CD with GitHub Actions
+- [ ] (Team) Add Tier 2 security: hooks + deny/allow conf files (see [security templates](../../templates/security/README.md))
 - [ ] (Team) Configure risk-gated CI (see [RISK-GATING.md](../../templates/ci/RISK-GATING.md))
 - [ ] Document architecture in spoke files
 
@@ -290,6 +298,7 @@ your-project/
 │   │   ├── backlog_index.py
 │   │   ├── backlog_validate.py
 │   │   └── backlog_search.py
+│   ├── hooks/                   # Security hooks (Tier 2+)
 │   └── review-context.md        # Code review tuning
 ├── backlog/                     # If using folder-based backlog
 │   ├── _INDEX.md                # Auto-generated
@@ -320,7 +329,7 @@ your-project/
 2. Check backlog: "show backlog" or /backlog
 3. Start feature: /feature-dev or "help me implement X"
 4. Code...
-5. Review: /local-review-lite (quick) or /local-review (thorough)
+5. Review: /local-review --quick (quick) or /local-review (thorough)
 6. Push: /push
 7. Complete: "finished with [feature]"
 ```
@@ -338,9 +347,10 @@ your-project/
 - [TECH_STACK_DEFAULTS.md](./TECH_STACK_DEFAULTS.md) - Preferred tech choices for new projects
 - [templates/claude-md/](../../templates/claude-md/README.md) - CLAUDE.md templates
 - [templates/slash-commands/](../../templates/slash-commands/README.md) - Command templates
-- [templates/plugins/](../../templates/plugins/README.md) - Skill templates
+- [templates/skills/](../../templates/skills/README.md) - Skill templates
 - [templates/project-management/](../../templates/project-management/README.md) - Task & backlog management
 - [templates/permissions/](../../templates/permissions/README.md) - Permission templates
+- [templates/security/](../../templates/security/README.md) - AI agent security (3 tiers)
 - [docs/decisions/BUILTIN_VS_CUSTOM.md](../decisions/BUILTIN_VS_CUSTOM.md) - When to customize
 
 ---

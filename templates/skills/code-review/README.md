@@ -1,4 +1,4 @@
-# Code Review Plugin
+# Code Review Skill
 
 Unified multi-agent adversarial code review with built-in false-positive filtering and root-cause analysis. Designed for pre-PR review of uncommitted or recently committed work.
 

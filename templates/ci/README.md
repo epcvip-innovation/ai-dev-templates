@@ -213,4 +213,4 @@ From [Anthropic's security guidance](https://www.stepsecurity.io/blog/anthropics
 - [Testing Templates](../testing/README.md) - E2E testing patterns
 - [Playwright MCP Guide](../../docs/mcp/playwright/README.md) — Claude + browser automation
 - [Research Archive](../testing/RESEARCH_ARCHIVE.md) - 2026 research findings
-- [Code Review Plugin](../plugins/code-review/README.md) - Local review before PR
+- [Code Review Skill](../skills/code-review/README.md) - Local review before PR

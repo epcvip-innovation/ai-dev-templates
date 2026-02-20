@@ -15,20 +15,21 @@ Production-validated patterns for AI-assisted development.
 | **New project setup** | [Getting Started Guide](../docs/getting-started/NEW-PROJECT-SETUP.md) |
 | **Built-in vs custom?** | [Decision Guide](../docs/decisions/BUILTIN_VS_CUSTOM.md) |
 | **Task/backlog management** | [Project Management](./project-management/README.md) |
-| **Code review** | [Plugins](./plugins/README.md) |
+| **Code review** | [Skills](./skills/README.md) |
 
 ---
 
-## 10 Template Categories
+## 11 Template Categories
 
 | Category | Purpose | Entry Point |
 |----------|---------|-------------|
 | **slash-commands** | CLI command templates (21 active) | [README](./slash-commands/README.md) |
 | **claude-md** | CLAUDE.md structure patterns | [README](./claude-md/README.md) |
-| **plugins** | Claude Code skills (code-review) | [README](./plugins/README.md) |
+| **skills** | Claude Code skills (code-review, skill-creator) | [README](./skills/README.md) |
 | **project-management** | Tasks, backlogs, .projects/ cross-session | [README](./project-management/README.md) |
 | **standards** | Anti-slop quality standards | [ANTI_SLOP_STANDARDS.md](./standards/ANTI_SLOP_STANDARDS.md) |
 | **standards** | Frontend CSS/JS interaction patterns | [FRONTEND_STANDARDS.md](./standards/FRONTEND_STANDARDS.md) |
+| **security** | AI agent security best practices (3 tiers) | [README](./security/README.md) |
 | **hooks** | Workflow automation hooks | [README](./hooks/README.md) |
 | **permissions** | Tool access configuration | [README](./permissions/README.md) |
 | **testing** | Playwright + Claude Code patterns | [README](./testing/README.md) |
@@ -66,4 +67,4 @@ These templates were extracted from real production usage across 239+ commits in
 
 ---
 
-**Last Updated**: 2026-02-16
+**Last Updated**: 2026-02-19

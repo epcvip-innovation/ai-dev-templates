@@ -22,7 +22,7 @@ Battle-tested templates for AI-assisted development with Claude Code, extracted 
 |----------|---------|-------------|
 | **Slash Commands** | 21 CLI command templates (quality, design, git) | [README](./templates/slash-commands/README.md) |
 | **CLAUDE.md Structures** | Lightweight project context (hub-and-spoke) | [README](./templates/claude-md/README.md) |
-| **Plugins** | Claude Code skills (code-review) | [README](./templates/plugins/README.md) |
+| **Skills** | Claude Code skills (code-review, skill-creator) | [README](./templates/skills/README.md) |
 | **Project Management** | Tasks, backlogs, `.projects/` cross-session | [README](./templates/project-management/README.md) |
 | **Anti-Slop Standards** | 7 universal quality gates with grep patterns | [ANTI_SLOP_STANDARDS.md](./templates/standards/ANTI_SLOP_STANDARDS.md) |
 | **Frontend Standards** | CSS/JS interaction patterns, class-based visibility | [FRONTEND_STANDARDS.md](./templates/standards/FRONTEND_STANDARDS.md) |

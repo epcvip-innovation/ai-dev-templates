@@ -13,8 +13,8 @@
 Our code-review skill auto-triggers on "review my changes" which could fire unexpectedly. Add `disable-model-invocation: true` to side-effect or heavyweight skills.
 
 **Files to update**:
-- `templates/plugins/code-review/SKILL.md` - Add `disable-model-invocation: true`
-- `templates/plugins/backlog-management/backlog-complete/SKILL.md` - Add `disable-model-invocation: true` (archives items, has side effects)
+- `templates/skills/code-review/SKILL.md` - Add `disable-model-invocation: true`
+- `templates/skills/backlog-management/backlog-complete/SKILL.md` - Add `disable-model-invocation: true` (archives items, has side effects)
 
 **Example**:
 ```yaml
@@ -40,7 +40,7 @@ allowed-tools: Read, Grep, Glob, Bash(git diff*), Bash(git show*), Bash(git log*
 
 ### 1.3 Add 500-Line Limit Guidance to Plugin README
 
-Update `templates/plugins/README.md` "Creating New Plugins" section to include:
+Update `templates/skills/README.md` "Creating New Plugins" section to include:
 - SKILL.md should stay under 500 lines
 - Move detailed content to `references/`
 - Challenge every paragraph: "Does this justify its token cost?"
@@ -73,7 +73,7 @@ description: >
 
 ### 2.1 Document All Frontmatter Fields
 
-Update `templates/plugins/README.md` and `SKILL-INSTALLATION.md` to cover all available frontmatter fields:
+Update `templates/skills/README.md` and `SKILL-INSTALLATION.md` to cover all available frontmatter fields:
 
 ```yaml
 ---
@@ -121,7 +121,7 @@ Review changes with scope: $ARGUMENTS
 
 ### 2.4 Add Skill Testing Section
 
-New section in `templates/plugins/README.md`:
+New section in `templates/skills/README.md`:
 
 ```markdown
 ## Testing Skills

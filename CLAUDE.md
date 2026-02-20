@@ -8,16 +8,16 @@ This file provides guidance to Claude Code when working with this repository.
 
 This is an **AI workflow template library**, built from 6+ months of real-world AI-assisted development experience.
 
-**Primary Purpose**: 66 template files across 10 categories for AI-assisted development
+**Primary Purpose**: 66+ template files across 11 categories for AI-assisted development
 - Evidence-based approach: 239+ commits analyzed across 4 production repositories
-- 10 template categories: slash commands, CLAUDE.md structures, anti-slop standards, hooks, project organization, features backlog, permissions, testing, CI/CD, plugins
+- 11 template categories: slash commands, CLAUDE.md structures, anti-slop standards, hooks, project organization, features backlog, permissions, security, testing, CI/CD, skills
 - Ready for personal use, team adoption, and community sharing
 
 ## Template Library
 
 The core value of this repository. **Browse before using** - these are patterns to adapt, not rules to follow.
 
-### 10 Template Categories
+### 11 Template Categories
 
 **1. Slash Commands** (`templates/slash-commands/`)
 - 21 active commands (16 general + 5 audit lenses)
@@ -61,24 +61,31 @@ The core value of this repository. **Browse before using** - these are patterns 
 - Reduces approval prompts
 - **See**: [templates/permissions/README.md](./templates/permissions/README.md)
 
-**7. Testing** (`templates/testing/`)
+**7. Security** (`templates/security/`)
+- Tiered AI agent security (baseline → team → strict)
+- Deny lists, bypass prevention, hooks, settings isolation
+- Industry-sourced (NVIDIA AI Red Team, Backslash Security)
+- **See**: [templates/security/README.md](./templates/security/README.md)
+
+**8. Testing** (`templates/testing/`)
 - Playwright E2E testing patterns for Claude Code projects
 - Two modes: scripted tests (CI/regression) vs MCP (Claude-driven exploration)
 - Page Object Model and multi-user fixture patterns
 - **See**: [templates/testing/PLAYWRIGHT_CLAUDE_GUIDE.md](./templates/testing/PLAYWRIGHT_CLAUDE_GUIDE.md)
 
-**8. CI/CD** (`templates/ci/`)
+**9. CI/CD** (`templates/ci/`)
 - GitHub Actions workflows for AI-assisted development
 - Claude QA: Automated PR verification with Claude + Playwright MCP
 - QA persona prompting for consistent, thorough reviews
 - Risk-gated CI: classify PRs by tier, gate security + QA on sensitive paths (optional advanced pattern)
 - **See**: [templates/ci/README.md](./templates/ci/README.md)
 
-**9. Plugins** (`templates/plugins/`)
-- Claude Code skills for common workflows (code-review)
+**10. Skills** (`templates/skills/`)
+- Claude Code skills for common workflows (code-review, skill-creator)
 - Unified code review: 5-phase pipeline (agents → evaluation → root-cause), `--quick` for 3-agent mode
-- Includes [SKILL-TEMPLATE.md](./templates/plugins/SKILL-TEMPLATE.md) for creating new skills
-- **See**: [templates/plugins/README.md](./templates/plugins/README.md)
+- Guided skill scaffolding: discovery interview → archetype → scaffold → quality validation
+- Includes [SKILL-TEMPLATE.md](./templates/skills/SKILL-TEMPLATE.md) for creating new skills
+- **See**: [templates/skills/README.md](./templates/skills/README.md)
 
 ## Research & Evidence
 

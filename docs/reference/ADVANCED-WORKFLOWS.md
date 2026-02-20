@@ -237,7 +237,7 @@ Reusable instruction bundles that teach Claude new capabilities. Skills use prog
 
 **Key implication**: Skill descriptions are always in context. Keep them short. A 500-word description permanently consumes tokens every session.
 
-**See**: [SKILL-TEMPLATE.md](../../templates/plugins/SKILL-TEMPLATE.md) for the creation pattern.
+**See**: [SKILL-TEMPLATE.md](../../templates/skills/SKILL-TEMPLATE.md) for the creation pattern.
 
 ### Hooks
 
@@ -266,9 +266,9 @@ MCP servers give Claude access to external tools (databases, browsers, APIs). Th
 
 ### Plugins (Team Distribution)
 
-Plugins package skills + hooks + references into distributable bundles for team use. They're the delivery mechanism, not a separate concept.
+Plugins package skills + hooks + references into distributable bundles for team use. They're a distribution pattern, not a separate concept.
 
-**See**: [Plugins README](../../templates/plugins/README.md) for the full taxonomy (skills vs commands vs hooks vs plugins).
+**See**: [Skills README](../../templates/skills/README.md) for the full taxonomy (skills vs commands vs hooks vs plugins).
 
 ---
 
@@ -376,8 +376,8 @@ Five themes that cut across every section of this guide:
 - [CLAUDE-MD-GUIDELINES.md](../../templates/claude-md/CLAUDE-MD-GUIDELINES.md) — Keeping CLAUDE.md lightweight
 - [PLAN_QUALITY_RUBRIC.md](../../templates/standards/PLAN_QUALITY_RUBRIC.md) — Scoring framework for implementation plans
 - [Hooks README](../../templates/hooks/README.md) — Workflow automation and enforcement
-- [Plugins README](../../templates/plugins/README.md) — Skills, commands, and plugin taxonomy
-- [SKILL-TEMPLATE.md](../../templates/plugins/SKILL-TEMPLATE.md) — Creating new skills
+- [Skills README](../../templates/skills/README.md) — Skills, commands, and plugin taxonomy
+- [SKILL-TEMPLATE.md](../../templates/skills/SKILL-TEMPLATE.md) — Creating new skills
 - [COST_OPTIMIZATION_GUIDE.md](../../templates/testing/COST_OPTIMIZATION_GUIDE.md) — Model pricing and testing costs
 - [CODEX-SETUP.md](../setup-guides/CODEX-SETUP.md) — Codex installation and dual-tool workflow
 - [BUILTIN_VS_CUSTOM.md](../decisions/BUILTIN_VS_CUSTOM.md) — When to use built-in vs custom tooling

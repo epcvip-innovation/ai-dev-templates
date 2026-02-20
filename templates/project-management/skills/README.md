@@ -62,7 +62,7 @@ cp templates/project-management/backlog/folder-based/utils/* .claude/utils/
 
 - [../README.md](../README.md) — Project & Task Management overview (start here)
 - [../backlog/folder-based/README.md](../backlog/folder-based/README.md) — Folder-based backlog system
-- [../../plugins/SKILL-TEMPLATE.md](../../plugins/SKILL-TEMPLATE.md) — Creating new skills
+- [../../skills/SKILL-TEMPLATE.md](../../skills/SKILL-TEMPLATE.md) — Creating new skills
 
 ---
 

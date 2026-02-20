@@ -366,4 +366,4 @@ permissions:
 - [risk-preflight.yml.template](./risk-preflight.yml.template) — Risk-gated CI workflow
 - [RISK-GATING.md](./RISK-GATING.md) — Risk-based CI guide
 - [INCIDENT-MEMORY.md](./INCIDENT-MEMORY.md) — Post-mortem and harness-gap templates
-- [../plugins/code-review/](../plugins/code-review/README.md) - Local review before PR
+- [../skills/code-review/](../skills/code-review/README.md) - Local review before PR

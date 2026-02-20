@@ -50,12 +50,12 @@ This repo demonstrates **both** custom slash commands and built-in Claude Code f
 | Validate plan | `/validate-plan` | `/plan` mode | Enforces a PLAN_QUALITY_RUBRIC with scored criteria |
 | Add task | `/add-task` | Native Tasks (TaskCreate) | Persists in plan.md with frontmatter metadata (cross-session) |
 | Check drift | `/check-drift` | Manual review | Automated plan-vs-implementation diff comparison |
-| Code review | `/audit-feature` | code-review plugin | Slash command for one-off audits; plugin for auto-triggered reviews |
+| Code review | `/audit-feature` | code-review skill | Slash command for one-off audits; skill for auto-triggered reviews |
 
 **Guidance:**
 - **Built-in features** are simpler to set up and maintained by Anthropic — use them when they cover your needs
 - **Custom commands** shine when you need structured output formats, project-specific rubrics, or integration with your backlog/documentation system
-- **Plugins** (see `../plugins/`) are best for workflows that should auto-trigger — they support hooks, sub-tasks, and natural language matchers
+- **Skills** (see `../skills/`) are best for workflows that should auto-trigger — they support references, sub-tasks, and natural language matchers
 
 ---
 
@@ -92,7 +92,7 @@ The design documentation explains the "why" behind these workflows.
 
 1. Copy commands from `ai-dev-workflow/commands/` to `.claude/commands/`
 2. Optionally copy audit lenses from `commands/audit/` to `.claude/commands/audit/`
-3. Consider using plugins from `../plugins/` for auto-triggered workflows
+3. Consider using skills from `../skills/` for auto-triggered workflows
 4. Start with `/help` to see available commands
 
 **For query-focused projects:**
@@ -103,7 +103,7 @@ The design documentation explains the "why" behind these workflows.
 
 ## See Also
 
-- [Plugins](../plugins/README.md) — Auto-triggered alternative to slash commands
+- [Skills](../skills/README.md) — Auto-triggered alternative to slash commands
 - [Hooks](../hooks/README.md) — Deterministic enforcement (shell scripts)
 - [Anti-Slop Standards](../standards/ANTI_SLOP_STANDARDS.md) — Quality gates used by `/plan-approaches`
 - [All Templates](../README.md)

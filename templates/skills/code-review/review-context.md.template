@@ -105,9 +105,9 @@ Patterns that look like issues but are intentional:
 
 ---
 
-## Usage with Code Review Plugin
+## Usage with Code Review Skill
 
-When the code review plugin runs, it will:
+When the code review skill runs, it will:
 
 1. **Check for this file** at `.claude/review-context.md`
 2. **Adjust severity scoring** based on context:

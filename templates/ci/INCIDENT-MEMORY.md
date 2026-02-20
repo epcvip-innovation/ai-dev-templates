@@ -105,7 +105,7 @@ test("description of what to test", () => {
 
 ## Connecting to Review Context
 
-If you use the [code-review plugin](../plugins/code-review/README.md) or `/local-review`, past incidents should inform review focus:
+If you use the [code-review skill](../skills/code-review/README.md) or `/local-review`, past incidents should inform review focus:
 
 1. **Maintain a `review-context.md`** in your project listing known fragile areas
 2. **After each incident**, add the affected code area to review context
@@ -149,4 +149,4 @@ Over time, your risk policy and QA checklists become **battle-tested** — shape
 - [RISK-GATING.md](./RISK-GATING.md) — Risk-based CI gating guide
 - [DECISION_FRAMEWORK.md](./DECISION_FRAMEWORK.md) — Choose the right CI template
 - [qa-persona.md.template](./qa-persona.md.template) — QA persona instructions
-- [Code Review Plugin](../plugins/code-review/README.md) — Local review before PR
+- [Code Review Skill](../skills/code-review/README.md) — Local review before PR

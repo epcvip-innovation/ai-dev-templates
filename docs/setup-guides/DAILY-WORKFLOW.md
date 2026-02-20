@@ -69,6 +69,9 @@ Similar to Claude, alternative AI assistant.
 **Using Both** (side-by-side):
 Open two terminal windows or use the `dev` script to manage both.
 
+**Working on Multiple Features in Parallel**:
+Use Git Worktrees to run independent Claude Code / Codex sessions on separate features simultaneously. See [Git Worktrees: Parallel Development Guide](../reference/GIT-WORKTREES.md) or use the `/worktree` skill.
+
 **Setup Required**: See [Claude Code Setup](./CLAUDE-CODE-SETUP.md) and [Codex Setup](./CODEX-SETUP.md)
 
 ---

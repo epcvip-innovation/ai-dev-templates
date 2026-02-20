@@ -32,7 +32,7 @@ Available in all projects:
 
 ```bash
 mkdir -p ~/.claude/skills
-cp -r templates/plugins/code-review ~/.claude/skills/code-review
+cp -r templates/skills/code-review ~/.claude/skills/code-review
 ```
 
 ### Option 2: Per-Project Install
@@ -41,14 +41,14 @@ Available only in one project:
 
 ```bash
 mkdir -p .claude/skills
-cp -r templates/plugins/code-review .claude/skills/code-review
+cp -r templates/skills/code-review .claude/skills/code-review
 ```
 
 ### Option 3: From This Template Repo
 
 ```bash
 git clone <ai-dev-templates-repo>
-cp -r templates/plugins/code-review ~/.claude/skills/code-review
+cp -r templates/skills/code-review ~/.claude/skills/code-review
 ```
 
 ## Verification
