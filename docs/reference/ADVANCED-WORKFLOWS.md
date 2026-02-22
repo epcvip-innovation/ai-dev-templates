@@ -10,6 +10,8 @@ Power-user guide for working effectively with Claude Code at scale. Covers conce
 
 ## 1. Context Management at Scale
 
+**For the strategic overview** (five pillars, `.claudeignore`, token optimization, isolation strategies): see [CONTEXT-ENGINEERING.md](./CONTEXT-ENGINEERING.md). This section covers the operational details.
+
 ### What Fills the Context Window
 
 Claude Code's 200k token context window fills from multiple sources simultaneously:
@@ -185,6 +187,8 @@ Main conversation                    Sub-agent
 └──────────────┘
 ```
 
+**Context budget**: Each sub-agent gets a **fresh 200k token context window**. Parent conversation context is not inherited — the sub-agent starts clean with only CLAUDE.md and its task prompt. Only the summarized result (typically 1-5k tokens) returns to the parent. This makes sub-agents a powerful context management tool: delegate exploration that would generate 20-50k tokens of output, and get back a 2k summary instead.
+
 **When to use agents**:
 - Exploration that would generate lots of output (searching across many files)
 - Parallel independent tasks (review security AND check tests simultaneously)
@@ -210,6 +214,14 @@ Main conversation                    Sub-agent
 - **No shared context** — Agent A doesn't know what Agent B found. You're the coordinator
 - **Overhead** — For a 3-second Grep, spawning an agent adds 10-30 seconds of startup overhead
 - **No nesting** — Sub-agents cannot spawn their own sub-agents. However, the `tools: Task(worker, researcher)` syntax can restrict which agent types a parent can spawn
+
+### Skill Injection and Memory
+
+Sub-agents **don't inherit parent skills**. To give a sub-agent domain knowledge, use the `skills:` field in agent frontmatter — the full skill content is injected at sub-agent startup, not just made available for invocation.
+
+Agents with `memory: user|project|local` build persistent knowledge via `MEMORY.md` (first 200 lines auto-injected each turn). This is particularly useful for review agents that learn project conventions over time.
+
+**See**: [Custom Agents](../../templates/agents/README.md) for memory scopes and skill injection details.
 
 ### Custom Agent Definitions
 
@@ -437,6 +449,7 @@ Five themes that cut across every section of this guide:
 
 ## See Also
 
+- [CONTEXT-ENGINEERING.md](./CONTEXT-ENGINEERING.md) — Five pillars, .claudeignore, token optimization, isolation strategies
 - [CLAUDE-MD-GUIDELINES.md](../../templates/claude-md/CLAUDE-MD-GUIDELINES.md) — Keeping CLAUDE.md lightweight
 - [PLAN_QUALITY_RUBRIC.md](../../templates/standards/PLAN_QUALITY_RUBRIC.md) — Scoring framework for implementation plans
 - [Hooks README](../../templates/hooks/README.md) — Workflow automation and enforcement

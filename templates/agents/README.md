@@ -207,8 +207,13 @@ Agents with `isolation: "worktree"` run in a temporary git worktree:
 - Changes happen on a separate branch, not in your working tree
 - If the agent makes no changes, the worktree is auto-cleaned up
 - Useful for experimental changes, parallel implementation attempts, or risky refactors
+- Parent `.claude/` directory is still discovered — custom agents, skills, and config work in worktrees
+- Subagent transcripts go to `agent-{hash}.jsonl` in the parent project's session directory
+- Worktree isolation does not nest — subagents of a worktree-isolated agent share the parent's worktree
 
-**Session-level**: Start the entire session in a worktree with `claude --worktree` or `claude -w`.
+**Session-level**: Start the entire session in a worktree with `claude --worktree` or `claude -w`. Add `--tmux` to run in a detached tmux session (fire-and-forget).
+
+**Non-git SCM**: `WorktreeCreate` and `WorktreeRemove` hook events allow worktree-style isolation with Mercurial, Perforce, SVN, or jj (Jujutsu). Define hooks that create/remove workspaces in your SCM when Claude spawns worktree-isolated agents.
 
 See [GIT-WORKTREES.md](../../docs/reference/GIT-WORKTREES.md) for more on worktree workflows.
 
@@ -236,6 +241,8 @@ export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
 
 **When to use**: Parallel research, competing implementation approaches, cross-layer feature development. **When NOT to use**: Sequential tasks, small changes, when coordination overhead exceeds the work.
 
+**Context management angle**: Because tasks persist on disk (independently of conversation history), each teammate can `/compact` and `/clear` aggressively without losing the project roadmap. The task list is the coordination source of truth, not any teammate's context window. This enables "aggressive context management" — preserving reasoning capacity by clearing noise, while the shared task list maintains continuity.
+
 **Limitations**: ~3-4x token cost, no session resumption for teams, one team per session, no nested teams.
 
 ---
@@ -258,6 +265,7 @@ Agents with `background: true` (or any agent backgrounded with Ctrl+B) run while
 - [Permissions](../permissions/README.md) — Permission modes and tool access
 - [Security Guide](../security/AI-AGENT-SECURITY-GUIDE.md) — Tiered security for agent workflows
 - [Advanced Workflows](../../docs/reference/ADVANCED-WORKFLOWS.md) — Context management, planning, agent patterns
+- [Context Engineering](../../docs/reference/CONTEXT-ENGINEERING.md) — Five pillars, .claudeignore, isolation as context strategy
 
 ---
 

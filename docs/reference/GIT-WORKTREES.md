@@ -398,3 +398,4 @@ Do you need to work on two things at the same time?
 | pnpm docs | https://pnpm.io/ |
 | Claude Code docs | https://docs.anthropic.com/en/docs/claude-code |
 | zen (worktree orchestrator) | https://github.com/mgreau/zen — Automates worktree lifecycle for PR reviews: polls GitHub, creates worktrees per PR, injects context via `CLAUDE.local.md`, auto-cleans merged PRs |
+| Context Engineering guide | [CONTEXT-ENGINEERING.md](./CONTEXT-ENGINEERING.md) — Worktrees as context isolation strategy, .claudeignore, token optimization |

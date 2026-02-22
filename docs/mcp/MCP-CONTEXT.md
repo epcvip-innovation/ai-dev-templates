@@ -94,4 +94,5 @@ Sources:
 - [MCP Safety](./MCP-SAFETY.md) — Security, version pinning, prompt injection
 - [MCP Hub](./README.md) — All MCP documentation
 - [ADVANCED-WORKFLOWS.md](../reference/ADVANCED-WORKFLOWS.md) — Context management at scale
+- [CONTEXT-ENGINEERING.md](../reference/CONTEXT-ENGINEERING.md) — Five pillars, .claudeignore, token optimization
 - [CLAUDE-CODE-CONFIG.md](../reference/CLAUDE-CODE-CONFIG.md) — MCP commands, plugin toggling

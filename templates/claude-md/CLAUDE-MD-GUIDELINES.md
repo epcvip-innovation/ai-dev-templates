@@ -367,7 +367,7 @@ Add to CLAUDE.md itself:
 
 **If any answer is "no"**: Create separate doc, add 1-line reference.
 
-**For broader context management strategy** (why size matters, how compaction works, externalizing state): see [ADVANCED-WORKFLOWS.md](../../docs/reference/ADVANCED-WORKFLOWS.md).
+**For broader context management strategy** (why size matters, `.claudeignore`, token optimization, how compaction works): see [CONTEXT-ENGINEERING.md](../../docs/reference/CONTEXT-ENGINEERING.md) and [ADVANCED-WORKFLOWS.md](../../docs/reference/ADVANCED-WORKFLOWS.md).
 
 ---
 
