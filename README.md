@@ -1,3 +1,11 @@
+---
+id: ai-dev-templates
+title: "AI-Assisted Development — Templates, Guides & Setup"
+description: "Battle-tested templates for AI-assisted development with Claude Code"
+audience: beginner
+tags: ["templates", "setup", "claude-code"]
+---
+
 ## AI-Assisted Development — Templates, Guides & Setup
 
 Battle-tested templates for AI-assisted development with Claude Code, extracted from 6+ months of production usage across 4 repositories.
@@ -71,5 +79,3 @@ Platform-agnostic guides for Mac, Windows, and Linux. WSL2 is optional for Windo
 All templates extracted from real production usage — 4 repositories audited, 239+ commits analyzed, 13 patterns validated across multiple projects before extraction. Not theoretical best practices.
 
 ---
-
-Last Updated: February 16, 2026

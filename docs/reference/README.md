@@ -1,3 +1,11 @@
+---
+id: reference-index
+title: "Reference"
+description: "Reference material for daily development — look things up as needed"
+audience: intermediate
+tags: ["reference", "index"]
+---
+
 # Reference
 
 [← Back to Main README](../../README.md)

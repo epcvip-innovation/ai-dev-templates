@@ -1,3 +1,11 @@
+---
+id: context-engineering
+title: "Context Engineering for Claude Code"
+description: "Strategies for controlling context window usage, reducing waste, and keeping sessions productive at scale"
+audience: power-user
+tags: ["context-engineering", "optimization", "claude-code", "claudeignore"]
+---
+
 # Context Engineering for Claude Code
 
 [← Back to Main README](../../README.md) | [Advanced Workflows](./ADVANCED-WORKFLOWS.md)
@@ -315,5 +323,3 @@ Write decisions, plans, and findings to files instead of relying on conversation
 - [Built-in vs Custom](../decisions/BUILTIN_VS_CUSTOM.md) — When to use built-in vs custom session continuity
 
 ---
-
-**Last Updated**: 2026-02-21

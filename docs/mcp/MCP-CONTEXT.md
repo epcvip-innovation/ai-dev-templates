@@ -1,3 +1,11 @@
+---
+id: mcp-context
+title: "MCP Context Window & Efficiency"
+description: "How MCP servers interact with the context window and why Tool Search lazy loading matters"
+audience: intermediate
+tags: ["mcp", "tokens", "tool-search", "context"]
+---
+
 # MCP Context Window & Efficiency
 
 [← Back to MCP Hub](./README.md) | [← Back to Main README](../../README.md)

@@ -1,3 +1,11 @@
+---
+id: advanced-workflows
+title: "Advanced Workflows: Power-User Guide"
+description: "Context management, planning systems, sub-agents, extension points, and engineering predictable outputs"
+audience: power-user
+tags: ["context", "planning", "agents", "skills", "hooks"]
+---
+
 # Advanced Workflows: Power-User Guide
 
 [← Back to Main README](../../README.md)
@@ -461,5 +469,3 @@ Five themes that cut across every section of this guide:
 - [BUILTIN_VS_CUSTOM.md](../decisions/BUILTIN_VS_CUSTOM.md) — When to use built-in vs custom tooling
 
 ---
-
-**Last Updated**: 2026-02-20

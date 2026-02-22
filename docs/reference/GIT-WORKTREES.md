@@ -1,3 +1,11 @@
+---
+id: git-worktrees
+title: "Git Worktrees: Parallel Development Guide"
+description: "Using Git worktrees for parallel development with AI coding agents"
+audience: intermediate
+tags: ["worktrees", "parallel-dev", "git"]
+---
+
 # Git Worktrees: Parallel Development Guide
 
 [← Back to Main README](../../README.md)

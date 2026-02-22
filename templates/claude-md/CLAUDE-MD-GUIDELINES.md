@@ -1,3 +1,11 @@
+---
+id: claude-md-guidelines
+title: "CLAUDE.md Guidelines: Keeping It Lightweight"
+description: "Reference guide for maintaining CLAUDE.md at 150-200 lines as project complexity grows"
+audience: intermediate
+tags: ["claude-md", "guidelines", "documentation"]
+---
+
 # CLAUDE.md Guidelines: Keeping It Lightweight
 
 **Purpose**: Reference guide for maintaining CLAUDE.md at 150-200 lines as project complexity grows.

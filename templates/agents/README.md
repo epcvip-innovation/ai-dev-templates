@@ -1,3 +1,11 @@
+---
+id: custom-agents
+title: "Custom Agents (Subagents)"
+description: "Define reusable agents with isolated context windows, custom tools, permissions, and memory"
+audience: intermediate
+tags: ["agents", "subagents", "isolation", "worktrees"]
+---
+
 # Custom Agents (Subagents)
 
 [← Back to Template Library](../README.md)
@@ -268,5 +276,3 @@ Agents with `background: true` (or any agent backgrounded with Ctrl+B) run while
 - [Context Engineering](../../docs/reference/CONTEXT-ENGINEERING.md) — Five pillars, .claudeignore, isolation as context strategy
 
 ---
-
-**Last Updated**: 2026-02-20
