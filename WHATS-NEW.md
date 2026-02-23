@@ -8,6 +8,7 @@ Team-facing updates log. Tracks template changes and the Claude Code platform ch
 
 ### Template Changes
 
+- **NEW**: TDD skill (`templates/skills/tdd/`) — RED-GREEN-REFACTOR enforcement during development; complements `/local-review` (post-dev review) and `pr-test-analyzer` (PR-time coverage). Adapted from Superpowers by Jesse Vincent (@obra)
 - **NEW**: Community skills section (`templates/skills/community/`) — curated third-party skills with MANIFEST.yaml provenance
 - **NEW**: visual-explainer community skill — styled HTML visualizations (diagrams, tables, charts) by nicobailon
 - **NEW**: Custom agents template (`templates/agents/README.md`) — full frontmatter reference, common patterns, memory, worktree isolation, agent teams

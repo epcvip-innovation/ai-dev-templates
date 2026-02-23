@@ -81,8 +81,9 @@ The core value of this repository. **Browse before using** - these are patterns 
 - **See**: [templates/ci/README.md](./templates/ci/README.md)
 
 **10. Skills** (`templates/skills/`)
-- Claude Code skills for common workflows (code-review, skill-creator)
+- Claude Code skills for common workflows (code-review, tdd, skill-creator)
 - Unified code review: 5-phase pipeline (agents → evaluation → root-cause), `--quick` for 3-agent mode
+- TDD enforcement: RED-GREEN-REFACTOR cycle, test-first discipline during development (complements `/local-review` and `pr-test-analyzer` which review tests after the fact)
 - Guided skill scaffolding: discovery interview → archetype → scaffold → quality validation
 - Community skills: curated third-party skills with provenance tracking
 - Includes [SKILL-TEMPLATE.md](./templates/skills/SKILL-TEMPLATE.md) for creating new skills

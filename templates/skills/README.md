@@ -33,9 +33,25 @@ Claude Code has four extension mechanisms. They serve different purposes:
 | Skill | Agents | Purpose | Token Cost |
 |-------|--------|---------|------------|
 | [code-review](./code-review/) | 5 (full) / 3 (quick) | Unified review: agents + evaluation + root-cause | High / Medium |
+| [tdd](./tdd/) | 0 (guided) | Test-driven development with RED-GREEN-REFACTOR enforcement | Low |
 | [skill-creator](./skill-creator/) | 0 (guided) | Guided skill scaffolding with discovery + quality validation | Low |
 
 **Note**: Backlog management skills have moved to [project-management/skills/](../project-management/skills/) as part of the unified project & task management templates.
+
+### When to Use Which Testing Tool
+
+Multiple tools touch testing — each at a different point in the workflow:
+
+| Tool | When | What it does |
+|------|------|--------------|
+| **`/tdd` skill** | During development | Enforces writing tests *before* code (RED-GREEN-REFACTOR) |
+| **`/local-review` Test Skeptic** | After development | Flags coverage gaps and weak assertions in review |
+| **`pr-test-analyzer` plugin** | At PR time | Reviews test quality and completeness across the PR |
+| **Playwright E2E** | CI / exploration | Verifies full user-facing workflows in a browser |
+
+**Intended flow**: `/tdd` (tests exist, written first) → `/local-review` (tests are thorough) → `pr-test-analyzer` (PR-level coverage check)
+
+The `/tdd` skill is the only tool that enforces test-*first* discipline. The others review test quality after the fact. Without `/tdd`, tests can be written after code — which verifies what code *does*, not what it *should do*.
 
 ---
 
