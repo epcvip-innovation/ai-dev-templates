@@ -27,16 +27,14 @@ If any issues found, warn the user and ask for confirmation before continuing.
 Run these checks - all must pass:
 
 ```bash
-# Example checks (customize per project):
+# Tests - run project test suite
+npm test          # or: pytest, go test ./..., cargo test
 
-# ESLint - must have 0 errors (warnings OK)
-npm run lint
+# Lint
+npm run lint      # or: ruff check ., golangci-lint run
 
-# Prettier - formatting must be correct
-npm run format:check
-
-# TypeScript - must compile
-npm run typecheck
+# Type check
+npm run typecheck # or: mypy ., go vet ./...
 ```
 
 **If any check fails:**
@@ -45,8 +43,8 @@ npm run typecheck
 3. Stop and let user fix before retrying
 
 **Customization guidance:**
-- Python projects: `ruff check .`, `mypy .`
-- Go projects: `go vet ./...`, `go test ./...`
+- Python projects: `pytest`, `ruff check .`, `mypy .`
+- Go projects: `go test ./...`, `go vet ./...`
 - Minimal projects: Skip this step or just run `npm test`
 
 ## Step 4: Stage & Commit

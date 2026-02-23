@@ -181,6 +181,23 @@ ANALYSIS
 
 ---
 
+## Unit Testing & TDD
+
+E2E tests (above) verify user-facing workflows. Unit tests verify individual functions and modules.
+
+| Aspect | E2E (Playwright) | Unit Tests (TDD) |
+|--------|------------------|------------------|
+| Scope | Full user flows | Single functions/modules |
+| Speed | Seconds-minutes | Milliseconds |
+| When | CI, visual bugs, regression | During development, every change |
+| Skill | Use Playwright MCP | Use [/tdd skill](../skills/tdd/SKILL.md) |
+
+**TDD Workflow**: Write failing test → watch fail → write minimal code → watch pass → refactor.
+
+See [TDD Skill](../skills/tdd/SKILL.md) for the full workflow and enforcement rules.
+
+---
+
 ## See Also
 
 - [CI/CD Templates](../ci/README.md) — GitHub Actions with Playwright
