@@ -44,6 +44,7 @@
 | **travisvn/awesome-claude-skills** | Community-curated skills | Active |
 | **jeremylongshore/claude-code-plugins-plus-skills** | 700+ skills with tutorials | Active |
 | **alirezarezvani/claude-code-skill-factory** | Skill generation toolkit | Active |
+| **nicobailon/visual-explainer** | HTML visualization skill (diagrams, tables, charts) | Active, curated |
 
 ### Discussion Forums
 

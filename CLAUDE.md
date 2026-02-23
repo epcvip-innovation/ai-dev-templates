@@ -84,8 +84,10 @@ The core value of this repository. **Browse before using** - these are patterns 
 - Claude Code skills for common workflows (code-review, skill-creator)
 - Unified code review: 5-phase pipeline (agents → evaluation → root-cause), `--quick` for 3-agent mode
 - Guided skill scaffolding: discovery interview → archetype → scaffold → quality validation
+- Community skills: curated third-party skills with provenance tracking
 - Includes [SKILL-TEMPLATE.md](./templates/skills/SKILL-TEMPLATE.md) for creating new skills
 - **See**: [templates/skills/README.md](./templates/skills/README.md)
+- **See**: [templates/skills/community/README.md](./templates/skills/community/README.md)
 
 **11. Custom Agents** (`templates/agents/`)
 - Subagent definitions with frontmatter: model, tools, memory, isolation, permissions

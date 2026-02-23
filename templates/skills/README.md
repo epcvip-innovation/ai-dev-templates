@@ -39,6 +39,18 @@ Claude Code has four extension mechanisms. They serve different purposes:
 
 ---
 
+## Community Skills
+
+Curated third-party skills snapshotted for immediate use.
+
+| Skill | Category | Author |
+|-------|----------|--------|
+| [visual-explainer](./community/visual-explainer/) | Visualization | nicobailon |
+
+See [community/README.md](./community/README.md) for full index, tags, and install instructions.
+
+---
+
 ## Quick Install
 
 ```bash

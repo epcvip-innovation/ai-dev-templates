@@ -8,6 +8,8 @@ Team-facing updates log. Tracks template changes and the Claude Code platform ch
 
 ### Template Changes
 
+- **NEW**: Community skills section (`templates/skills/community/`) — curated third-party skills with MANIFEST.yaml provenance
+- **NEW**: visual-explainer community skill — styled HTML visualizations (diagrams, tables, charts) by nicobailon
 - **NEW**: Custom agents template (`templates/agents/README.md`) — full frontmatter reference, common patterns, memory, worktree isolation, agent teams
 - **UPDATED**: Skills frontmatter — added `memory`, `background`, `isolation`, `skills`, `mcpServers` fields (SKILL-TEMPLATE.md + frontmatter-reference.md)
 - **UPDATED**: Permissions README — added permission modes section (acceptEdits, dontAsk, bypassPermissions, plan), expanded sandbox documentation

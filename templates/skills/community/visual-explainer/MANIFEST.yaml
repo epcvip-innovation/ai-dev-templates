@@ -1,0 +1,73 @@
+# Visual Explainer — Community Skill Manifest
+# Provenance tracking for snapshotted third-party skill
+
+upstream:
+  repo: https://github.com/nicobailon/visual-explainer
+  author: nicobailon
+  license: MIT
+  version: "0.1.1"
+  commit_sha: ade2031cc727f5ee7e4856bcb61a9b0bceda98ed
+  snapshot_date: "2026-02-22"
+
+discoverability:
+  category: Visualization
+  tags:
+    - visualization
+    - diagrams
+    - html
+    - charts
+    - mermaid
+    - tables
+    - data-tables
+    - architecture
+    - flowcharts
+    - interactive
+    - ascii-art-replacement
+    - styled-output
+  triggers:
+    - "generate a diagram"
+    - "create a visualization"
+    - "make an HTML diagram"
+    - "architecture overview"
+    - "visual diff review"
+    - "plan review"
+    - "project recap"
+    - "comparison table"
+    - "improve my visualizations"
+    - "better than ASCII art"
+  use_cases:
+    - Generate styled, interactive HTML visualizations instead of ASCII art
+    - Architecture diagrams with CSS Grid cards and Mermaid flowcharts
+    - Data tables with sticky headers, status indicators, and alternating rows
+    - Diff reviews comparing before/after code changes
+    - Plan reviews validating implementation plans against codebase
+    - Project recaps rebuilding mental models of recent work
+    - Dashboard-style metric overviews with KPI cards and charts
+
+install:
+  target: ~/.claude/skills/visual-explainer
+  command: "cp -r templates/skills/community/visual-explainer ~/.claude/skills/visual-explainer"
+  dependencies:
+    - Browser (to view generated HTML files)
+  optional_dependencies:
+    - "surf-cli (for AI-generated illustrations via Gemini)"
+  notes: >
+    Auto-triggers on natural language requests for diagrams, visualizations,
+    and tables. Also activates proactively when about to render complex ASCII
+    tables (4+ rows or 3+ columns).
+
+included_files:
+  - SKILL.md           # Main skill definition with workflow, diagram types, quality checks
+  - prompts/           # 5 prompt templates (diff-review, fact-check, generate-web-diagram, plan-review, project-recap)
+  - references/        # 3 reference guides (css-patterns, libraries, responsive-nav)
+  - templates/         # 3 HTML reference templates (architecture, data-table, mermaid-flowchart)
+
+excluded_files:
+  - README.md          # Human-facing repo docs, not needed for runtime
+  - CHANGELOG.md       # Release history, not needed for runtime
+  - LICENSE            # MIT license noted in this manifest
+  - banner.png         # Repo banner image (1.1MB), not needed for runtime
+  - .gitignore         # Git config, not needed for runtime
+
+modifications: []
+  # No patches applied — all files are unmodified from upstream
