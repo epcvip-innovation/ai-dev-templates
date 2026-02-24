@@ -146,16 +146,22 @@ It does **not** affect standard `fetch()` calls (which use HTTP/1.1 by default).
 
 ## Quick Setup (Copy-Paste)
 
-Apply all essential fixes at once:
+Apply all recommended fixes at once:
 
 ```bash
-# Fix 1: Remove WindowsPowerShell from PATH
-echo 'export PATH=$(echo "$PATH" | tr ":" "\n" | grep -v "WindowsPowerShell" | tr "\n" ":" | sed "s/:$//")'  >> ~/.bashrc
+cat >> ~/.bashrc << 'FIXES'
 
-# Fix 2: Increase Happy Eyeballs timeout
-echo 'export NODE_OPTIONS="--network-family-autoselection-attempt-timeout=1000"' >> ~/.bashrc
+# === WSL2 networking fixes ===
+# Fix 1: Remove WindowsPowerShell from PATH (causes Claude Code hangs)
+export PATH=$(echo "$PATH" | tr ':' '\n' | grep -v 'WindowsPowerShell' | tr '\n' ':' | sed 's/:$//')
 
-# Apply
+# Fix 2: Increase IPv6 fallback timeout (prevents Node.js fetch timeouts)
+export NODE_OPTIONS="--network-family-autoselection-attempt-timeout=1000"
+
+# Fix 3: Disable HTTP/2 in Node.js undici (defense-in-depth fallback)
+export UNDICI_NO_HTTP2=1
+FIXES
+
 source ~/.bashrc
 ```
 
