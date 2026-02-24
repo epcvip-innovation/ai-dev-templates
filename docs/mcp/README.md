@@ -18,6 +18,7 @@ all MCPs.
 | Guide | What It Covers |
 |-------|---------------|
 | [MCP-SAFETY.md](./MCP-SAFETY.md) | Supply chain, version pinning, prompt injection, uninstall hygiene |
+| [MCP-TRUST-TIERS.md](./MCP-TRUST-TIERS.md) | Build vs adapt vs install decision framework, vetting checklist |
 | [MCP-CONTEXT.md](./MCP-CONTEXT.md) | Tool Search (lazy loading), context budgets, Claude Code vs Codex |
 | [MCP-DECISION-TREES.md](./MCP-DECISION-TREES.md) | When to use which MCP server (browser, database, deployment) |
 

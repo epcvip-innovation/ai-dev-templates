@@ -143,6 +143,7 @@ grep -A5 "mcpServers" ~/.claude.json
 
 ## See Also
 
+- [MCP Trust Tiers](./MCP-TRUST-TIERS.md) — Build vs adapt vs install decision framework
 - [MCP Context & Efficiency](./MCP-CONTEXT.md) — Tool Search, context budgets
 - [MCP Hub](./README.md) — All MCP documentation
 - [CLAUDE-CODE-CONFIG.md](../reference/CLAUDE-CODE-CONFIG.md) — MCP management commands
