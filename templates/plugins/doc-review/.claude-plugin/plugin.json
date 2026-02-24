@@ -1,0 +1,9 @@
+{
+  "name": "doc-review",
+  "description": "Documentation review agents specializing in link validation, content quality, AI writing patterns, and cross-file consistency",
+  "author": {
+    "name": "EPCVIP Innovation",
+    "email": "innovation@epcvip.com"
+  },
+  "version": "1.0.0"
+}
