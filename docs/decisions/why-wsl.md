@@ -142,7 +142,7 @@ autoMemoryReclaim=gradual  # Return unused RAM to Windows
 
 **Full reference:** See `~/WSL-CONFIG-REFERENCE.md` or [WSL-NODE-WORKAROUNDS.md](../reference/WSL-NODE-WORKAROUNDS.md)
 
-**Why NAT mode (default):** Simpler and more compatible than mirrored mode. Node.js timeouts are resolved with `UNDICI_NO_HTTP2=1` (set globally in `~/.bashrc` or per-project in `package.json`). Mirrored mode can cause Windows DNS resolution failures on some setups.
+**Why NAT mode (default):** Simpler and more compatible than mirrored mode. Node.js timeouts are resolved with `NODE_OPTIONS='--network-family-autoselection-attempt-timeout=1000'` (set globally in `~/.bashrc` or per-project in `package.json`). Mirrored mode can cause Windows DNS resolution failures on some setups.
 
 **Directory Structure**:
 ```
