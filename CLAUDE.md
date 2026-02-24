@@ -8,9 +8,9 @@ This file provides guidance to Claude Code when working with this repository.
 
 This is an **AI workflow template library**, built from 6+ months of real-world AI-assisted development experience.
 
-**Primary Purpose**: 66+ template files across 11 categories for AI-assisted development
+**Primary Purpose**: 66+ template files across 12 categories for AI-assisted development
 - Evidence-based approach: 239+ commits analyzed across 4 production repositories
-- 11 template categories: slash commands, CLAUDE.md structures, anti-slop standards, hooks, project organization, features backlog, permissions, security, testing, CI/CD, skills
+- 12 template categories: slash commands, CLAUDE.md structures, anti-slop standards, hooks, project organization, features backlog, permissions, security, testing, CI/CD, skills, plugins
 - Ready for personal use, team adoption, and community sharing
 
 ## Template Library
@@ -94,6 +94,13 @@ The core value of this repository. **Browse before using** - these are patterns 
 - Subagent definitions with frontmatter: model, tools, memory, isolation, permissions
 - Agent teams (experimental), background agents, worktree isolation
 - **See**: [templates/agents/README.md](./templates/agents/README.md)
+
+**12. Plugins** (`templates/plugins/`)
+- Distributable bundles of commands, agents, hooks, and references
+- Working example: doc-review (4 agents, multi-model, consolidated reports)
+- Includes [PLUGIN-TEMPLATE.md](./templates/plugins/PLUGIN-TEMPLATE.md) for creating new plugins
+- Team marketplace pattern for internal distribution
+- **See**: [templates/plugins/README.md](./templates/plugins/README.md)
 
 ## Research & Evidence
 

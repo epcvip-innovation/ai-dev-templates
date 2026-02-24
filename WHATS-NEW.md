@@ -4,10 +4,13 @@ Team-facing updates log. Tracks template changes and the Claude Code platform ch
 
 ---
 
-## February 2026 — Custom Agents, Agent Teams, Worktree Isolation
+## February 2026 — Custom Agents, Agent Teams, Plugins, Worktree Isolation
 
 ### Template Changes
 
+- **NEW**: Plugin ecosystem (`templates/plugins/`) — README with decision tree (skill vs plugin), PLUGIN-TEMPLATE.md for scaffolding new plugins, team marketplace distribution pattern
+- **NEW**: doc-review plugin (`templates/plugins/doc-review/`) — 4-agent documentation review (link validation, content quality, AI patterns, cross-file consistency) with `--quick` and `--fix` flags
+- **NEW**: MCP Trust Tiers (`docs/mcp/MCP-TRUST-TIERS.md`) — Build vs adapt vs install decision framework with vetting checklist for third-party MCPs
 - **NEW**: TDD skill (`templates/skills/tdd/`) — RED-GREEN-REFACTOR enforcement during development; complements `/local-review` (post-dev review) and `pr-test-analyzer` (PR-time coverage). Adapted from Superpowers by Jesse Vincent (@obra)
 - **NEW**: Community skills section (`templates/skills/community/`) — curated third-party skills with MANIFEST.yaml provenance
 - **NEW**: visual-explainer community skill — styled HTML visualizations (diagrams, tables, charts) by nicobailon
@@ -17,7 +20,7 @@ Team-facing updates log. Tracks template changes and the Claude Code platform ch
 - **UPDATED**: Security guide — heredoc smuggling prevention, ConfigChange hook for security auditing, sandbox skill injection note
 - **UPDATED**: Advanced Workflows — background agents, worktree isolation, agent teams (experimental), session customization sections added
 - **UPDATED**: Git Worktrees guide — autonomous workflow recipes (`--tmux` + `--append-system-prompt`), CLI flags table, branch base pitfall, zen orchestrator reference
-- **UPDATED**: Template categories 11 → 12 (agents added)
+- **UPDATED**: Template categories now 12 (agents, plugins added)
 - **NEW**: This file (WHATS-NEW.md)
 
 ### Claude Code Platform Changes (v2.1.34–v2.1.49)
@@ -68,4 +71,4 @@ Team-facing updates log. Tracks template changes and the Claude Code platform ch
 ---
 
 **Maintained by**: Innovation team
-**Last updated**: 2026-02-20
+**Last updated**: 2026-02-24
