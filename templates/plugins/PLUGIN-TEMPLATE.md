@@ -7,20 +7,27 @@ Use this as a starting point when creating a new Claude Code plugin. Copy the di
 ```
 your-plugin/
 ├── .claude-plugin/
-│   └── plugin.json              # Required — plugin manifest
+│   └── plugin.json              # Optional — manifest (auto-discovery works without it)
 ├── README.md                    # Human docs (not loaded into context at runtime)
-├── commands/
-│   └── your-command.md          # Required — at least one command (entry point)
-├── agents/                      # Optional — specialized agents launched by commands
+├── skills/                      # Recommended — skills as entry points
+│   └── your-skill/
+│       └── SKILL.md             #   Users invoke via /your-plugin:your-skill
+├── commands/                    # Legacy — use skills/ for new plugins
+│   └── your-command.md          #   Users invoke via /your-plugin:your-command
+├── agents/                      # Optional — specialized agents launched by skills/commands
 │   ├── fast-agent.md            #   Haiku: pattern matching, validation, linting
 │   └── deep-agent.md            #   Sonnet: judgment, analysis, cross-references
-├── hooks/                       # Optional — lifecycle hooks (shell scripts)
-│   └── pre-commit.sh
+├── hooks/
+│   └── hooks.json               # Optional — lifecycle hooks (JSON config)
+├── .mcp.json                    # Optional — MCP server configs for this plugin
+├── .lsp.json                    # Optional — LSP server configs
+├── settings.json                # Optional — default settings applied when enabled
+├── outputStyles/                # Optional — custom output styles
 └── references/                  # Optional — supporting docs loaded on demand
     └── patterns.md              #   Checklists, domain knowledge, examples
 ```
 
-> **Minimum viable plugin**: `.claude-plugin/plugin.json` + one file in `commands/`. Agents, hooks, and references are optional.
+> **Minimum viable plugin**: One file in `skills/` or `commands/`. Everything else is optional — Claude Code auto-discovers components in default directories.
 
 ---
 
@@ -36,7 +43,11 @@ Create `.claude-plugin/plugin.json`:
     "name": "Your Name or Team",
     "email": "you@example.com"
   },
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "homepage": "https://github.com/your-org/your-plugin",
+  "repository": "https://github.com/your-org/your-plugin",
+  "license": "MIT",
+  "keywords": ["category1", "category2"]
 }
 ```
 
@@ -44,13 +55,59 @@ Create `.claude-plugin/plugin.json`:
 
 **Description**: Keep it short — this appears in `/plugin list`. Include the key capability and approximate token cost if significant (e.g., "Notion integration (30k tokens)").
 
-**Optional**: Add `"mcpServers": { "name": { "type": "http", "url": "..." } }` to bundle MCP server configs with the plugin.
+**When to add a manifest**: If you need custom component paths, metadata for marketplace discovery (`homepage`, `keywords`), or bundled MCP/LSP configs. Otherwise skip it — auto-discovery handles defaults.
+
+See [plugin reference](https://code.claude.com/docs/en/plugins-reference) for the full manifest schema.
 
 ---
 
-## Command Template
+## Skill Template (Recommended)
 
-Create `commands/your-command.md`. This is the entry point users invoke via `/your-plugin:your-command`.
+Create `skills/your-skill/SKILL.md`. This is the recommended entry point — users invoke via `/your-plugin:your-skill`.
+
+```yaml
+---
+name: your-skill
+description: |
+  What this skill does — shown in autocomplete. Use when [context].
+  Triggers on "/your-plugin:your-skill", "[natural language]".
+allowed-tools: ["Bash", "Glob", "Grep", "Read", "Edit", "Task", "AskUserQuestion"]
+---
+```
+
+Below the frontmatter, write the orchestration instructions (same patterns as commands — determine scope, gather context, launch agents, aggregate results).
+
+See [SKILL-TEMPLATE.md](../skills/SKILL-TEMPLATE.md) for the full skill template with all frontmatter fields.
+
+---
+
+## Hook Config Template
+
+Create `hooks/hooks.json` (same format as the `hooks` key in `settings.json`):
+
+```json
+{
+  "PreToolUse": [
+    {
+      "matcher": "Write",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "${CLAUDE_PLUGIN_ROOT}/scripts/validate.sh"
+        }
+      ]
+    }
+  ]
+}
+```
+
+> **`${CLAUDE_PLUGIN_ROOT}`** is replaced at runtime with the plugin's root directory. Use it in hook commands and MCP configs to reference plugin-relative paths.
+
+---
+
+## Command Template (Legacy)
+
+Create `commands/your-command.md`. This is the legacy entry point — users invoke via `/your-plugin:your-command`. For new plugins, prefer `skills/` above.
 
 ```yaml
 ---
@@ -203,26 +260,43 @@ If no issues found:
 |-------|-----------|---------|
 | Plugin directory | `lowercase-with-hyphens` | `doc-review` |
 | plugin.json `name` | Must match directory name | `"name": "doc-review"` |
-| Command files | `verb-noun.md` | `review-docs.md` |
+| Skill directories | `skills/<name>/SKILL.md` | `skills/review-docs/SKILL.md` |
+| Command files (legacy) | `verb-noun.md` | `review-docs.md` |
 | Agent files | `descriptive-role.md` | `link-checker.md`, `content-quality.md` |
-| Invocation | `/plugin:command` | `/doc-review:review-docs` |
+| Invocation | `/plugin:skill` or `/plugin:command` | `/doc-review:review-docs` |
 | Task subagent_type | `plugin:agent` | `"doc-review:link-checker"` |
 
 ---
 
 ## Testing Checklist
 
-Plugins can't be tested end-to-end until installed. Test agents individually first.
+### Test during development with `--plugin-dir`
 
-Test agents individually with the Task tool before assembling the plugin:
+```bash
+# Load your plugin without installing — fastest iteration loop
+claude --plugin-dir /path/to/your-plugin
 ```
+
+### Validate structure
+
+```bash
+# Check plugin structure, manifest, and component discovery
+claude plugin validate
+```
+
+### Test agents individually
+
+```text
 Task(subagent_type: "general-purpose", prompt: "[paste agent instructions] Review this file: [path]")
 ```
 
+### Full checklist
+
+- [ ] **`claude plugin validate`**: Does the structure pass validation?
 - [ ] **Each agent individually**: Does it follow the procedure? Does the output match the format?
 - [ ] **Agent with edge cases**: Empty files, huge files, files with no issues, files with many issues
-- [ ] **Command orchestration**: Does the command correctly determine scope from arguments?
-- [ ] **Command with `--quick`** (if applicable): Does it skip the right agents?
+- [ ] **Skill/command orchestration**: Does it correctly determine scope from arguments?
+- [ ] **With `--quick`** (if applicable): Does it skip the right agents?
 - [ ] **Full end-to-end**: Install the plugin, run the command, verify the consolidated report
 - [ ] **Model appropriateness**: Is haiku reliable for each haiku agent? Switch to sonnet if results are inconsistent.
 

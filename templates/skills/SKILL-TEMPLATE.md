@@ -15,6 +15,7 @@ description: |
 
 # --- Optional fields (include only when relevant) ---
 # user-invocable: true              # false = auto-trigger only, never via /name
+# disable-model-invocation: true    # Prevents Claude from auto-loading this skill (manual /name only)
 # allowed-tools: Read, Grep          # Tools auto-approved when skill is active
 # model: sonnet                     # Force a specific model (sonnet, opus, haiku)
 # context: fork                     # Run as a sub-agent with isolated context
@@ -116,6 +117,10 @@ Choose the category that best fits your skill:
 | **Body length** | Keep SKILL.md under 500 lines. Move detailed reference material to separate files. | [Official docs](https://code.claude.com/docs/en/skills#add-supporting-files) |
 | **Description budget** | Descriptions share ~2% of context window across all skills (fallback: 16,000 chars total). Run `/context` to check. | [Official docs](https://code.claude.com/docs/en/skills#claude-doesnt-see-all-my-skills) |
 
+## Agent Skills Open Standard
+
+Claude Code skills follow the [Agent Skills](https://agentskills.io) open standard — a cross-tool format for defining AI agent capabilities. Skills written for Claude Code are portable to other tools that support the standard.
+
 ## String Substitutions
 
 These placeholders are replaced at runtime when used in SKILL.md:
@@ -125,6 +130,7 @@ These placeholders are replaced at runtime when used in SKILL.md:
 | `$ARGUMENTS` | Full argument string after `/name` | `Review the following: $ARGUMENTS` |
 | `$ARGUMENTS[0]`, `$ARGUMENTS[1]` | Individual space-separated args | `File: $ARGUMENTS[0]` |
 | `$0`, `$1`, ... `$N` | Shorthand for `$ARGUMENTS[N]` (0-based) | `Focus on: $0` |
+| `${CLAUDE_SESSION_ID}` | Current session ID | `Log entry for session: ${CLAUDE_SESSION_ID}` |
 | `` !`command` `` | Output of a shell command at load time | `` Current branch: !`git branch --show-current` `` |
 
 ## Context Budget
@@ -184,3 +190,9 @@ cp -r templates/skills/your-skill ~/.claude/skills/your-skill
 
 For global install (available in all projects): copy to `~/.claude/skills/`
 For per-project install: copy to `.claude/skills/` in the project root
+
+Monorepo support: nested `.claude/skills/` directories are auto-discovered. Skills from additional directories can be loaded with `claude --add-dir /path/to/dir`.
+
+---
+
+**Last Updated**: 2026-02-24

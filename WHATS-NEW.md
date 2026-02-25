@@ -8,6 +8,11 @@ Team-facing updates log. Tracks template changes and the Claude Code platform ch
 
 ### Template Changes
 
+- **UPDATED**: Plugin & skill docs synced with official sources (Feb 24):
+  - **Plugin structure**: `skills/` recommended over `commands/` (legacy), `hooks/hooks.json` JSON config, `.mcp.json`, `.lsp.json`, `settings.json`, `outputStyles/` components
+  - **Manifest**: now optional (auto-discovery), new fields (`homepage`, `repository`, `license`, `keywords`, component paths), `${CLAUDE_PLUGIN_ROOT}` env var
+  - **CLI/marketplace**: `--plugin-dir` testing, `claude plugin validate`/`update`, `--scope` flag, official marketplace (`claude-plugins-official`), GitHub shorthand, `extraKnownMarketplaces`/`enabledPlugins`/`strictKnownMarketplaces` team settings
+  - **Skills**: `disable-model-invocation` frontmatter, `${CLAUDE_SESSION_ID}` substitution, Agent Skills open standard (agentskills.io)
 - **NEW**: Plugin ecosystem (`templates/plugins/`) — README with decision tree (skill vs plugin), PLUGIN-TEMPLATE.md for scaffolding new plugins, team marketplace distribution pattern
 - **NEW**: doc-review plugin (`templates/plugins/doc-review/`) — 4-agent documentation review (link validation, content quality, AI patterns, cross-file consistency) with `--quick` and `--fix` flags
 - **NEW**: MCP Trust Tiers (`docs/mcp/MCP-TRUST-TIERS.md`) — Build vs adapt vs install decision framework with vetting checklist for third-party MCPs

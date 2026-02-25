@@ -2,7 +2,9 @@
 
 [← Back to Main README](../../README.md)
 
-Distributable bundles of commands, agents, hooks, and references — the packaging layer on top of skills.
+Distributable bundles of skills, agents, hooks, MCP servers, and more — the packaging layer on top of skills.
+
+> **Official docs**: [Create plugins](https://code.claude.com/docs/en/plugins) · [Plugin reference](https://code.claude.com/docs/en/plugins-reference) · [Discover plugins](https://code.claude.com/docs/en/discover-plugins) · [Plugin marketplaces](https://code.claude.com/docs/en/plugin-marketplaces)
 
 ---
 
@@ -26,22 +28,35 @@ Distributable bundles of commands, agents, hooks, and references — the packagi
 ```
 plugin-name/
 ├── .claude-plugin/
-│   └── plugin.json              # Required — manifest (name, version, description)
+│   └── plugin.json              # Optional — manifest (auto-discovery works without it)
 ├── README.md                    # Human docs (not loaded into context)
-├── commands/                    # Slash commands (entry points)
+├── skills/                      # Recommended — skills as Markdown (SKILL.md per skill)
+│   └── my-skill/
+│       └── SKILL.md
+├── commands/                    # Legacy — use skills/ for new plugins
 │   └── do-thing.md              #   Frontmatter: description, argument-hint, allowed-tools
-├── agents/                      # Specialized agents (launched by commands)
+├── agents/                      # Specialized agents (launched by commands/skills)
 │   ├── fast-checker.md          #   Frontmatter: name, description, model
 │   └── deep-analyzer.md         #   Each agent runs in isolated context
-├── hooks/                       # Optional — lifecycle hooks
-│   └── pre-commit.sh            #   Shell scripts at PreToolUse, PostToolUse, etc.
+├── hooks/
+│   └── hooks.json               # Optional — lifecycle hooks (JSON config, same format as settings.json)
+├── .mcp.json                    # Optional — MCP server configs for this plugin
+├── .lsp.json                    # Optional — LSP server configs
+├── settings.json                # Optional — default settings applied when plugin is enabled
+├── outputStyles/                # Optional — custom output styles
 └── references/                  # Optional — supporting docs loaded on demand
     └── patterns.md              #   Domain knowledge, checklists, examples
 ```
 
-**Commands** are entry points — users invoke them via `/plugin-name:command-name`. Commands orchestrate agents.
+**Skills** are the recommended entry point — each `skills/<name>/SKILL.md` defines a workflow users invoke via `/plugin-name:skill-name`. Skills can orchestrate agents.
 
-**Agents** are workers — commands launch them via the Task tool. Each agent runs in isolated context with its own model and tools.
+**Commands** (legacy) still work — users invoke them via `/plugin-name:command-name`. Existing plugins using `commands/` don't need to migrate.
+
+**Agents** are workers — commands/skills launch them via the Task tool. Each agent runs in isolated context with its own model and tools.
+
+> **Manifest is optional**: Claude Code auto-discovers components in their default directories (`skills/`, `commands/`, `agents/`, `hooks/`, etc.). The manifest lets you declare custom paths or add metadata, but isn't required.
+
+> **`${CLAUDE_PLUGIN_ROOT}`**: Use this env var in hook commands and MCP configs to reference files relative to the plugin root (e.g., `"command": "${CLAUDE_PLUGIN_ROOT}/scripts/validate.sh"`).
 
 ---
 
@@ -55,7 +70,11 @@ plugin-name/
     "name": "Your Name or Team",
     "email": "team@example.com"
   },
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "homepage": "https://github.com/your-org/plugin-name",
+  "repository": "https://github.com/your-org/plugin-name",
+  "license": "MIT",
+  "keywords": ["review", "documentation"]
 }
 ```
 
@@ -65,7 +84,19 @@ plugin-name/
 | `description` | Yes | One line. Shown in `/plugin list` and marketplace. |
 | `author.name` | No | Person or team who maintains the plugin. |
 | `version` | No | Semver. Helps teams track updates. |
-| `mcpServers` | No | MCP server configs bundled with the plugin. |
+| `homepage` | No | URL for plugin documentation or landing page. |
+| `repository` | No | Source code URL. |
+| `license` | No | SPDX license identifier (e.g., `MIT`, `Apache-2.0`). |
+| `keywords` | No | Tags for marketplace search/discovery. |
+| `commands` | No | Custom paths to command files (supplements `commands/` auto-discovery). |
+| `agents` | No | Custom paths to agent files (supplements `agents/` auto-discovery). |
+| `skills` | No | Custom paths to skill directories (supplements `skills/` auto-discovery). |
+| `hooks` | No | Hook configurations (alternative to `hooks/hooks.json`). |
+| `mcpServers` | No | MCP server configs (alternative to `.mcp.json`). |
+| `lspServers` | No | LSP server configs (alternative to `.lsp.json`). |
+| `outputStyles` | No | Custom output style definitions. |
+
+> Component paths in the manifest **supplement** defaults — they don't replace auto-discovered directories. See [plugin reference](https://code.claude.com/docs/en/plugins-reference) for the full schema.
 
 ---
 
@@ -111,42 +142,65 @@ allowed-tools: ["Bash", "Glob", "Grep", "Read", "Edit", "Task"]
 
 | Plugin | Agents | Purpose |
 |--------|--------|---------|
-| [doc-review](./doc-review/) | 4 (link-checker, content-quality, ai-pattern-detector, cross-file-analyzer) | Multi-agent documentation review |
+| [doc-review](./doc-review/) | 4 (link-checker, content-quality, ai-pattern-detector, cross-file-analyzer) | Multi-agent documentation review (uses `commands/` — predates `skills/` recommendation) |
 
 ---
 
 ## Installing Plugins
 
-**Local marketplace** (one-time setup):
+### Official marketplace
+
+The Anthropic official marketplace (`claude-plugins-official`) is auto-available — no registration needed:
+```bash
+/plugin install frontend-design@claude-plugins-official
+```
+
+### From a GitHub marketplace
+
+```bash
+# GitHub shorthand — registers and installs in one step
+/plugin marketplace add owner/repo
+/plugin install plugin-name@marketplace-name
+```
+
+### Local marketplace (one-time setup)
+
 ```bash
 mkdir -p ~/.claude/marketplaces/local/.claude-plugin
 # Create marketplace.json — see "Distributing Plugins" below for the format
 # Then: copy plugin dirs into ~/.claude/marketplaces/local/
-```
-
-**Register and install**:
-```bash
-# In Claude Code:
 /plugin marketplace add ~/.claude/marketplaces/local   # one time
 /plugin install doc-review@local                       # install a plugin
 ```
 
-**From a team marketplace**:
-```bash
-git clone https://github.com/your-org/claude-plugins ~/claude-plugins
-# In Claude Code:
-/plugin marketplace add ~/claude-plugins
-/plugin install plugin-name@your-marketplace
-```
+### Installation scopes
 
-**CLI commands**:
+| Scope | Flag | Stored In | Shared |
+|-------|------|-----------|--------|
+| `user` | `--scope user` (default) | `~/.claude/plugins/` | All your projects |
+| `project` | `--scope project` | `.claude/plugins/` | Team via git |
+| `local` | `--scope local` | `.claude/plugins/` (gitignored) | Just you, this project |
+| `managed` | `--scope managed` | Admin-controlled | Organization-wide |
+
+### CLI commands
+
 ```bash
 /plugin                          # Interactive plugin menu
 /plugin list                     # Show installed plugins
 /plugin install name@market      # Install from marketplace
+/plugin install name --scope project  # Install to project scope
 /plugin uninstall name           # Remove plugin
 /plugin enable name              # Enable (loads into context)
 /plugin disable name             # Disable (saves tokens)
+claude plugin validate           # Validate plugin structure (from shell)
+claude plugin update             # Update installed plugins (from shell)
+```
+
+### Testing during development
+
+```bash
+# Load a plugin from a local directory without installing
+claude --plugin-dir /path/to/your-plugin
 ```
 
 ---
@@ -164,7 +218,7 @@ claude-plugins/                  # Git repo
 ├── doc-review/                  # Plugin 1
 │   ├── .claude-plugin/
 │   │   └── plugin.json
-│   ├── commands/
+│   ├── skills/
 │   └── agents/
 └── another-plugin/              # Plugin 2
     └── ...
@@ -183,7 +237,26 @@ claude-plugins/                  # Git repo
 }
 ```
 
-Team members clone the repo and register it once. New plugins are available after `git pull`.
+Plugin sources can also reference GitHub repos, URLs, npm packages, or pip packages — and support `ref`/`sha` pinning. See [plugin marketplaces](https://code.claude.com/docs/en/plugin-marketplaces) for all source types.
+
+Team members clone the repo and register it once. New plugins are available after `git pull`. Marketplaces auto-update at Claude Code startup.
+
+### Team setup via settings
+
+For teams, pre-configure marketplaces and plugins in `.claude/settings.json`:
+
+```json
+{
+  "extraKnownMarketplaces": ["owner/repo"],
+  "enabledPlugins": ["plugin-name@marketplace"]
+}
+```
+
+Use `strictKnownMarketplaces: true` to restrict installations to approved marketplaces only (admin lockdown).
+
+### Ecosystem
+
+Active public marketplaces include [Expo](https://github.com/expo/claude-plugins), [Trail of Bits](https://github.com/trailofbits/claude-plugins), Stagehand, and Parallel Web Systems. The official Anthropic marketplace includes `frontend-design` and other skills.
 
 ---
 

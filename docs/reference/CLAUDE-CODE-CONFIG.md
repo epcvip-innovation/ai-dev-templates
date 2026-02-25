@@ -215,8 +215,10 @@ Configure via `ENABLE_TOOL_SEARCH`: `auto` (default, activates at 10% of context
 
 ## Plugins
 
+> **Official docs**: [Create plugins](https://code.claude.com/docs/en/plugins) · [Plugin reference](https://code.claude.com/docs/en/plugins-reference) · [Discover plugins](https://code.claude.com/docs/en/discover-plugins) · [Plugin marketplaces](https://code.claude.com/docs/en/plugin-marketplaces)
+
 ### What Are Plugins?
-Bundles of commands, agents, hooks, and MCPs you can toggle on/off.
+Bundles of skills, agents, hooks, MCP servers, LSP servers, and output styles you can toggle on/off.
 
 **Key Benefit**: Save tokens by disabling unused functionality.
 
@@ -224,19 +226,32 @@ Bundles of commands, agents, hooks, and MCPs you can toggle on/off.
 ```
 ~/.claude/plugins/plugin-name/
 ├── .claude-plugin/
-│   └── plugin.json          # Required manifest
-├── commands/                # Optional: slash commands
+│   └── plugin.json          # Optional — manifest (auto-discovery works without it)
+├── skills/                  # Recommended: skill entry points (SKILL.md per skill)
+├── commands/                # Legacy: slash commands (use skills/ for new plugins)
 ├── agents/                  # Optional: specialized agents
-├── hooks/                   # Optional: workflow hooks
-└── README.md               # Optional: documentation
+├── hooks/
+│   └── hooks.json           # Optional: lifecycle hooks (JSON config)
+├── .mcp.json                # Optional: MCP server configs
+├── .lsp.json                # Optional: LSP server configs
+├── settings.json            # Optional: default settings
+├── outputStyles/            # Optional: custom output styles
+├── references/              # Optional: supporting docs loaded on demand
+└── README.md                # Optional: documentation
 ```
 
 ### Plugin Manifest (plugin.json)
+
+The manifest is optional — Claude Code auto-discovers components in default directories. Add it for metadata or custom paths.
+
 ```json
 {
   "name": "notion-mode",
   "version": "1.0.0",
   "description": "Notion integration (30k tokens)",
+  "homepage": "https://github.com/your-org/notion-mode",
+  "license": "MIT",
+  "keywords": ["notion", "integration"],
   "mcpServers": {
     "notion": {
       "type": "http",
@@ -246,14 +261,28 @@ Bundles of commands, agents, hooks, and MCPs you can toggle on/off.
 }
 ```
 
+Additional manifest fields: `repository`, `commands`, `agents`, `skills`, `hooks`, `lspServers`, `outputStyles`. See [plugin reference](https://code.claude.com/docs/en/plugins-reference) for the full schema.
+
+### Installation Scopes
+
+| Scope | Flag | Stored In | Shared |
+|-------|------|-----------|--------|
+| `user` | `--scope user` (default) | `~/.claude/plugins/` | All your projects |
+| `project` | `--scope project` | `.claude/plugins/` | Team via git |
+| `local` | `--scope local` | `.claude/plugins/` (gitignored) | Just you, this project |
+| `managed` | `--scope managed` | Admin-controlled | Organization-wide |
+
 ### Plugin Commands
 
 ```bash
 # Interactive plugin menu
 /plugin
 
-# Install a plugin
-/plugin install notion-mode
+# Install from official marketplace (auto-available)
+/plugin install frontend-design@claude-plugins-official
+
+# Install from a marketplace with scope
+/plugin install notion-mode --scope project
 
 # Uninstall (saves tokens!)
 /plugin uninstall notion-mode
@@ -264,6 +293,11 @@ Bundles of commands, agents, hooks, and MCPs you can toggle on/off.
 # Enable/disable without uninstalling
 /plugin enable notion-mode
 /plugin disable notion-mode
+
+# From shell (not Claude Code REPL)
+claude plugin validate           # Validate plugin structure
+claude plugin update             # Update installed plugins
+claude --plugin-dir /path/to/plugin  # Test a plugin without installing
 ```
 
 ### Creating a Local Plugin
@@ -303,12 +337,28 @@ mkdir -p ~/.claude/marketplaces/local/my-plugin/.claude-plugin
 4. Add marketplace (one time):
 ```bash
 /plugin marketplace add ~/.claude/marketplaces/local
+# Or GitHub shorthand: /plugin marketplace add owner/repo
 ```
 
 5. Install plugin:
 ```bash
 /plugin install my-plugin@local
 ```
+
+### Team Setup
+
+Pre-configure marketplaces and plugins in `.claude/settings.json`:
+```json
+{
+  "extraKnownMarketplaces": ["owner/repo"],
+  "enabledPlugins": ["plugin-name@marketplace"],
+  "strictKnownMarketplaces": true
+}
+```
+
+### Building Plugins
+
+See [Plugins README](../../templates/plugins/README.md) for the full guide (structure, distribution, design decisions) and [PLUGIN-TEMPLATE.md](../../templates/plugins/PLUGIN-TEMPLATE.md) for scaffolding a new plugin.
 
 ## Installed Plugins
 
@@ -492,8 +542,11 @@ claude mcp reset-project-choices
 ## Reference Documentation
 
 ### Official Docs
-- **Claude Code Plugins**: https://docs.claude.com/en/docs/claude-code/plugins
-- **Claude Code Plugins Reference**: https://docs.claude.com/en/docs/claude-code/plugins-reference
+- **Claude Code Plugins**: https://code.claude.com/docs/en/plugins
+- **Claude Code Plugins Reference**: https://code.claude.com/docs/en/plugins-reference
+- **Discover Plugins**: https://code.claude.com/docs/en/discover-plugins
+- **Plugin Marketplaces**: https://code.claude.com/docs/en/plugin-marketplaces
+- **Skills**: https://code.claude.com/docs/en/skills
 - **MCP Setup**: https://docs.claude.com/en/docs/claude-code/mcp
 - **Notion MCP**: https://developers.notion.com/docs/mcp
 - **Notion Hosted MCP Blog**: https://www.notion.com/blog/notions-hosted-mcp-server-an-inside-look
@@ -526,4 +579,4 @@ claude mcp add <name> <url>              # Add HTTP MCP
 
 ---
 
-Last Updated: January 2026
+Last Updated: February 2026

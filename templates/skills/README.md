@@ -15,7 +15,7 @@ Claude Code has four extension mechanisms. They serve different purposes:
 | **Skills** | Markdown files teaching Claude workflows | Auto-triggered by natural language or `/skill-name` | Advisory (Claude follows, may drift) | Complex multi-step workflows |
 | **Slash Commands** | Markdown prompt templates in `.claude/commands/` | Manual (`/command-name`) | Advisory | Repeatable prompts, team workflows |
 | **Hooks** | Shell scripts at lifecycle events | Automatic (PreToolUse, PostToolUse, etc.) | **Deterministic** (exit codes enforce) | Validation, formatting, logging |
-| **Plugins** | Packaged bundles of commands + agents + hooks | Installed via `/plugin` | Mixed (skills advisory, hooks deterministic) | Distributable workflow packages |
+| **Plugins** | Packaged bundles of skills + agents + hooks + MCP + LSP | Installed via `/plugin` | Mixed (skills advisory, hooks deterministic) | Distributable workflow packages |
 
 > **Building a plugin?** See the [Plugins README](../plugins/README.md) for structure, templates, and distribution patterns.
 
@@ -27,6 +27,8 @@ Claude Code has four extension mechanisms. They serve different purposes:
 - **Need to distribute a workflow to a team?** Use a **plugin** (bundles skills + hooks together)
 
 **Rationale**: Skills are the core unit. Plugins are a distribution pattern that bundles skills with hooks and references. For the "why skills over standalone commands" decision, see [BUILTIN_VS_CUSTOM.md](../../docs/decisions/BUILTIN_VS_CUSTOM.md).
+
+> **Open standard**: Skills follow the [Agent Skills](https://agentskills.io) open standard — a cross-tool format for AI agent capabilities.
 
 ---
 
@@ -161,7 +163,7 @@ description: |
 
 ## See Also
 
-- [Plugins README](../plugins/README.md) — Distributable bundles of commands + agents + hooks
+- [Plugins README](../plugins/README.md) — Distributable bundles of skills + agents + hooks + MCP + LSP
 - [Hooks README](../hooks/README.md) — Deterministic workflow enforcement
 - [Slash Commands](../slash-commands/README.md) — Simple prompt templates
 - [BUILTIN_VS_CUSTOM.md](../../docs/decisions/BUILTIN_VS_CUSTOM.md) — When to customize vs use built-in
@@ -170,4 +172,4 @@ description: |
 
 ---
 
-**Last Updated**: 2026-02-19
+**Last Updated**: 2026-02-24
