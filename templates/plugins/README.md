@@ -50,7 +50,7 @@ plugin-name/
 
 **Skills** are the recommended entry point — each `skills/<name>/SKILL.md` defines a workflow users invoke via `/plugin-name:skill-name`. Skills can orchestrate agents.
 
-**Commands** (legacy) still work — users invoke them via `/plugin-name:command-name`. Existing plugins using `commands/` don't need to migrate.
+**Commands** (legacy flat-file format) still work — users invoke them via `/plugin-name:command-name`. Existing plugins using `commands/` don't need to migrate. Commands and skills are unified; `commands/` is simply the flat-file format.
 
 **Agents** are workers — commands/skills launch them via the Task tool. Each agent runs in isolated context with its own model and tools.
 

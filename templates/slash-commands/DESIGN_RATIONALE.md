@@ -1,4 +1,4 @@
-# AI Slash Command Workflow: Design Rationale
+# Skill Templates (Command Format): Design Rationale
 
 **Purpose:** This document captures the "why" behind the AI-assisted development workflow. It serves as a historical and philosophical guide to the system, intended for the maintainer of the template (you) rather than for end-users of the commands.
 
@@ -9,7 +9,7 @@
 The fundamental goal of this workflow is to transform the interaction with an AI assistant from a simple, conversational back-and-forth into a structured, predictable, and robust collaboration.
 
 **Core Principles:**
-- **Explicit over Implicit:** We favor manual triggers (`/slash-commands`) over automatic behaviors (like Claude Skills). This ensures the developer is always in control.
+- **Explicit over Implicit:** We favor explicit invocation (`/name`) over auto-triggering. The `disable-model-invocation` frontmatter key prevents skills from firing unexpectedly.
 - **Process over Prompts:** Instead of relying on one-off prompts, we define reusable, battle-tested "Standard Operating Procedures" (SOPs) for the AI to follow for every key development task.
 - **Full Lifecycle Integration:** The AI is leveraged across the entire development lifecycle—from planning and architecture to debugging and completion—not just for code generation.
 - **Active Context Management:** We explicitly manage the AI's limited context window using a `session-handoff` and `resume-feature` cycle, solving the problem of state loss between sessions.
@@ -51,10 +51,10 @@ This workflow has evolved through several iterations, incorporating lessons lear
 | `check-drift` | Manual review | Custom automates plan-vs-implementation comparison |
 | `audit/*` sub-commands | code-review plugin | Custom for one-off audits; plugin for auto-triggered reviews |
 
-**Complementary tools — Plugins + Slash Commands:**
-- Plugins support auto-triggers based on natural language — best for workflows that should always run
-- Slash commands are explicit and user-controlled — best for on-demand audits and utilities
-- Both approaches are valid; choose based on whether you want opt-in or always-on behavior
+**Complementary tools — Plugins + Skills:**
+- Plugins bundle skills with hooks, agents, and MCP servers — best for distributable workflow packages
+- Flat-file skills are simple and explicit — best for on-demand audits and utilities
+- Directory skills support `disable-model-invocation` to prevent auto-triggering when you want explicit-only invocation
 
 **All 21 commands retained as active examples.** See `README.md` for the full command reference with tradeoff guidance.
 

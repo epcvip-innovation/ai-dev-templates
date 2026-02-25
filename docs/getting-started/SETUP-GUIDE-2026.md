@@ -297,7 +297,7 @@ One writes, the other reviews. Swap roles as needed.
 |----------------|---------|
 | Set up a new project with Claude Code | [New Project Setup](./NEW-PROJECT-SETUP.md) |
 | Browse our template library | [Templates](../../templates/README.md) |
-| Learn slash commands and workflows | [Slash Commands](../../templates/slash-commands/README.md) |
+| Browse skill templates | [Skill Templates](../../templates/slash-commands/README.md) |
 | Set up WSL2 on Windows | [Microsoft WSL install guide](https://learn.microsoft.com/en-us/windows/wsl/install) |
 | Deep-dive on Claude Code configuration | [Claude Code Setup](../setup-guides/CLAUDE-CODE-SETUP.md) |
 | Set up Playwright testing with Claude | [Testing Guide](../../templates/testing/PLAYWRIGHT_CLAUDE_GUIDE.md) |

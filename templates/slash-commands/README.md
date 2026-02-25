@@ -1,10 +1,12 @@
-# AI-Assisted Development Slash Command Templates
+# Skill Templates (Command Format)
 
 [← Back to Main README](../../README.md)
 
-**Purpose:** Reusable, battle-tested slash command templates to bootstrap structured AI workflows.
+**Purpose:** Reusable, battle-tested skill templates in the flat-file command format to bootstrap structured AI workflows.
 
 **Updated:** February 2026 - Un-deprecated custom commands; documented tradeoffs vs built-in features.
+
+> **Unification note**: Skills and commands are now unified in Claude Code — both produce `/name` and work the same way. These templates use the **flat-file format** (`.claude/commands/name.md`), which is simpler but doesn't support references, scripts, or `disable-model-invocation`. For complex workflows needing supporting files, use the [directory skill format](../skills/README.md).
 
 ---
 
@@ -38,9 +40,9 @@ All commands live in `ai-dev-workflow/commands/` and are organized by workflow p
 
 ---
 
-## Custom Commands vs Built-in Features
+## Custom Skills vs Built-in Features
 
-This repo demonstrates **both** custom slash commands and built-in Claude Code features. Each has strengths:
+This repo demonstrates **both** custom skills and built-in Claude Code features. Each has strengths:
 
 | Task | Custom Command | Built-in Alternative | When Custom Wins |
 |------|---------------|---------------------|------------------|
@@ -50,12 +52,12 @@ This repo demonstrates **both** custom slash commands and built-in Claude Code f
 | Validate plan | `/validate-plan` | `/plan` mode | Enforces a PLAN_QUALITY_RUBRIC with scored criteria |
 | Add task | `/add-task` | Native Tasks (TaskCreate) | Persists in plan.md with frontmatter metadata (cross-session) |
 | Check drift | `/check-drift` | Manual review | Automated plan-vs-implementation diff comparison |
-| Code review | `/audit-feature` | code-review skill | Slash command for one-off audits; skill for auto-triggered reviews |
+| Code review | `/audit-feature` | code-review skill | Flat-file skill for one-off audits; directory skill for review pipelines |
 
 **Guidance:**
 - **Built-in features** are simpler to set up and maintained by Anthropic — use them when they cover your needs
 - **Custom commands** shine when you need structured output formats, project-specific rubrics, or integration with your backlog/documentation system
-- **Skills** (see `../skills/`) are best for workflows that should auto-trigger — they support references, sub-tasks, and natural language matchers
+- **Directory-format skills** (see `../skills/`) add references, scripts, and `disable-model-invocation` — use them when a single `.md` file isn't enough
 
 ---
 
@@ -65,7 +67,7 @@ This repo demonstrates **both** custom slash commands and built-in Claude Code f
 Quality gates and structured development patterns.
 
 - **[View AI Dev Workflow Guide](./ai-dev-workflow/WORKFLOW_GUIDE.md)**
-- **Copy to:** `.claude/commands/` in your project
+- **Copy to:** `.claude/commands/` in your project (flat-file skill format)
 
 ### 2. Query Building Workflow (Domain-Specific)
 Specialized commands for SQL query generation and validation.
@@ -103,7 +105,7 @@ The design documentation explains the "why" behind these workflows.
 
 ## See Also
 
-- [Skills](../skills/README.md) — Auto-triggered alternative to slash commands
+- [Directory Skills](../skills/README.md) — Skills with supporting files and advanced features
 - [Hooks](../hooks/README.md) — Deterministic enforcement (shell scripts)
 - [Anti-Slop Standards](../standards/ANTI_SLOP_STANDARDS.md) — Quality gates used by `/plan-approaches`
 - [All Templates](../README.md)

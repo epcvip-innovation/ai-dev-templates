@@ -35,7 +35,7 @@
 | [CLAUDE.md.template](./CLAUDE.md.template) | Lightweight template with placeholders and inline guidance | ~180 |
 | [CLAUDE-MD-GUIDELINES.md](./CLAUDE-MD-GUIDELINES.md) | Complete reference: decision tree, inclusion criteria, bloat warning signs | ~410 |
 | [example-refactored.md](./example-refactored.md) | Case study: 512 → 178 lines (65% reduction) with step-by-step | ~150 |
-| [audit-claude-md](../slash-commands/ai-dev-workflow/commands/audit-claude-md.md) | Slash command for automated bloat detection | ~50 |
+| [audit-claude-md](../slash-commands/ai-dev-workflow/commands/audit-claude-md.md) | Skill for automated bloat detection | ~50 |
 
 ---
 
@@ -116,7 +116,7 @@ Hub = things Claude needs ALWAYS. Spokes = things Claude needs SOMETIMES.
 
 ## See Also
 
-- [Slash Commands](../slash-commands/README.md) — 21 workflow commands including `/audit-claude-md`
+- [Skill Templates](../slash-commands/README.md) — 21 flat-file skill templates including `/audit-claude-md`
 - [Anti-Slop Standards](../standards/ANTI_SLOP_STANDARDS.md) — Code quality with grep patterns
 - [Project Management](../project-management/README.md) — Task tracking and backlogs
 

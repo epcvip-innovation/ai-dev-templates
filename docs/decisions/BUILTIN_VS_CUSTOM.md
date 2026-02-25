@@ -174,30 +174,21 @@ CLAUDE.md → Project context
 **Customization:** Permissions, context
 **Best for:** Most projects
 
-### Level 3: Add Custom Commands (Light Setup)
+### Level 3: Add Custom Skills (Light to Moderate Setup)
 
 ```
-.claude/commands/*.md → Slash commands
-```
-
-**Effort:** 1-2 hours
-**Customization:** Workflows
-**Best for:** Repeatable workflows like `/push`, `/audit`
-
-### Level 4: Add Custom Skills (Moderate Setup)
-
-```
-.claude/skills/*/SKILL.md → Auto-triggered skills
+.claude/commands/*.md → Flat-file skills (simple prompts, explicit /name invocation)
+.claude/skills/*/SKILL.md → Directory skills (complex workflows with references/scripts)
 .claude/utils/*.py → Enforcement utilities
 ```
 
-**Effort:** 4-8 hours
-**Customization:** Full workflow automation
-**Best for:** Complex projects, teams
+**Effort:** 1-8 hours (flat-file: 1-2h, directory skills: 4-8h)
+**Customization:** Workflows
+**Best for:** Repeatable workflows like `/push`, `/audit` (flat-file) or complex multi-step workflows (directory)
 
-**Note on reliability:** Skills auto-trigger via natural language matching, which can be inconsistent. Test your trigger phrases and have explicit `/command` fallbacks.
+**Note**: Use `disable-model-invocation: true` in directory skill frontmatter to prevent auto-triggering — the skill will only run when explicitly invoked via `/name`.
 
-### Level 5: Full Custom Workflow (Heavy Setup)
+### Level 4: Full Custom Workflow (Heavy Setup)
 
 ```
 Complete backlog system
@@ -212,17 +203,18 @@ CI/CD integration
 
 ---
 
-## Skills vs Slash Commands
+## Skill Formats: Directory vs Flat-File
 
-Both have their place. Choose based on the task:
+Skills and commands are unified — both produce `/name` and work the same way. Choose the format based on complexity:
 
-| Feature | Slash Commands | Skills |
-|---------|---------------|--------|
-| Trigger | Manual (`/command`) | Auto (natural language) or manual |
-| Reliability | High (explicit invocation) | Variable (auto-trigger can miss) |
-| Hooks | No | Yes (PreToolUse, PostToolUse, Stop) |
-| Context | Limited | Full skill context |
-| Best for | Utilities (`/push`, `/audit`) | Complex workflows (code-review, backlog) |
+| Feature | Flat-File (`.claude/commands/`) | Directory (`.claude/skills/name/`) |
+|---------|-------------------------------|-----------------------------------|
+| File structure | Single `.md` file | `SKILL.md` + optional `references/`, `scripts/` |
+| Invocation | `/name` or natural language | `/name` or natural language |
+| Supporting files | No | Yes (`references/`, `scripts/`, `assets/`) |
+| `disable-model-invocation` | No | Yes (prevent auto-triggering) |
+| Hooks frontmatter | No | Yes (skill-scoped hooks) |
+| Best for | Simple prompts (`/push`, `/audit`) | Complex workflows (code-review, backlog) |
 
 ### Why Python Utilities Still Matter
 
@@ -264,7 +256,7 @@ When built-in isn't enough:
 ## Recommendations Summary
 
 1. **Start with built-in** → Add custom only when needed
-2. **Skills for complex workflows, commands for utilities** — each has strengths
+2. **Directory skills for complex workflows, flat-file skills for utilities** — each has strengths
 3. **Python utilities for data operations** (backlog indexing, validation, search)
 4. **Combine approaches** - Skills call Python utilities for best of both
 5. **Review quarterly** - Built-in features improve; reassess custom value
@@ -273,6 +265,6 @@ When built-in isn't enough:
 
 ## See Also
 
-- [../../templates/slash-commands/README.md](../../templates/slash-commands/README.md) - Command templates
+- [../../templates/slash-commands/README.md](../../templates/slash-commands/README.md) - Flat-file skill templates
 - [../../templates/skills/](../../templates/skills/README.md) - Skill templates
 - [../../templates/project-management/](../../templates/project-management/README.md) - Project & task management

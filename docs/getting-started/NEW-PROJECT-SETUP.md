@@ -124,9 +124,9 @@ Continue with these steps for production projects or team workflows.
 
 ---
 
-### Step 5: Custom Slash Commands (30 min)
+### Step 5: Custom Skills — Flat-File Format (30 min)
 
-Copy essential commands to `.claude/commands/`:
+Copy essential skill templates to `.claude/commands/` (flat-file skill format):
 
 ```bash
 mkdir -p .claude/commands
@@ -135,7 +135,7 @@ cp templates/slash-commands/ai-dev-workflow/commands/push.md .claude/commands/
 cp templates/slash-commands/ai-dev-workflow/commands/audit.md .claude/commands/
 ```
 
-**Essential commands:**
+**Essential skills:**
 - `/push` - Safe commit with quality checks
 - `/audit` - Project health check
 
@@ -286,7 +286,7 @@ your-project/
 ├── .mcp.json                    # MCP server config
 ├── .claude/
 │   ├── settings.json            # Permissions
-│   ├── commands/                # Slash commands
+│   ├── commands/                # Skills (flat-file format)
 │   │   ├── push.md
 │   │   └── audit.md
 │   ├── skills/                  # Custom skills

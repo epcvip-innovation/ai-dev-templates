@@ -309,7 +309,7 @@ The right default depends on your team. Cost-sensitive workflows benefit from ti
 
 ## 4. Extension Points: Skills, Hooks, MCP
 
-Claude Code's behavior can be extended through four mechanisms. This section covers the conceptual model — see linked READMEs for implementation details.
+Claude Code's behavior can be extended through three mechanisms. This section covers the conceptual model — see linked READMEs for implementation details.
 
 ### Skills
 
@@ -461,7 +461,7 @@ Five themes that cut across every section of this guide:
 - [CLAUDE-MD-GUIDELINES.md](../../templates/claude-md/CLAUDE-MD-GUIDELINES.md) — Keeping CLAUDE.md lightweight
 - [PLAN_QUALITY_RUBRIC.md](../../templates/standards/PLAN_QUALITY_RUBRIC.md) — Scoring framework for implementation plans
 - [Hooks README](../../templates/hooks/README.md) — Workflow automation and enforcement
-- [Skills README](../../templates/skills/README.md) — Skills, commands, and plugin taxonomy
+- [Skills README](../../templates/skills/README.md) — Skills and plugin taxonomy
 - [Custom Agents](../../templates/agents/README.md) — Agent definitions, memory, worktree isolation, agent teams
 - [SKILL-TEMPLATE.md](../../templates/skills/SKILL-TEMPLATE.md) — Creating new skills
 - [COST_OPTIMIZATION_GUIDE.md](../../templates/testing/COST_OPTIMIZATION_GUIDE.md) — Model pricing and testing costs

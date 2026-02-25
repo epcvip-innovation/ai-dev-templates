@@ -23,7 +23,7 @@ Production-validated patterns for AI-assisted development.
 
 | Category | Purpose | Entry Point |
 |----------|---------|-------------|
-| **slash-commands** | CLI command templates (21 active) | [README](./slash-commands/README.md) |
+| **slash-commands** | Flat-file skill templates (21 active) | [README](./slash-commands/README.md) |
 | **claude-md** | CLAUDE.md structure patterns | [README](./claude-md/README.md) |
 | **skills** | Claude Code skills (code-review, tdd, skill-creator, community) | [README](./skills/README.md) |
 | **agents** | Custom subagent definitions | [README](./agents/README.md) |
@@ -41,12 +41,14 @@ Production-validated patterns for AI-assisted development.
 
 ## Extension Mechanisms
 
-Claude Code has five extension mechanisms — each serves a different purpose:
+Claude Code has three extension mechanisms:
 
-- **Skills** auto-trigger on natural language, best for complex multi-step workflows
-- **Agents** are isolated subagent instances, best for parallel or specialized work with independent context
-- **Slash commands** are explicit and reliable, best for utilities (`/push`, `/audit`)
-- **Hooks** are deterministic (shell scripts), best for validation and formatting
+- **Skills** — Markdown-based extensions invoked by natural language or `/name`. Two formats: directory skills (`.claude/skills/name/SKILL.md`) for complex workflows with supporting files, flat-file skills (`.claude/commands/name.md`) for simple prompts
+- **Hooks** — Deterministic shell scripts at lifecycle events, best for validation and formatting
+- **Plugins** — Distributable bundles of skills + agents + hooks + MCP + LSP
+
+Related concepts:
+- **Agents** are isolated subagent instances defined in `.claude/agents/`, best for parallel or specialized work
 - **Python utilities** are best for data operations (backlog indexing, search)
 
 See [BUILTIN_VS_CUSTOM.md](../docs/decisions/BUILTIN_VS_CUSTOM.md) for detailed guidance.

@@ -8,6 +8,12 @@ Team-facing updates log. Tracks template changes and the Claude Code platform ch
 
 ### Template Changes
 
+- **UPDATED**: Unified skills/commands terminology across ~20 docs (Feb 25):
+  - Skills and commands are **unified** — both produce `/name`, both work identically
+  - `.claude/commands/` is the **flat-file format** (legacy, still works)
+  - `.claude/skills/name/SKILL.md` is the **directory format** (recommended for complex workflows)
+  - Three extension mechanisms (Skills, Hooks, Plugins) — not four
+  - Updated taxonomy tables, hierarchy of customization, cross-references
 - **UPDATED**: Plugin & skill docs synced with official sources (Feb 24):
   - **Plugin structure**: `skills/` recommended over `commands/` (legacy), `hooks/hooks.json` JSON config, `.mcp.json`, `.lsp.json`, `settings.json`, `outputStyles/` components
   - **Manifest**: now optional (auto-discovery), new fields (`homepage`, `repository`, `license`, `keywords`, component paths), `${CLAUDE_PLUGIN_ROOT}` env var
@@ -55,8 +61,8 @@ Team-facing updates log. Tracks template changes and the Claude Code platform ch
 
 ### Template Changes
 
-- 11 template categories: slash commands, CLAUDE.md structures, skills, project management, standards, security, hooks, permissions, testing, CI/CD, frontend standards
-- 21 slash command templates
+- 11 template categories: skill templates (flat-file format), CLAUDE.md structures, skills, project management, standards, security, hooks, permissions, testing, CI/CD, frontend standards
+- 21 flat-file skill templates
 - 3-tier AI agent security (baseline → team → strict)
 - Unified code review skill (5-phase pipeline)
 - Skill creator skill (guided scaffolding)
