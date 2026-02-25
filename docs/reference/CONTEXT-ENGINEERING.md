@@ -33,7 +33,7 @@ These map to Anthropic's three loading strategies:
 | Strategy | When It Loads | Examples |
 |----------|--------------|---------|
 | **Deterministic** | Every session, always | CLAUDE.md, skill descriptions, MCP tool index |
-| **Human-triggered** | On explicit invocation | `/compact`, skills, slash commands |
+| **Human-triggered** | On explicit invocation | `/compact`, skills |
 | **LLM-determined** | Claude decides at runtime | Tool Search, file reads, subagent spawning |
 
 **Implication**: Deterministic loads are the most expensive — they consume tokens *every turn*. Keep CLAUDE.md lean and skill descriptions short.

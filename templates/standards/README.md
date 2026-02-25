@@ -63,7 +63,7 @@ The template (`ANTI_SLOP_STANDARDS.md`) contains 8 sections. Read it directly fo
 | **3. 8 Anti-Patterns** | Recognition training for AI-generated bloat | Add project-specific anti-patterns from real refactorings |
 | **4. Scoring** | 1-10 scale for `/plan-approaches` | Adjust thresholds; add domain-specific criteria |
 | **5. Automation** | Pre-commit hooks and grep patterns | Add language-specific checks |
-| **6. Integration** | How standards connect to slash commands | Add project-specific workflows |
+| **6. Integration** | How standards connect to skills | Add project-specific workflows |
 | **7. Evidence** | Real refactoring case studies | Replace with your own examples |
 | **8. FAQ** | Addresses common skepticism | Add team-specific FAQs |
 
@@ -182,7 +182,7 @@ Anti-slop adds what YAGNI/KISS lack: **measurable standards** (grep patterns, li
 ## See Also
 
 - [Hooks](../hooks/README.md) — Automated enforcement of standards
-- [Slash Commands](../slash-commands/README.md) — `/plan-approaches` uses anti-slop scoring
+- [Skill Templates](../slash-commands/README.md) — `/plan-approaches` uses anti-slop scoring
 - [All Templates](../README.md)
 
 ---

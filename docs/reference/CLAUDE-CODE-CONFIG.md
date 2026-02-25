@@ -228,7 +228,7 @@ Bundles of skills, agents, hooks, MCP servers, LSP servers, and output styles yo
 ├── .claude-plugin/
 │   └── plugin.json          # Optional — manifest (auto-discovery works without it)
 ├── skills/                  # Recommended: skill entry points (SKILL.md per skill)
-├── commands/                # Legacy: slash commands (use skills/ for new plugins)
+├── commands/                # Legacy flat-file format (use skills/ for new plugins)
 ├── agents/                  # Optional: specialized agents
 ├── hooks/
 │   └── hooks.json           # Optional: lifecycle hooks (JSON config)

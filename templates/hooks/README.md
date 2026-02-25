@@ -207,7 +207,7 @@ except Exception as e:
 
 | Template | Integration Pattern |
 |----------|-------------------|
-| **Slash Commands** | `/validate-query` creates marker file → hook checks marker before allowing execution |
+| **Skills** | `/validate-query` creates marker file → hook checks marker before allowing execution |
 | **Permissions** | Permissions = "Can this tool run?" → Hooks = "Should this specific operation run?" |
 | **Anti-Slop Standards** | Hook enforces CLAUDE.md size limit on Write tool (`line_count > 200` → block) |
 | **CI Risk Gating** | SHA-marker pattern used for CI comment deduplication — see [RISK-GATING.md](../ci/RISK-GATING.md) Rerun Deduplication section |
@@ -265,7 +265,7 @@ For comprehensive documentation (all events, exit codes, input formats, environm
 ## See Also
 
 - [Security Guide](../security/AI-AGENT-SECURITY-GUIDE.md) — Tiered security best practices using hooks + permissions
-- [Slash Commands](../slash-commands/README.md) — Commands that integrate with hooks
+- [Skill Templates](../slash-commands/README.md) — Skills that integrate with hooks
 - [Permissions](../permissions/README.md) — Coarse-grained access control (hooks add fine-grained)
 - [Anti-Slop Standards](../standards/ANTI_SLOP_STANDARDS.md) — Quality standards hooks can enforce
 - [All Templates](../README.md)

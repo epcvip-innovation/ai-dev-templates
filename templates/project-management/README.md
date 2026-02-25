@@ -216,9 +216,9 @@ When items exceed ~10:
 
 ---
 
-## Integration with Slash Commands
+## Integration with Skills
 
-| Command | Purpose |
+| Skill | Purpose |
 |---------|---------|
 | `/start-feature` | Creates `.projects/[name]/` structure for complex features |
 | `/resume-feature` | Checks `.projects/`, `backlog/` for HANDOFF.md |

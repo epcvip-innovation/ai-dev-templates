@@ -115,7 +115,7 @@ You can use both the terminal and VS Code extension simultaneously.
 |---------------|-------------|
 | Full setup guide (all platforms, Codex too) | [Getting Started](./SETUP-GUIDE-2026.md) (10 min) |
 | Set up a project properly | [New Project Setup](./NEW-PROJECT-SETUP.md) (30 min) |
-| Learn slash commands | [Slash Commands](../../templates/slash-commands/README.md) |
+| Browse skill templates | [Skill Templates](../../templates/slash-commands/README.md) |
 | Understand best practices | [CLAUDE.md Guidelines](../../templates/claude-md/README.md) |
 | Full dev environment setup (Windows WSL) | [Getting Started](./SETUP-GUIDE-2026.md) — see the WSL2 path |
 

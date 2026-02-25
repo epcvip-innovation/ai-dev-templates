@@ -61,7 +61,7 @@ If you have an existing .projects/ folder without this structure:
 | **B: backlog/** (recommended) | `backlog/[feature]/` (visible) | All projects | Can't hide WIP planning |
 | **C: Hybrid** | backlog/ (public) + .projects/ (private WIP) | Open-source with private R&D | More complex to maintain |
 
-**The pattern is identical across all options** — same files (plan.md, tasks.md, HANDOFF.md), different location. Choose based on team size and visibility needs. Slash commands support all three options automatically.
+**The pattern is identical across all options** — same files (plan.md, tasks.md, HANDOFF.md), different location. Choose based on team size and visibility needs. Skills support all three options automatically.
 
 ---
 
@@ -128,9 +128,9 @@ curl http://localhost:3000/api/auth/login -X POST -d "email=test@test.com&passwo
 
 ---
 
-## Integration with Slash Commands
+## Integration with Skills
 
-| Command | .projects/ Integration |
+| Skill | .projects/ Integration |
 |---------|----------------------|
 | `/start-feature` | Creates `.projects/[name]/` structure for complex features (>3hrs) |
 | `/resume-feature` | Checks `.projects/`, `backlog/`, `features/` for HANDOFF.md |

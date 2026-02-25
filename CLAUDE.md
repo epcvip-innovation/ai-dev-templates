@@ -10,7 +10,7 @@ This is an **AI workflow template library**, built from 6+ months of real-world 
 
 **Primary Purpose**: 66+ template files across 12 categories for AI-assisted development
 - Evidence-based approach: 239+ commits analyzed across 4 production repositories
-- 12 template categories: slash commands, CLAUDE.md structures, anti-slop standards, hooks, project organization, features backlog, permissions, security, testing, CI/CD, skills, plugins
+- 12 template categories: skill templates (command format), CLAUDE.md structures, anti-slop standards, hooks, project organization, features backlog, permissions, security, testing, CI/CD, skills, plugins
 - Ready for personal use, team adoption, and community sharing
 
 ## Template Library
@@ -19,8 +19,8 @@ The core value of this repository. **Browse before using** - these are patterns 
 
 ### 12 Template Categories
 
-**1. Slash Commands** (`templates/slash-commands/`)
-- 21 active commands (16 general + 5 audit lenses)
+**1. Skill Templates — Command Format** (`templates/slash-commands/`)
+- 21 active flat-file skill templates (16 general + 5 audit lenses)
 - Categories: quality (`/audit-feature`, `/ai-review`), design (`/plan-approaches`), git (`/push`), debugging (`/debug-failure`)
 - Examples: `/audit-feature`, `/push`, `/plan-approaches`, `/ai-review`, `/debug-failure`
 - **See**: [templates/slash-commands/README.md](./templates/slash-commands/README.md)

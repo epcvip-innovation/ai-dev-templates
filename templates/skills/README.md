@@ -6,27 +6,28 @@ Reusable Claude Code skills for common development workflows.
 
 ---
 
-## Taxonomy: Skills vs Commands vs Hooks vs Plugins
+## Taxonomy: Skills vs Hooks vs Plugins
 
-Claude Code has four extension mechanisms. They serve different purposes:
+Claude Code has three extension mechanisms. They serve different purposes:
 
 | Mechanism | What It Is | Trigger | Determinism | Best For |
 |-----------|-----------|---------|-------------|----------|
-| **Skills** | Markdown files teaching Claude workflows | Auto-triggered by natural language or `/skill-name` | Advisory (Claude follows, may drift) | Complex multi-step workflows |
-| **Slash Commands** | Markdown prompt templates in `.claude/commands/` | Manual (`/command-name`) | Advisory | Repeatable prompts, team workflows |
+| **Skills** | Markdown files teaching Claude workflows | Natural language or `/skill-name` | Advisory (Claude follows, may drift) | Workflows, utilities, repeatable prompts |
 | **Hooks** | Shell scripts at lifecycle events | Automatic (PreToolUse, PostToolUse, etc.) | **Deterministic** (exit codes enforce) | Validation, formatting, logging |
 | **Plugins** | Packaged bundles of skills + agents + hooks + MCP + LSP | Installed via `/plugin` | Mixed (skills advisory, hooks deterministic) | Distributable workflow packages |
+
+> **Two skill formats**: **Directory skills** (`.claude/skills/name/SKILL.md`) support references, scripts, and `disable-model-invocation`. **Flat-file skills** (`.claude/commands/name.md`) are simpler — one file, same `/name` invocation. Both formats are unified; choose based on complexity.
 
 > **Building a plugin?** See the [Plugins README](../plugins/README.md) for structure, templates, and distribution patterns.
 
 ### When to Use What
 
 - **Need to block an action?** Use a **hook** (exit code 2 = blocked, no exceptions)
-- **Need a repeatable prompt?** Use a **slash command** (simple, explicit trigger)
-- **Need Claude to learn a complex workflow?** Use a **skill** (multi-step, context-aware)
+- **Need a simple, repeatable prompt?** Use a **flat-file skill** (`.claude/commands/name.md`)
+- **Need a complex workflow with supporting files?** Use a **directory skill** (`.claude/skills/name/SKILL.md`)
 - **Need to distribute a workflow to a team?** Use a **plugin** (bundles skills + hooks together)
 
-**Rationale**: Skills are the core unit. Plugins are a distribution pattern that bundles skills with hooks and references. For the "why skills over standalone commands" decision, see [BUILTIN_VS_CUSTOM.md](../../docs/decisions/BUILTIN_VS_CUSTOM.md).
+**Rationale**: Skills are the core unit. Plugins are a distribution pattern that bundles skills with hooks and references. For the "when to customize" decision, see [BUILTIN_VS_CUSTOM.md](../../docs/decisions/BUILTIN_VS_CUSTOM.md).
 
 > **Open standard**: Skills follow the [Agent Skills](https://agentskills.io) open standard — a cross-tool format for AI agent capabilities.
 
@@ -165,7 +166,7 @@ description: |
 
 - [Plugins README](../plugins/README.md) — Distributable bundles of skills + agents + hooks + MCP + LSP
 - [Hooks README](../hooks/README.md) — Deterministic workflow enforcement
-- [Slash Commands](../slash-commands/README.md) — Simple prompt templates
+- [Skill Templates (Command Format)](../slash-commands/README.md) — 21 flat-file skill templates
 - [BUILTIN_VS_CUSTOM.md](../../docs/decisions/BUILTIN_VS_CUSTOM.md) — When to customize vs use built-in
 - [ADVANCED-WORKFLOWS.md](../../docs/reference/ADVANCED-WORKFLOWS.md) — Agent patterns and model selection
 - [Extend Claude with skills](https://code.claude.com/docs/en/skills) — Official Anthropic skills documentation

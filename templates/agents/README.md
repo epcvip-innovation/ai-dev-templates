@@ -27,7 +27,7 @@ Agents are Markdown files with YAML frontmatter that define isolated Claude inst
 | Multi-step workflow in main context | **Skill** (`.claude/skills/`) |
 | Isolated task with independent context | **Agent** (`.claude/agents/`) |
 | Deterministic validation/formatting | **Hook** (`settings.json`) |
-| Explicit utility command | **Slash command** (`.claude/commands/`) |
+| Explicit utility command | **Flat-file skill** (`.claude/commands/`) |
 
 See [BUILTIN_VS_CUSTOM.md](../../docs/decisions/BUILTIN_VS_CUSTOM.md) for detailed guidance.
 

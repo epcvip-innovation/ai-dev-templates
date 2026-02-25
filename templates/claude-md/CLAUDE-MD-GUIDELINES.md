@@ -186,7 +186,7 @@ We follow anti-slop principles: functions <50 lines, nesting <3, no premature op
 | Environment setup | SETUP.md | One-time operation |
 | Project planning | backlog/ | Not needed for coding sessions |
 | Testing strategy | TESTING.md | Detailed procedures |
-| Quality checklists | QUALITY_CHECKLIST.md | Use /ai-review slash command instead |
+| Quality checklists | QUALITY_CHECKLIST.md | Use /ai-review skill instead |
 | Architecture decisions | docs/ADR/ | Reference when needed |
 
 ---

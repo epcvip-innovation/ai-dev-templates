@@ -141,9 +141,9 @@ All should include: `Bash(git *)`, `Read`, `WebSearch`.
 
 ---
 
-## Integration with Slash Commands
+## Integration with Skills
 
-| Slash Command | Required Permissions |
+| Skill | Required Permissions |
 |---------------|----------------------|
 | /start-feature | `Bash(mkdir *)`, `Bash(touch *)` |
 | /resume-feature | `Read(/path/to/project/**)` |
@@ -195,7 +195,7 @@ Before finalizing `.claude/settings.local.json`:
 
 - [Security Guide](../security/AI-AGENT-SECURITY-GUIDE.md) — Tiered security best practices using permissions + hooks
 - [Hooks](../hooks/README.md) — Runtime enforcement (complements permissions)
-- [Slash Commands](../slash-commands/README.md) — Commands that need specific permissions
+- [Skill Templates](../slash-commands/README.md) — Skills that need specific permissions
 - [All Templates](../README.md)
 
 ---
