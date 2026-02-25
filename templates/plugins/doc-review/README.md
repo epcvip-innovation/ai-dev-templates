@@ -30,7 +30,7 @@ The plugin runs 4 specialized agents in parallel, each focused on one aspect of 
 | **ai-pattern-detector** | AI writing tells from Wikipedia's "Signs of AI writing" | Haiku |
 | **cross-file-analyzer** | Duplication, conflicts, stale cross-references | Sonnet |
 
-The `review-docs` command orchestrates these agents and produces a consolidated report.
+The `review-docs` skill orchestrates these agents and produces a consolidated report.
 
 ---
 
@@ -53,8 +53,9 @@ doc-review/
 ├── .claude-plugin/
 │   └── plugin.json              # Plugin manifest
 ├── README.md                    # This file (not loaded into context)
-├── commands/
-│   └── review-docs.md           # Main command — orchestrates agents
+├── skills/
+│   └── review-docs/
+│       └── SKILL.md             # Main skill — orchestrates agents
 └── agents/
     ├── link-checker.md           # Link validation specialist
     ├── content-quality.md        # Brevity, structure, accuracy

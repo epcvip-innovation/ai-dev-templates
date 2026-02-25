@@ -307,14 +307,14 @@ Task(subagent_type: "general-purpose", prompt: "[paste agent instructions] Revie
 The [doc-review](./doc-review/) plugin in this directory is a complete working example. It demonstrates:
 
 - **4 agents** with different models (2 haiku, 2 sonnet)
-- **1 command** that orchestrates all agents with `--quick` and `--fix` flags
+- **1 skill** that orchestrates all agents with `--quick` and `--fix` flags
 - **Agent scope boundaries** (content-quality explicitly defers cross-file work to cross-file-analyzer)
 - **Consolidated report** with severity levels (Critical, Important, Suggestions)
 - **plugin.json** with author and version metadata
 
 Read its files in this order for the clearest understanding:
 1. `.claude-plugin/plugin.json` — manifest
-2. `commands/review-docs.md` — orchestration logic
+2. `skills/review-docs/SKILL.md` — orchestration logic
 3. `agents/link-checker.md` — simplest agent (haiku, rule-based)
 4. `agents/content-quality.md` — more complex agent (sonnet, judgment-based)
 

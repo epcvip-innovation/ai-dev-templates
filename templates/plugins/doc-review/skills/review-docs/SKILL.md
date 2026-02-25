@@ -1,5 +1,10 @@
 ---
-description: "Review markdown documentation for quality, accuracy, links, and consistency"
+name: review-docs
+description: |
+  Review markdown documentation for quality, accuracy, links, and consistency.
+  Use when auditing docs, before committing documentation changes, or when
+  reviewing a directory of markdown files. Triggers on "/doc-review:review-docs",
+  "review docs", "check documentation quality", "audit markdown files".
 argument-hint: "[file-or-directory] [--quick] [--fix]"
 allowed-tools: ["Bash", "Glob", "Grep", "Read", "Edit", "Task", "AskUserQuestion"]
 ---
@@ -38,7 +43,7 @@ Run a multi-agent review of markdown files for link correctness, content quality
    - The file contents or paths
    - Any relevant context (frontmatter, publish status)
 
-   ```
+   ```text
    Task(subagent_type: "doc-review:link-checker", prompt: "Review these files: ...")
    Task(subagent_type: "doc-review:content-quality", prompt: "Review these files: ...")
    Task(subagent_type: "doc-review:ai-pattern-detector", prompt: "Review these files: ...")

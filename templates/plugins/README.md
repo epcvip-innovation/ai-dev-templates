@@ -142,7 +142,7 @@ allowed-tools: ["Bash", "Glob", "Grep", "Read", "Edit", "Task"]
 
 | Plugin | Agents | Purpose |
 |--------|--------|---------|
-| [doc-review](./doc-review/) | 4 (link-checker, content-quality, ai-pattern-detector, cross-file-analyzer) | Multi-agent documentation review (uses `commands/` — predates `skills/` recommendation) |
+| [doc-review](./doc-review/) | 4 (link-checker, content-quality, ai-pattern-detector, cross-file-analyzer) | Multi-agent documentation review |
 
 ---
 
@@ -263,7 +263,7 @@ Active public marketplaces include [Expo](https://github.com/expo/claude-plugins
 ## Design Decisions
 
 - **Agents over monolithic skills**: A single skill that needs to do 4 different analyses will load all instructions into one context and often skip steps. Agents run in isolated context, follow their procedure fully, and can use different models.
-- **Commands as orchestrators**: Commands don't do the analysis — they determine scope, launch agents in parallel, and aggregate results. This keeps each piece testable.
+- **Skills as orchestrators**: Skills don't do the analysis — they determine scope, launch agents in parallel, and aggregate results. This keeps each piece testable.
 - **Model selection per agent**: Cheap models for mechanical tasks, capable models for judgment. A plugin with 4 haiku agents costs roughly the same as 1 sonnet agent.
 - **README not loaded into context**: Plugin READMEs are for humans browsing the template library. Agent and command markdown files are what Claude reads at runtime.
 
