@@ -54,7 +54,7 @@ Claude Code hooks are shell commands (or LLM prompts) that execute at specific w
 
 Hooks from multiple levels are **combined** (all run). For settings conflicts, higher-priority sources win:
 
-1. **Managed policy** (organization) — highest priority
+1. **Managed policy** (organization; can be delivered via macOS plist / Windows Registry) — highest priority
 2. **Project local** (`.claude/settings.local.json`) — Gitignored, personal
 3. **Project shared** (`.claude/settings.json`) — Checked in, team
 4. **User global** (`~/.claude/settings.json`) — Applies to all projects — lowest priority

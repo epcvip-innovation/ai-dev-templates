@@ -13,7 +13,7 @@ Practical guide to Claude Code's local data storage, session history, and how to
 
 ## Overview
 
-Claude Code stores all application data in `~/.claude/` (not `~/.config/claude/`).
+Claude Code stores local user data in `~/.claude/` (not `~/.config/claude/`). Organization-managed policy may be injected outside this directory (for example, macOS plist / Windows Registry).
 
 **What's stored:**
 - Session transcripts (your conversations)

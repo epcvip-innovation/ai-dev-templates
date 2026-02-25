@@ -15,7 +15,7 @@ Practical guide for managing Claude Code configuration, MCPs, and plugins.
 └── plugins/                 # Custom plugins
 ```
 
-**Key Point**: Claude Code uses `~/.claude/`, NOT `~/.config/claude/`
+**Key Point**: User/project settings use `~/.claude/` and `.claude/` (not `~/.config/claude/`). In managed enterprise environments, higher-priority managed policy may also be delivered via OS channels (for example, macOS plist or Windows Registry).
 
 ## Status Line
 
@@ -387,6 +387,8 @@ Shell commands that execute at specific workflow events (PreToolUse, PostToolUse
 .claude/settings.json             # Project shared (team)
 .claude/settings.local.json       # Project local (personal)
 ```
+
+Note: organization-managed policy can exist outside these files (for example via macOS plist / Windows Registry) and has higher precedence.
 
 ### Common Hook Types
 

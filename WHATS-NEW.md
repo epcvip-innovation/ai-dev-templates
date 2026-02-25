@@ -23,6 +23,7 @@ Team-facing updates log. Tracks template changes and the Claude Code platform ch
 - **UPDATED**: Skills frontmatter — added `memory`, `background`, `isolation`, `skills`, `mcpServers` fields (SKILL-TEMPLATE.md + frontmatter-reference.md)
 - **UPDATED**: Permissions README — added permission modes section (acceptEdits, dontAsk, bypassPermissions, plan), expanded sandbox documentation
 - **UPDATED**: Security guide — heredoc smuggling prevention, ConfigChange hook for security auditing, sandbox skill injection note
+- **UPDATED**: Config/security docs clarified managed settings delivery paths (macOS plist, Windows Registry) while preserving precedence model
 - **UPDATED**: Advanced Workflows — background agents, worktree isolation, agent teams (experimental), session customization sections added
 - **UPDATED**: Git Worktrees guide — autonomous workflow recipes (`--tmux` + `--append-system-prompt`), CLI flags table, branch base pitfall, zen orchestrator reference
 - **UPDATED**: Template categories now 12 (agents, plugins added)

@@ -94,6 +94,7 @@ echo '{"tool_name":"Bash","tool_input":{"command":"printenv HOME"}}' | \
 - **Audit logging** (JSONL), **curl denied** (use WebFetch with domain restrictions)
 - **CWD-independent patterns**: `*/scripts/deploy.sh *`
 - **Managed settings** (`allowManagedPermissionRulesOnly`, `allowManagedHooksOnly`) for enterprise lockdown
+- **Managed settings delivery**: Enterprise policy may be distributed through OS-managed channels (macOS plist, Windows Registry), not only JSON files in user/project directories.
 - **Sandbox mode** (`sandbox.enabled: true`): Restricts Bash filesystem/network access. Blocks `.claude/skills` writes to prevent skill injection. Use `sandbox.excludedCommands` sparingly — excluded commands bypass ask rules
 
 **Scoped denies**: Deny `python3 -c *` (arbitrary execution) while allowing `python3 -m compileall *` (specific safe subcommand).
