@@ -223,6 +223,56 @@ Claude Code stores sessions based on the project directory path. Each worktree g
 
 Use `/resume` to switch between sessions. Named sessions (`/rename auth-refactor`) make this easier.
 
+### Merging & Teardown
+
+The full worktree lifecycle ends with merging the PR and removing the worktree.
+There's one gotcha that will burn you if undocumented:
+
+#### The `--delete-branch` Gotcha
+
+`gh pr merge --delete-branch` tries to check out `main` locally after merging.
+Since `main` is already checked out in the parent repo, this fails:
+
+    fatal: 'main' is already used by worktree at '/path/to/main-repo'
+
+The merge **succeeds on GitHub** (API call went through), but the local cleanup
+(branch deletion, checkout) errors out. If you re-run the command you'll get
+"PR already merged."
+
+#### Safe Merge Sequence
+
+Always run the merge from the main repo, not the worktree:
+
+```bash
+# From inside the worktree — get main repo path and PR number first
+MAIN=$(git worktree list --porcelain | awk 'NR==2{print $2}')
+BRANCH=$(git branch --show-current)
+PR=$(gh pr list --head "$BRANCH" --json number --jq '.[0].number')
+
+# Merge from the parent repo
+cd "$MAIN"
+gh pr merge "$PR" --squash --delete-branch
+
+# Clean up the worktree
+git worktree remove <worktree-path>
+```
+
+#### If `--delete-branch` Still Fails
+
+Some repo settings require manual remote branch deletion:
+
+```bash
+gh api repos/OWNER/REPO/git/refs/heads/BRANCH -X DELETE
+```
+
+#### Using the Skill
+
+```
+/worktree merge    # Auto-detects PR, runs merge from main repo, removes worktree
+```
+
+---
+
 ### Multi-Agent Patterns
 
 | Pattern | Isolation Level | Best For |
