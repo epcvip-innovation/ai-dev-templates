@@ -76,22 +76,25 @@ Use Git Worktrees to run independent Claude Code / Codex sessions on separate fe
 
 ---
 
-### 2. Edit Code in Cursor IDE
+### 2. Edit Code in VS Code / Cursor IDE
 
-**From WSL terminal**:
+> **WSL2 users: Always connect to WSL before using Claude Code.** The Claude Code extension (sidebar panel) runs in whatever environment your IDE is connected to. If you're not connected to WSL, Claude Code uses PowerShell and Windows paths — queries fail, venvs aren't found, nothing works. Look for **`[WSL: Ubuntu]`** in the bottom-left corner.
+
+**From WSL terminal (recommended)**:
 ```bash
 cd ~/repos/your-project
-cursor .
+code .     # VS Code
+cursor .   # Cursor
 ```
 
-**From Windows**:
-1. Open Cursor
-2. `Ctrl+Shift+P` → "Remote-WSL: New Window"
-3. Navigate to `~/repos/your-project`
+**From Windows (if IDE is already open)**:
+1. `Ctrl+Shift+P` → "Remote-WSL: New Window" (or "Reopen Folder in WSL")
+2. Navigate to `~/repos/your-project`
 
 **Verify Connection**:
 - Check for `[WSL: Ubuntu]` indicator in bottom-left corner
-- Terminal should show `yourusername@HOSTNAME` (Linux prompt)
+- Terminal should show `yourusername@HOSTNAME` (Linux prompt, not PowerShell)
+- `echo $HOME` should show `/home/...` not `C:\Users\...`
 
 **Setup Required**: See [Cursor WSL Setup](./CURSOR-WSL-SETUP.md)
 

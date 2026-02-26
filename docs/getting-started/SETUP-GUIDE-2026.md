@@ -141,6 +141,8 @@ You can also install via command line:
 code --install-extension anthropic.claude-code
 ```
 
+> **WSL2 users (Windows):** The Claude Code extension runs in whatever environment VS Code is connected to. You **must** open projects from the WSL terminal (`code .`) so VS Code connects via Remote-WSL. Look for `[WSL: Ubuntu]` in the bottom-left corner. If you open VS Code from the Windows Start menu, Claude Code will use PowerShell and Windows paths instead of your WSL environment — venvs, CLI tools, and AWS credentials won't be found. Same rule applies to Cursor (`cursor .`).
+
 #### Cursor IDE
 
 Cursor supports the Claude Code extension with a manual install workaround:
@@ -150,6 +152,8 @@ cursor:extension/anthropic.claude-code
 ```
 
 Or install the `.vsix` file manually from the VS Code marketplace.
+
+> **WSL2 users:** Same as VS Code — always open with `cursor .` from the WSL terminal, or use `Ctrl+Shift+P` → "Remote-WSL: New Window". Verify the `[WSL: Ubuntu]` badge.
 
 #### JetBrains IDEs
 
