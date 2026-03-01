@@ -457,6 +457,7 @@ Five themes that cut across every section of this guide:
 
 ## See Also
 
+- [Consistency at Scale](./CONSISTENCY-AT-SCALE.md) — Tiered context, routing tables, ADRs, the consistency stack for large repos
 - [CONTEXT-ENGINEERING.md](./CONTEXT-ENGINEERING.md) — Five pillars, .claudeignore, token optimization, isolation strategies
 - [CLAUDE-MD-GUIDELINES.md](../../templates/claude-md/CLAUDE-MD-GUIDELINES.md) — Keeping CLAUDE.md lightweight
 - [PLAN_QUALITY_RUBRIC.md](../../templates/standards/PLAN_QUALITY_RUBRIC.md) — Scoring framework for implementation plans

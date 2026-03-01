@@ -46,6 +46,7 @@ Battle-tested templates for AI-assisted development with Claude Code, extracted 
 | Document | Purpose |
 |----------|---------|
 | [Context Engineering](./docs/reference/CONTEXT-ENGINEERING.md) | .claudeignore, token optimization, isolation strategies, session management |
+| [Consistency at Scale](./docs/reference/CONSISTENCY-AT-SCALE.md) | Tiered context, routing tables, ADRs, refactoring coordination for large repos |
 | [Advanced Workflows](./docs/reference/ADVANCED-WORKFLOWS.md) | 7-section power-user guide: context, planning, agents, extensions, predictability |
 | [MCP Patterns](./docs/mcp/README.md) | Context efficiency, version pinning, decision trees |
 | [Playwright MCP](./docs/mcp/playwright/README.md) | Claude-driven browser automation |

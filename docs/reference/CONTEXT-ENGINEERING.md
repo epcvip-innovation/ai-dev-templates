@@ -312,6 +312,7 @@ Write decisions, plans, and findings to files instead of relying on conversation
 
 ## See Also
 
+- [Consistency at Scale](./CONSISTENCY-AT-SCALE.md) — Unified consistency strategy: tiered context, routing tables, ADRs, refactoring coordination
 - [ADVANCED-WORKFLOWS.md](./ADVANCED-WORKFLOWS.md) — Deep dive: compaction rules, externalizing state, subagent patterns, agent teams
 - [CLAUDE-MD-GUIDELINES.md](../../templates/claude-md/CLAUDE-MD-GUIDELINES.md) — Keeping CLAUDE.md under 200 lines, decision tree, reference vs embed
 - [MCP-CONTEXT.md](../mcp/MCP-CONTEXT.md) — Tool Search benchmarks, MCP token costs, Claude Code vs Codex
