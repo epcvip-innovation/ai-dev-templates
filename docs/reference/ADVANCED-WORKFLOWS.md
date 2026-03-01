@@ -295,6 +295,10 @@ export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
 
 **When NOT to use**: Sequential tasks, small changes, tasks with heavy inter-dependencies. ~3-4x token cost vs single session. No session resumption, one team per session, no nested teams.
 
+### Orchestration at Scale
+
+For patterns beyond ad-hoc sub-agents — monitoring agent fleets, failure recovery with enriched context, multi-model code review, and resource management — see [Agent Orchestration Patterns](./AGENT-ORCHESTRATION.md).
+
 ### Model Selection Philosophy
 
 Match the model to the stakes, not the other way around:
@@ -464,6 +468,7 @@ Five themes that cut across every section of this guide:
 - [Hooks README](../../templates/hooks/README.md) — Workflow automation and enforcement
 - [Skills README](../../templates/skills/README.md) — Skills and plugin taxonomy
 - [Custom Agents](../../templates/agents/README.md) — Agent definitions, memory, worktree isolation, agent teams
+- [Agent Orchestration](./AGENT-ORCHESTRATION.md) — Multi-agent monitoring, failure recovery, resource management
 - [SKILL-TEMPLATE.md](../../templates/skills/SKILL-TEMPLATE.md) — Creating new skills
 - [COST_OPTIMIZATION_GUIDE.md](../../templates/testing/COST_OPTIMIZATION_GUIDE.md) — Model pricing and testing costs
 - [CODEX-SETUP.md](../setup-guides/CODEX-SETUP.md) — Codex installation and dual-tool workflow

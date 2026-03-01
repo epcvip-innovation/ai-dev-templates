@@ -16,7 +16,8 @@ Reference material for daily development. Look things up as needed rather than r
 
 | File | Description |
 |------|-------------|
-| [ADVANCED-WORKFLOWS.md](./ADVANCED-WORKFLOWS.md) | Power-user guide: context, planning, agents, extensions |
+| [ADVANCED-WORKFLOWS.md](./ADVANCED-WORKFLOWS.md) | Power-user guide: context, planning, agents, extensions, predictability |
+| [AGENT-ORCHESTRATION.md](./AGENT-ORCHESTRATION.md) | Multi-agent monitoring, failure recovery, resource management |
 | [CONTEXT-ENGINEERING.md](./CONTEXT-ENGINEERING.md) | Context engineering: .claudeignore, token optimization, isolation strategies |
 | [CLAUDE-CODE-CONFIG.md](./CLAUDE-CODE-CONFIG.md) | MCP servers, plugins, hooks, status line configuration |
 | [CLAUDE-CODE-STORAGE.md](./CLAUDE-CODE-STORAGE.md) | Session files, search, resume, disk management |
@@ -34,4 +35,5 @@ Reference material for daily development. Look things up as needed rather than r
 - **Advanced techniques?** See [ADVANCED-WORKFLOWS.md](./ADVANCED-WORKFLOWS.md)
 - **Context optimization?** See [CONTEXT-ENGINEERING.md](./CONTEXT-ENGINEERING.md)
 - **Parallel development?** See [GIT-WORKTREES.md](./GIT-WORKTREES.md)
+- **Agent orchestration?** See [AGENT-ORCHESTRATION.md](./AGENT-ORCHESTRATION.md)
 - **WSL issues?** See [WSL-NODE-WORKAROUNDS.md](./WSL-NODE-WORKAROUNDS.md) or [WSL-PATHS.md](./WSL-PATHS.md)
