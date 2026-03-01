@@ -18,6 +18,7 @@ Battle-tested templates for AI-assisted development with Claude Code, extracted 
 |------------|-------|
 | **Experienced — here for templates** | **[Template Library](./templates/README.md)** |
 | **Starting a new project** | [New Project Setup](./docs/getting-started/NEW-PROJECT-SETUP.md) |
+| **Building your first feature** | [First Feature Guide](./docs/getting-started/FIRST-FEATURE.md) |
 | **New to Claude Code** | [Getting Started](./docs/getting-started/SETUP-GUIDE-2026.md) |
 
 ---
@@ -72,6 +73,8 @@ Platform-agnostic guides for Mac, Windows, and Linux. WSL2 is optional for Windo
 | [Commands Reference](./docs/reference/COMMANDS.md) | Full command reference |
 
 > **Note**: This repository contains templates and examples. Replace paths, usernames, and repository URLs with your own before use.
+
+> **Contributing**: See [CONTRIBUTING.md](./CONTRIBUTING.md) for content organization and documentation conventions.
 
 ---
 
