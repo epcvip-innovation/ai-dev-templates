@@ -273,6 +273,7 @@ Agents with `background: true` (or any agent backgrounded with Ctrl+B) run while
 - [Permissions](../permissions/README.md) — Permission modes and tool access
 - [Security Guide](../security/AI-AGENT-SECURITY-GUIDE.md) — Tiered security for agent workflows
 - [Advanced Workflows](../../docs/reference/ADVANCED-WORKFLOWS.md) — Context management, planning, agent patterns
+- [Agent Orchestration](../../docs/reference/AGENT-ORCHESTRATION.md) — Monitoring, failure recovery, resource management at scale
 - [Context Engineering](../../docs/reference/CONTEXT-ENGINEERING.md) — Five pillars, .claudeignore, isolation as context strategy
 
 ---
