@@ -322,6 +322,8 @@ your-project/
 
 ## Workflow After Setup
 
+**New to Claude Code?** Walk through [Your First Feature](./FIRST-FEATURE.md) for a guided end-to-end example before jumping into daily development.
+
 ### Daily Development
 
 ```

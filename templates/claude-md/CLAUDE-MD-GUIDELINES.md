@@ -93,6 +93,12 @@ Content must pass **ALL 3** criteria to belong in CLAUDE.md:
 - ✅ "Ping tree nodes use `weight` property for distribution, not `probability`" (project-specific)
 - ❌ "Use TypeScript strict mode" (general practice, belongs in CODING_STANDARDS.md)
 
+### Corollary: Don't Duplicate Linter-Enforceable Rules
+
+If a pre-commit hook, linter, or CI check already enforces a rule, don't spend CLAUDE.md tokens on it. Claude will see the failure and self-correct. Reserve CLAUDE.md for project-specific patterns that only Claude can know — domain conventions, deprecated API patterns, architectural choices.
+
+If your linter does NOT run automatically (no hook, no CI), the CLAUDE.md entry has value because Claude won't get corrective feedback. For the full framework, see [Consistency at Scale](../../docs/reference/CONSISTENCY-AT-SCALE.md).
+
 ---
 
 ## Section Length Limits
@@ -435,6 +441,14 @@ No. Claude reads referenced docs on demand. The advantage of a lean CLAUDE.md: e
 
 **Q: Can I use these principles for non-Claude Code tools?**
 Yes. The core principle — keep high-frequency context lightweight, reference detailed docs — applies to Cursor, Copilot, or any LLM-based coding assistant.
+
+---
+
+## See Also
+
+- [Consistency at Scale](../../docs/reference/CONSISTENCY-AT-SCALE.md) — Routing tables, tiered context, ADRs, and the full consistency strategy for large repos
+- [CONTEXT-ENGINEERING.md](../../docs/reference/CONTEXT-ENGINEERING.md) — Five pillars, .claudeignore, token optimization
+- [ADVANCED-WORKFLOWS.md](../../docs/reference/ADVANCED-WORKFLOWS.md) — Context budgets, planning, agents, predictability
 
 ---
 

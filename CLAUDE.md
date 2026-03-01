@@ -132,6 +132,7 @@ All templates extracted from real production usage, not theoretical best practic
 - [New Project Setup](./docs/getting-started/NEW-PROJECT-SETUP.md) - Complete project setup guide
 - [Built-in vs Custom](./docs/decisions/BUILTIN_VS_CUSTOM.md) - When to use built-in vs custom
 - [Advanced Workflows](./docs/reference/ADVANCED-WORKFLOWS.md) - Power-user guide: context, planning, agents, extensions
+- [Contributing](./CONTRIBUTING.md) - Content organization, linking conventions, where new docs go
 
 **Don't**:
 - Don't copy templates blindly without understanding context
